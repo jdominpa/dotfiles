@@ -193,3 +193,12 @@ augroup filetype_c
   " }}}
 augroup END
 " }}}
+
+
+" Load init.vim.local settings ------------------------------------------------------
+
+" {{{
+if filereadable(glob("~/.config/nvim/init.vim.local"))
+    source ~/.config/nvim/init.vim.local
+endif
+" }}}
