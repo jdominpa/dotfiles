@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+alias ls="ls -h"
+alias ll="ls -l"
+alias la="ls -Al"
+alias df="df -h"
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
+alias vi=$EDITOR
+alias vim=$EDITOR
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Load OS specific aliases.
+
+. "aliases/$OS/bash_aliases"

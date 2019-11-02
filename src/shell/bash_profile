@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+source_bash_files() {
+
+    declare -r CURRENT_DIRECTORY="$(pwd)"
+
+    declare -r -a FILES_TO_SOURCE=(
+        "bash_aliases"
+        "bash_autocomplete"
+        "bash_exports"
+        "bash_options"
+        "bash_prompt"
+        "bash.local"  # For local settings that should
+                      # not be under version control.
+    )
+
+    local file=""
+    local i=""
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    cd "$(dirname "$(readlink "${BASH_SOURCE[0]}")")" \
+        && . "../os/utils.sh"
+
+    # shellcheck disable=SC2034
+    declare -r OS="$(get_os)"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    for i in ${!FILES_TO_SOURCE[*]}; do
+
+        file="$HOME/.${FILES_TO_SOURCE[$i]}"
+
+        [ -r "$file" ] \
+            && . "$file"
+
+    done
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    cd "$CURRENT_DIRECTORY"
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+source_bash_files
+unset -f source_bash_files
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Fzf for bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Clear system messages (system copyright notice, the date
+# and time of the last login, the message of the day, etc.).
+
+clear
+
+# added by Anaconda3 2019.10 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/Users/jdominpa/opt/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/Users/jdominpa/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/jdominpa/opt/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/Users/jdominpa/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda init <<<
