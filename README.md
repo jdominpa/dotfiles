@@ -35,19 +35,17 @@ That's it! :sparkles:
 The setup process will:
 
 * Download the dotfiles on your computer (by default it will
-  suggest `~/projects/dotfiles`)
-* Create some additional [directories][directories]
+  suggest `~/Projects/dotfiles`)
 * [Symlink][symlink] the
   [`git`](src/git),
   [`shell`](src/shell), and
-  [`vim`](src/vim) files
+  [`neovim`](src/neovim) files
 * Install applications / command-line tools for
   [`macOS`](src/os/install/macos) /
   [`Ubuntu`](src/os/install/ubuntu)
 * Set custom
   [`macOS`](src/os/preferences/macos) /
   [`Ubuntu`](src/os/preferences/ubuntu) preferences
-* Install [`vim` plugins](src/vim/vim/plugins)
 
 ## Customize
 
