@@ -9,6 +9,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Miscellaneous Tools\n\n"
 
 brew_install "ShellCheck" "shellcheck"
+brew_install "Fzf" "fzf"
 
 if [ -d "$HOME/.nvm" ]; then
     brew_install "Yarn" "yarn"
