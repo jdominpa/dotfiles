@@ -104,9 +104,7 @@ set_prompts() {
 
     local cyan=""
     local green=""
-    local orange=""
     local white=""
-    local yellow=""
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -117,9 +115,7 @@ set_prompts() {
 
         cyan=$(tput setaf 37)
         green=$(tput setaf 64)
-        orange=$(tput setaf 166)
         white=$(tput setaf 15)
-        yellow=$(tput setaf 136)
 
     fi
 
