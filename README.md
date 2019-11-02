@@ -13,7 +13,7 @@ the [`Local Settings`](#local-settings) section.
   * [🌐 Local Settings](#local-settings)
     * [🐚 `~/.bash.local`](#bashlocal)
     * [🔁 `~/.gitconfig.local`](#gitconfiglocal)
-    * [⌨️  `~/.vimrc.local`](#vimrclocal)
+    * [⌨️  `~/.config/nvim/init.vim.local`](#confignviminitvimlocal)
 * [↕️  Update](#update)
 * [📄 License](#license)
 
@@ -30,8 +30,6 @@ understand [what it does][setup]. Seriously, **DON'T**!)
 | `macOS` | `bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
 | `Ubuntu` | `bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
 
-That's it! :sparkles:
-
 The setup process will:
 
 * Download the dotfiles on your computer (by default it will
@@ -39,7 +37,7 @@ The setup process will:
 * [Symlink][symlink] the
   [`git`](src/git),
   [`shell`](src/shell), and
-  [`neovim`](src/neovim) files
+  [`neovim`](src/neovim/config/nvim) files
 * Install applications / command-line tools for
   [`macOS`](src/os/install/macos) /
   [`Ubuntu`](src/os/install/ubuntu)
