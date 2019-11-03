@@ -13,6 +13,9 @@ execute "defaults write com.apple.dock autohide -bool true" \
 execute "defaults write com.apple.dock autohide-delay -float 0" \
     "Disable the hide Dock delay"
 
+execute "defaults write com.apple.dock autohide-time-modifier -float 0" \
+    "Disable the Dock animation"
+
 execute "defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true" \
     "Enable spring loading for all Dock items"
 

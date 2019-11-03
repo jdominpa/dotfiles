@@ -7,8 +7,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Language & Region\n\n"
 
-execute "defaults write -g AppleLanguages -array 'ca-ES'" \
+execute "defaults write NSGlobalDomain AppleLanguages -array 'ca-ES'" \
     "Set language"
 
-execute "defaults write -g AppleMeasurementUnits -string 'Centimeters'" \
+execute "defaults write NSGlobalDomain AppleMeasurementUnits -string 'Centimeters'" \
     "Set measurement units"

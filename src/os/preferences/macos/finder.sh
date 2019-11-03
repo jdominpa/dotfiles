@@ -21,12 +21,8 @@ execute "defaults write com.apple.finder FXEnableExtensionChangeWarning -bool fa
 execute "defaults write com.apple.finder FXPreferredViewStyle -string 'Nlsv'" \
     "Use list view in all Finder windows by default"
 
-execute "defaults write com.apple.finder NewWindowTarget -string 'PfDe' && \
-         defaults write com.apple.finder NewWindowTargetPath -string 'file://$HOME/'" \
-    "Set '~/' as the default location for new Finder windows"
-
 execute "defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true && \
-         defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true && \
+         defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false && \
          defaults write com.apple.finder ShowMountedServersOnDesktop -bool true && \
          defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true" \
     "Show icons for hard drives, servers, and removable media on the desktop"
