@@ -7,6 +7,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Keyboard\n\n"
 
+execute "defaults write -g ApplePressAndHoldEnabled -bool false" \
+    "Disable press-and-hold in favor of key repeat"
+
 execute "defaults write -g 'InitialKeyRepeat_Level_Saved' -int 10" \
     "Set delay until repeat"
 

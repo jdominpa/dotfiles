@@ -134,6 +134,8 @@ nnoremap <Leader>f :FZF<CR>
 " }}}
 
 " Coc.nvim {{{
+
+" Coc.nvim config command {{{
 " Function to abreviate a command
 function! SetupCommandAbbrs(from, to)
   exec 'cnoreabbrev <expr> '.a:from
@@ -143,7 +145,9 @@ endfunction
 
 " Use C to open coc config
 call SetupCommandAbbrs('C', 'CocConfig')
+" }}}
 
+" Tab completion {{{
 " Use tab for everything
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
@@ -167,15 +171,24 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Close preview window when completion is done
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+" }}}
 
+" Gotos {{{
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" }}}
 
+" Diagnose {{{
 " Show all diagnostics
 nnoremap <silent> <Leader>d  :<C-u>CocList diagnostics<cr>
+" }}}
+
+" Extensions {{{
+let g:coc_global_extensions=["coc-json", "coc-ccls"]
+" }}}
 " }}}
 
 

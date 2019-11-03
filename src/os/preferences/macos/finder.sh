@@ -22,8 +22,8 @@ execute "defaults write com.apple.finder FXPreferredViewStyle -string 'Nlsv'" \
     "Use list view in all Finder windows by default"
 
 execute "defaults write com.apple.finder NewWindowTarget -string 'PfDe' && \
-         defaults write com.apple.finder NewWindowTargetPath -string 'file://$HOME/Desktop/'" \
-    "Set 'Desktop' as the default location for new Finder windows"
+         defaults write com.apple.finder NewWindowTargetPath -string 'file://$HOME/'" \
+    "Set '~/' as the default location for new Finder windows"
 
 execute "defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true && \
          defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true && \
