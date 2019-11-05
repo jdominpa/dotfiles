@@ -25,6 +25,6 @@ execute "./set_terminal_theme.applescript" \
 # Ensure the Touch ID is used when `sudo` is required.
 
 if ! grep -q "pam_tid.so" "/etc/pam.d/sudo"; then
-    execute "sudo sh -c 'echo \"auth sufficient pam_tid.so\" >> /etc/pam.d/sudo'" \
+    execute "sudo sh -c 'echo \"auth sufficient pam_tid.so\n$(cat /etc/pam.d/sudo)\" > /etc/pam.d/sudo'" \
         "Use Touch ID to authenticate sudo"
 fi
