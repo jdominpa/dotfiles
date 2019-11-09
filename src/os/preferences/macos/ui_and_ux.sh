@@ -26,6 +26,9 @@ execute "defaults write com.apple.LaunchServices LSQuarantine -bool false" \
 execute "defaults write com.apple.print.PrintingPrefs 'Quit When Finished' -bool true" \
     "Automatically quit the printer app once the print jobs are completed"
 
+execute "defaults write com.apple.print.PrintingPrefs 'Quit When Finished' -bool true" \
+    "Automatically quit the printer app once the print jobs are completed"
+
 execute "defaults write com.apple.screencapture disable-shadow -bool true" \
     "Disable shadow in screenshots"
 
