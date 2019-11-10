@@ -27,6 +27,9 @@ Plug 'scrooloose/nerdtree'
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Snippets
+Plug 'sirver/ultisnips'
+
 " Fzf
 Plug '/usr/local/opt/fzf'
 

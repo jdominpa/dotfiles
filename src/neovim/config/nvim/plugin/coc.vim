@@ -25,14 +25,15 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<S-tab>'
 
 " Use tab to scroll through suggestions
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Use cr to confirm completion
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Close preview window when completion is done
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " }}}
@@ -51,5 +52,5 @@ nnoremap <silent> <Leader>d  :<C-u>CocList diagnostics<cr>
 " }}}
 
 " Extensions {{{
-let g:coc_global_extensions=["coc-json", "coc-ccls"]
+let g:coc_global_extensions=["coc-json", "coc-snippets", "coc-ccls"]
 " }}}

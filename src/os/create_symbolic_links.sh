@@ -31,6 +31,7 @@ create_symlinks() {
 
     	"neovim/config/nvim/plugin"
     	"neovim/config/nvim/after"
+    	"neovim/config/nvim/ultisnips"
         "neovim/config/nvim/init.vim"
         "neovim/config/nvim/coc-settings.json"
 
