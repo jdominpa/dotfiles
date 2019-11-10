@@ -29,6 +29,8 @@ create_symlinks() {
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
 
+    	"neovim/config/nvim/plugin"
+    	"neovim/config/nvim/after"
         "neovim/config/nvim/init.vim"
         "neovim/config/nvim/coc-settings.json"
 
