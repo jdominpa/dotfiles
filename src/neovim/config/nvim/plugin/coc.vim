@@ -1,4 +1,3 @@
-
 " Coc.nvim config command {{{
 " Function to abreviate a command
 function! SetupCommandAbbrs(from, to)
