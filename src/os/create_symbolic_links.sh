@@ -29,9 +29,10 @@ create_symlinks() {
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
 
-    	"neovim/config/nvim/plugin"
-    	"neovim/config/nvim/after"
     	"neovim/config/nvim/autoload/joan"
+    	"neovim/config/nvim/after"
+    	"neovim/config/nvim/ftplugin"
+    	"neovim/config/nvim/plugin"
     	"neovim/config/nvim/ultisnips"
         "neovim/config/nvim/init.vim"
         "neovim/config/nvim/coc-settings.json"

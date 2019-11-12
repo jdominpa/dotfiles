@@ -35,7 +35,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -43,5 +43,5 @@ call plug#end()
 " Load init.vim.local settings ------------------------------------------------------
 
 if filereadable(glob("~/.config/nvim/init.vim.local"))
-    source ~/.config/nvim/init.vim.local
+  source ~/.config/nvim/init.vim.local
 endif

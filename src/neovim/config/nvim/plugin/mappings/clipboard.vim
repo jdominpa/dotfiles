@@ -1,6 +1,6 @@
 
 if ! has('clipboard')
-    finish
+  finish
 endif
 
 vnoremap <C-c> "*y :let @+=@*<CR>
