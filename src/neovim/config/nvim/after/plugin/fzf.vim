@@ -1,6 +1,7 @@
 " Quit if fzf isn't loaded
-if ! exists(':FZF')
+if !exists(':FZF')
     finish
 endif
 
-nnoremap <Leader>f :FZF<CR>
+nnoremap <Leader>f :FzfFiles<CR>
+nnoremap <Leader>b :FzfBuffers<CR>

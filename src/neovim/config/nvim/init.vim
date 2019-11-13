@@ -30,6 +30,7 @@ Plug 'sirver/ultisnips'
 
 " Fzf
 Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Theme and style
 Plug 'ryanoasis/vim-devicons'
