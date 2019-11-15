@@ -4,4 +4,6 @@ if !exists(':FZF')
 endif
 
 nnoremap <Leader>f :FzfFiles<CR>
+nnoremap <Leader>FH :FzfFiles ~<CR>
+nnoremap <Leader>FF :FzfFiles 
 nnoremap <Leader>b :FzfBuffers<CR>
