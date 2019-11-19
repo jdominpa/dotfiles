@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+#
+# Command aliases
+#
+
+alias ls='ls -h'
+alias ll='ls -l'
+alias la='ls -lA'
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
+alias ....='cd ../..'
+alias cd..='cd ..'
+
+if command -v nvim &> /dev/null; then
+  alias vim=nvim # Use `\vim` or `command vim` to get the real vim.
+  alias vi=nvim
+fi

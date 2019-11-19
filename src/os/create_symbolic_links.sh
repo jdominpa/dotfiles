@@ -9,17 +9,17 @@ create_symlinks() {
 
     declare -a HOME_FILES_TO_SYMLINK=(
 
-        "shell/aliases/bash_aliases"
-        "shell/autocomplete/$(get_os)/bash_autocomplete"
-        "shell/colors/$(get_os)/bash_colors"
-        "shell/bash_exports"
-        "shell/bash_logout"
-        "shell/bash_options"
-        "shell/bash_profile"
-        "shell/bash_prompt"
-        "shell/bashrc"
+       #"bash_shell/aliases/bash_aliases"
+       #"bash_shell/autocomplete/$(get_os)/bash_autocomplete"
+       #"bash_shell/colors/$(get_os)/bash_colors"
+       #"bash_shell/bash_exports"
+       #"bash_shell/bash_logout"
+       #"bash_shell/bash_options"
+       #"bash_shell/bash_profile"
+       #"bash_shell/bash_prompt"
+       #"bash_shell/bashrc"
+       #"bash_shell/inputrc"
         "shell/curlrc"
-        "shell/inputrc"
 
         "git/gitattributes"
         "git/gitconfig"
@@ -36,6 +36,11 @@ create_symlinks() {
     	"neovim/config/nvim/ultisnips"
         "neovim/config/nvim/init.vim"
         "neovim/config/nvim/coc-settings.json"
+
+		"zsh_shell/zsh/aliases"
+		"zsh_shell/zsh/colors"
+		"zsh_shell/zsh/exports"
+		"zsh_shell/zsh/completions"
 
     )
 
