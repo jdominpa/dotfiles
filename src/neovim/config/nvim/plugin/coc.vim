@@ -51,4 +51,4 @@ nnoremap <silent> <Leader>d  :<C-u>CocList diagnostics<cr>
 
 
 " Extensions
-let g:coc_global_extensions=["coc-json", "coc-snippets", "coc-ccls"]
+let g:coc_global_extensions=["coc-json", "coc-snippets", "coc-pairs", "coc-ccls"]

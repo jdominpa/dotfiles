@@ -19,7 +19,6 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Utility
 Plug 'tpope/vim-surround'
-Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree'
 
 " Autocompletion
