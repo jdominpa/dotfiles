@@ -155,6 +155,8 @@
 	b2xvcqIWGFhOU09iamVjdAgRGiQpMjdJTFFTV11kand+q62vtL/I0NMAAAAAAAABAQAA
 	AAAAAAAZAAAAAAAAAAAAAAAAAAAA3A==
 	</data>
+	<key>Bell</key>
+	<false/>
 	<key>CursorColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMS
@@ -185,7 +187,7 @@
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
 	<key>ShowActiveProcessArgumentsInTabTitle</key>
-	<true/>
+	<false/>
 	<key>ShowActiveProcessInTabTitle</key>
 	<true/>
 	<key>ShowRepresentedURLInTitle</key>
@@ -223,6 +225,8 @@
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
 	<key>UseBrightBold</key>
+	<false/>
+	<key>VisualBell</key>
 	<false/>
 	<key>columnCount</key>
 	<integer>80</integer>
