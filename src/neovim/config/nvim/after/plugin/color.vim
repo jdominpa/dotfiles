@@ -1,4 +1,8 @@
-let g:base16colorspace=256
+" Mac specific setting
+if system('uname -s') =~ 'Darwin'
+	let g:base16colorspace=256
+endif
+
 function s:CheckColorScheme()
   if !has('termguicolors')
     let g:base16colorspace=256
