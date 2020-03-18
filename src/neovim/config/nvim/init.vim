@@ -31,6 +31,9 @@ Plug 'sirver/ultisnips'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
+" LaTeX
+"Plug 'lervag/vimtex'
+
 " Theme and style
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'

@@ -16,3 +16,5 @@ brew_install "C language server for vim" "ccls"
 brew_install "Python 3" "python"
 execute "python3 -m pip install --user --upgrade pynvim" \
     "Pynvim module for neovim"
+
+# brew_install "LaTeX" "mactex" "homebrew/cask" "cask"
