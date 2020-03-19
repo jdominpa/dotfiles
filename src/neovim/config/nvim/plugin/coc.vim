@@ -6,9 +6,6 @@ function! SetupCommandAbbrs(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfunction
 
-" Use C to open coc config
-call SetupCommandAbbrs('C', 'CocConfig')
-
 
 " Tab completion
 " Use tab for everything
@@ -23,8 +20,8 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
-let g:coc_snippet_prev = '<S-tab>'
+let g:coc_snippet_next = '<Tab>'
+let g:coc_snippet_prev = '<S-Tab>'
 
 " Use tab to scroll through suggestions
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
