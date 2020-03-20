@@ -15,5 +15,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./gpg.sh
 ./misc.sh
 ./misc_tools.sh
-./neovim.sh
+./editors.sh
 ./font_tools.sh

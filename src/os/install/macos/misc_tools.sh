@@ -9,6 +9,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Miscellaneous Tools\n\n"
 
 brew_install "ShellCheck" "shellcheck"
+brew_install "Doom-emacs dependencies" "ripgrep fd coreutils"
 brew_install "Fzf" "fzf"
 brew_install "Node.js" "node"
 brew_install "C language server for vim" "ccls"
