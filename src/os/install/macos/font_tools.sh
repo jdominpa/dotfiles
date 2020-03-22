@@ -8,4 +8,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Font Tools\n\n"
 
-brew_install "Source code pro nerd font" "font-sourcecodepro-nerd-font-mono" "homebrew/cask-fonts" "cask"
+brew_install "Source code pro font" "font-source-code-pro" "homebrew/cask-fonts" "cask"
