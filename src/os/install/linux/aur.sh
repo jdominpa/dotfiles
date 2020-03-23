@@ -8,5 +8,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   AUR programs\n\n"
 
-# Graphical server and window manager
+# Status bar
 install_aur_package "Polybar" "polybar"

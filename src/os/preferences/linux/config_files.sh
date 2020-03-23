@@ -134,6 +134,8 @@ create_symlinks() {
 main() {
     print_in_purple "\n   Linux configuration files\n\n"
     create_symlinks "$@"
+    execute "ln -s ~/.profile ~/.zprofile" \
+        "Linking .zprofile to .profile"
 }
 
 main "$@"

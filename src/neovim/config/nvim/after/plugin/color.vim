@@ -4,7 +4,7 @@ if system('uname -s') =~ 'Darwin'
 endif
 
 function s:CheckColorScheme()
-  if !has('termguicolors')
+  if has('termguicolors')
     let g:base16colorspace=256
   endif
 

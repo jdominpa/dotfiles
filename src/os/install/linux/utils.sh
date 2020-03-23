@@ -33,7 +33,7 @@ install_package() {
 }
 
 package_is_installed() {
-    pacman -Qqs "$1" &> /dev/null
+    pacman -Qqe "$1" &> /dev/null
 }
 
 update_and_upgrade() {
@@ -60,12 +60,11 @@ install_yay() {
 
 install_aur_package() {
 
-    declare -r EXTRA_ARGUMENTS="$3"
     declare -r PACKAGE="$2"
     declare -r PACKAGE_READABLE_NAME="$1"
 
     if ! aur_package_is_installed "$PACKAGE"; then
-        yay --needed -S "$EXTRA_ARGUMENTS" "$PACKAGE"
+        yay --needed -S "$PACKAGE"
     else
         print_success "$PACKAGE_READABLE_NAME"
     fi
@@ -73,5 +72,5 @@ install_aur_package() {
 }
 
 aur_package_is_installed() {
-    yay -Qqs "$1" &> /dev/null
+    yay -Qqe "$1" &> /dev/null
 }
