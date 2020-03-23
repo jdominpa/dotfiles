@@ -47,5 +47,5 @@ install_package "Capitaine cursors" "capitaine-cursors"
 
 # Printer programs
 install_package "Printing server" "cups"
-install_package "HP printer's drivers" "hplip"
 install_package "Scanning program" "sane"
+install_package "HP printer's drivers" "hplip"

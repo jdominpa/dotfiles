@@ -53,7 +53,7 @@ create_symlinks() {
 
     for i in "${HOME_FILES_TO_SYMLINK[@]}"; do
 
-        sourceFile="$(cd .. && pwd)/$i"
+        sourceFile="$(cd ../../../ && pwd)/$i"
         targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
         if [ ! -e "$targetFile" ] || $skipQuestions; then
@@ -89,7 +89,7 @@ create_symlinks() {
 
     for i in "${NOT_HOME_FILES_TO_SYMLINK[@]}"; do
 
-        sourceFile="$(cd .. && pwd)/$i"
+        sourceFile="$(cd ../../../ && pwd)/$i"
         targetFile="$HOME/.$(printf "%s" "$i" | sed "s|[^/]*/||")"
         pathToSymlink="$(printf "%s" "$targetFile" | rev | sed "s|[^/]*/||" | rev)"
         if [ ! -d "$pathToSymlink" ]; then
