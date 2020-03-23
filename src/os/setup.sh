@@ -177,7 +177,7 @@ verify_os() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     else
-        printf "Sorry, this script is intended only for macOS and Arch Linux!"
+        printf "Sorry, this script is intended only for macOS and Arch Linux! (%s)" "$os_name"
     fi
 
     return 1
