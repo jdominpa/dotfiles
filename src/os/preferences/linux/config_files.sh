@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")" \
-    && . "utils.sh"
+    && . "../../utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -9,40 +9,33 @@ create_symlinks() {
 
     declare -a HOME_FILES_TO_SYMLINK=(
 
-       #"bash_shell/aliases/bash_aliases"
-       #"bash_shell/autocomplete/$(get_os)/bash_autocomplete"
-       #"bash_shell/colors/$(get_os)/bash_colors"
-       #"bash_shell/bash_exports"
-       #"bash_shell/bash_logout"
-       #"bash_shell/bash_options"
-       #"bash_shell/bash_profile"
-       #"bash_shell/bash_prompt"
-       #"bash_shell/bashrc"
-       #"bash_shell/inputrc"
-        "shell/curlrc"
-
-        "git/gitattributes"
-        "git/gitconfig"
-        "git/gitignore"
-
-        "doom_emacs/doom.d"
+        "linux_config/icons"
+        "linux_config/gtkrc-2.0"
+        "linux_config/inputrc"
+        "linux_config/profile"
+        "linux_config/xinitrc"
+        "linux_config/xprofile"
 
     )
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
 
-    	"neovim/config/nvim/autoload"
-    	"neovim/config/nvim/after"
-    	"neovim/config/nvim/ftplugin"
-    	"neovim/config/nvim/plugin"
-    	"neovim/config/nvim/ultisnips"
-        "neovim/config/nvim/init.vim"
-        "neovim/config/nvim/coc-settings.json"
-
-		"zsh_shell/zsh/aliases"
-		"zsh_shell/zsh/colors"
-		"zsh_shell/zsh/exports"
-		"zsh_shell/zsh/completions"
+        "linux_config/config/bspwm"
+        "linux_config/config/calcurse"
+        "linux_config/config/dunst"
+        "linux_config/config/fontconfig"
+        "linux_config/config/gtk-3.0"
+        "linux_config/config/libfm"
+        "linux_config/config/pcmanfm"
+        "linux_config/config/polybar"
+        "linux_config/config/suckless"
+        "linux_config/config/sxhkd"
+        "linux_config/config/transmission-daemon"
+        "linux_config/config/zathura"
+        "linux_config/config/emoji"
+        "linux_config/config/fontawesome"
+        "linux_config/config/mimeapps.list"
+        "linux_config/local/bin"
 
     )
 
@@ -139,7 +132,7 @@ create_symlinks() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
-    print_in_purple "\n • Create symbolic links\n\n"
+    print_in_purple "\n   Linux configuration files\n\n"
     create_symlinks "$@"
 }
 

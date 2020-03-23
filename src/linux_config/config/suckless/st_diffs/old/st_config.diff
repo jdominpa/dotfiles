@@ -1,0 +1,101 @@
+diff --git a/config.def.h b/config.def.h
+index 482901e..6bbe105 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "monospace:pixelsize=19:antialias=true:autohint=true";
+ static int borderpx = 2;
+ 
+ /*
+@@ -80,35 +80,36 @@ char *termname = "st-256color";
+  *
+  *	stty tabs
+  */
+-unsigned int tabspaces = 8;
++unsigned int tabspaces = 4;
+ 
+ /* Terminal colors (16 first used in escape sequence) */
+ static const char *colorname[] = {
+-	/* 8 normal colors */
+-	"black",
+-	"red3",
+-	"green3",
+-	"yellow3",
+-	"blue2",
+-	"magenta3",
+-	"cyan3",
+-	"gray90",
+-
+-	/* 8 bright colors */
+-	"gray50",
+-	"red",
+-	"green",
+-	"yellow",
+-	"#5c5cff",
+-	"magenta",
+-	"cyan",
+-	"white",
++        /* 8 normal colors */
++        "#282828", /* black   */
++        "#cc241d", /* red     */
++        "#98971a", /* green   */
++        "#d79921", /* yellow  */
++        "#458588", /* blue    */
++        "#b16286", /* magenta */
++        "#689d6a", /* cyan    */
++        "#a89984", /* white   */
++
++        /* 8 bright colors */
++        "#928374", /* black   */
++        "#fb4934", /* red     */
++        "#b8bb26", /* green   */
++        "#fabd2f", /* yellow  */
++        "#83a598", /* blue    */
++        "#d3869b", /* magenta */
++        "#8ec07c", /* cyan    */
++        "#ebdbb2", /* white   */
+ 
+ 	[255] = 0,
+ 
+ 	/* more colors can be added after 255 to use with DefaultXX */
+-	"#cccccc",
+-	"#555555",
++        "#282828", /* 256 -> bg */
++	"#ebdbb2", /* 257 -> fg */
++	"#add8e6", /* 258 -> cursor */
+ };
+ 
+ 
+@@ -116,10 +117,10 @@ static const char *colorname[] = {
+  * Default colors (colorname index)
+  * foreground, background, cursor, reverse cursor
+  */
+-unsigned int defaultfg = 7;
+-unsigned int defaultbg = 0;
+-static unsigned int defaultcs = 256;
+-static unsigned int defaultrcs = 257;
++unsigned int defaultfg = 257;
++unsigned int defaultbg = 256;
++static unsigned int defaultcs = 258;
++static unsigned int defaultrcs = 256;
+ 
+ /*
+  * Default shape of cursor
+@@ -173,10 +174,9 @@ static Shortcut shortcuts[] = {
+ 	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+ 	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+ 	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+-	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
+-	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
+-	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
+-	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
++	{ MODKEY,               XK_c,           clipcopy,       {.i =  0} },
++	{ MODKEY,               XK_v,           clippaste,      {.i =  0} },
++	{ MODKEY,               XK_p,           selpaste,       {.i =  0} },
+ 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+ };
+ 

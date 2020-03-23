@@ -1,0 +1,7 @@
+#!/bin/sh
+
+[ "$(cat /sys/class/net/w*/operstate)" = "down" ] && wifiicon=""
+
+[ ! -n "${wifiicon+var}" ] && wifiicon=$(grep "^\s*w" /proc/net/wireless | awk '{ print "", int($3 * 100 / 70) "%" }')
+
+dunstify -r 2 -a "Internet" "Connection status and percentage" "$wifiicon $(cat /sys/class/net/e*/operstate | sed "s/down//;s/up//")"

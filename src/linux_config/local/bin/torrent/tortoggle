@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if pgrep -x transmission-da > /dev/null; then
+    [ "$(printf "Yes\\nNo" | dmenu -i -p "Kill transmission daemon?")" = "Yes" ] && killall transmission-da && dunstify -r 4 -a "Torrent Client" "Status report" "Transmission daemon killed"
+else
+    [ "$(printf "Yes\\nNo" | dmenu -i -p "Start transmission daemon?")" = "Yes" ] && transmission-daemon && dunstify -r 4 -a "Torrent Client" "Status report" "Tranmission daemon started"
+fi

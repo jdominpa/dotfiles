@@ -1,0 +1,4 @@
+#!/bin/sh
+# * TR_TORRENT_NAME
+
+dunstify -a "Torrent client" "Downloads report" "$TR_TORRENT_NAME has been downloaded"

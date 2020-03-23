@@ -1,0 +1,14 @@
+#!/bin/sh
+
+git checkout master && suckclean &&
+dotfiles="$HOME/.config/suckless"
+project=$(basename $(pwd))
+diffdir="${dotfiles}/${project}_diffs"
+for file in ${diffdir}/*.diff; do
+    branch=$(echo $file | sed "s|${diffdir}/${project}_||g;s|.diff||g")
+    git branch $branch && git checkout $branch &&
+    git apply $file && git add . &&
+    git commit -m $branch &&
+    git checkout master
+done
+suckmerge

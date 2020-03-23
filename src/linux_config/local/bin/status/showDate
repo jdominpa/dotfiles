@@ -1,0 +1,3 @@
+#!/bin/sh
+
+dunstify -r 1 -a "Date and time" "Timezone: $(date "+%z")" "$(date "+%d %b %Y (%a) | %X")"

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for desktop in 6 7 8 9 10; do
+	bspc desktop $desktop -m DP-0
+done
+bspc desktop Desktop -r

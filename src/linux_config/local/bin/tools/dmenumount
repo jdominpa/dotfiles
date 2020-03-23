@@ -1,0 +1,10 @@
+#!/bin/sh
+
+pgrep -x dmenu && exit
+
+# Lvm physical volumes won't appear as mountable
+mountable=$(lsblk -lp -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT | grep "part $" | grep -v LVM2_member | awk '{print $1, "(" $2 ")"}')
+[ -z "$mountable" ] && exit
+chosen=$(echo "$mountable" | dmenu -i -p "Drive to mount?" | awk '{print $1}')
+[ -z "$chosen" ] && exit
+udisksctl mount -b "$chosen" && dunstify -a "Drive mounter" "Mounting status" "$chosen mounted"
