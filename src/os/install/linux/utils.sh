@@ -49,11 +49,12 @@ update_and_upgrade() {
 install_yay() {
 
     if ! cmd_exists "yay -d"; then
-        printf "\n" | git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -sicr
+        initialDir="$(pwd)"
+        printf "\n" | git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -sicr; exit=$?; cd "$initialDir"
         #  └─ simulate the ENTER keypress
     fi
 
-    print_result $? "Yay"
+    print_result "$exit" "Yay"
 
 }
 
