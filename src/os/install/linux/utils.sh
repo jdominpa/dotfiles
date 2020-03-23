@@ -65,7 +65,7 @@ install_aur_package() {
     declare -r PACKAGE_READABLE_NAME="$1"
 
     if ! aur_package_is_installed "$PACKAGE"; then
-        execute "yay --needed -S $EXTRA_ARGUMENTS $PACKAGE" "$PACKAGE_READABLE_NAME"
+        yay --needed -S $EXTRA_ARGUMENTS $PACKAGE
     else
         print_success "$PACKAGE_READABLE_NAME"
     fi

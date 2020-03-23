@@ -13,7 +13,6 @@ install_yay
 
 ./desktop.sh
 ./terminal.sh
-./browsers.sh
 ./misc.sh
 ./misc_tools.sh
 ./editors.sh
