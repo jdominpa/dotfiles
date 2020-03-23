@@ -14,6 +14,7 @@ install_package "xorg-xinit" "xorg-xinit"
 install_package "Compton" "compton"
 install_package "bspwm" "bspwm"
 install_package "sxhkd" "sxhkd"
+install_package "dmenu" "dmenu"
 
 # Screen locker, wallpaper and night mode
 install_package "Slock" "slock"
