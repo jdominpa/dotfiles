@@ -47,13 +47,13 @@ Persistent=true
 WantedBy=timers.target
 "
 
-execute "sudo echo '$hook' > /etc/pacman.d/hooks/mirrorupgrade.hook" \
+execute "sudo mkdir -p /etc/pacman.d/hooks && echo '$hook' | sudo tee /etm/pacman.d/hooks/mirrorupgrade.hook" \
     "Creating mirror hook"
 
-execute "sudo echo '$service' > /etc/systemd/system/reflector.service" \
+execute "echo '$service' | sudo tee /etc/systemd/system/reflector.service" \
     "Creating service"
 
-execute "sudo echo '$timer' > /etc/systemd/system/reflector.timer" \
+execute "echo '$timer' | sudo tee /etc/systemd/system/reflector.timer" \
     "Creating timer"
 
 execute "sudo systemctl daemon-reload && sudo systemctl enable reflector.timer" \
