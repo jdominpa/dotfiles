@@ -22,9 +22,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 
-" Snippets
-Plug 'sirver/ultisnips'
-
 " Fzf
 Plug 'junegunn/fzf'
 

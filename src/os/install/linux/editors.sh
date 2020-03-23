@@ -7,10 +7,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # Neovim
 install_package "Neovim" "neovim"
-install_package "Python 3" "python"
-install_package "Pip" "python-pip"
-execute "python3 -m pip install --user --upgrade pynvim" \
-    "Pynvim module for neovim"
 
 # Emacs followed by doom-emacs and it's dependencies
 install_package "Emacs" "emacs"

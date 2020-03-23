@@ -14,6 +14,9 @@ install_package "SSH" "openssh"
 # cURL utility
 install_package "cURL" "curl"
 
+# Python 3
+install_package "Python 3" "python"
+
 # Process monitor
 install_package "htop" "htop"
 
