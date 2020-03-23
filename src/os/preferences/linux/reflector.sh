@@ -47,7 +47,7 @@ Persistent=true
 WantedBy=timers.target
 "
 
-execute "sudo mkdir -p '/etc/pacman.d/hooks' && sudo touch '/etc/pacman.d/hooks/mirrorupgrade.hook' && echo '$hook' | sudo tee '/etm/pacman.d/hooks/mirrorupgrade.hook'" \
+execute "sudo mkdir -p '/etc/pacman.d/hooks' && sudo touch '/etc/pacman.d/hooks/mirrorupgrade.hook' && echo '$hook' | sudo tee '/etc/pacman.d/hooks/mirrorupgrade.hook'" \
     "Creating mirror hook"
 
 execute "sudo touch '/etc/systemd/system/reflector.service' && echo '$service' | sudo tee '/etc/systemd/system/reflector.service'" \
