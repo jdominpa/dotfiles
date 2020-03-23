@@ -10,7 +10,7 @@ change_default_zsh() {
 
     # Set `Zsh` as default shell
 
-    chsh -s "/bin/zsh" &> /dev/null
+    chsh -s "/bin/zsh"
     print_result $? "Zsh (shell change)"
 
 }
