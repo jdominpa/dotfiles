@@ -10,6 +10,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 update_and_upgrade
 install_yay
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 ./desktop.sh
 ./terminal.sh
