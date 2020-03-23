@@ -170,7 +170,7 @@ verify_os() {
     # Check if the OS is `Ubuntu` and
     # it's above the required version.
 
-    elif [ "$os_name" == "Linux" ]; then
+    elif [ "$os_name" == "linux" ]; then
 
         return 0
 
