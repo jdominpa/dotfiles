@@ -258,7 +258,7 @@ main() {
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        if ! $skipQuestions; then
+        if [ ! $skipQuestions == true ] && [ "$(get_os)" == "macos" ]; then
             ./update_content.sh
         fi
 

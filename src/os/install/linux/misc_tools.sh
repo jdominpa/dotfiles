@@ -8,6 +8,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Miscellaneous Tools\n\n"
 
+# Ssh key generator to use ssh keys for github and ssh
+install_package "SSH" "openssh"
+install_package "SSH key generator" "ssh-keygen"
+
 # cURL utility
 install_package "cURL" "curl"
 
