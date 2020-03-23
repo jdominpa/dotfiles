@@ -49,7 +49,7 @@ update_and_upgrade() {
 install_yay() {
 
     if ! cmd_exists "yay -d"; then
-        printf "\n" | git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -sicr &> /dev/null
+        printf "\n" | git clone https://aur.archlinux.org/yay.git ~/yay && cd ~/yay && makepkg -sicr
         #  └─ simulate the ENTER keypress
     fi
 
