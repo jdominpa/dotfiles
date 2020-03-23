@@ -3,7 +3,6 @@ if !exists(':FZF')
     finish
 endif
 
-nnoremap <Leader>f :FzfFiles<CR>
-nnoremap <Leader>FH :FzfFiles ~<CR>
-nnoremap <Leader>FF :FzfFiles 
-nnoremap <Leader>b :FzfBuffers<CR>
+nnoremap <Leader>f :FZF<CR>
+nnoremap <Leader>FH :FZF ~<CR>
+nnoremap <Leader>FF :FZF

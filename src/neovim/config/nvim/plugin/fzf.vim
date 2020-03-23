@@ -1,5 +1,3 @@
-let g:fzf_command_prefix = 'Fzf'
-
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],

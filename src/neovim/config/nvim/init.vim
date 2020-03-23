@@ -22,15 +22,11 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 
-" Autocompletion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " Snippets
 Plug 'sirver/ultisnips'
 
 " Fzf
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
 
 " LaTeX
 Plug 'lervag/vimtex'
