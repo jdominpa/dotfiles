@@ -20,6 +20,7 @@ create_symlinks() {
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
 
+        "linux_config/config/alacritty"
         "linux_config/config/bspwm"
         "linux_config/config/calcurse"
         "linux_config/config/dunst"
