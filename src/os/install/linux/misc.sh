@@ -15,13 +15,10 @@ install_package "Firefox" "firefox"
 install_package "Mpv" "mpv"
 
 # Image viewer
-install_package "SXIV" "sxiv"
+install_package "sxiv" "sxiv"
 
 # Graphical file manager
 install_package "pcmanfm" "pcmanfm"
-
-# Calendar
-install_package "Calcurse" "calcurse"
 
 # Pdf reader
 install_package "Zathura" "zathura"

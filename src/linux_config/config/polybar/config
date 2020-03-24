@@ -29,30 +29,30 @@ screenchange-reload = true
 ;pseudo-transparency = false
 
 [colors]
-background = #282828
-foreground = #ebdbb2
+background = #282A36
+foreground = #F8F8F2
 primary = #ffb52a
 secondary = #e60053
 alert = #fb4934
 background-alt = #444
 foreground-alt = #555
 
-gruvbox-black = #282828
-gruvbox-red = #cc241d
-gruvbox-green = #98971a
-gruvbox-yellow = #d79921
-gruvbox-blue = #458588
-gruvbox-magenta = #b16286
-gruvbox-cyan = #689d6a
-gruvbox-grey = #928374
-gruvbox-white = #ebdbb2
-gruvbox-bright-red = #fb4934
-gruvbox-bright-green = #b8bb26
-gruvbox-bright-yellow = #fabd2f
-gruvbox-bright-blue = #83a598
-gruvbox-bright-magenta = #d3869b
-gruvbox-bright-cyan = #8ec07c
-gruvbox-bright-grey = #a89984
+dracula-black = #282A36
+dracula-red = #FF5555
+dracula-green = #48E16E
+dracula-yellow = #d8e17e
+dracula-blue = #BD93F9
+dracula-magenta = #FF79C6
+dracula-cyan = #7dd1e3
+dracula-grey = #BFBFBF
+dracula-bright-black = #4D4D4D
+dracula-bright-red = #FF6E67
+dracula-bright-green = #5AF78E
+dracula-bright-yellow = #F4F99D
+dracula-bright-blue = #CAA9FA
+dracula-bright-magenta = #FF92D0
+dracula-bright-cyan = #9AEDFE
+dracula-bright-grey = #E6E6E6
 
 [bar/bar-bspwm]
 monitor = ${env:MONITOR}
@@ -87,8 +87,9 @@ font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
 font-4 = "Font Awesome 5 Brands:pixelsize=10;1"
 
 modules-left = bspwm
-modules-center =
-modules-right = arrow7 xbacklight battery arrow6 arch-updates arrow5 pulseaudio arrow4 wired-network wireless-network arrow3 date arrow2 time arrow1 powermenu
+modules-center = xwindow
+modules-right = arrow6 arch-updates arrow5 pulseaudio arrow4 wired-network wireless-network arrow3 date arrow2 time arrow1 powermenu
+;modules-right = arrow7 xbacklight battery arrow6 arch-updates arrow5 pulseaudio arrow4 wired-network wireless-network arrow3 date arrow2 time arrow1 powermenu
 
 tray-position = right
 tray-padding = 2
@@ -111,14 +112,14 @@ cursor-scroll = ns-resize
 type = internal/bspwm
 
 label-focused = %index%
-label-focused-background = ${colors.gruvbox-grey}
-label-focused-underline= ${colors.gruvbox-yellow}
+label-focused-background = ${colors.dracula-grey}
+label-focused-underline= ${colors.dracula-yellow}
 label-focused-padding = 2
 
 label-occupied = %index%
 label-occupied-padding = 2
 
-label-urgent = %index% 
+label-urgent = %index%  
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
@@ -141,56 +142,58 @@ label-empty-padding = 2
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-black}
-content-background = ${colors.gruvbox-cyan}
+content-foreground = ${colors.dracula-black}
+content-background = ${colors.dracula-cyan}
 
 [module/arrow2]
 ; teal to purple
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-cyan}
-content-background = ${colors.gruvbox-magenta}
+content-foreground = ${colors.dracula-cyan}
+content-background = ${colors.dracula-magenta}
 
 [module/arrow3]
 ; purple to blue
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-magenta}
-content-background = ${colors.gruvbox-blue}
+content-foreground = ${colors.dracula-magenta}
+content-background = ${colors.dracula-blue}
 
 [module/arrow4]
 ; blue to yellow
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-blue}
-content-background = ${colors.gruvbox-yellow}
+content-foreground = ${colors.dracula-blue}
+content-background = ${colors.dracula-yellow}
 
 [module/arrow5]
 ; yellow to green
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-yellow}
-content-background = ${colors.gruvbox-green}
+content-foreground = ${colors.dracula-yellow}
+content-background = ${colors.dracula-green}
 
 [module/arrow6]
 ; green to red
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-green}
-content-background = ${colors.gruvbox-red}
+content-foreground = ${colors.dracula-green}
+; Uncomment to add more arrows
+;content-background = ${colors.dracula-red}
+content-background = ${colors.dracula-black}
 
 [module/arrow7]
 ; red to black
 type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
-content-foreground = ${colors.gruvbox-red}
-content-background = ${colors.gruvbox-black}
+content-foreground = ${colors.dracula-red}
+content-background = ${colors.dracula-black}
 
 ################################################################################
 ################################################################################
@@ -204,7 +207,8 @@ exec = export CHECKUPDATES_DB=$(mktemp -d) && ~/.config/polybar/scripts/arch-upd
 interval = 1200
 label = %output%
 label-padding-left = 1
-label-background = ${colors.gruvbox-green}
+label-foreground = ${colors.background}
+label-background = ${colors.dracula-green}
 click-left = $TERMINAL -e yay &
 
 [module/backlight-acpi]
@@ -254,10 +258,12 @@ date-alt = %d-%m-%Y
 
 format-prefix = 
 format-prefix-padding = 1
-format-prefix-background = ${colors.gruvbox-magenta}
+format-prefix-foreground = ${colors.background}
+format-prefix-background = ${colors.dracula-magenta}
 
 label = %date%
-label-background = ${colors.gruvbox-magenta}
+label-foreground = ${colors.background}
+label-background = ${colors.dracula-magenta}
 
 [module/time]
 type = internal/date
@@ -267,10 +273,12 @@ time = %R
 
 format-prefix = 
 format-prefix-padding = 1
-format-prefix-background = ${colors.gruvbox-cyan}
+format-prefix-foreground = ${colors.background}
+format-prefix-background = ${colors.dracula-cyan}
 
 label = %time%
-label-background = ${colors.gruvbox-cyan}
+label-foreground = ${colors.background}
+label-background = ${colors.dracula-cyan}
 
 [module/mpd]
 type = internal/mpd
@@ -322,13 +330,13 @@ type = internal/pulseaudio
 format-volume = <label-volume>
 label-volume =  %percentage%%
 label-volume-padding-left = 1
-label-volume-foreground = ${colors.foreground}
-label-volume-background = ${colors.gruvbox-yellow}
+label-volume-foreground = ${colors.background}
+label-volume-background = ${colors.dracula-yellow}
 
 label-muted = 
 label-muted-padding-left = 1
-label-muted-foreground = ${colors.foreground}
-label-muted-background = ${colors.gruvbox-yellow}
+label-muted-foreground = ${colors.background}
+label-muted-background = ${colors.dracula-yellow}
 
 [module/temperature]
 type = internal/temperature
@@ -380,12 +388,12 @@ interval = 3.0
 label-connected = %essid%
 
 format-connected = <label-connected>
-format-connected-foreground = ${colors.foreground}
-format-connected-background = ${colors.gruvbox-blue}
+format-connected-foreground = ${colors.background}
+format-connected-background = ${colors.dracula-blue}
 format-connected-prefix = 
 format-connected-prefix-padding = 1
-format-connected-prefix-foreground = ${colors.foreground}
-format-connected-prefix-background = ${colors.gruvbox-blue}
+format-connected-prefix-foreground = ${colors.background}
+format-connected-prefix-background = ${colors.dracula-blue}
 
 [module/xbacklight]
 type = internal/xbacklight

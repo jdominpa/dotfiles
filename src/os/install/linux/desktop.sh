@@ -16,10 +16,11 @@ install_package "bspwm" "bspwm"
 install_package "sxhkd" "sxhkd"
 install_package "dmenu" "dmenu"
 
-# Screen locker, wallpaper and night mode
+# Screen locker, wallpapers, night mode and hide mouse
 install_package "Slock" "slock"
 install_package "Redshift" "redshift"
 install_package "Nitrogen" "nitrogen"
+install_package "Unclutter" "unclutter"
 
 # File system compatibility
 install_package "Dos filesystems" "dosfstools"
