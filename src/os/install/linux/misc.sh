@@ -26,3 +26,8 @@ install_package "Calcurse" "calcurse"
 # Pdf reader
 install_package "Zathura" "zathura"
 install_package "Zathura Mupdf" "zathura-pdf-mupdf"
+
+# LaTeX packages
+install_package "LaTeX" "texlive-most"
+install_package "Languages" "texlive-lang"
+install_package "Biber" "biber"
