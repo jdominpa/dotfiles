@@ -15,7 +15,7 @@ fi
 #### BSPWM configuration ####
 bspc config border_width         	2
 bspc config window_gap           	5
-bspc config top_padding             25
+bspc config top_padding             20
 bspc config split_ratio          	0.5
 bspc config borderless_monocle   	true
 bspc config gapless_monocle      	true
@@ -24,8 +24,8 @@ bspc config remove_disabled_monitors	true
 bspc config remove_unplugged_monitors	true
 
 #### BSPWM coloring ####
-blue="#458588"
-grey="#665c54"
+blue="#BD93F9"
+grey="#BFBFBF"
 bspc config focused_border_color	$blue
 bspc config active_border_color		$grey
 bspc config normal_border_color		$grey
