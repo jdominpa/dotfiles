@@ -28,7 +28,7 @@ understand [what it does][setup]. Seriously, **DON'T**!)
 | OS | Snippet |
 |:---|:---|
 | `macOS` | `bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
-| `Ubuntu` | `bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
+| `Arch Linux` | `bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
 
 The setup process will:
 

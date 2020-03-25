@@ -10,3 +10,4 @@ print_in_purple "\n   AUR programs\n\n"
 
 # Status bar
 install_aur_package "Polybar" "polybar"
+install_aur_package "Brave" "brave"

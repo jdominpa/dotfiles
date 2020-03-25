@@ -8,9 +8,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Miscellaneous\n\n"
 
-# Web browser
-install_package "Firefox" "firefox"
-
 # Video player
 install_package "Mpv" "mpv"
 

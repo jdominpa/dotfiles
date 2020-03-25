@@ -11,7 +11,6 @@ create_symlinks() {
 
         "linux_config/icons"
         "linux_config/gtkrc-2.0"
-        "linux_config/inputrc"
         "linux_config/profile"
         "linux_config/xinitrc"
         "linux_config/xprofile"
