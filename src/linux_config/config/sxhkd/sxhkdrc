@@ -37,6 +37,9 @@ super + alt + p
 super + alt + w
         $BROWSER
 
+super + alt + e
+        emacs
+
 
 # Dmenu scripts
 alt + ctrl + u

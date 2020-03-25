@@ -2,8 +2,7 @@
 # start some nice programs
 
 nitrogen --restore                  # Set wallpaper
-xset r rate 150 66                  # Set a blazingly fast keyboard repeat rate
-xset -b                             # Disable the stupid computer bell
+xset -b r rate 150 66               # Set a blazingly fast keyboard repeat rate and silence PC bell
 compton -b --config /dev/null &     # Compositing manager
 unclutter &                         # Hide idle cursor
 sxhkd &                             # Universal bindings
