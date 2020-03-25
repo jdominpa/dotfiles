@@ -36,13 +36,6 @@ install_package "Pulsemixer" "pulsemixer"
 install_package "Dunst" "dunst"
 install_package "Library for dunst" "libnotify"
 
-# Fonts
-install_package "Source code pro" "adobe-source-code-pro-fonts"
-install_package "Source sans pro" "adobe-source-sans-pro-fonts"
-install_package "Source serif pro" "adobe-source-serif-pro-fonts"
-install_package "Noto emoji fonts" "noto-fonts-emoji"
-install_package "Awesome font" "ttf-font-awesome"
-
 # Custom cursor
 install_package "Capitaine cursors" "capitaine-cursors"
 
