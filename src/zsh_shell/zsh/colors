@@ -138,6 +138,6 @@ function () {
     color "$SCHEME"
   else
     # Default.
-    color default-dark
+    color dracula
   fi
 }
