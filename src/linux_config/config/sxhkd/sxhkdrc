@@ -38,6 +38,9 @@ super + alt + w
         $BROWSER
 
 super + alt + e
+        emacsclient -c
+
+super + alt + shift + e
         emacs
 
 
