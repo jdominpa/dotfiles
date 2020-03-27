@@ -63,7 +63,7 @@ alt + ctrl + shift + t
 
 # Other bindings
 XF86Audio{RaiseVolume,LowerVolume}
-        pulsemixer --change-volume {+,-}5
+        pulsemixer --change-volume {+,-}2
 
 XF86AudioMute
         pulsemixer --toggle-mute
