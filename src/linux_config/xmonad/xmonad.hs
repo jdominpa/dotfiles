@@ -29,8 +29,6 @@ import XMonad.Actions.UpdatePointer
     -- Layouts modifiers
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
-import XMonad.Layout.ResizableTile
-import XMonad.Layout.SimplestFloat
 import XMonad.Layout.WindowArranger (WindowArrangerMsg(..))
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
@@ -38,6 +36,7 @@ import qualified XMonad.Layout.ToggleLayouts as TL
 
     -- Layouts
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.SimplestFloat
 import XMonad.Layout.ZoomRow (zoomReset, ZoomMessage(ZoomFullToggle))
 
 ------------------------------------------------------------------------
@@ -144,14 +143,6 @@ myKeys =
   , ("M-S-<Delete>", sinkAll)                       -- Push ALL floating windows back to tile.
 
 -- Grid Select
-  , (("M-e"), spawnSelected'
-    [ ("Emacs", "emacs")
-    , ("Firefox", "firefox")
-    , ("PCManFM", "pcmanfm")
-    , ("Alacritty", "alacritty")
-    , ("Discord", "discord")
-    ])
-
   , ("M-g", goToSelected $ myGridConfig myColorizer)
   , ("M-b", bringSelected $ myGridConfig myColorizer)
 
