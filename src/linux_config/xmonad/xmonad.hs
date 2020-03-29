@@ -10,12 +10,12 @@ import qualified XMonad.StackSet as W
 
     -- Utilities
 import XMonad.Util.EZConfig (additionalKeysP)
-import XMonad.Util.Run (safeSpawn, unsafeSpawn, runInTerm, spawnPipe)
+import XMonad.Util.Run (safeSpawn, spawnPipe)
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts(..))
-import XMonad.Hooks.ManageHelpers (isFullscreen, isDialog,  doFullFloat, doCenterFloat)
+import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat, doSideFloat, Side(..))
 
     -- Actions
 import XMonad.Actions.Promote
@@ -29,10 +29,12 @@ import XMonad.Actions.UpdatePointer
     -- Layouts modifiers
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.SimplestFloat
 import XMonad.Layout.WindowArranger (WindowArrangerMsg(..))
-import XMonad.Layout.MultiToggle (Toggle(..))
+import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
-import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import qualified XMonad.Layout.ToggleLayouts as TL
 
     -- Layouts
 import XMonad.Layout.ResizableTile
@@ -179,9 +181,10 @@ myKeys =
 
 -- Layouts
   , ("M-<Tab>", sendMessage NextLayout)                                -- Switch to next layout
-  , ("M-S-<Space>", sendMessage ToggleStruts)                          -- Toggles struts
-  , ("M-S-n", sendMessage $ Toggle NOBORDERS)                          -- Toggles noborder
-  , ("M-S-=", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
+  , ("M-<Space>", sendMessage ToggleStruts)                            -- Toggles struts
+  , ("M-n", sendMessage $ Toggle NOBORDERS)                            -- Toggles noborder
+  , ("M-S-f", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
+  , ("M-f", sendMessage TL.ToggleLayout)
 
   , ("M-h", sendMessage Shrink)
   , ("M-l", sendMessage Expand)
@@ -243,17 +246,24 @@ myManageHook = composeAll
   , className =? "Firefox"             --> doShift "3"--"<action=xdotool key super+1>1</action>"
   , className =? "Brave-browser"       --> doShift "3"
   , className =? "Emacs"               --> doShift "1"
-  , className =? "Discord"             --> doShift "9"
-  , className =? "Pcmanfm"             --> doFloat
+  , className =? "discord"             --> doShift "9"
+  , className =? "Pcmanfm"             --> doSideFloat C  -- Spawn window with it's original size centered in the screen
   ]
 
 ------------------------------------------------------------------------
 ---LAYOUTS
 ------------------------------------------------------------------------
-myLayoutHook = avoidStruts $ smartBorders $ myDefaultLayout
-myDefaultLayout = tall ||| Mirror tall ||| noBorders Full
+myLayoutHook = avoidStruts $ smartBorders $ TL.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
+-- avoid xmobar ────┘             |                   |                                         |                         |
+-- no border if there's only 1 window                 |                                         |                         |
+--                      enable toggling float layout ─┘                                         |                         |
+--                                                  enable toggling fullscreen and no borders ──┘                         |
+--                                                                                                     custom layout ─────┘
+
+myDefaultLayout = tall ||| noBorders Full ||| simplestFloat
   where
-    tall = spacingRaw True (Border 2 2 2 2) False (Border 1 1 1 1) True $ Tall nmaster delta ratio
+    --tall = spacingRaw False (Border 3 3 3 3) False (Border 3 3 3 3) True $ Tall nmaster delta ratio
+    tall = ResizableTall nmaster delta ratio []
     nmaster = 1
     ratio = 1/2
     delta = 3/100
