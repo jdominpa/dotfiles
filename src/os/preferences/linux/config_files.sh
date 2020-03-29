@@ -31,6 +31,8 @@ create_symlinks() {
         "linux_config/config/suckless"
         "linux_config/config/sxhkd"
         "linux_config/config/transmission-daemon"
+        "linux_config/xmonad/xmobarrc"
+        "linux_config/xmonad/xmonad.hs"
         "linux_config/config/zathura"
         "linux_config/config/emoji"
         "linux_config/config/fontawesome"

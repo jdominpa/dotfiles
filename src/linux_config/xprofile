@@ -5,7 +5,6 @@ nitrogen --restore                  # Set wallpaper
 xset -b r rate 150 66               # Set a blazingly fast keyboard repeat rate and silence PC bell
 compton -b --config /dev/null &     # Compositing manager
 unclutter &                         # Hide idle cursor
-sxhkd &                             # Universal bindings
 dunst &                             # Notification system
 
 # Map the caps lock key to super...
@@ -15,7 +14,7 @@ setxkbmap -layout es -variant cat -option caps:super && killall xcape 2>/dev/nul
 xmodmap -e 'keycode 135 = Super_R'
 
 # Run redshift
-redshift -l 41.38879:2.15899 &
+redshift -l 41.38879:2.15899 -t 6500:4000 &
 
 # Make main monitor the primary output
 xrandr --output DP-2 --primary --auto

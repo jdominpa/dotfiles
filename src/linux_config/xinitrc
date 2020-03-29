@@ -10,4 +10,4 @@ fi
 
 [ -f ~/.xprofile ] && . ~/.xprofile
 
-exec bspwm
+exec xmonad

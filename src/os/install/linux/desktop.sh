@@ -11,8 +11,10 @@ print_in_purple "\n   Desktop components\n\n"
 # Graphical server and window manager
 install_package "xorg" "xorg"
 install_package "xorg-xinit" "xorg-xinit"
-install_package "Compton" "compton"
-install_package "bspwm" "bspwm"
+install_package "Picom" "picom"
+install_package "Xmonad" "xmonad"
+install_package "Extra utilities for xmonad" "xmonad-contrib"
+install_package "Xmobar" "xmobar"
 install_package "sxhkd" "sxhkd"
 install_package "dmenu" "dmenu"
 

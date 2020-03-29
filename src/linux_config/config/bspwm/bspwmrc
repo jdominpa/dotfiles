@@ -2,6 +2,7 @@
 
 #### Autostart ####
 xsetroot -cursor_name left_ptr &
+sxhkd &
 $HOME/.config/polybar/launch.sh
 
 #### Monitors ####
