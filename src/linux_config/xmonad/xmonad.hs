@@ -199,10 +199,10 @@ myWorkspaces = ["doom","www","term","4","5","6","7","8","disc"]
 myManageHook :: ManageHook
 myManageHook = composeAll
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-  , className =? "Firefox"             --> doShift "2"
-  , className =? "Brave-browser"       --> doShift "2"
-  , className =? "Emacs"               --> doShift "1"
-  , className =? "discord"             --> doShift "9"
+  , className =? "Firefox"             --> doShift "www"
+  , className =? "Brave-browser"       --> doShift "www"
+  , className =? "Emacs"               --> doShift "doom"
+  , className =? "discord"             --> doShift "disc"
   , className =? "Pcmanfm"             --> doSideFloat C  -- Spawn window with it's original size centered in the screen
   ]
 
