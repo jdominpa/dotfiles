@@ -16,6 +16,7 @@ import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat, doSideFloat, Side(..))
+import XMonad.Hooks.EwmhDesktops
 
     -- Actions
 import XMonad.Actions.Promote
@@ -23,11 +24,9 @@ import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.WithAll (sinkAll, killAll)
 import XMonad.Actions.CycleWS (nextScreen, prevScreen)
-import XMonad.Actions.GridSelect
 import XMonad.Actions.UpdatePointer
 
     -- Layouts modifiers
-import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
 import XMonad.Layout.WindowArranger (WindowArrangerMsg(..))
 import XMonad.Layout.MultiToggle
@@ -37,7 +36,6 @@ import qualified XMonad.Layout.ToggleLayouts as TL
     -- Layouts
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.SimplestFloat
-import XMonad.Layout.ZoomRow (zoomReset, ZoomMessage(ZoomFullToggle))
 
 ------------------------------------------------------------------------
 ---CONFIG
@@ -74,7 +72,7 @@ main :: IO ()
 main = do
   -- Launch xmobar
   xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc"
-  xmonad $ desktopConfig
+  xmonad $ ewmh desktopConfig
     { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageHook desktopConfig <+> manageDocks
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = \x -> hPutStrLn xmproc x
@@ -98,33 +96,6 @@ main = do
     } `additionalKeysP` myKeys
        
 ------------------------------------------------------------------------
----GRID SELECT
-------------------------------------------------------------------------
-
-myColorizer :: Window -> Bool -> X (String, String)
-myColorizer = colorRangeFromClassName
-                  (0x31,0x2e,0x39) -- lowest inactive bg
-                  (0x31,0x2e,0x39) -- highest inactive bg
-                  (0x61,0x57,0x72) -- active bg
-                  (0xc0,0xa7,0x9a) -- inactive fg
-                  (0xff,0xff,0xff) -- active fg
-
--- gridSelect menu layout
-myGridConfig :: p -> GSConfig Window
-myGridConfig colorizer = (buildDefaultGSConfig myColorizer)
-  { gs_cellheight   = 30
-  , gs_cellwidth    = 200
-  , gs_cellpadding  = 8
-  , gs_originFractX = 0.5
-  , gs_originFractY = 0.5
-  , gs_font         = myFont
-  }
-
-spawnSelected' :: [(String, String)] -> X ()
-spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
-    where conf = def
-
-------------------------------------------------------------------------
 ---KEYBINDINGS
 ------------------------------------------------------------------------
 myKeys :: [([Char], X ())]
@@ -141,10 +112,6 @@ myKeys =
 -- Floating windows
   , ("M-<Delete>", withFocused $ windows . W.sink)  -- Push floating window back to tile.
   , ("M-S-<Delete>", sinkAll)                       -- Push ALL floating windows back to tile.
-
--- Grid Select
-  , ("M-g", goToSelected $ myGridConfig myColorizer)
-  , ("M-b", bringSelected $ myGridConfig myColorizer)
 
 -- Windows navigation
   , ("M-m", windows W.focusMaster)                  -- Move focus to the master window
@@ -181,8 +148,6 @@ myKeys =
   , ("M-l", sendMessage Expand)
   , ("M-C-j", sendMessage MirrorShrink)
   , ("M-C-k", sendMessage MirrorExpand)
-  , ("M-S-;", sendMessage zoomReset)
-  , ("M-;", sendMessage ZoomFullToggle)
 
 -- Workspaces
   , ("M-.", nextScreen)                           -- Switch focus to next monitor
@@ -201,15 +166,15 @@ myKeys =
 
 -- My Applications (Super+Alt+Key)
   , ("M-M1-i", spawn (myTerminal ++ " -e nmtui"))
-  , ("M-M1-l", spawn ("slock"))
+  , ("M-M1-l", spawn "slock")
   , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
   , ("M-M1-a", spawn (myTerminal ++ " -e pulsemixer"))
-  , ("M-M1-p", spawn ("pcmanfm"))
-  , ("M-M1-w", spawn (myBrowser))
-  , ("M-M1-e", spawn (myTextEditor))
-  , ("M-M1-S-e", spawn ("emacs"))
-  , ("M-M1-m", spawn ("xrandr --output DP-0 --auto --right-of DP-2"))  -- Turn on second monitor
-  , ("M-M1-S-m", spawn ("xrandr --output DP-0 --off"))                 -- Turn off second monitor
+  , ("M-M1-p", spawn "pcmanfm")
+  , ("M-M1-w", safeSpawn myBrowser [])
+  , ("M-M1-e", spawn myTextEditor)
+  , ("M-M1-S-e", spawn "emacs")
+  , ("M-M1-m", spawn "xrandr --output DP-0 --auto --right-of DP-2")  -- Turn on second monitor
+  , ("M-M1-S-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
 
 
 -- Multimedia Keys
@@ -229,13 +194,13 @@ myKeys =
 ---WORKSPACES
 ------------------------------------------------------------------------
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces = ["doom","www","term","4","5","6","7","8","disc"]
 
 myManageHook :: ManageHook
 myManageHook = composeAll
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-  , className =? "Firefox"             --> doShift "3"--"<action=xdotool key super+1>1</action>"
-  , className =? "Brave-browser"       --> doShift "3"
+  , className =? "Firefox"             --> doShift "2"
+  , className =? "Brave-browser"       --> doShift "2"
   , className =? "Emacs"               --> doShift "1"
   , className =? "discord"             --> doShift "9"
   , className =? "Pcmanfm"             --> doSideFloat C  -- Spawn window with it's original size centered in the screen
@@ -253,7 +218,7 @@ myLayoutHook = avoidStruts $ smartBorders $ TL.toggleLayouts simplestFloat $ mkT
 
 myDefaultLayout = tall ||| noBorders Full ||| simplestFloat
   where
-    --tall = spacingRaw False (Border 3 3 3 3) False (Border 3 3 3 3) True $ Tall nmaster delta ratio
+    --tall = spacingRaw False (Border 3 3 3 3) False (Border 5 5 5 5) True $ Tall nmaster delta ratio
     tall = ResizableTall nmaster delta ratio []
     nmaster = 1
     ratio = 1/2

@@ -13,9 +13,8 @@ install_package "xorg" "xorg"
 install_package "xorg-xinit" "xorg-xinit"
 install_package "Picom" "picom"
 install_package "Xmonad" "xmonad"
-install_package "Extra utilities for xmonad" "xmonad-contrib"
+install_package "Xmonad-contrib" "xmonad-contrib"
 install_package "Xmobar" "xmobar"
-install_package "sxhkd" "sxhkd"
 install_package "dmenu" "dmenu"
 
 # Screen locker, wallpapers, night mode and hide mouse

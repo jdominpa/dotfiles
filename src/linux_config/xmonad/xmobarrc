@@ -1,15 +1,16 @@
-Config {
-       font = "xft:monospace:pixelsize=14",
-       commands = [
-                Run Weather "KADS" ["-t"," <tempF>F","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000,
-                Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
-                Run Memory ["-t","Mem: <usedratio>%"] 10,
-                Run Swap [] 10,
-                Run Date "%d %b %Y (%a) : %R" "date" 10,
-                Run Network "ra0" [] 10,
-                Run StdinReader
-                ]
+Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true",
+       , bgColor = "#282A36"
+       , fgColor = "#F8F8F2"
+       , position = TopP 8 8
+       , commands = [
+                  Run Weather "KADS" ["-t"," <tempC>ºC","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000,
+                  Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
+                  Run Memory ["-t","Mem: <usedratio>%"] 10,
+                  Run Date "%d %b %Y (%a) : %R" "date" 10,
+                  Run Network "ra0" [] 10,
+                  Run StdinReader
+                  ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %ra0% | %cpu% | %memory% * %swap%    <fc=#FF79C6>%date%</fc> | %KADS%"
+       , template = "%StdinReader% }{ %ra0% : %cpu% : %memory% : <fc=#FF79C6>%date%</fc> : %KADS%"
        }

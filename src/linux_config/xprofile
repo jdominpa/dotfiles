@@ -14,7 +14,7 @@ setxkbmap -layout es -variant cat -option caps:super && killall xcape 2>/dev/nul
 xmodmap -e 'keycode 135 = Super_R'
 
 # Run redshift
-redshift -l 41.38879:2.15899 -t 6500:4000 &
+redshift -l 41.38879:2.15899 -t 6500:4000 -b 1.0:0.85 &
 
 # Make main monitor the primary output
 xrandr --output DP-2 --primary --auto
