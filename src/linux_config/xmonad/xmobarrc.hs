@@ -33,5 +33,5 @@ Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
                     , Run StdinReader ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %updates% : %default:Master% : %dynnetwork% : %cpu% : %memory% : %date% : %clock%"
+       , template = "%StdinReader% }{ %default:Master% : %dynnetwork% : %cpu% : %memory% : %date% : %clock%"
        }
