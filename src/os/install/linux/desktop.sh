@@ -33,6 +33,7 @@ install_package "Automounter (udiskie)" "udiskie"
 install_package "Pulseaudio" "pulseaudio"
 install_package "Pulseaudio-alsa" "pulseaudio-alsa"
 install_package "Pulsemixer" "pulsemixer"
+install_package "Alsa utilities" "alsa-utils"
 
 # Notification system
 install_package "Dunst" "dunst"

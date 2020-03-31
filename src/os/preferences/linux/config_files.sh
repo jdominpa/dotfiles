@@ -21,7 +21,6 @@ create_symlinks() {
 
         "linux_config/config/alacritty"
         "linux_config/config/bspwm"
-        "linux_config/config/calcurse"
         "linux_config/config/dunst"
         "linux_config/config/fontconfig"
         "linux_config/config/gtk-3.0"
@@ -33,7 +32,6 @@ create_symlinks() {
         "linux_config/config/transmission-daemon"
         "linux_config/xmonad/xmobarrc.hs"
         "linux_config/xmonad/xmonad.hs"
-        "linux_config/xmonad/scripts"
         "linux_config/config/zathura"
         "linux_config/config/emoji"
         "linux_config/config/fontawesome"

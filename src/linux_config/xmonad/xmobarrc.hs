@@ -6,8 +6,7 @@ Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
        , lowerOnStart = True
        , hideOnStart = False
        , persistent = True
-       , commands = [ Run Com "$HOME/.xmonad/scripts/arch-updates" [] "updates" 72000
-                    , Run Volume "default" "Master" [ "--template", "Vol <volumestatus>%"
+       , commands = [ Run Volume "default" "Master" [ "--template", "Vol <volumestatus>%"
                                                     , "--High", "75"
                                                     , "--high", "#FF5555"
                                                     ] 10

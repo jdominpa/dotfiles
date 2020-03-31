@@ -4,7 +4,7 @@
 # Command aliases
 #
 
-alias ls='ls -h --color=auto'
+alias ls='ls -h --color=auto --group-directories-first'
 alias ll='ls -l'
 alias la='ls -lA'
 alias grep="grep --color=auto"
