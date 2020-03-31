@@ -71,7 +71,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 main :: IO ()
 main = do
   -- Launch xmobar
-  xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc"
+  xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc.hs"
   xmonad $ ewmh desktopConfig
     { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageHook desktopConfig <+> manageDocks
     , logHook = dynamicLogWithPP xmobarPP
@@ -159,8 +159,6 @@ myKeys =
 -- Dmenu Scripts (Alt+Ctr+Key)
   , ("M-S-<Return>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
   , ("M1-C-u", spawn "dmenuunicode")
-  , ("M1-C-m", spawn "dmenumount")
-  , ("M1-C-S-m", spawn "dmenuunmount")
   , ("M1-C-t", spawn "torwrap")
   , ("M1-C-S-t", spawn "tortoggle")
 
@@ -194,7 +192,7 @@ myKeys =
 ---WORKSPACES
 ------------------------------------------------------------------------
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["doom","www","term","4","5","6","7","8","disc"]
+myWorkspaces = ["doom","www","term","gui","5","6","7","8","disc"]
 
 myManageHook :: ManageHook
 myManageHook = composeAll
@@ -203,7 +201,7 @@ myManageHook = composeAll
   , className =? "Brave-browser"       --> doShift "www"
   , className =? "Emacs"               --> doShift "doom"
   , className =? "discord"             --> doShift "disc"
-  , className =? "Pcmanfm"             --> doSideFloat C  -- Spawn window with it's original size centered in the screen
+  , className =? "Pcmanfm"             --> doSideFloat C            -- Spawn window with it's original size centered in the screen
   ]
 
 ------------------------------------------------------------------------

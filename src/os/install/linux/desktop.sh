@@ -27,6 +27,7 @@ install_package "Unclutter" "unclutter"
 install_package "Dos filesystems" "dosfstools"
 install_package "Ntfs filesystem" "ntfs-3g"
 install_package "Mounter (udisks2)" "udisks2"
+install_package "Automounter (udiskie)" "udiskie"
 
 # Sound programs
 install_package "Pulseaudio" "pulseaudio"
