@@ -3,7 +3,7 @@
 
 nitrogen --restore                  # Set wallpaper
 xset -b r rate 150 66               # Set a blazingly fast keyboard repeat rate and silence PC bell
-compton -b --config /dev/null &     # Compositing manager
+picom -b &                          # Compositing manager
 unclutter &                         # Hide idle cursor
 dunst &                             # Notification system
 udiskie -f "" &                     # Automounter

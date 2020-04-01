@@ -26,6 +26,7 @@ create_symlinks() {
         "linux_config/config/gtk-3.0"
         "linux_config/config/libfm"
         "linux_config/config/pcmanfm"
+        "linux_config/config/picom"
         "linux_config/config/polybar"
         "linux_config/config/suckless"
         "linux_config/config/sxhkd"

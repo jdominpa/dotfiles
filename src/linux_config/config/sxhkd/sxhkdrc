@@ -63,10 +63,10 @@ alt + ctrl + shift + t
 
 # Other bindings
 XF86Audio{RaiseVolume,LowerVolume}
-        pulsemixer --change-volume {+,-}2
+        pactl set-sink-volume @DEFAULT_SINK@ {+,-}2%
 
 XF86AudioMute
-        pulsemixer --toggle-mute
+        pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 XF86Audio{Play,Stop}
         playerctl {play-pause,stop}

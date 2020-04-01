@@ -11,6 +11,7 @@ import qualified XMonad.StackSet as W
     -- Utilities
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.Run (safeSpawn, spawnPipe)
+import XMonad.Util.SpawnOnce
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
@@ -77,24 +78,32 @@ main = do
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = \x -> hPutStrLn xmproc x
       , ppCurrent = xmobarColor "#BD93F9" "" . wrap "[" "]" -- Current workspace in xmobar
-      , ppVisible = xmobarColor "#F8F8F2" ""                -- Visible but not current workspace
-      , ppHidden = xmobarColor "#BFBFBF" ""                 -- Hidden workspaces in xmobar
+      , ppVisible = xmobarColor "#BD93F9" ""                -- Visible but not current workspace
+      , ppHidden = xmobarColor "#F8F8F2" ""                 -- Hidden workspaces in xmobar
       , ppHiddenNoWindows = xmobarColor "#665C54" ""        -- Hidden workspaces (no windows)
       , ppTitle = xmobarColor "#F8F8F2" "" . shorten 80     -- Title of active window in xmobar
       , ppSep =  "<fc=#F8F8F2> : </fc>"                     -- Separators in xmobar
-      , ppUrgent = xmobarColor "#fb4934" "" . wrap "!" "!"  -- Urgent workspace
+      , ppUrgent = xmobarColor "#FF5555" "" . wrap "!" "!"  -- Urgent workspace
       , ppExtras  = [windowCount]                           -- # of windows current workspace
       , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
       } >> updatePointer (0.5, 0.5) (0, 0)                  -- Add the pointer follows focus function to logHook
     , modMask            = myModMask
     , terminal           = myTerminal
+    , startupHook        = myStartupHook
     , layoutHook         = myLayoutHook
     , workspaces         = myWorkspaces
     , borderWidth        = myBorderWidth
     , normalBorderColor  = "#BFBFBF"
     , focusedBorderColor = "#BD93F9"
     } `additionalKeysP` myKeys
-       
+
+------------------------------------------------------------------------
+---AUTOSTART
+------------------------------------------------------------------------
+myStartupHook :: X ()
+myStartupHook = do
+          spawnOnce "xsetroot -cursor_name left_ptr"
+
 ------------------------------------------------------------------------
 ---KEYBINDINGS
 ------------------------------------------------------------------------
@@ -179,9 +188,9 @@ myKeys =
   -- , ("<XF86AudioPlay>", spawn "cmus toggle")
   -- , ("<XF86AudioPrev>", spawn "cmus prev")
   -- , ("<XF86AudioNext>", spawn "cmus next")
-  , ("<XF86AudioMute>",   spawn "pulsemixer --toggle-mute")  -- Bug prevents it from toggling correctly in 12.04.
-  , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -2")
-  , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +2")
+  , ("<XF86AudioMute>",   spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+  , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -2%")
+  , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +2%")
   , ("<XF86HomePage>", spawn myBrowser)
   , ("<XF86Search>", safeSpawn myBrowser ["https://www.duckduckgo.com/"])
   , ("<Print>", spawn "scrotd 0")
@@ -192,7 +201,7 @@ myKeys =
 ---WORKSPACES
 ------------------------------------------------------------------------
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["doom","www","term","gui","5","6","7","8","disc"]
+myWorkspaces = ["doom","www","sys","doc","gen","gfx","mus","vid","disc"]
 
 myManageHook :: ManageHook
 myManageHook = composeAll
@@ -216,8 +225,4 @@ myLayoutHook = avoidStruts $ smartBorders $ TL.toggleLayouts simplestFloat $ mkT
 
 myDefaultLayout = tall ||| noBorders Full ||| simplestFloat
   where
-    --tall = spacingRaw False (Border 3 3 3 3) False (Border 5 5 5 5) True $ Tall nmaster delta ratio
-    tall = ResizableTall nmaster delta ratio []
-    nmaster = 1
-    ratio = 1/2
-    delta = 3/100
+    tall = ResizableTall 1 (3/100) (1/2) []
