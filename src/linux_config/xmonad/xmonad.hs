@@ -205,8 +205,8 @@ myWorkspaces = ["doom","www","sys","doc","gen","gfx","mus","vid","disc"]
 
 myManageHook :: ManageHook
 myManageHook = composeAll
-  [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-  , className =? "Firefox"             --> doShift "www"
+  [ (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+  , className =? "firefox"             --> doShift "www"
   , className =? "Brave-browser"       --> doShift "www"
   , className =? "Emacs"               --> doShift "doom"
   , className =? "discord"             --> doShift "disc"

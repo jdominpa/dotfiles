@@ -1,12 +1,12 @@
 #!/bin/sh
 # start some nice programs
 
-nitrogen --restore                  # Set wallpaper
-xset -b r rate 150 66               # Set a blazingly fast keyboard repeat rate and silence PC bell
-picom -b &                          # Compositing manager
-unclutter &                         # Hide idle cursor
-dunst &                             # Notification system
-udiskie -f "" &                     # Automounter
+nitrogen --restore            # Set wallpaper
+xset -b r rate 150 66         # Set a blazingly fast keyboard repeat rate and silence PC bell
+picom --config /dev/null &    # Compositing manager
+unclutter &                   # Hide idle cursor
+dunst &                       # Notification system
+udiskie -f "" &               # Automounter
 
 # Map the caps lock key to super...
 setxkbmap -layout es -variant cat -option caps:super && killall xcape 2>/dev/null ; xcape -e 'Super_L=Escape'
