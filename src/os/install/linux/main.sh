@@ -18,5 +18,6 @@ install_yay
 ./misc_tools.sh
 ./editors.sh
 ./aur.sh
+./suckless.sh
 
 ./cleanup.sh

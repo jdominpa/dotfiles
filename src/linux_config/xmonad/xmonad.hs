@@ -166,7 +166,7 @@ myKeys =
   , ("M-<Return>", spawn myTerminal)
 
 -- Dmenu Scripts (Alt+Ctr+Key)
-  , ("M-S-<Return>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
+  , ("M-S-<Return>", spawn "dmenu_run")
   , ("M1-C-u", spawn "dmenuunicode")
   , ("M1-C-t", spawn "torwrap")
   , ("M1-C-S-t", spawn "tortoggle")

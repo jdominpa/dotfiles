@@ -15,7 +15,6 @@ install_package "Picom" "picom"
 install_package "Xmonad" "xmonad"
 install_package "Xmonad-contrib" "xmonad-contrib"
 install_package "Xmobar" "xmobar"
-install_package "dmenu" "dmenu"
 
 # Screen locker, wallpapers, night mode and hide mouse
 install_package "Slock" "slock"
