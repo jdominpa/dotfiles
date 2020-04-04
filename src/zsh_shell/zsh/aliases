@@ -4,7 +4,12 @@
 # Command aliases
 #
 
-alias ls='ls -h --color=auto --group-directories-first'
+if [ "$(uname -s)" == "Darwin" ]; then
+	alias ls='gls -h --color=auto --group-directories-first'
+else
+	alias ls='ls -h --color=auto --group-directories-first'
+fi
+
 alias ll='ls -l'
 alias la='ls -lA'
 alias grep="grep --color=auto"
