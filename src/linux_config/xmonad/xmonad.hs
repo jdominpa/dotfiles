@@ -210,6 +210,8 @@ myManageHook = composeAll
   , className =? "Brave-browser"       --> doShift "www"
   , className =? "Emacs"               --> doShift "doom"
   , className =? "discord"             --> doShift "disc"
+  , className =? "Zathura"             --> doShift "doc"
+  , className =? "mpv"                 --> doShift "vid"
   , className =? "Pcmanfm"             --> doSideFloat C            -- Spawn window with it's original size centered in the screen
   ]
 

@@ -8,7 +8,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   AUR programs\n\n"
 
-# Status bar
-install_aur_package "Brave" "brave-bin"
+# AUR packages
+install_aur_package "Nerd fonts" "nerd-fonts-complete"
 install_aur_package "Ant gtk theme" "ant-gtk-theme"
 install_aur_package "Paper icon theme" "paper-icon-theme"
