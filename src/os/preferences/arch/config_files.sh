@@ -9,34 +9,34 @@ create_symlinks() {
 
     declare -a HOME_FILES_TO_SYMLINK=(
 
-        "linux_config/icons"
-        "linux_config/gtkrc-2.0"
-        "linux_config/profile"
-        "linux_config/xinitrc"
-        "linux_config/xprofile"
+        "arch_config/icons"
+        "arch_config/gtkrc-2.0"
+        "arch_config/profile"
+        "arch_config/xinitrc"
+        "arch_config/xprofile"
 
     )
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
 
-        "linux_config/config/alacritty"
-        "linux_config/config/bspwm"
-        "linux_config/config/dunst"
-        "linux_config/config/fontconfig"
-        "linux_config/config/gtk-3.0"
-        "linux_config/config/libfm"
-        "linux_config/config/pcmanfm"
-        "linux_config/config/polybar"
-        "linux_config/config/suckless"
-        "linux_config/config/sxhkd"
-        "linux_config/config/transmission-daemon"
-        "linux_config/xmonad/xmobarrc.hs"
-        "linux_config/xmonad/xmonad.hs"
-        "linux_config/config/zathura"
-        "linux_config/config/emoji"
-        "linux_config/config/fontawesome"
-        "linux_config/config/mimeapps.list"
-        "linux_config/local/bin"
+        "arch_config/config/alacritty"
+        "arch_config/config/bspwm"
+        "arch_config/config/dunst"
+        "arch_config/config/fontconfig"
+        "arch_config/config/gtk-3.0"
+        "arch_config/config/libfm"
+        "arch_config/config/pcmanfm"
+        "arch_config/config/polybar"
+        "arch_config/config/suckless"
+        "arch_config/config/sxhkd"
+        "arch_config/config/transmission-daemon"
+        "arch_config/xmonad/xmobarrc.hs"
+        "arch_config/xmonad/xmonad.hs"
+        "arch_config/config/zathura"
+        "arch_config/config/emoji"
+        "arch_config/config/fontawesome"
+        "arch_config/config/mimeapps.list"
+        "arch_config/local/bin"
 
     )
 
