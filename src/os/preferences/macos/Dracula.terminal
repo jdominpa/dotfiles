@@ -146,6 +146,8 @@
 	cqIWGFhOU09iamVjdAgRGiQpMjdJTFFTV11kand+qKqssbzFzdAAAAAAAAABAQAAAAAA
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
+	<key>Bell</key>
+	<false/>
 	<key>Font</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMS
@@ -183,6 +185,10 @@
 	WCRjbGFzc2VzV05TQ29sb3KiFhhYTlNPYmplY3QIERokKTI3SUxRU1ddZGp3foWHiY6Z
 	oqqtAAAAAAAAAQEAAAAAAAAAGQAAAAAAAAAAAAAAAAAAALY=
 	</data>
+	<key>VisualBell</key>
+	<false/>
+	<key>VisualBellOnlyWhenMuted</key>
+	<true/>
 	<key>name</key>
 	<string>Dracula</string>
 	<key>type</key>
