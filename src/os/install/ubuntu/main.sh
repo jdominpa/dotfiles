@@ -14,5 +14,6 @@ upgrade
 ./misc.sh
 ./misc_tools.sh
 ./editors.sh
+./theming.sh
 
 ./cleanup.sh

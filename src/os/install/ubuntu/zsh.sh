@@ -19,7 +19,7 @@ change_default_zsh() {
 
 main() {
 
-    print_in_purple "\n   Terminal components\n\n"
+    print_in_purple "\n   Zsh shell\n\n"
 
     install_package "Zsh" "zsh" \
         && change_default_zsh
