@@ -59,7 +59,7 @@ myTextEditor = "emacsclient -c"
 
 -- Sets default browser
 myBrowser :: String
-myBrowser = "brave"
+myBrowser = "firefox"
 
 -- Sets border width for windows
 myBorderWidth :: Dimension
