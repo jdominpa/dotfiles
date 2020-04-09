@@ -39,6 +39,9 @@ install_package "Alsa utilities" "alsa-utils"
 install_package "Dunst" "dunst"
 install_package "Library for dunst" "libnotify"
 
+# Num lock activation program
+install_package "Numlockx" "numlockx"
+
 # Custom cursor
 install_package "Capitaine cursors" "capitaine-cursors"
 

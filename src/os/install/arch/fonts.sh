@@ -9,6 +9,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Fonts\n\n"
 
 # Fonts
+install_package "Roboto" "ttf-roboto"
+install_package "Roboto Mono" "ttf-roboto-mono"
+install_package "Liberation" "ttf-liberation"
 install_package "Noto fonts" "noto-fonts"
 install_package "Noto cjk fonts" "noto-fonts-cjk"
 install_package "Noto emoji fonts" "noto-fonts-emoji"
