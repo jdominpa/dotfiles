@@ -1,7 +1,16 @@
 #!/bin/sh
 
+# dmenu commands
+dmenu_cmd_kill() {
+    dmenu -i -p "Kill transmission daemon?" -fn "monospace-11" -nb "#282A36" -nf "#BFBFBF" -sb "#BD93F9" -sf "#E6E6E6"
+}
+
+dmenu_cmd_start() {
+    dmenu -i -p "Start transmission daemon?" -fn "monospace-11" -nb "#282A36" -nf "#BFBFBF" -sb "#BD93F9" -sf "#E6E6E6"
+}
+
 if pgrep -x transmission-da > /dev/null; then
-    [ "$(printf "Yes\\nNo" | dmenu -i -p "Kill transmission daemon?")" = "Yes" ] && killall transmission-da && dunstify -r 4 -a "Torrent Client" "Status report" "Transmission daemon killed"
+    [ "$(printf "Yes\\nNo" | dmenu_cmd_kill)" = "Yes" ] && killall transmission-da && dunstify -r 4 -a "Torrent Client" "Status report" "Transmission daemon killed"
 else
-    [ "$(printf "Yes\\nNo" | dmenu -i -p "Start transmission daemon?")" = "Yes" ] && transmission-daemon && dunstify -r 4 -a "Torrent Client" "Status report" "Tranmission daemon started"
+    [ "$(printf "Yes\\nNo" | dmenu_cmd_start)" = "Yes" ] && transmission-daemon && dunstify -r 4 -a "Torrent Client" "Status report" "Tranmission daemon started"
 fi

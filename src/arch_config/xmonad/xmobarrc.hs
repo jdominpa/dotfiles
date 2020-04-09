@@ -2,7 +2,7 @@ Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
        , additionalFonts = ["xft:FontAwesome:pixelsize=15"]
        , bgColor = "#282A36"
        , fgColor = "#F8F8F2"
-       , position = TopP 8 8
+       , position = Top
        , lowerOnStart = True
        , hideOnStart = False
        , persistent = True
@@ -34,5 +34,5 @@ Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
                     , Run StdinReader ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#8BE9FD>%alsa:default:Master%</fc> : <fc=#FF79C6>%dynnetwork%</fc> : <fc=#BD93F9>%cpu%</fc> : <fc=#F1FA8C>%memory%</fc> : <fc=#50FA7B>%date%</fc>"
+       , template = " %StdinReader% }{ <fc=#8BE9FD>%alsa:default:Master%</fc> : <fc=#FF79C6>%dynnetwork%</fc> : <fc=#BD93F9>%cpu%</fc> : <fc=#F1FA8C>%memory%</fc> : <fc=#50FA7B>%date%</fc> "
        }

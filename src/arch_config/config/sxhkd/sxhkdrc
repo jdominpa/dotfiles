@@ -11,7 +11,7 @@ super + Return
         $TERMINAL
 
 super + shift + Return
-        dmenu_run
+        dmenu_run -p "Launch:" -fn "monospace-11" -nb "#282A36" -nf "#BFBFBF" -sb "#BD93F9" -sf "#E6E6E6"
 
 super + alt + i
         $TERMINAL -e nmtui
