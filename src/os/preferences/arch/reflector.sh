@@ -28,7 +28,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/reflector --latest 200 --fastest 10 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+ExecStart=/usr/bin/reflector --latest 200 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
 
 [Install]
 RequiredBy=multi-user.target
@@ -47,13 +47,13 @@ Persistent=true
 WantedBy=timers.target
 "
 
-execute "sudo mkdir -p '/etc/pacman.d/hooks' && sudo touch '/etc/pacman.d/hooks/mirrorupgrade.hook' && echo '$hook' | sudo tee '/etc/pacman.d/hooks/mirrorupgrade.hook'" \
+execute "sudo mkdir -p '/etc/pacman.d/hooks' && sudo touch '/etc/pacman.d/hooks/mirrorupgrade.hook' && echo \"$hook\" | sudo tee '/etc/pacman.d/hooks/mirrorupgrade.hook'" \
     "Creating mirror hook"
 
-execute "sudo touch '/etc/systemd/system/reflector.service' && echo '$service' | sudo tee '/etc/systemd/system/reflector.service'" \
+execute "sudo touch '/etc/systemd/system/reflector.service' && echo \"$service\" | sudo tee '/etc/systemd/system/reflector.service'" \
     "Creating service"
 
-execute "sudo touch '/etc/systemd/system/reflector.timer' && echo '$timer' | sudo tee '/etc/systemd/system/reflector.timer'" \
+execute "sudo touch '/etc/systemd/system/reflector.timer' && echo \"$timer\" | sudo tee '/etc/systemd/system/reflector.timer'" \
     "Creating timer"
 
 execute "sudo systemctl daemon-reload && sudo systemctl enable reflector.timer" \
