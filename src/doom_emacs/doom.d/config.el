@@ -32,10 +32,13 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type nil)
 
 ;; Disable right option key on mac as a modifier
 (setq mac-right-option-modifier 'none)
+
+;; Nice symbols
+(global-prettify-symbols-mode t)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
