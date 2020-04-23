@@ -17,13 +17,19 @@
 ;;
 ;;; Code:
 
-;; Suppress GC to reduce startup time
+;; Increase startup speed
 (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-  gc-cons-percentage 0.6)
+      gc-cons-percentage 0.6)
+
+;; Reset GC
+(add-hook 'emacs-startup-hook
+    (lambda ()
+        (setq gc-cons-threshold 16777216 ; 16mb
+            gc-cons-percentage 0.1)))
 
 ;; Configure package.el to include MELPA.
 (require 'package)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
@@ -38,26 +44,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(org-babel-load-file "~/.emacs.d/configuration.org")
-
-;; Set GC back to normal after loading config
-(add-hook 'emacs-startup-hook
-  (lambda ()
-    (setq gc-cons-threshold 16777216 ; 16mb
-      gc-cons-percentage 0.1)))
-
-;; Raise GC in minibuffers to speed things up
-(defun jdominpa-defer-garbage-collection-h ()
-  (setq gc-cons-threshold most-positive-fixnum))
-
-(defun jdominpa-restore-garbage-collection-h ()
-  ;; Defer it so that commands launched immediately after will enjoy the
-  ;; benefits.
-  (run-at-time
-    1 nil (lambda () (setq gc-cons-threshold 16777216))))
-
-(add-hook 'minibuffer-setup-hook #'jdominpa-defer-garbage-collection-h)
-(add-hook 'minibuffer-exit-hook #'jdominpa-restore-garbage-collection-h)
+(org-babel-load-file (expand-file-name "config.org" user-emacs-directory))
 
 (provide 'init)
 ;;; init.el ends here
