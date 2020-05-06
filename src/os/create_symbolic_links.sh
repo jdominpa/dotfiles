@@ -26,8 +26,6 @@ create_symlinks() {
         "git/gitconfig"
         "git/gitignore"
 
-       #"doom_emacs/doom.d"
-
     )
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
