@@ -26,7 +26,7 @@ create_symlinks() {
         "git/gitconfig"
         "git/gitignore"
 
-        "doom_emacs/doom.d"
+       #"doom_emacs/doom.d"
 
     )
 
@@ -38,6 +38,11 @@ create_symlinks() {
         "neovim/config/nvim/plugin"
         "neovim/config/nvim/ultisnips"
         "neovim/config/nvim/init.vim"
+
+		"emacs/emacs.d/lisp"
+		"emacs/emacs.d/site-lisp"
+		"emacs/emacs.d/early-init.el"
+		"emacs/emacs.d/init.el"
 
         "zsh_shell/zsh/aliases"
         "zsh_shell/zsh/colors"
@@ -99,9 +104,8 @@ create_symlinks() {
         sourceFile="$(cd .. && pwd)/$i"
         targetFile="$HOME/.$(printf "%s" "$i" | sed "s|[^/]*/||")"
         pathToSymlink="$(printf "%s" "$targetFile" | rev | sed "s|[^/]*/||" | rev)"
-        if [ ! -d "$pathToSymlink" ]; then
-                mkdir -p "$pathToSymlink"
-        fi
+
+		mkdir -p "$pathToSymlink"
 
         if [ ! -e "$targetFile" ] || $skipQuestions; then
 
