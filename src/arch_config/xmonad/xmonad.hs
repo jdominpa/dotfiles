@@ -193,7 +193,7 @@ myKeys =
   , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +2%")
   , ("<XF86HomePage>", spawn myBrowser)
   , ("<XF86Search>", safeSpawn myBrowser ["https://www.duckduckgo.com/"])
-  , ("<Print>", spawn "scrotd 0")
+  , ("<Print>", spawn "scrot '%d-%m-%Y_$wx$h.png' -e 'mv $f ~/Imatges/Captures'")
   ]
 
 

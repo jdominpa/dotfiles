@@ -29,7 +29,7 @@ install_package "Ntfs filesystem" "ntfs-3g"
 install_package "Mounter (udisks2)" "udisks2"
 install_package "Automounter (udiskie)" "udiskie"
 
-# Sound programs
+# Audio programs
 install_package "Pulseaudio" "pulseaudio"
 install_package "Pulseaudio-alsa" "pulseaudio-alsa"
 install_package "Pulsemixer" "pulsemixer"
@@ -41,6 +41,9 @@ install_package "Library for dunst" "libnotify"
 
 # Num lock activation program
 install_package "Numlockx" "numlockx"
+
+# Screenshot program
+install_package "Scrot" "scrot"
 
 # Custom cursor
 install_package "Capitaine cursors" "capitaine-cursors"
