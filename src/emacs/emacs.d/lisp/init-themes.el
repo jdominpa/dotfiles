@@ -42,28 +42,18 @@
   (setq custom-enabled-themes '(doom-dracula))
   (reapply-themes))
 
-
 (use-package dimmer
-  :init (setq-default dimmer-fraction 0.20)
+  :init (setq-default dimmer-fraction 0.15)
   :hook (after-init . dimmer-mode)
   :config
+  (dimmer-configure-which-key)
+  (dimmer-configure-magit)
   ;; Don't dim in terminal windows. Even with 256 colours it can
   ;; lead to poor contrast.  Better would be to vary dimmer-fraction
   ;; according to frame type.
   (defun jdominpa/display-non-graphic-p ()
     (not (display-graphic-p)))
   (push 'jdominpa/display-non-graphic-p dimmer-exclusion-predicates))
-
-;when (maybe-require-package 'dimmer)
-; (setq-default dimmer-fraction 0.20)
-; (add-hook 'after-init-hook 'dimmer-mode)
-; (after-load 'dimmer
-;   ;; Don't dim in terminal windows. Even with 256 colours it can
-;   ;; lead to poor contrast.  Better would be to vary dimmer-fraction
-;   ;; according to frame type.
-;   (defun jdominpa/display-non-graphic-p ()
-;     (not (display-graphic-p)))
-;   (push 'jdominpa/display-non-graphic-p dimmer-exclusion-predicates)))
 
 
 (provide 'init-themes)

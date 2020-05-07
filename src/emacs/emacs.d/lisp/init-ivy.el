@@ -16,15 +16,27 @@
                 projectile-completion-system 'ivy
                 ivy-magic-tilde nil
                 ivy-dynamic-exhibit-delay-ms 150
-                ivy-use-selectable-prompt t
-                ivy-re-builders-alist '((swiper . ivy--regex-plus) (t . ivy--regex-fuzzy)))
-  (setq-default ivy-initial-inputs-alist
-                '((Man-completion-table . "^")
-                  (woman . "^"))))
+                ivy-use-selectable-prompt t))
+
+(use-package ivy-rich
+  :after ivy
+  :hook (ivy-mode . ivy-rich-mode)
+  :config
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
 (use-package counsel
+  :diminish
   :hook (after-init . counsel-mode)
-  :config (setq-default counsel-mode-override-describe-bindings t))
+  :config
+  (setq-default counsel-mode-override-describe-bindings t)
+  (setq-default ivy-initial-inputs-alist
+                '((Man-completion-table . "^")
+                  (woman . "^")))
+  (cond
+   ((executable-find "rg") (global-set-key (kbd "C-c g") 'counsel-rg))
+   ((executable-find "ag") (global-set-key (kbd "C-c g") 'counsel-ag))
+   ((executable-find "pt") (global-set-key (kbd "C-c g") 'counsel-pt))
+   ((executable-find "ack") (global-set-key (kbd "C-c g") 'counsel-ack))))
 
 
 (provide 'init-ivy)

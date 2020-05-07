@@ -10,8 +10,8 @@
   :hook (after-init . global-company-mode)
   :bind (("M--" . company-complete)
          :map company-active-map
-         ("C-n" . company-select-next)
-         ("C-p" . company-select-previous))
+         ([tab] . #'company-select-next)
+         ([S-tab] . #'company-select-previous))
   :config
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t)
@@ -34,7 +34,7 @@
 
 (use-package company-quickhelp
   :after company
-  :hook (after-init . company-quickhelp-mode))
+  :hook (global-company-mode . company-quickhelp-mode))
 
 
 (provide 'init-company)

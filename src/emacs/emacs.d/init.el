@@ -103,6 +103,7 @@
 ;; Extra packages which don't require any configuration
 (use-package osx-location
   :if *is-a-mac*)
+(use-package sudo-edit)
 
 (when (fboundp 'global-eldoc-mode)
   (add-hook 'after-init-hook 'global-eldoc-mode))
