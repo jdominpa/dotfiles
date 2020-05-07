@@ -15,14 +15,14 @@
 
 (use-package ag
   :if (executable-find "ag")
-  :bind ("C-c r" . ag-project)
+  :bind ("C-c s" . ag-project)
   :config
   (use-package wgrep-ag)
   (setq-default ag-highlight-search t))
 
 (use-package rg
   :if (executable-find "rg")
-  :bind ("C-c r" . rg-project))
+  :bind ("C-c s" . rg-project))
 
 
 (provide 'init-grep)

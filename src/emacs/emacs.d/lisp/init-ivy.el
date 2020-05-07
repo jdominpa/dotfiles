@@ -6,7 +6,7 @@
   :diminish
   :hook (after-init . ivy-mode)
   :bind (:map ivy-mode-map
-              ("C-s" . swiper-thing-at-point)
+              ("C-s" . swiper)
          :map ivy-occur-mode-map
               ("C-c C-q" . ivy-wgrep-change-to-wgrep-mode))
   :config
