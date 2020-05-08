@@ -14,5 +14,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Install shellcheck
+      if: runner.os == 'macOS'
+ 
     - name: Run test script
       run: ./tests/shellcheck.sh
