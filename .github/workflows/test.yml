@@ -14,13 +14,5 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install shellcheck
-      run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-              sudo apt install shellcheck
-          else
-              brew install shellcheck
-          fi
- 
     - name: Run test script
       run: ./tests/shellcheck.sh
