@@ -17,7 +17,7 @@ jobs:
     - name: Install shellcheck
       run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
-              apt install shellcheck
+              sudo apt install shellcheck
           else
               brew install shellcheck
           fi
