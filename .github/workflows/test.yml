@@ -16,6 +16,7 @@ jobs:
 
     - name: Install shellcheck
       if: runner.os == 'macOS'
+      run: brew install shellcheck
  
     - name: Run test script
       run: ./tests/shellcheck.sh
