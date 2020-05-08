@@ -4,11 +4,23 @@ on: push
 
 jobs:
   build:
-    runs-on: [ubuntu-latest, macOS-latest] 
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
     steps:
 
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Install shellcheck
+      run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+              apt install shellcheck
+          else
+              brew install shellcheck
+          fi
+ 
     - name: Run test script
       run: ./tests/shellcheck.sh
