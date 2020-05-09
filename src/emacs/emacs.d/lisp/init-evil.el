@@ -1,12 +1,11 @@
-;;; init-evil.el --- Evil mode integration -*- lexical-binding: t -*-
+;;; init-evil.el --- Evil mode packages and configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Code:
 
 (use-package evil
   :init (setq evil-want-keybinding nil)
-  :config
-  (evil-mode 1))
+  :hook (after-init . evil-mode))
 
 (use-package evil-collection
   :after evil

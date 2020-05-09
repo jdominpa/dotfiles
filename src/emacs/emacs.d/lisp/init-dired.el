@@ -23,11 +23,6 @@
   (setq dired-recursive-deletes 'top)
   (define-key dired-mode-map [mouse-2] 'dired-find-file))
 
-;; (after-load 'dired
-;;   (setq dired-recursive-deletes 'top)
-;;   (define-key dired-mode-map [mouse-2] 'dired-find-file)
-;;   (define-key dired-mode-map (kbd "C-c C-q") 'wdired-change-to-wdired-mode))
-
 
 (provide 'init-dired)
 ;;; init-dired.el ends here
