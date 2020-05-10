@@ -11,7 +11,6 @@
     (suspend-frame)))
 
 (bind-key "C-z" 'jdominpa/maybe-suspend-frame)
-(global-set-key (kbd "C-z") 'jdominpa/maybe-suspend-frame)
 
 
 ;;----------------------------------------------------------------------------
@@ -61,7 +60,7 @@
 (when (and *is-a-mac* (fboundp 'toggle-frame-fullscreen))
   ;; Command-Option-f to toggle fullscreen mode
   ;; Hint: Customize `ns-use-native-fullscreen'
-  (global-set-key (kbd "M-ƒ") 'toggle-frame-fullscreen))
+  (bind-key "M-ƒ" 'toggle-frame-fullscreen))
 
 (global-set-key (kbd "M-C-8") (lambda () (interactive) (jdominpa/adjust-opacity nil -2)))
 (global-set-key (kbd "M-C-9") (lambda () (interactive) (jdominpa/adjust-opacity nil 2)))

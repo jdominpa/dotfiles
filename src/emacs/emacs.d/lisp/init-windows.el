@@ -69,8 +69,8 @@
     (when other-buffer
       (set-window-buffer (next-window) other-buffer))))
 
-(global-set-key (kbd "C-x |") 'split-window-horizontally-instead)
-(global-set-key (kbd "C-x _") 'split-window-vertically-instead)
+(bind-key "C-x |" 'split-window-horizontally-instead)
+(bind-key "C-x _" 'split-window-vertically-instead)
 
 
 ;; Borrowed from http://postmomentum.ch/blog/201304/blog-on-emacs
@@ -85,7 +85,7 @@ Call a second time to restore the original window configuration."
     (window-configuration-to-register :jdominpa/split-window)
     (switch-to-buffer-other-window nil)))
 
-(global-set-key (kbd "<f7>") 'jdominpa/split-window)
+(bind-key [f7] 'jdominpa/split-window)
 
 
 

@@ -4,13 +4,14 @@
 
 (require 'ispell)
 
-(when (executable-find ispell-program-name)
-  ;; Add spell-checking in comments for all programming language modes
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(use-package flyspell
+  :ensure nil
+  :if (executable-find ispell-program-name)
+  :hook (prog-mode . flyspell-prog-mode)
+  :config
+  (unbind-key "C-;" flyspell-mode-map)
+  (add-to-list 'flyspell-prog-text-faces 'nxml-text-face))
 
-  (after-load 'flyspell
-    (define-key flyspell-mode-map (kbd "C-;") nil)
-    (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
 
 (provide 'init-spelling)
 ;;; init-spelling.el ends here

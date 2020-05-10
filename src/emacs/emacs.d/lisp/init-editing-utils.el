@@ -33,11 +33,13 @@
  truncate-lines nil
  truncate-partial-width-windows nil)
 
-(add-hook 'after-init-hook 'global-auto-revert-mode)
-(setq global-auto-revert-non-file-buffers t
-      auto-revert-verbose nil)
-(after-load 'autorevert
-  (diminish 'auto-revert-mode))
+(use-package autorevert
+  :ensure nil
+  :diminish
+  :hook (after-init . global-auto-revert-mode)
+  :config
+  (setq global-auto-revert-non-file-buffers t
+        auto-revert-verbose nil))
 
 (add-hook 'after-init-hook 'transient-mark-mode)
 
@@ -49,14 +51,15 @@
 
 
 (use-package beacon
+  :diminish
   :hook (after-init . beacon-mode)
   :config
-  (setq-default beacon-lighter "")
-  (setq-default beacon-size 20))
+  (setq-default beacon-size 30))
 
 
-(after-load 'subword
-  (diminish 'subword-mode))
+(use-package subword
+  :ensure nil
+  :diminish)
 
 
 (when (fboundp 'display-line-numbers-mode)
@@ -70,16 +73,6 @@
 
 (when (fboundp 'global-prettify-symbols-mode)
   (add-hook 'after-init-hook 'global-prettify-symbols-mode))
-
-
-(use-package symbol-overlay
-  :diminish
-  :hook ((prog-mode conf-mode) . symbol-overlay-mode)
-  :bind (:map symbol-overlay-mode-map
-              ("M-i" . symbol-overlay-put)
-              ("M-I" . symbol-overlay-remove-all)
-              ("M-n" . symbol-overlay-jump-next)
-              ("M-p" . symbol-overlay-jump-prev)))
 
 
 ;;----------------------------------------------------------------------------

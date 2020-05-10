@@ -7,11 +7,7 @@
 (use-package bug-reference-github
   :hook (prog-mode . bug-reference-prog-mode))
 
-(use-package github-clone
-  :disabled)
 (use-package forge)
-(use-package github-review
-  :disabled)
 
 
 (provide 'init-github)

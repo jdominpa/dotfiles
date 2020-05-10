@@ -12,28 +12,31 @@
   :bind ("C-x v t" . git-timemachine-toggle))
 
 (use-package magit
-  :hook (git-commit-mode . goto-address-mode)
+  :hook ((git-commit-mode . goto-address-mode)
+         (git-commit-mode . evil-insert-state))
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch))
   :config
-  (setq-default magit-diff-refine-hunk t))
+  (setq-default magit-diff-refine-hunk t)
+  (when (package-installed-p 'fullframe)
+    (fullframe magit-status magit-mode-quit-window)))
 
 (use-package magit-todos
   :after magit)
 
-(when (package-installed-p 'fullframe)
-  (fullframe magit-status magit-mode-quit-window))
 
 
 (when *is-a-mac*
-  (after-load 'magit
+  (with-eval-after-load 'magit
     (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)])))))
 
 
 
 ;; Convenient binding for vc-git-grep
-(after-load 'vc
-  (define-key vc-prefix-map (kbd "f") 'vc-git-grep))
+(use-package vc
+  :ensure nil
+  :bind (:map vc-prefix-map
+              ("f" . vc-git-grep)))
 
 
 (provide 'init-git)

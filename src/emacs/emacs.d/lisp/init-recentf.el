@@ -2,10 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook 'after-init-hook 'recentf-mode)
-(setq-default
- recentf-max-saved-items 1000
- recentf-exclude '("/tmp/" "/ssh:"))
+(use-package recentf-mode
+  :ensure nil
+  :hook (after-init . recentf-mode)
+  :config
+  (setq-default
+   recentf-max-saved-items 1000
+   recentf-exclude '("/tmp/" "/ssh:")))
 
 
 (provide 'init-recentf)

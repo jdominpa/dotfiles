@@ -33,10 +33,10 @@
                 '((Man-completion-table . "^")
                   (woman . "^")))
   (cond
-   ((executable-find "rg") (global-set-key (kbd "C-c g") 'counsel-rg))
-   ((executable-find "ag") (global-set-key (kbd "C-c g") 'counsel-ag))
-   ((executable-find "pt") (global-set-key (kbd "C-c g") 'counsel-pt))
-   ((executable-find "ack") (global-set-key (kbd "C-c g") 'counsel-ack))))
+   ((executable-find "rg") (bind-key "C-c g" 'counsel-rg))
+   ((executable-find "ag") (bind-key "C-c g" 'counsel-ag))
+   ((executable-find "pt") (bind-key "C-c g" 'counsel-pt))
+   ((executable-find "ack") (bind-key "C-c g" 'counsel-ack))))
 
 
 (provide 'init-ivy)

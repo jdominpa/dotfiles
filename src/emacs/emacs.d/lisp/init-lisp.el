@@ -35,7 +35,6 @@
 (use-package ipretty
   :hook (after-init . ipretty-mode))
 
-
 (defun jdominpa/make-read-only (expression out-buffer-name)
   "Enable `view-mode' in the output buffer - if any - so it can be closed with `\"q\"."
   (when (get-buffer out-buffer-name)
@@ -64,7 +63,7 @@
 
 
 ;; A quick way to jump to the definition of a function given its key binding
-(global-set-key (kbd "C-h K") 'find-function-on-key)
+(bind-key "C-h K" 'find-function-on-key)
 
 
 ;; Extras for theme editing
@@ -81,8 +80,8 @@
 (use-package flycheck-relint
   :after flycheck
   :config
-  (after-load 'elisp-mode
-              (flycheck-relint-setup)))
+  (with-eval-after-load 'elisp-mode
+    (flycheck-relint-setup)))
 
 
 (provide 'init-lisp)

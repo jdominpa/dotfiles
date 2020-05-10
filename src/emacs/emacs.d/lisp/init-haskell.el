@@ -11,7 +11,7 @@
   :bind (:map haskell-mode-map
               ("C-c h" . hoogle))
   :config
-  (after-load 'page-break-lines
+  (with-eval-after-load 'page-break-lines
     (push 'haskell-mode page-break-lines-modes)))
 
 (use-package dante

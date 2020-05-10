@@ -12,6 +12,7 @@
     (unless (eq ibuffer-sorting-mode 'filename/process)
       (ibuffer-do-sort-by-filename/process)))
   :hook (ibuffer . ibuffer-set-up-preferred-filters)
+  :bind ("C-x C-b" . ibuffer)
   :config
   (when (package-installed-p 'fullframe)
     (fullframe ibuffer ibuffer-quit))
@@ -44,9 +45,7 @@
                 " "
                 vc-relative-file)))
 
-  (setq ibuffer-filter-group-name-face 'font-lock-doc-face)
-
-  (global-set-key (kbd "C-x C-b") 'ibuffer))
+  (setq ibuffer-filter-group-name-face 'font-lock-doc-face))
 
 
 (provide 'init-ibuffer)

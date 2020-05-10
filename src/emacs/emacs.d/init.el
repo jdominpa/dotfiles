@@ -66,6 +66,7 @@
 (require 'init-grep)
 (require 'init-uniquify)
 (require 'init-ibuffer)
+(require 'init-modeline)
 (require 'init-flycheck)
 
 (require 'init-recentf)
@@ -74,7 +75,6 @@
 (require 'init-company)
 (require 'init-windows)
 ;(require 'init-sessions) ;TODO: check out this module
-(require 'init-mmm)
 
 (require 'init-editing-utils)
 (require 'init-whitespace)
@@ -97,8 +97,6 @@
   (require 'init-spelling))
 
 (require 'init-misc)
-
-(require 'init-folding)
 
 ;; Extra packages which don't require any configuration
 (use-package osx-location

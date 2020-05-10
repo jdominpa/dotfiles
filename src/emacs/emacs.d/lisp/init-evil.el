@@ -26,6 +26,10 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
+;; Package to have folding
+(use-package origami
+  :hook (prog-mode . origami-mode))
+
 
 (provide 'init-evil)
 ;;; init-git.el ends here
