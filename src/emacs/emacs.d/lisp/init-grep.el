@@ -9,8 +9,8 @@
   (setq-default locate-command "mdfind"))
 
 (use-package wgrep
-  :bind (:map grep-mode-map
-              ("C-c C-q" . wgrep-change-to-wgrep-mode)
+  :bind (("C-c q" . wgrep-change-to-wgrep-mode)
+         :map grep-mode-map
               ("w" . wgrep-change-to-wgrep-mode)))
 
 (use-package ag

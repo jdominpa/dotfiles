@@ -62,10 +62,6 @@
               ("C-c e" . macrostep-expand)))
 
 
-;; A quick way to jump to the definition of a function given its key binding
-(bind-key "C-h K" 'find-function-on-key)
-
-
 ;; Extras for theme editing
 (use-package rainbow-mode
   :diminish

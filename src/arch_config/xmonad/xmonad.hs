@@ -201,14 +201,14 @@ myKeys =
 ---WORKSPACES
 ------------------------------------------------------------------------
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["doom","www","sys","doc","gen","gfx","mus","vid","disc"]
+myWorkspaces = ["emacs","www","sys","doc","gen","gfx","mus","vid","disc"]
 
 myManageHook :: ManageHook
 myManageHook = composeAll
   [ (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
   , className =? "firefox"             --> doShift "www"
   , className =? "Brave-browser"       --> doShift "www"
-  , className =? "Emacs"               --> doShift "doom"
+  , className =? "Emacs"               --> doShift "emacs"
   , className =? "discord"             --> doShift "disc"
   , className =? "Zathura"             --> doShift "doc"
   , className =? "mpv"                 --> doShift "vid"
