@@ -1,21 +1,25 @@
-# [Joan Domingo Pasarin](https://github.com/jdominpa)’s dotfiles [![Build Status](https://travis-ci.org/jdominpa/dotfiles.svg?branch=master)](https://travis-ci.org/jdominpa/dotfiles)
+# [Joan Domingo Pasarin](https://github.com/jdominpa)’s dotfiles
+==================
 
-These are the base dotfiles that I start with when I set up a
-new environment. They are heavily based on Cătălin Mariș dotfiles.
-For more specific local needs I use the `.local` files described in
-the [`Local Settings`](#local-settings) section.
+[![Build Status][ci badge]][ci link]
+
+These are the base dotfiles that I start with when I set up a new
+environment. They are heavily based on [Cătălin Mariș
+dotfiles](https://github.com/alrra/dotfiles/).  For more specific
+local needs I use the `.local` files described in the [`Local
+Settings`](#local-settings) section.
 
 ## Table of Contents
 
-* [🔧 Setup](#setup)
-* [💄 Customize](#customize)
-  * [🔀 Forks](#forks)
-  * [🌐 Local Settings](#local-settings)
-    * [🐚 `~/.bash.local`](#bashlocal)
-    * [🔁 `~/.gitconfig.local`](#gitconfiglocal)
-    * [⌨️  `~/.config/nvim/init.vim.local`](#confignviminitvimlocal)
-* [↕️  Update](#update)
-* [📄 License](#license)
+* [Setup](#setup)
+* [Customize](#customize)
+  * [Forks](#forks)
+  * [Local Settings](#local-settings)
+    * [`~/.bash.local`](#bashlocal)
+    * [`~/.gitconfig.local`](#gitconfiglocal)
+    * [`~/.config/nvim/init.vim.local`](#confignviminitvimlocal)
+* [Update](#update)
+* [License](#license)
 
 ## Setup
 
@@ -25,10 +29,10 @@ terminal:
 (:warning: **DO NOT** run the `setup` snippet if you do not fully
 understand [what it does][setup]. Seriously, **DON'T**!)
 
-| OS | Snippet |
-|:---|:---|
-| `macOS` | `bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
-| `Arch Linux` | `bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
+| OS      | Snippet                                                                                   |
+|:--------|:------------------------------------------------------------------------------------------|
+| `macOS` | `bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"`  |
+| `Linux` | `bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
 
 The setup process will:
 
@@ -36,13 +40,17 @@ The setup process will:
   suggest `~/Projects/dotfiles`)
 * [Symlink][symlink] the
   [`git`](src/git),
-  [`shell`](src/shell), and
+  [`shell`](src/shell),
+  [`zsh`](src/zsh_shell),
+  [`emacs`](src/emacs/emacs.d) and
   [`neovim`](src/neovim/config/nvim) files
 * Install applications / command-line tools for
   [`macOS`](src/os/install/macos) /
+  [`Arch`](src/os/install/arch) /
   [`Ubuntu`](src/os/install/ubuntu)
 * Set custom
   [`macOS`](src/os/preferences/macos) /
+  [`Arch`](src/os/preferences/arch) /
   [`Ubuntu`](src/os/preferences/ubuntu) preferences
 
 ## Customize
@@ -52,17 +60,16 @@ The setup process will:
 The `dotfiles` can be easily extended to suit additional local
 requirements by using the following files:
 
-#### `~/.bash.local`
+#### `~/.zsh.local`
 
-The `~/.bash.local` file it will be automatically sourced after
-all the other [`bash` related files][shell], thus, allowing
-its content to add to or overwrite the existing aliases, settings,
-PATH, etc.
+The `~/.zsh.local` file will be automatically sourced after all the
+other [`zsh` related files][zsh_shell], thus, allowing its content to add
+to or overwrite the existing aliases, settings, PATH, etc.
 
-Here is a very simple example of a `~/.bash.local` file:
+Here is a very simple example of a `~/.zsh.local` file:
 
 ```bash
-#!/bin/bash
+#!/bin/zsh
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -82,12 +89,12 @@ export PATH
 
 #### `~/.gitconfig.local`
 
-The `~/.gitconfig.local` file it will be automatically included
-after the configurations from `~/.gitconfig`, thus, allowing its
-content to overwrite or add to the existing `git` configurations.
+The `~/.gitconfig.local` file will be automatically included after the
+configurations from `~/.gitconfig`, thus, allowing its content to
+overwrite or add to the existing `git` configurations.
 
-__Note:__ Use `~/.gitconfig.local` to store sensitive information
-such as the `git` user credentials, e.g.:
+__Note:__ Use `~/.gitconfig.local` to store sensitive information such
+as the `git` user credentials, e.g.:
 
 ```bash
 [commit]
@@ -107,25 +114,25 @@ such as the `git` user credentials, e.g.:
 
 #### `~/.config/nvim/init.vim.local`
 
-The `~/.config/nvim/init.vim.local` file it will be automatically
-sourced after `~/.config/nvim/init.vim`, thus, allowing its content
-to add or overwrite the settings from `~/.config/nvim/init.vim`.
+The `~/.config/nvim/init.vim.local` file will be automatically sourced
+after `~/.config/nvim/init.vim`, thus, allowing its content to add or
+overwrite the settings from `~/.config/nvim/init.vim`.
 
 ### Forks
 
-If you decide to fork this project, do not forget to substitute
-my username with your own in the [`setup` snippets](#setup) and
-[in the `setup` script][setup line]
+If you decide to fork this project, do not forget to substitute my
+username with your own in the [`setup` snippets](#setup) and [in the
+`setup` script][setup line]
 
 ## Update
 
 To update the dotfiles you can either run the [`setup` script][setup]
-or, if you want to just update one particular part, run the appropriate
-[`os` script](src/os).
+or, if you want to just update one particular part, run the
+appropriate [`os` script](src/os).
 
 ## License
 
-The code is available under the [MIT license][license].
+The code is available under the [GPL-3.0 license][license].
 
 <!-- Link labels: -->
 
@@ -133,7 +140,7 @@ The code is available under the [MIT license][license].
 [github Cătălin]: https://github.com/alrra
 [dotfiles Mathias]: https://github.com/mathiasbynens/dotfiles
 [github Mathias]: https://github.com/mathiasbynens
-[license]: LICENSE.txt
+[license]: LICENSE
 [setup]: src/os/setup.sh
 [shell]: src/shell
 [symlink]: src/os/create_symbolic_links.sh
