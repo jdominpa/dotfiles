@@ -13,16 +13,16 @@
          :map grep-mode-map
               ("w" . wgrep-change-to-wgrep-mode)))
 
-(use-package ag
-  :if (executable-find "ag")
-  :bind ("C-c s" . ag-project)
-  :config
-  (use-package wgrep-ag)
-  (setq-default ag-highlight-search t))
-
-(use-package rg
-  :if (executable-find "rg")
-  :bind ("C-c s" . rg-project))
+(cond
+ ((executable-find "ag")
+  (use-package ag
+    :bind ("C-c s" . ag-project)
+    :config
+    (use-package wgrep-ag)
+    (setq-default ag-highlight-search t)))
+ ((executable-find "rg")
+  (use-package rg
+    :bind ("C-c s" . rg-project))))
 
 
 (provide 'init-grep)

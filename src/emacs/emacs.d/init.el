@@ -99,8 +99,8 @@
 (require 'init-misc)
 
 ;; Extra packages which don't require any configuration
-(use-package osx-location
-  :if *is-a-mac*)
+(when *is-a-mac*
+  (use-package osx-location))
 (use-package sudo-edit)
 
 (when (fboundp 'global-eldoc-mode)
