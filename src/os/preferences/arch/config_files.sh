@@ -34,7 +34,6 @@ create_symlinks() {
         "arch_config/config/zathura"
         "arch_config/config/emoji"
         "arch_config/config/fontawesome"
-        "arch_config/config/mimeapps.list"
         "arch_config/local/bin"
 
     )

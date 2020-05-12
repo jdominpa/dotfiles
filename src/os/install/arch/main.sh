@@ -17,6 +17,6 @@ install_yay
 ./misc.sh
 ./misc_tools.sh
 ./editors.sh
-./aur.sh
+./theming.sh
 
 ./cleanup.sh
