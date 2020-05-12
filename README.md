@@ -1,7 +1,6 @@
 # [Joan Domingo Pasarin](https://github.com/jdominpa)’s dotfiles
-==================
 
-[![Build Status][ci badge]][ci link]
+[![Build Status](https://github.com/jdominpa/dotfiles/workflows/CI/badge.svg)](https://github.com/jdominpa/dotfiles/actions)
 
 These are the base dotfiles that I start with when I set up a new
 environment. They are heavily based on [Cătălin Mariș
@@ -63,7 +62,7 @@ requirements by using the following files:
 #### `~/.zsh.local`
 
 The `~/.zsh.local` file will be automatically sourced after all the
-other [`zsh` related files][zsh_shell], thus, allowing its content to add
+other [`zsh` related files](src/zsh_shell), thus, allowing its content to add
 to or overwrite the existing aliases, settings, PATH, etc.
 
 Here is a very simple example of a `~/.zsh.local` file:
@@ -122,7 +121,7 @@ overwrite the settings from `~/.config/nvim/init.vim`.
 
 If you decide to fork this project, do not forget to substitute my
 username with your own in the [`setup` snippets](#setup) and [in the
-`setup` script][setup line]
+`setup` script][setup].
 
 ## Update
 
