@@ -33,7 +33,7 @@ understand [what it does][setup]. Seriously, **DON'T**!)
 | `macOS` | `bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"`  |
 | `Linux` | `bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"` |
 
-*NOTE*: in an arch linux system the setup script can be run in a
+**NOTE**: in an arch linux system the setup script can be run in a
 tty. Because of that, `setup` won't execute the `update_content`
 script which you will have to run after restarting the system.
 
