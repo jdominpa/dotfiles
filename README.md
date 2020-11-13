@@ -1,7 +1,5 @@
 # [Joan Domingo Pasarin](https://github.com/jdominpa)’s dotfiles
 
-[![Build Status](https://github.com/jdominpa/dotfiles/workflows/CI/badge.svg)](https://github.com/jdominpa/dotfiles/actions)
-
 These are the base dotfiles that I start with when I set up a new
 environment. They are heavily based on [Cătălin Mariș
 dotfiles](https://github.com/alrra/dotfiles/).  For more specific
