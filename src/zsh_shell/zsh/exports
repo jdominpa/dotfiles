@@ -10,8 +10,8 @@ else
   export EDITOR=vim
 fi
 
-if which emacs &> /dev/null; then
-  export VISUAL=$(which emacs)
+if which emacsclient &> /dev/null; then
+  export VISUAL=$(which emacsclient)
 fi
 
 # filename (if known), line number if known, falling back to percent if known,

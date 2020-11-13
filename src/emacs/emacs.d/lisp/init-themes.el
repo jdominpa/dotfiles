@@ -39,7 +39,7 @@
   (reapply-themes))
 
 (use-package dimmer
-  :init (setq-default dimmer-fraction 0.15)
+  :init (setq-default dimmer-fraction 0.20)
   :hook (after-init . dimmer-mode)
   :config
   (dimmer-configure-which-key)
