@@ -4,8 +4,7 @@
 
 (when (fboundp 'electric-pair-mode)
   (add-hook 'after-init-hook 'electric-pair-mode))
-(when (eval-when-compile (version< "24.4" emacs-version))
-  (add-hook 'after-init-hook 'electric-indent-mode))
+(add-hook 'after-init-hook 'electric-indent-mode)
 
 (use-package list-unicode-display)
 
@@ -55,6 +54,10 @@
   :hook (after-init . beacon-mode)
   :config
   (setq-default beacon-size 30))
+
+
+;;; Newline behaviour
+(bind-key "RET" 'newline-and-indent)
 
 
 (use-package subword
@@ -113,7 +116,7 @@
   :diminish
   :hook (after-init . which-key-mode)
   :config
-  (setq-default which-key-idle-delay 1.25))
+  (setq-default which-key-idle-delay 1.5))
 
 
 (provide 'init-editing-utils)
