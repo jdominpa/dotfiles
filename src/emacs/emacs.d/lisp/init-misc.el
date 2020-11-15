@@ -7,12 +7,6 @@
 ;;----------------------------------------------------------------------------
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(setq-default initial-scratch-message
-              (concat ";; Welcome back " user-full-name ", what can I do for you?\n\n"))
-
-(use-package immortal-scratch
-  :hook (after-init . immortal-scratch-mode))
-
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 (setq goto-address-mail-face 'link)
 
