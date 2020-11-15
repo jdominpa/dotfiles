@@ -30,7 +30,8 @@
 (use-package lisp-mode
   :ensure nil
   :bind (:map emacs-lisp-mode-map
-              ("C-x C-e" . jdominpa/eval-last-sexp-or-region)))
+              ("C-x C-e" . jdominpa/eval-last-sexp-or-region)
+              ("C-c C-e" . pp-eval-expression)))
 
 (use-package ipretty
   :hook (after-init . ipretty-mode))
