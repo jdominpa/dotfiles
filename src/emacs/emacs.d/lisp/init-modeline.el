@@ -2,8 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package powerline
-  :config (powerline-default-theme))
+(use-package mood-line
+  :hook (after-init . mood-line-mode))
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here

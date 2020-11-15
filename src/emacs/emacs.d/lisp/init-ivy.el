@@ -2,41 +2,38 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package ivy
-  :diminish
-  :hook (after-init . ivy-mode)
+(use-package counsel
+  :diminish ivy-mode counsel-mode
+  :hook ((after-init . ivy-mode)
+         (after-init . counsel-mode))
   :bind (:map ivy-mode-map
               ("C-s" . swiper)
-         :map ivy-occur-mode-map
-              ("C-c C-q" . ivy-wgrep-change-to-wgrep-mode))
+              :map ivy-occur-mode-map
+              ("C-c C-q" . ivy-wgrep-change-to-wgrep-mode)
+              :map counsel-mode-map
+              ([remap swiper] . counsel-grep-or-swiper)
+              ([remap swiper-backward] . counsel-grep-or-swiper-backward))
   :config
   (setq-default ivy-use-virtual-buffers t
                 ivy-virtual-abbreviate 'fullpath
-                ivy-count-format ""
+                ivy-count-format "(%d/%d) "
                 projectile-completion-system 'ivy
                 ivy-magic-tilde nil
                 ivy-dynamic-exhibit-delay-ms 150
-                ivy-use-selectable-prompt t))
+                ivy-use-selectable-prompt t)
+
+  (setq-default counsel-mode-override-describe-bindings t)
+  (setq-default ivy-initial-inputs-alist
+                '((Man-completion-table . "^")
+                  (woman . "^")))
+  (if (executable-find "rg")
+      (bind-key "C-c C-g" 'counsel-rg)))
 
 (use-package ivy-rich
   :after ivy
   :hook (ivy-mode . ivy-rich-mode)
   :config
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
-
-(use-package counsel
-  :diminish
-  :hook (after-init . counsel-mode)
-  :config
-  (setq-default counsel-mode-override-describe-bindings t)
-  (setq-default ivy-initial-inputs-alist
-                '((Man-completion-table . "^")
-                  (woman . "^")))
-  (cond
-   ((executable-find "rg") (bind-key "C-c g" 'counsel-rg))
-   ((executable-find "ag") (bind-key "C-c g" 'counsel-ag))
-   ((executable-find "pt") (bind-key "C-c g" 'counsel-pt))
-   ((executable-find "ack") (bind-key "C-c g" 'counsel-ack))))
 
 
 (provide 'init-ivy)

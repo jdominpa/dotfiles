@@ -12,8 +12,6 @@
   (dolist (multiple '("" "double-" "triple-"))
     (dolist (direction '("right" "left"))
       (global-set-key (read-kbd-macro (concat "<" multiple "wheel-" direction ">")) 'ignore)))
-  ;(global-set-key (kbd "M-h") 'ns-do-hide-emacs)
-  ;(global-set-key (kbd "M-H") 'ns-do-hide-others)
   (bind-keys ("M-h" . ns-do-hide-emacs)
              ("M-H" . ns-do-hide-others))
   (use-package nxml-mode
