@@ -12,7 +12,7 @@
               ("C-c h" . hoogle))
   :config
   (with-eval-after-load 'page-break-lines
-    (push 'haskell-mode page-break-lines-modes)))
+    (add-to-list 'page-break-lines-modes 'haskell-mode)))
 
 (use-package dante
   :after haskell-mode
