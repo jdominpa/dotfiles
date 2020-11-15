@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :mode "\\.md\\'"
+  :mode "\\.md\\.html\\'"
   :config
   (with-eval-after-load 'whitespace-cleanup-mode
     (push 'markdown-mode whitespace-cleanup-mode-ignore-modes)))
