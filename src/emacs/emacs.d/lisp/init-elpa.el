@@ -12,10 +12,7 @@
 
 
 ;;; Standard package repositories
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+(add-to-list 'package-archives '( "melpa" . "https://melpa.org/packages/") t)
 
 
 ;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
@@ -26,11 +23,12 @@
 ;;; Fire up package.el
 (setq package-enable-at-startup nil)
 (package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 
 
 ;; Install use-package
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
   (package-install 'use-package))
 
 ;; Install all packages

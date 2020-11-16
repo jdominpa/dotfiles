@@ -116,7 +116,7 @@
   :diminish
   :hook (after-init . which-key-mode)
   :config
-  (setq-default which-key-idle-delay 1.5))
+  (setq-default which-key-idle-delay 1.75))
 
 
 (provide 'init-editing-utils)

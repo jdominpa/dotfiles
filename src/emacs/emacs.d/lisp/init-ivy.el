@@ -8,6 +8,10 @@
          (after-init . counsel-mode))
   :bind (:map ivy-mode-map
               ("C-s" . swiper)
+              :map ivy-minibuffer-map
+              ("TAB" . ivy-alt-done)
+              :map ivy-switch-buffer-map
+              ("C-d" . ivy-switch-buffer-kill)
               :map ivy-occur-mode-map
               ("C-c C-q" . ivy-wgrep-change-to-wgrep-mode)
               :map counsel-mode-map
@@ -23,9 +27,7 @@
                 ivy-use-selectable-prompt t)
 
   (setq-default counsel-mode-override-describe-bindings t)
-  (setq-default ivy-initial-inputs-alist
-                '((Man-completion-table . "^")
-                  (woman . "^")))
+  (setq-default ivy-initial-inputs-alist nil)
   (if (executable-find "rg")
       (bind-key "C-c C-g" 'counsel-rg)))
 

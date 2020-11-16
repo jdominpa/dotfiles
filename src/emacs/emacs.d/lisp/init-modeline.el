@@ -2,8 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package mood-line
-  :hook (after-init . mood-line-mode))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode))
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
