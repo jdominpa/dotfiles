@@ -29,7 +29,6 @@
   (tool-bar-mode -1))
 (when (fboundp 'set-scroll-bar-mode)
   (set-scroll-bar-mode nil))
-
 (menu-bar-mode -1)
 
 (let ((no-border '(internal-border-width . 0)))
@@ -53,9 +52,9 @@
   ;; Hint: Customize `ns-use-native-fullscreen'
   (bind-key "M-ƒ" 'toggle-frame-fullscreen))
 
-(global-set-key (kbd "M-C-8") (lambda () (interactive) (jdominpa/adjust-opacity nil -2)))
-(global-set-key (kbd "M-C-9") (lambda () (interactive) (jdominpa/adjust-opacity nil 2)))
-(global-set-key (kbd "M-C-7") (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(bind-key "M-C-8" (lambda () (interactive) (jdominpa/adjust-opacity nil -2)))
+(bind-key "M-C-9" (lambda () (interactive) (jdominpa/adjust-opacity nil 2)))
+(bind-key "M-C-7" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 
 (when *is-a-mac*

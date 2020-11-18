@@ -10,8 +10,10 @@
   :hook (after-init . global-company-mode)
   :bind (("M--" . company-complete)
          :map company-active-map
-         ([tab] . #'company-select-next)
-         ([S-tab] . #'company-select-previous))
+         ("C-n" . #'company-select-next)
+         ("C-p" . #'company-select-previous)
+         ("M-n" . nil)
+         ("M-p" . nil))
   :config
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t)

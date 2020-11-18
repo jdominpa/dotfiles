@@ -74,7 +74,7 @@
 (require 'init-ivy)
 (require 'init-company)
 (require 'init-windows)
-;(require 'init-sessions) ;TODO: check out this module
+(require 'init-sessions)
 
 (require 'init-editing-utils)
 (require 'init-whitespace)

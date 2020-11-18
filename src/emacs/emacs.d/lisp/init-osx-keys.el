@@ -11,7 +11,7 @@
                                     ((control))))
   (dolist (multiple '("" "double-" "triple-"))
     (dolist (direction '("right" "left"))
-      (global-set-key (read-kbd-macro (concat "<" multiple "wheel-" direction ">")) 'ignore)))
+      (bind-key (read-kbd-macro (concat "<" multiple "wheel-" direction ">")) 'ignore)))
   (bind-keys ("M-h" . ns-do-hide-emacs)
              ("M-H" . ns-do-hide-others))
   (use-package nxml-mode

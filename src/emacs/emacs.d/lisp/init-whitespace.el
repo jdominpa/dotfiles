@@ -18,7 +18,7 @@
   :diminish
   :hook (after-init . global-whitespace-cleanup-mode))
 
-(global-set-key [remap just-one-space] 'cycle-spacing)
+(bind-key [remap just-one-space] 'cycle-spacing)
 
 
 (provide 'init-whitespace)

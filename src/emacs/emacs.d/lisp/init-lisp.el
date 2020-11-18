@@ -25,7 +25,7 @@
       (eval-region (min (point) (mark)) (max (point) (mark)))
     (pp-eval-last-sexp prefix)))
 
-(global-set-key [remap eval-expression] 'pp-eval-expression)
+(bind-key [remap eval-expression] 'pp-eval-expression)
 
 (use-package lisp-mode
   :ensure nil

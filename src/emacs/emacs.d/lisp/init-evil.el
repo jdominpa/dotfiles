@@ -4,8 +4,12 @@
 ;;; Code:
 
 (use-package evil
-  :init (setq evil-want-keybinding nil)
-  :hook (after-init . evil-mode))
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  :hook (after-init . evil-mode)
+  :bind ("M-u" . universal-argument))
 
 (use-package evil-collection
   :after evil
@@ -13,7 +17,7 @@
 
 (use-package evil-surround
   :after evil
-  :hook (after-init . global-evil-surround-mode))
+  :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-magit
   :after evil)
@@ -26,10 +30,6 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-;; Package to have folding
-(use-package origami
-  :hook (prog-mode . origami-mode))
-
 
 (provide 'init-evil)
-;;; init-git.el ends here
+;;; init-evil.el ends here

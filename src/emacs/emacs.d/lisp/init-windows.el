@@ -35,8 +35,8 @@
       (unless arg
         (select-window target-window)))))
 
-(global-set-key (kbd "C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
-(global-set-key (kbd "C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
+(bind-key "C-x 2" (split-window-func-with-other-buffer 'split-window-vertically))
+(bind-key "C-x 3" (split-window-func-with-other-buffer 'split-window-horizontally))
 
 (defun jdominpa/toggle-delete-other-windows ()
   "Delete other windows in frame if any, or restore previous window config."
@@ -46,7 +46,7 @@
       (winner-undo)
     (delete-other-windows)))
 
-(global-set-key (kbd "C-x 1") 'jdominpa/toggle-delete-other-windows)
+(bind-key "C-x 1" 'jdominpa/toggle-delete-other-windows)
 
 ;;----------------------------------------------------------------------------
 ;; Rearrange split windows
