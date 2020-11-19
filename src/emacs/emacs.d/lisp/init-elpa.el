@@ -12,7 +12,8 @@
 
 
 ;;; Standard package repositories
-(add-to-list 'package-archives '( "melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 
 ;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
@@ -46,21 +47,21 @@
   :init (let ((package-check-signature nil))))
 
 
-(defun jdominpa/set-tabulated-list-column-width (col-name width)
+(defun jdp/set-tabulated-list-column-width (col-name width)
   "Set any column with name COL-NAME to the given WIDTH."
   (when (> width (length col-name))
     (cl-loop for column across tabulated-list-format
              when (string= col-name (car column))
              do (setf (elt column 1) width))))
 
-(defun jdominpa/maybe-widen-package-menu-columns ()
+(defun jdp/maybe-widen-package-menu-columns ()
   "Widen some columns of the package menu table to avoid truncation."
   (when (boundp 'tabulated-list-format)
-    (jdominpa/set-tabulated-list-column-width "Version" 13)
+    (jdp/set-tabulated-list-column-width "Version" 13)
     (let ((longest-archive-name (apply 'max (mapcar 'length (mapcar 'car package-archives)))))
-      (jdominpa/set-tabulated-list-column-width "Archive" longest-archive-name))))
+      (jdp/set-tabulated-list-column-width "Archive" longest-archive-name))))
 
-(add-hook 'package-menu-mode-hook 'jdominpa/maybe-widen-package-menu-columns)
+(add-hook 'package-menu-mode-hook 'jdp/maybe-widen-package-menu-columns)
 
 
 (provide 'init-elpa)

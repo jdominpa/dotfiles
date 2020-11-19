@@ -19,6 +19,8 @@
               ([remap swiper-backward] . counsel-grep-or-swiper-backward))
   :config
   (setq-default ivy-use-virtual-buffers t
+                ivy-wrap t
+                enable-recursive-minibuffers t
                 ivy-virtual-abbreviate 'fullpath
                 ivy-count-format "(%d/%d) "
                 ivy-initial-inputs-alist nil

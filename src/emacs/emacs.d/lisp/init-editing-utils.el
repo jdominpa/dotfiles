@@ -22,7 +22,12 @@
  ediff-window-setup-function 'ediff-setup-windows-plain
  indent-tabs-mode nil
  auto-save-default nil
- make-backup-files nil
+ backup-by-copying t
+ version-control t
+ delete-old-versions t
+ kept-old-versions 4
+ kept-new-versions 4
+ backup-directory-alist (list (cons "." (expand-file-name "backup" user-emacs-directory)))
  mouse-yank-at-point t
  save-interprogram-paste-before-kill t
  scroll-preserve-screen-position 'always
@@ -116,7 +121,7 @@
   :diminish
   :hook (after-init . which-key-mode)
   :config
-  (setq-default which-key-idle-delay 1.75))
+  (setq-default which-key-idle-delay 1.5))
 
 
 (provide 'init-editing-utils)

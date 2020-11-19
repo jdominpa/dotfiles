@@ -13,5 +13,5 @@ execute "gsettings set org.gnome.desktop.peripherals.keyboard delay 150" \
 execute "gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 15" \
     "Faster repeat rate"
 
-execute "gsettings set org.gnome.desktop.input-sources xkb-options \"['caps:ctrl_modifier']\" && xcape -e 'Caps_Lock=Escape'" \
-    "Make caps lock behave as ctrl and escape keys"
+execute "gsettings set org.gnome.desktop.input-sources xkb-options \"['caps:ctrl_modifier']\"" \
+    "Make caps lock behave as ctrl"

@@ -5,12 +5,12 @@
 ;;----------------------------------------------------------------------------
 ;; Stop C-z from minimizing windows under OS X
 ;;----------------------------------------------------------------------------
-(defun jdominpa/maybe-suspend-frame ()
+(defun jdp/maybe-suspend-frame ()
   (interactive)
   (unless (and *is-a-mac* window-system)
     (suspend-frame)))
 
-(bind-key "C-z" 'jdominpa/maybe-suspend-frame)
+(bind-key "C-z" 'jdp/maybe-suspend-frame)
 
 
 ;;----------------------------------------------------------------------------
@@ -35,7 +35,7 @@
   (add-to-list 'default-frame-alist no-border)
   (add-to-list 'initial-frame-alist no-border))
 
-(defun jdominpa/adjust-opacity (frame incr)
+(defun jdp/adjust-opacity (frame incr)
   "Adjust the background opacity of FRAME by increment INCR."
   (unless (display-graphic-p frame)
     (error "Cannot adjust opacity of this frame"))
@@ -52,8 +52,8 @@
   ;; Hint: Customize `ns-use-native-fullscreen'
   (bind-key "M-ƒ" 'toggle-frame-fullscreen))
 
-(bind-key "M-C-8" (lambda () (interactive) (jdominpa/adjust-opacity nil -2)))
-(bind-key "M-C-9" (lambda () (interactive) (jdominpa/adjust-opacity nil 2)))
+(bind-key "M-C-8" (lambda () (interactive) (jdp/adjust-opacity nil -2)))
+(bind-key "M-C-9" (lambda () (interactive) (jdp/adjust-opacity nil 2)))
 (bind-key "M-C-7" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 
@@ -78,16 +78,16 @@
   :hook (after-init . default-text-scale-mode))
 
 ;; Set default font size
-(setq jdominpa/default-font "monospace-13.5")
+(setq jdp/default-font "monospace-13.5")
 
-(defun jdominpa/set-font ()
-  "Set the font to `jdominpa/default-font'. Set that for the current frame, and also make it the default for other, future frames."
+(defun jdp/set-font ()
+  "Set the font to `jdp/default-font'. Set that for the current frame, and also make it the default for other, future frames."
   (if (assoc 'font default-frame-alist)
-      (setcdr (assoc 'font default-frame-alist) jdominpa/default-font)
-    (add-to-list 'default-frame-alist (cons 'font jdominpa/default-font))
-    (set-frame-font jdominpa/default-font)))
+      (setcdr (assoc 'font default-frame-alist) jdp/default-font)
+    (add-to-list 'default-frame-alist (cons 'font jdp/default-font))
+    (set-frame-font jdp/default-font)))
 
-(jdominpa/set-font)
+(jdp/set-font)
 
 
 (provide 'init-gui-frames)

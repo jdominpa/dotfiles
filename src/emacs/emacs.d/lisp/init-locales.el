@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun jdominpa/locale-var-encoding (v)
+(defun jdp/locale-var-encoding (v)
   "Return the encoding portion of the locale string V, or nil if missing."
   (when v
     (save-match-data
@@ -11,7 +11,7 @@
           (intern (downcase (match-string 1 v))))))))
 
 (dolist (varname '("LC_ALL" "LANG" "LC_CTYPE"))
-  (let ((encoding (jdominpa/locale-var-encoding (getenv varname))))
+  (let ((encoding (jdp/locale-var-encoding (getenv varname))))
     (unless (memq encoding '(nil utf8 utf-8))
       (message "Warning: non-UTF8 encoding in environment variable %s may cause interop problems with this Emacs configuration." varname))))
 

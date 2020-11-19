@@ -47,9 +47,9 @@
   ;; Don't dim in terminal windows. Even with 256 colours it can
   ;; lead to poor contrast.  Better would be to vary dimmer-fraction
   ;; according to frame type.
-  (defun jdominpa/display-non-graphic-p ()
+  (defun jdp/display-non-graphic-p ()
     (not (display-graphic-p)))
-  (push 'jdominpa/display-non-graphic-p dimmer-exclusion-predicates))
+  (push 'jdp/display-non-graphic-p dimmer-exclusion-predicates))
 
 
 (provide 'init-themes)

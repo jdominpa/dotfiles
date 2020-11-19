@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun jdominpa/headerise-elisp ()
+(defun jdp/headerise-elisp ()
   "Add minimal header and footer to an elisp buffer in order to placate flycheck."
   (interactive)
   (let ((fname (if (buffer-file-name)
@@ -18,7 +18,7 @@
 
 
 ;; Make C-x C-e run 'eval-region if the region is active
-(defun jdominpa/eval-last-sexp-or-region (prefix)
+(defun jdp/eval-last-sexp-or-region (prefix)
   "Eval region from BEG to END if active, otherwise the last sexp."
   (interactive "P")
   (if (and (mark) (use-region-p))
@@ -30,18 +30,18 @@
 (use-package lisp-mode
   :ensure nil
   :bind (:map emacs-lisp-mode-map
-              ("C-x C-e" . jdominpa/eval-last-sexp-or-region)
+              ("C-x C-e" . jdp/eval-last-sexp-or-region)
               ("C-c C-e" . pp-eval-expression)))
 
 (use-package ipretty
   :hook (after-init . ipretty-mode))
 
-(defun jdominpa/make-read-only (expression out-buffer-name)
+(defun jdp/make-read-only (expression out-buffer-name)
   "Enable `view-mode' in the output buffer - if any - so it can be closed with `\"q\"."
   (when (get-buffer out-buffer-name)
     (with-current-buffer out-buffer-name
       (view-mode 1))))
-(advice-add 'pp-display-expression :after 'jdominpa/make-read-only)
+(advice-add 'pp-display-expression :after 'jdp/make-read-only)
 
 
 ;; ----------------------------------------------------------------------------
@@ -67,10 +67,10 @@
 (use-package rainbow-mode
   :diminish
   :preface
-  (defun jdominpa/enable-rainbow-mode-if-theme ()
+  (defun jdp/enable-rainbow-mode-if-theme ()
     (when (and (buffer-file-name) (string-match-p "\\(color-theme-\\|-theme\\.el\\)" (buffer-file-name)))
       (rainbow-mode)))
-  :hook ((emacs-lisp-mode . jdominpa/enable-rainbow-mode-if-theme)
+  :hook ((emacs-lisp-mode . jdp/enable-rainbow-mode-if-theme)
          (help-mode . rainbow-mode)))
 
 

@@ -14,7 +14,7 @@
 ;;----------------------------------------------------------------------------
 ;; String utilities missing from core emacs
 ;;----------------------------------------------------------------------------
-(defun jdominpa/string-all-matches (regex str &optional group)
+(defun jdp/string-all-matches (regex str &optional group)
   "Find all matches for `REGEX' within `STR', returning the full match string or group `GROUP'."
   (let ((result nil)
         (pos 0)

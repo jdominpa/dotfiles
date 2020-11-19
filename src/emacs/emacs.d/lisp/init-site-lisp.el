@@ -5,7 +5,7 @@
 ;;; Set load path
 
 (eval-when-compile (require 'cl))
-(defun jdominpa/add-subdirs-to-load-path (parent-dir)
+(defun jdp/add-subdirs-to-load-path (parent-dir)
   "Adds every non-hidden subdir of PARENT-DIR to `load-path'."
   (let* ((default-directory parent-dir))
     (progn
@@ -16,7 +16,7 @@
               (directory-files (expand-file-name parent-dir) t "^[^\\.]"))
              load-path)))))
 
-(jdominpa/add-subdirs-to-load-path
+(jdp/add-subdirs-to-load-path
  (expand-file-name "site-lisp/" user-emacs-directory))
 
 ;;; Utilities for grabbing upstream libs

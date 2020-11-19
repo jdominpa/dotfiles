@@ -7,12 +7,12 @@
 
 ;;; Whitespace
 
-(defun jdominpa/show-trailing-whitespace ()
+(defun jdp/show-trailing-whitespace ()
   "Enable display of trailing whitespace in this buffer."
   (setq-local show-trailing-whitespace t))
 
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
-  (add-hook hook 'jdominpa/show-trailing-whitespace))
+  (add-hook hook 'jdp/show-trailing-whitespace))
 
 (use-package whitespace-cleanup-mode
   :diminish

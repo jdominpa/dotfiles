@@ -21,18 +21,18 @@
   ;; Suspend page-break-lines-mode while company menu is active
   ;; (see https://github.com/company-mode/company-mode/issues/416)
   (with-eval-after-load 'page-break-lines
-    (defvar-local jdominpa/page-break-lines-on-p nil)
+    (defvar-local jdp/page-break-lines-on-p nil)
 
-    (defun jdominpa/page-break-lines-disable (&rest ignore)
-      (when (setq jdominpa/page-break-lines-on-p (bound-and-true-p page-break-lines-mode))
+    (defun jdp/page-break-lines-disable (&rest ignore)
+      (when (setq jdp/page-break-lines-on-p (bound-and-true-p page-break-lines-mode))
         (page-break-lines-mode -1)))
 
-    (defun jdominpa/page-break-lines-maybe-reenable (&rest ignore)
-      (when jdominpa/page-break-lines-on-p
+    (defun jdp/page-break-lines-maybe-reenable (&rest ignore)
+      (when jdp/page-break-lines-on-p
         (page-break-lines-mode 1)))
 
-    (add-hook 'company-completion-started-hook 'jdominpa/page-break-lines-disable)
-    (add-hook 'company-after-completion-hook 'jdominpa/page-break-lines-maybe-reenable)))
+    (add-hook 'company-completion-started-hook 'jdp/page-break-lines-disable)
+    (add-hook 'company-after-completion-hook 'jdp/page-break-lines-maybe-reenable)))
 
 (use-package company-quickhelp
   :after company

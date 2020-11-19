@@ -11,9 +11,9 @@
 (setq goto-address-mail-face 'link)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-(add-hook 'after-save-hook 'jdominpa/set-mode-for-new-scripts)
+(add-hook 'after-save-hook 'jdp/set-mode-for-new-scripts)
 
-(defun jdominpa/set-mode-for-new-scripts ()
+(defun jdp/set-mode-for-new-scripts ()
   "Invoke `normal-mode' if this file is a script and in `fundamental-mode'."
   (and
    (eq major-mode 'fundamental-mode)

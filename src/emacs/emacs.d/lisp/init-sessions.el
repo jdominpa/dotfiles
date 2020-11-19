@@ -7,25 +7,25 @@
       desktop-auto-save-timeout 600)
 (desktop-save-mode 1)
 
-(defun jdominpa/desktop-time-restore (orig &rest args)
+(defun jdp/desktop-time-restore (orig &rest args)
   (let ((start-time (current-time)))
     (prog1
         (apply orig args)
       (message "Desktop restored in %.2fms"
-               (jdominpa/time-subtract-millis (current-time)
+               (jdp/time-subtract-millis (current-time)
                                                start-time)))))
-(advice-add 'desktop-read :around 'jdominpa/desktop-time-restore)
+(advice-add 'desktop-read :around 'jdp/desktop-time-restore)
 
-(defun jdominpa/desktop-time-buffer-create (orig ver filename &rest args)
+(defun jdp/desktop-time-buffer-create (orig ver filename &rest args)
   (let ((start-time (current-time)))
     (prog1
         (apply orig ver filename args)
       (message "Desktop: %.2fms to restore %s"
-               (jdominpa/time-subtract-millis (current-time)
+               (jdp/time-subtract-millis (current-time)
                                                start-time)
                (when filename
                  (abbreviate-file-name filename))))))
-(advice-add 'desktop-create-buffer :around 'jdominpa/desktop-time-buffer-create)
+(advice-add 'desktop-create-buffer :around 'jdp/desktop-time-buffer-create)
 
 ;;----------------------------------------------------------------------------
 ;; Restore histories and registers after saving
