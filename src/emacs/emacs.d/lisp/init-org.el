@@ -3,8 +3,13 @@
 ;;; Code:
 
 (use-package org
-  :defer ;; Visual-line-mode and auto-fill-mode won't start if org isn't defered
+  :ensure org-plus-contrib
   :init
+  (defun jdp/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (visual-line-mode 1)
+    (auto-fill-mode 1))
   (defun jdp/org-font-setup ()
     "Set faces for 'org-mode' heading levels."
     (dolist (face '((org-level-1 . 1.2)
@@ -16,13 +21,15 @@
                     (org-level-7 . 1.0)
                     (org-level-8 . 1.0)))
       (set-face-attribute (car face) nil :font "monospace" :weight 'regular :height (cdr face))))
-  :hook ((org-mode . org-indent-mode)
-         (org-mode . variable-pitch-mode)
-         (org-mode . auto-fill-mode)
-         (org-mode . visual-line-mode)
+  :hook ((org-mode . jdp/org-mode-setup)
          (org-mode . jdp/org-font-setup))
   :config
   (setq org-ellipsis " ▾")
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp\n"))
 
   (use-package visual-fill-column
     :init

@@ -2,15 +2,23 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package color-theme-sanityinc-tomorrow)
-(use-package dracula-theme)
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 ;; Don't prompt to confirm theme safety. This avoids problems with
 ;; first-time startup on Emacs > 26.3.
 (setq custom-safe-themes t)
 
 ;; If you don't customize it, this is the theme you get.
-(setq-default custom-enabled-themes '(dracula))
+(setq-default custom-enabled-themes '(doom-palenight))
 
 ;; Ensure that themes will be applied even if they have not been customized
 (defun reapply-themes ()
@@ -29,13 +37,13 @@
 (defun light ()
   "Activate a light color theme."
   (interactive)
-  (setq custom-enabled-themes '(sanityinc-tomorrow-day))
+  (setq custom-enabled-themes '(doom-tomorrow-day))
   (reapply-themes))
 
 (defun dark ()
   "Activate a dark color theme."
   (interactive)
-  (setq custom-enabled-themes '(dracula))
+  (setq custom-enabled-themes '(doom-palenight))
   (reapply-themes))
 
 (use-package dimmer
