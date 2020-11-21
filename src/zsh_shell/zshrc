@@ -166,7 +166,7 @@ setopt SHARE_HISTORY           # share history across shells
 # Bindings
 #
 
-bindkey -v # emacs bindings, set to -v for vi bindings
+bindkey -e # emacs bindings, set to -v for vi bindings
 
 # Use "cbt" capability ("back_tab", as per `man terminfo`), if we have it:
 if tput cbt &> /dev/null; then

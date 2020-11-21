@@ -18,7 +18,7 @@
 (setq custom-safe-themes t)
 
 ;; If you don't customize it, this is the theme you get.
-(setq-default custom-enabled-themes '(doom-dracula))
+(setq-default custom-enabled-themes '(doom-palenight))
 
 ;; Ensure that themes will be applied even if they have not been customized
 (defun reapply-themes ()
@@ -43,7 +43,7 @@
 (defun dark ()
   "Activate a dark color theme."
   (interactive)
-  (setq custom-enabled-themes '(doom-dracula))
+  (setq custom-enabled-themes '(doom-palenight))
   (reapply-themes))
 
 (use-package dimmer
