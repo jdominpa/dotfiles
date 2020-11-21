@@ -1,4 +1,4 @@
-;;; init-site-lisp.el --- Support elisp manually installed in the site-lisp dir -*- lexical-binding: t -*-
+;;; init-manual-packages.el --- Support elisp manually installed in the site-lisp dir -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -48,5 +48,5 @@ source file under ~/.emacs.d/site-lisp/name/"
     (and f (string-prefix-p (file-name-as-directory (site-lisp-dir-for name)) f))))
 
 
-(provide 'init-site-lisp)
-;;; init-site-lisp.el ends here
+(provide 'init-manual-packages)
+;;; init-manual-packages.el ends here

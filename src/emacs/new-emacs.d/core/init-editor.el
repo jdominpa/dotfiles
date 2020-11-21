@@ -27,6 +27,15 @@
 ;; Delete selection with a keypress
 (setq-default delete-selection-mode t)
 
+;; Move clipboard to kill ring before replacing it
+(setq-default save-interprogram-paste-before-kill t)
+
+;; Mouse yanks at point instead of at click
+(setq-default mouse-yank-at-point t)
+
+;; Newline behaviour
+(bind-key "RET" 'newline-and-indent)
+
 ;; Store backup and autosave files in the tmp dir
 (setq-default backup-directory-alist
               `((".*" . ,temporary-file-directory)))
@@ -60,7 +69,6 @@
                 recentf-max-saved-items 1000
                 recentf-exclude '("/tmp/" "/ssh:")))
 
-
 ;; Enable narrowing commands
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
@@ -72,6 +80,56 @@
 
 ;; Bookmarks
 (setq-default bookmark-default-file (expand-file-name "bookmarks" user-emacs-directory))
+
+;; Projectile to manage projects
+(use-package projectile
+  :diminish projectile-mode
+  :hook (after-init . projectile-mode)
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :config
+  (if (package-installed-p 'counsel)
+      (setq projectile-completion-system 'ivy))
+  (if (file-directory-p "~/Projects")
+      (setq projectile-project-search-path '("~/Projects")))
+  (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory)))
+
+(use-package ibuffer-projectile
+  :after projectile)
+
+;; Dired configuration
+(let ((gls (executable-find "gls")))
+  (when gls (setq insert-directory-program gls)))
+
+(use-package dired
+  :ensure nil
+  :config
+  (put 'dired-find-alternate-file 'disabled nil)
+  (setq-default dired-dwim-target t)
+  (setq dired-recursive-deletes 'top
+        dired-recursive-copies 'top
+        dired-dwim-target t)
+  (require 'dired-x))
+
+;; ediff - don't start in another frame
+(setq-default ediff-split-window-function 'split-window-horizontally
+              ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; Make shell script files executable automatically on save
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+;; Whitespace-mode configuration
+(setq-default show-trailing-whitespace nil)
+
+(defun jdp/show-trailing-whitespace ()
+  "Enable display of trailing whitespace in this buffer."
+  (setq-local show-trailing-whitespace t))
+
+(dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+  (add-hook hook 'jdp/show-trailing-whitespace))
+
+;; Highlight escape sequences like \n
+(use-package highlight-escape-sequences
+  :hook (after-init . hes-mode))
 
 ;; List of unicode characters
 (use-package list-unicode-display)

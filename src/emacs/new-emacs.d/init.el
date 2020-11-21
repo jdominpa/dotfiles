@@ -38,33 +38,37 @@
 
 ;; Load core stuff
 (require 'init-packages)
+(require 'init-manual-packages)
 (require 'init-ui)
+(require 'init-buffers)
 (require 'init-editor)
-(require 'init-site-lisp) ;; Must come before elpa, as it may provide package.el
-(require 'init-exec-path) ;; Set up $PATH
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-;;----------------------------------------------------------------------------
-;; Allow users to provide an optional "init-preload-local.el"
-;;----------------------------------------------------------------------------
-(require 'init-preload-local nil t)
+(message "[Configuration] Loading system specific settings...")
 
-;;----------------------------------------------------------------------------
-;; Load configs for specific features and modes
-;;----------------------------------------------------------------------------
+;; Load system specific settings
+(cond
+ ((eq system-type 'darwin)
+  (message "[Configuration] Loading macOS settings...")
+  (require 'init-macos))
+ ((eq system-type 'gnu/linux)
+  (message "[Configuration] Loading Linux settings...")
+  (require 'init-linux))
+ ((eq system-type 'windows-nt)
+  (message "[Configuration] Loading Windows settings...")
+  (require 'init-windows))
+ ((and (eq system-type 'gnu/linux) (getenv "WSLENV"))
+  (message "[Configuration] Loading WSL settings...")
+  (require 'init-wsl)))
 
-(use-package diminish)
 
+(message "[Configuration] Loading additional modules...")
+
+;; Load modules TODO
 (require 'init-evil)
 
-(require 'init-themes)
-(require 'init-osx-keys)
 (require 'init-gui-frames)
 (require 'init-dired)
 (require 'init-grep)
-(require 'init-uniquify)
-(require 'init-ibuffer)
-(require 'init-modeline)
 (require 'init-flycheck)
 
 (require 'init-recentf)
@@ -81,9 +85,6 @@
 (require 'init-git)
 (require 'init-github)
 
-(require 'init-projectile)
-
-;(require 'init-compile)
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-haskell)
@@ -113,9 +114,8 @@
             (unless (server-running-p)
               (server-start))))
 
-;;----------------------------------------------------------------------------
-;; Variables configured via the interactive 'customize' interface
-;;----------------------------------------------------------------------------
+;; Store customize UI changes in custom.el file and load it
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
 

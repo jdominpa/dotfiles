@@ -44,25 +44,16 @@
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; More useful frame title. It shows either the file name or the
-;; buffer name (in case the buffer isn't visiting a file)
-(setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
-
-;; Meaningful names for buffers with the same name
-(use-package uniquify
-  :ensure nil
-  :config
-  (setq uniquify-buffer-name-style 'forward)
-  (setq uniquify-separator "/")
-  (setq uniquify-after-kill-buffer-p t)
-  (setq uniquify-ignore-buffers-re "^\\*"))
-
 ;; A simple visible bell to replace the constant beeping
 (use-package mode-line-bell
   :hook (after-init . mode-line-bell-mode))
+
+;; Package to flash point after jumping
+(use-package beacon
+  :diminish
+  :hook (after-init . beacon-mode)
+  :config
+  (setq-default beacon-size 30))
 
 ;; Change default modeline to doom-modeline
 (use-package doom-modeline
@@ -105,9 +96,9 @@
     (when (and (<= frame-alpha-lower-limit newalpha) (>= 100 newalpha))
       (modify-frame-parameters frame (list (cons 'alpha newalpha))))))
 
-(bind-key "[f7]" (lambda () (interactive) (jdp/adjust-opacity nil -2)))
-(bind-key "[f8]" (lambda () (interactive) (jdp/adjust-opacity nil 2)))
-(bind-key "[f5]" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(bind-key "[C-M-7]" (lambda () (interactive) (jdp/adjust-opacity nil -2)))
+(bind-key "[C-M-8]" (lambda () (interactive) (jdp/adjust-opacity nil 2)))
+(bind-key "[C-M-6]" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 ;; Package to dim unfocused buffers
 (use-package dimmer
