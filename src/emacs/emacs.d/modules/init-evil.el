@@ -14,7 +14,8 @@
   :hook (after-init . evil-mode)
   :bind ("M-u" . universal-argument)
   :config
-  (setq-default evil-shift-width 2))
+  (setq-default evil-shift-width 2
+                evil-undo-system 'undo-redo))
 
 (use-package evil-collection
   :after evil

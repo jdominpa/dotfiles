@@ -26,6 +26,12 @@
   (add-to-list 'initial-frame-alist no-border)
   (add-to-list 'default-frame-alist no-border))
 
+;; Non-zero values for `line-spacing' can mess up ansi-term and co,
+;; so we zero it explicitly in those cases.
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq line-spacing 0)))
+
 ;; Nice scrolling
 (setq scroll-margin 0
       scroll-conservatively 1000
@@ -96,9 +102,9 @@
     (when (and (<= frame-alpha-lower-limit newalpha) (>= 100 newalpha))
       (modify-frame-parameters frame (list (cons 'alpha newalpha))))))
 
-(bind-key "[C-M-7]" (lambda () (interactive) (jdp/adjust-opacity nil -2)))
-(bind-key "[C-M-8]" (lambda () (interactive) (jdp/adjust-opacity nil 2)))
-(bind-key "[C-M-6]" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(bind-key "M-C-7" (lambda () (interactive) (jdp/adjust-opacity nil -2)))
+(bind-key "M-C-8" (lambda () (interactive) (jdp/adjust-opacity nil 2)))
+(bind-key "M-C-6" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 ;; Package to dim unfocused buffers
 (use-package dimmer

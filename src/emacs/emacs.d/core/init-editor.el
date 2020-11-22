@@ -56,9 +56,10 @@
 (setq blink-matching-paren nil)
 
 ;; Insert closing parens after opening one
-(when (fboundp 'electric-pair-mode)
-  (add-hook 'after-init-hook 'electric-pair-mode))
-(add-hook 'after-init-hook 'electric-indent-mode)
+(use-package electric-pair-mode
+  :ensure nil
+  :hook ((after-init . electric-pair-mode)
+         (after-init . electric-indent-mode)))
 
 ;; Save recent files
 (use-package recentf
@@ -94,6 +95,16 @@
 (use-package ibuffer-projectile
   :after projectile)
 
+;; Settings for grep and grep-like tools
+(setq-default grep-highlight-matches t
+              grep-scroll-output t)
+
+(use-package wgrep)
+(use-package rg
+  :if (executable-find "rg")
+  :defer t
+  :config (rg-enable-default-bindings))
+
 ;; Dired configuration
 (let ((gls (executable-find "gls")))
   (when gls (setq insert-directory-program gls)))
@@ -112,12 +123,12 @@
         dired-recursive-copies 'top
         dired-dwim-target t))
 
+;; Package to edit files as root user
+(use-package sudo-edit)
+
 ;; ediff - don't start in another frame
 (setq-default ediff-split-window-function 'split-window-horizontally
               ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;; Make shell script files executable automatically on save
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;; Whitespace-mode configuration
 (setq-default show-trailing-whitespace nil)
@@ -133,9 +144,37 @@
   :diminish
   :hook (after-init . global-whitespace-cleanup-mode))
 
+;; flyspell-mode does spell-checking on the fly as you type
+(require 'ispell)
+(use-package flyspell
+  :ensure nil
+  :if (executable-find ispell-program-name)
+  :config (setq ispell-program-name "aspell"))
+
 ;; Highlight escape sequences like \n
 (use-package highlight-escape-sequences
   :hook (after-init . hes-mode))
+
+;; Settings for encoding system
+(defun jdp/locale-var-encoding (v)
+  "Return the encoding portion of the locale string V, or nil if missing."
+  (when v
+    (save-match-data
+      (let ((case-fold-search t))
+        (when (string-match "\\.\\([^.]*\\)\\'" v)
+          (intern (downcase (match-string 1 v))))))))
+
+(dolist (varname '("LC_ALL" "LANG" "LC_CTYPE"))
+  (let ((encoding (jdp/locale-var-encoding (getenv varname))))
+    (unless (memq encoding '(nil utf8 utf-8))
+      (message "Warning: non-UTF8 encoding in environment variable %s may cause interop problems with this Emacs configuration." varname))))
+
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(unless (eq system-type 'windows-nt)
+  (set-selection-coding-system 'utf-8))
 
 ;; List of unicode characters
 (use-package list-unicode-display)

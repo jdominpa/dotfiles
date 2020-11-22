@@ -1,5 +1,9 @@
-;;; init-paredit.el --- Configure paredit structured editing -*- lexical-binding: t -*-
+;;; init-lisp.el --- Configuration for lisp -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Settings for lisp and lisp-like languages.  Elisp is configured
+;; separately.
+
 ;;; Code:
 
 (use-package paredit
@@ -13,5 +17,5 @@
          (paredit-mode . maybe-map-paredit-newline)))
 
 
-(provide 'init-paredit)
-;;; init-paredit.el ends here
+(provide 'init-lisp)
+;;; init-lisp.el ends here

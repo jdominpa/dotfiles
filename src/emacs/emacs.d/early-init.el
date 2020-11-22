@@ -1,5 +1,4 @@
 ;;; early-init.el --- Emacs 27+ pre-initialisation config
-
 ;;; Commentary:
 
 ;; Emacs 27+ loads this file before (normally) calling

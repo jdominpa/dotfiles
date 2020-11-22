@@ -24,7 +24,8 @@
                     (org-level-7 . 1.0)
                     (org-level-8 . 1.0)))
       (set-face-attribute (car face) nil :font "monospace" :weight 'regular :height (cdr face))))
-  :hook ((org-mode . jdp/org-mode-setup)
+  :hook ((org-mode . eldoc-mode)
+         (org-mode . jdp/org-mode-setup)
          (org-mode . jdp/org-font-setup))
   :config
   (setq org-ellipsis " ▾")

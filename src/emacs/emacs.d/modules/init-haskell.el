@@ -1,18 +1,20 @@
-;;; init-haskell.el --- Support the Haskell language -*- lexical-binding: t -*-
+;;; init-haskell.el --- Support for Haskell language -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Configuration for the Haskell programming language.
+
 ;;; Code:
+
+(require 'init-programming)
 
 (use-package haskell-mode
   :hook (((haskell-mode haskell-cabal-mode) . subword-mode)
-         (haskell-mode . interactive-haskell-mode)
-         (haskell-mode . turn-on-haskell-indentation)
-         (haskell-mode . haskell-auto-insert-module-template))
+         (haskell-mode . eldoc-mode)
+         (haskell-mode . haskell-indentation-mode)
+         (haskell-mode . interactive-haskell-mode))
   :mode "\\.ghci\\'"
   :bind (:map haskell-mode-map
-              ("C-c h" . hoogle))
-  :config
-  (with-eval-after-load 'page-break-lines
-    (add-to-list 'page-break-lines-modes 'haskell-mode)))
+              ("C-c h" . hoogle)))
 
 (use-package dante
   :after haskell-mode
