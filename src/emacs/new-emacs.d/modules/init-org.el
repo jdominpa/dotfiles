@@ -1,13 +1,16 @@
 ;;; init-org.el --- Org mode settings and configuration -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Settings for everything related to org-mode.  This includes org-mode settings
+;; and setup for org-agenda.
+
 ;;; Code:
 
 (use-package org
   :ensure org-plus-contrib
-  :init
+  :preface
   (defun jdp/org-mode-setup ()
     (org-indent-mode)
-    (variable-pitch-mode 1)
     (visual-line-mode 1)
     (auto-fill-mode 1))
   (defun jdp/org-font-setup ()
@@ -29,15 +32,16 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp\n"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp\n")))
 
-  (use-package visual-fill-column
-    :init
-    (defun jdp/org-mode-visual-fill ()
-      (setq visual-fill-column-width 100
-            visual-fill-column-center-text t)
-      (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
-    :hook (org-mode . jdp/org-mode-visual-fill)))
+(use-package visual-fill-column
+  :after org
+  :preface
+  (defun jdp/org-mode-visual-fill ()
+    (setq visual-fill-column-width 100
+          visual-fill-column-center-text t)
+    (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
+  :hook (org-mode . jdp/org-mode-visual-fill))
 
 (use-package org-bullets
   :after org

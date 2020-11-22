@@ -87,8 +87,6 @@
   :hook (after-init . projectile-mode)
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
-  (if (package-installed-p 'counsel)
-      (setq projectile-completion-system 'ivy))
   (if (file-directory-p "~/Projects")
       (setq projectile-project-search-path '("~/Projects")))
   (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory)))
@@ -100,6 +98,11 @@
 (let ((gls (executable-find "gls")))
   (when gls (setq insert-directory-program gls)))
 
+(use-package diredfl
+  :config
+  (diredfl-global-mode)
+  (require 'dired-x))
+
 (use-package dired
   :ensure nil
   :config
@@ -107,8 +110,7 @@
   (setq-default dired-dwim-target t)
   (setq dired-recursive-deletes 'top
         dired-recursive-copies 'top
-        dired-dwim-target t)
-  (require 'dired-x))
+        dired-dwim-target t))
 
 ;; ediff - don't start in another frame
 (setq-default ediff-split-window-function 'split-window-horizontally
@@ -126,6 +128,10 @@
 
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
   (add-hook hook 'jdp/show-trailing-whitespace))
+
+(use-package whitespace-cleanup-mode
+  :diminish
+  :hook (after-init . global-whitespace-cleanup-mode))
 
 ;; Highlight escape sequences like \n
 (use-package highlight-escape-sequences

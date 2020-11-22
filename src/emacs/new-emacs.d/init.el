@@ -6,11 +6,10 @@
 
 ;;; Code:
 
-;; Produce backtraces when errors occur: can be helpful to diagnose startup issues
-;;(setq debug-on-error t)
-
+;;; Inicial configuration before loading core and additional modules
 (message "[Configuration] Starting custom configuration...")
 
+;; Check Emacs version
 (let ((minver "25.1"))
   (when (version< emacs-version minver)
     (error "This Emacs configuration requires version v%s or higher, but you're running v%s" minver emacs-version)))
@@ -34,18 +33,19 @@
       user-mail-address "jdomingopasarin@icloud.com")
 
 
+;;; Load core stuff
 (message "[Configuration] Loading core modules...")
 
-;; Load core stuff
 (require 'init-packages)
-(require 'init-manual-packages)
+(require 'init-personal-packages)
 (require 'init-ui)
 (require 'init-buffers)
 (require 'init-editor)
 
+
+;;; Load system specific settings
 (message "[Configuration] Loading system specific settings...")
 
-;; Load system specific settings
 (cond
  ((eq system-type 'darwin)
   (message "[Configuration] Loading macOS settings...")
@@ -61,36 +61,40 @@
   (require 'init-wsl)))
 
 
+;;; Load additional modules
 (message "[Configuration] Loading additional modules...")
 
-;; Load modules TODO
+;; Vim emulation
 (require 'init-evil)
 
-(require 'init-gui-frames)
-(require 'init-dired)
-(require 'init-grep)
-(require 'init-flycheck)
-
-(require 'init-recentf)
-(require 'init-smex)
+;; Improve narrowing, search and completion
 (require 'init-ivy)
 (require 'init-company)
-(require 'init-windows)
+
+;; Org-mode (a legendary productivity tool that deserves its own category)
+;; Org-mode helps you keep TODO lists, notes and more.
+(require 'init-org)
+
+;; Programming languages support
+(require 'init-lsp)
+(require 'init-c) ;; TODO
+(require 'init-haskell)
+(require 'init-emacs-lisp)
+(require 'init-lisp)
+(require 'init-shell)
+
+
+(require 'init-gui-frames)
+(require 'init-grep)
+(require 'init-flycheck)
+;;(require 'init-smex)
 (require 'init-sessions)
-
 (require 'init-editing-utils)
-(require 'init-whitespace)
-
 (require 'init-vc)
 (require 'init-git)
 (require 'init-github)
-
 (require 'init-markdown)
-(require 'init-org)
-(require 'init-haskell)
-
 (require 'init-paredit)
-(require 'init-lisp)
 
 (when *spell-check-support-enabled*
   (require 'init-spelling))

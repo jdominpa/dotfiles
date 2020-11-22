@@ -1,7 +1,15 @@
-;;; init-ivy.el --- Use ivy for minibuffer completion and more -*- lexical-binding: t -*-
+;;; init-ivy.el --- Ivy setup -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Ivy-related config.  Ivy is a smart framework for minibuffer
+;; completion/filtering/selection (think of ido).  Swiper and counsel
+;; are two packages built on top of ivy that provide ivy-powered
+;; versions of popular Emacs commands.
+
 ;;; Code:
 
+;; We only need to install counsel since ivy and swiper will be
+;; installed as dependencies
 (use-package counsel
   :diminish ivy-mode counsel-mode
   :hook ((after-init . ivy-mode)
@@ -21,13 +29,13 @@
   (setq-default ivy-use-virtual-buffers t
                 ivy-wrap t
                 enable-recursive-minibuffers t
+                projectile-completion-system 'ivy
                 ivy-virtual-abbreviate 'fullpath
                 ivy-count-format "(%d/%d) "
                 ivy-initial-inputs-alist nil
                 ivy-magic-tilde nil
                 ivy-dynamic-exhibit-delay-ms 150
                 ivy-use-selectable-prompt t)
-
   (setq-default counsel-mode-override-describe-bindings t)
   (if (executable-find "rg")
       (bind-key "C-c C-g" 'counsel-rg)))
