@@ -102,7 +102,6 @@
 (use-package wgrep)
 (use-package rg
   :if (executable-find "rg")
-  :defer t
   :config (rg-enable-default-bindings))
 
 ;; Dired configuration
