@@ -14,9 +14,7 @@
          ([remap completion-at-point] . company-complete)
          ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
-         ("C-n" . company-select-next)
-         ("C-p" . company-select-previous)
-         ("[tab]" . company-complete-selection))
+         ([tab] . company-complete-selection))
   :config
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t

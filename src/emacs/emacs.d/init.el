@@ -7,7 +7,7 @@
 ;;; Code:
 
 ;;; Inicial configuration before loading core and additional modules
-(message "[Configuration] Starting custom configuration...")
+(message "[Startup] Starting custom configuration...")
 
 ;; Check Emacs version
 (let ((minver "25.1"))
@@ -34,36 +34,40 @@
 
 
 ;;; Load core stuff
-(message "[Configuration] Loading core modules...")
+(message "[Core] Loading core configuration...")
 
+;; Configure use-package and everything related to package management
+(message "[Core] Setting up package management...")
 (require 'init-packages)
 (require 'init-personal-packages)
+
+;; Load system specific settings. This must be done after package management
+;; to ensure we can install packages like exec-path-from-shell
+(message "[Core] Loading system specific settings...")
+(cond
+ ((eq system-type 'darwin)
+  (message "[Core] Loading macOS settings...")
+  (require 'init-macos))
+ ((eq system-type 'gnu/linux)
+  (message "[Core] Loading Linux settings...")
+  (require 'init-linux))
+ ((eq system-type 'windows-nt)
+  (message "[Core] Loading Windows settings...")
+  (require 'init-windows))
+ ((and (eq system-type 'gnu/linux) (getenv "WSLENV"))
+  (message "[Core] Loading WSL settings...")
+  (require 'init-wsl)))
+
+;; Load the rest of core modules
+(message "[Core] Loading remaining core modules...")
 (require 'init-ui)
 (require 'init-sessions)
 (require 'init-buffers)
 (require 'init-editor)
 
 
-;;; Load system specific settings
-(message "[Configuration] Loading system specific settings...")
-
-(cond
- ((eq system-type 'darwin)
-  (message "[Configuration] Loading macOS settings...")
-  (require 'init-macos))
- ((eq system-type 'gnu/linux)
-  (message "[Configuration] Loading Linux settings...")
-  (require 'init-linux))
- ((eq system-type 'windows-nt)
-  (message "[Configuration] Loading Windows settings...")
-  (require 'init-windows))
- ((and (eq system-type 'gnu/linux) (getenv "WSLENV"))
-  (message "[Configuration] Loading WSL settings...")
-  (require 'init-wsl)))
-
-
 ;;; Load additional modules
-(message "[Configuration] Loading additional modules...")
+(message "[Modules] Loading additional modules...")
 
 ;; Vim emulation
 (require 'init-evil)
@@ -77,6 +81,7 @@
 (require 'init-org)
 
 ;; Programming languages support
+(message "[Modules] Loading language modules...")
 (require 'init-version-control)
 (require 'init-lsp)
 (require 'init-c)
@@ -92,15 +97,13 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (message "[Configuration] Loading local and customized settings...")
-
 (require 'init-local nil t)
 (when (file-exists-p custom-file)
   (load custom-file))
 
 
 ;;; Allow access from emacsclient
-(message "[Configuration] Starting Emacs server...")
-
+(message "[Server] Starting Emacs server...")
 (add-hook 'after-init-hook
           (lambda ()
             (require 'server)

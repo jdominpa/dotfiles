@@ -75,7 +75,7 @@
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
-(load-theme 'doom-tomorrow-night t)
+(load-theme 'doom-dracula t)
 
 ;; Set font size
 (setq jdp/default-font "monospace-14")

@@ -37,8 +37,14 @@ create_symlinks() {
         "neovim/config/nvim/ultisnips"
         "neovim/config/nvim/init.vim"
 
-        "emacs/emacs.d/lisp"
-        "emacs/emacs.d/site-lisp"
+        #"emacs/emacs.d/lisp"
+        #"emacs/emacs.d/site-lisp"
+        #"emacs/emacs.d/early-init.el"
+        #"emacs/emacs.d/init.el"
+
+        "emacs/emacs.d/core"
+        "emacs/emacs.d/modules"
+        "emacs/emacs.d/personal-packages"
         "emacs/emacs.d/early-init.el"
         "emacs/emacs.d/init.el"
 

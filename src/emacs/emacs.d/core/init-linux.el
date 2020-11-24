@@ -9,8 +9,7 @@
 ;; the shell. This fixes that problem
 (use-package exec-path-from-shell
   :config
-  (when (daemonp)
-    (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
 
 
 (provide 'init-linux)

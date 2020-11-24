@@ -14,12 +14,21 @@
   :hook (after-init . evil-mode)
   :bind ("M-u" . universal-argument)
   :config
+  ;; C-n and C-p must be unbound in insert mode for company completion to work
+  ;; properly
+  (unbind-key "C-n" evil-insert-state-map)
+  (unbind-key "C-p" evil-insert-state-map)
   (setq-default evil-shift-width 2
                 evil-undo-system 'undo-redo))
 
 (use-package evil-collection
   :after evil
-  :config (evil-collection-init))
+  :config
+  ;; Evil-collection tries to make company-mode work like vim plugins. Since we'll
+  ;; be making our own company-mode config, we disable this option so that it doesn't
+  ;; clash with our settings
+  (setq evil-collection-company-use-tng nil)
+  (evil-collection-init))
 
 (use-package evil-surround
   :after evil
