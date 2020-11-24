@@ -9,16 +9,14 @@
 
 (use-package company
   :diminish
-  :after lsp
   :hook (after-init . global-company-mode)
-  :bind (:map company-active-map
-         ("[tab]" . company-complete-selection)
-         ("C-n" . #'company-select-next)
-         ("C-p" . #'company-select-previous)
-         ("M-n" . nil)
-         ("M-p" . nil)
-         :map lsp-mode-map
-         ("[tab]" . company-indent-or-complete-common))
+  :bind (:map company-mode-map
+         ([remap completion-at-point] . company-complete)
+         ([remap indent-for-tab-command] . company-indent-or-complete-common)
+         :map company-active-map
+         ("C-n" . company-select-next)
+         ("C-p" . company-select-previous)
+         ("[tab]" . company-complete-selection))
   :config
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t
