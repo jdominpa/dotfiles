@@ -35,6 +35,7 @@
   :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-magit
+  :disabled t
   :after evil)
 
 (use-package evil-org
