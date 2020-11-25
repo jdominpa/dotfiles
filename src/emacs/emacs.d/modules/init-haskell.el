@@ -16,7 +16,14 @@
   :bind (:map haskell-mode-map
               ("C-c h" . hoogle)))
 
+;; Package to enable integration with lsp-mode
+(use-package lsp-haskell
+  :after haskell-mode
+  :hook (((haskell-mode haskell-literate-mode) . lsp-mode)
+         ((haskell-mode haskell-literate-mode) . lsp-deferred)))
+
 (use-package dante
+  :disabled t  ;; Currently disabled in favor of lsp-mode
   :after haskell-mode
   :hook (haskell-mode . dante-mode)
   :config

@@ -61,7 +61,7 @@
 ;; Load the rest of core modules
 (message "[Core] Loading remaining core modules...")
 (require 'init-ui)
-(require 'init-sessions)
+;;(require 'init-sessions)
 (require 'init-buffers)
 (require 'init-editor)
 

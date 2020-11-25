@@ -10,7 +10,6 @@
 
 ;; Make M-x remember recent commands
 (use-package smex
-  :disabled t
   :bind ([remap execute-extended-command] . smex)
   :config
   (setq-default smex-save-file (expand-file-name ".smex-items" user-emacs-directory)))
