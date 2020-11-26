@@ -25,8 +25,21 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 (add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold 16777216
-                      gc-cons-percentage 0.1)))
+          (lambda ()
+            (setq gc-cons-threshold 16777216
+                  gc-cons-percentage 0.1)))
+
+(defun jdp/defer-garbage-collection-h ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun jdp/restore-garbage-collection-h ()
+  ;; Defer it so that commands launched immediately after will enjoy the
+  ;; benefits.
+  (run-at-time
+   1 nil (lambda () (setq gc-cons-threshold 16777216))))
+
+(add-hook 'minibuffer-setup-hook #'jdp/defer-garbage-collection-h)
+(add-hook 'minibuffer-exit-hook #'jdp/restore-garbage-collection-h)
 
 ;; Personal information
 (setq user-full-name "Joan Domingo Pasarin"
