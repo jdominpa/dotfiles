@@ -1,7 +1,7 @@
 ;;; init-lisp.el --- Configuration for lisp -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; Settings for lisp and lisp-like languages.  Elisp is configured
+;; Settings for Lisp and lisp-like languages.  Elisp is configured
 ;; separately.
 
 ;;; Code:

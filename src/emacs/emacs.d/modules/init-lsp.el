@@ -8,7 +8,7 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c l")
-  :config (lsp-enable-which-key-integration))
+  :hook (lsp-mode . lsp-enable-which-key-integration))
 
 (use-package lsp-ui
   :after lsp
