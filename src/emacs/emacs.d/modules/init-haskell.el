@@ -10,15 +10,15 @@
 (require 'init-programming)
 
 (use-package haskell-mode
-  :init (use-package lsp-haskell)
-  :hook (((haskell-mode haskell-cabal-mode) . lsp-mode)
+  :hook (((haskell-mode haskell-literate-mode) . lsp-mode)
          ((haskell-mode haskell-cabal-mode) . subword-mode)
          (haskell-mode . eldoc-mode)
          (haskell-mode . haskell-indentation-mode)
          (haskell-mode . interactive-haskell-mode))
   :mode "\\.ghci\\'"
   :bind (:map haskell-mode-map
-              ("C-c h" . hoogle)))
+              ("C-c h" . hoogle))
+  :config (use-package lsp-haskell))
 
 ;; Currently disabled in favor of lsp-mode
 (use-package dante

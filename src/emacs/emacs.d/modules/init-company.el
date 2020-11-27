@@ -29,7 +29,7 @@
 
 (use-package company-box
   :after company
-  :hook (global-company-mode . company-box-mode))
+  :hook (company-mode . company-box-mode))
 
 
 (provide 'init-company)

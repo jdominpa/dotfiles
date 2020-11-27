@@ -8,10 +8,10 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-c l")
-  :hook (lsp-mode . lsp-enable-which-key-integration))
+  :hook (lsp-mode . lsp-enable-which-key-integration)
+  :config (setq lsp-headerline-breadcrumb-enable t))
 
 (use-package lsp-ui
-  :after lsp
   :hook (lsp-mode . lsp-ui-mode)
   :config (setq lsp-ui-doc-position 'bottom))
 
