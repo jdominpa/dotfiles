@@ -22,7 +22,7 @@ execute "defaults write com.apple.terminal StringEncodings -array 4" \
 execute "./set_terminal_theme.applescript" \
     "Set custom terminal theme"
 
-execute "/bin/zsh -i -c 'color default-dark'" \
+execute "/bin/zsh -i -c 'color dracula'" \
 	"Set shell colors"
 
 # Ensure the Touch ID is used when `sudo` is required.

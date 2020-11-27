@@ -25,6 +25,10 @@
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
     (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)))
 
+;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
+(when (and (version< emacs-version "26.3") (boundp 'libgnutls-version) (>= libgnutls-version 30604))
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
 ;; Fire up package.el
 (setq package-enable-at-startup nil)
 (package-initialize)
