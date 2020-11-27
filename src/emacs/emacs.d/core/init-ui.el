@@ -77,8 +77,12 @@
 
 (load-theme 'doom-dracula t)
 
+;; Resize font in all buffers at the same size
+(use-package default-text-scale
+  :hook (after-init . default-text-scale-mode))
+
 ;; Set font size
-(setq jdp/default-font "monospace-14")
+(setq jdp/default-font "monospace-13.5")
 
 (defun jdp/set-font ()
   "Set the font to `jdp/default-font'. Set that for the current frame, and also make it the default for other, future frames."
