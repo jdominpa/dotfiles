@@ -5,33 +5,17 @@
 
 ;;; Code:
 
-;; Death to the tabs!  However, tabs historically indent to the next
-;; 8-character offset; specifying anything else will cause *mass*
-;; confusion, as it will change the appearance of every existing file.
-;; In some cases (python), even worse -- it will change the semantics
-;; (meaning) of the program.
-;;
 ;; Emacs modes typically provide a standard means to change the
 ;; indentation width -- eg. c-basic-offset: use that to adjust your
 ;; personal indentation width, while maintaining the style (and
 ;; meaning) of any files you load.
-(setq-default indent-tabs-mode nil   ;; Don't use tabs to indent
-              tab-width 8)           ;; but maintain correct appearance
-
-;; Smart tab behavior - indent or complete
-(setq tab-always-indent 'complete)
-
-;; Newline at the end of file
-(setq require-final-newline t)
-
-;; Delete selection with a keypress
-(setq-default delete-selection-mode t)
-
-;; Move clipboard to kill ring before replacing it
-(setq-default save-interprogram-paste-before-kill t)
-
-;; Mouse yanks at point instead of at click
-(setq-default mouse-yank-at-point t)
+(setq-default indent-tabs-mode nil                    ;; Don't use tabs to indent
+              tab-width 4                             ;; but maintain correct appearance
+              tab-always-indent 'complete             ;; Smart tab behavior - indent or complete
+              require-final-newline t                 ;; Newline at the end of file
+              delete-selection-mode t                 ;; Delete selection with a keypress
+              save-interprogram-paste-before-kill t   ;; Move clipboard to kill ring before replacing it
+              mouse-yank-at-point t)                  ;; Mouse yanks at point instead of at click
 
 ;; Newline behaviour
 (bind-key "RET" 'newline-and-indent)
@@ -52,7 +36,9 @@
         auto-revert-verbose nil))
 
 ;; Show matching parens
-(add-hook 'after-init-hook 'show-paren-mode)
+(use-package show-paren-mode
+  :ensure nil
+  :hook (after-init . show-paren-mode))
 
 ;; Insert closing parens after opening one
 (use-package electric-pair-mode
