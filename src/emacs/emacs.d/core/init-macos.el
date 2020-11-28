@@ -39,7 +39,10 @@
 (when (fboundp 'toggle-frame-fullscreen)
   (bind-key "M-ƒ" 'toggle-frame-fullscreen))
 
+;; Change locate and ls commands
 (setq-default locate-command "mdfind")
+(let ((gls (executable-find "gls")))
+  (when gls (setq insert-directory-program gls)))
 
 ;; There's no point in hiding the menu bar on macOS
 (menu-bar-mode +1)

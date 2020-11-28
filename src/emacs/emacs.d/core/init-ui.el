@@ -42,11 +42,6 @@
       column-number-mode t
       size-indication-mode t)
 
-;; Show line numbers
-(when (fboundp 'display-line-numbers-mode)
-  (setq-default display-line-numbers-width 3)
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode))
-
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 

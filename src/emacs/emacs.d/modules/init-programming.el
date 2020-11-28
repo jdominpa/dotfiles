@@ -5,6 +5,11 @@
 
 ;;; Code:
 
+;; Show line numbers in programming modes
+(when (fboundp 'display-line-numbers-mode)
+  (setq-default display-line-numbers-width 3)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode))
+
 ;; Make URL's in comments and strings clickable
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 (setq goto-address-mail-face 'link)

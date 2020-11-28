@@ -51,9 +51,8 @@
   (setq global-auto-revert-non-file-buffers t
         auto-revert-verbose nil))
 
-;; Show matching parens and disable blinking-matching-parens
+;; Show matching parens
 (add-hook 'after-init-hook 'show-paren-mode)
-(setq blink-matching-paren nil)
 
 ;; Insert closing parens after opening one
 (use-package electric-pair-mode
@@ -105,9 +104,6 @@
   :config (rg-enable-default-bindings))
 
 ;; Dired configuration
-(let ((gls (executable-find "gls")))
-  (when gls (setq insert-directory-program gls)))
-
 (use-package diredfl
   :config
   (diredfl-global-mode)

@@ -26,8 +26,6 @@
               ("TAB" . ivy-alt-done)
               :map ivy-switch-buffer-map
               ("C-d" . ivy-switch-buffer-kill)
-              :map ivy-occur-mode-map
-              ("C-c C-q" . ivy-wgrep-change-to-wgrep-mode)
               :map counsel-mode-map
               ([remap swiper] . counsel-grep-or-swiper)
               ([remap swiper-backward] . counsel-grep-or-swiper-backward))

@@ -5,6 +5,8 @@
 
 ;;; Code:
 
+(require 'init-programming)
+
 ;; Make shell script files executable automatically on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
