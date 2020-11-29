@@ -182,7 +182,7 @@ verify_os() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Check if the OS is `Arch`.
+    # Check if the OS is `Arch Linux`.
     # No need to check version in this case.
 
     elif [ "$os_name" == "arch" ]; then
