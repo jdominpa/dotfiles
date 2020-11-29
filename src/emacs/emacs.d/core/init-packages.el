@@ -54,7 +54,7 @@
 
 ;; Package to update Emacs' GPG keyring
 (use-package gnu-elpa-keyring-update
-  :init (let ((package-check-signature nil))))
+  :init (setq package-check-signature nil))
 
 ;; Improve UI in package-menu-mode by widening certain columns
 (defun jdp/set-tabulated-list-column-width (col-name width)

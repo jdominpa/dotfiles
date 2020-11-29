@@ -35,6 +35,13 @@
 (with-eval-after-load 'magit
   (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)]))))
 
+;; (NOTE: currently disabled because I don't use Emacs in fullscreen)
+;; Emacs can cause bugs with child frames on macOS in fullscreen mode
+;; (see https://github.com/sebastiencs/company-box/issues/59). This
+;; option makes Emacs fullscreen without creating a new virtual desktop
+;; and solves those buggs.
+; (setq-default ns-use-native-fullscreen nil)
+
 ;; Command-Option-f to toggle fullscreen mode
 (when (fboundp 'toggle-frame-fullscreen)
   (bind-key "M-ƒ" 'toggle-frame-fullscreen))
