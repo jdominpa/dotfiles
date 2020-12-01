@@ -12,6 +12,7 @@
   (exec-path-from-shell-initialize))
 
 (use-package exwm
+  :disabled t
   :config
   ;; Turn on `display-time-mode' if you don't use an external bar.
   (setq display-time-default-load-average nil)
