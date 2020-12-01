@@ -23,7 +23,8 @@
 
 (use-package magit
   :hook ((git-commit-mode . goto-address-mode)
-         (git-commit-mode . evil-insert-state))
+         ;(git-commit-mode . evil-insert-state)
+         )
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch))
   :config
