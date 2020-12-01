@@ -8,6 +8,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Fonts\n\n"
 
+install_package "Fira Code" "ttf-fira-code"
 install_package "Roboto" "ttf-roboto"
 install_package "Roboto Mono" "ttf-roboto-mono"
 install_package "Liberation" "ttf-liberation"

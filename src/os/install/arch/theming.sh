@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Themeing packages\n\n"
+print_in_purple "\n   Theming packages\n\n"
 
 install_package "Papirus icon theme" "papirus-icon-theme"
 install_aur_package "Ant gtk theme" "ant-gtk-theme"
