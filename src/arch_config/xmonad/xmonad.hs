@@ -3,7 +3,6 @@
 ------------------------------------------------------------------------
     -- Base
 import XMonad
-import XMonad.Config.Desktop
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
@@ -27,23 +26,23 @@ import XMonad.Actions.WithAll (sinkAll, killAll)
 import XMonad.Actions.CycleWS (nextScreen, prevScreen)
 import XMonad.Actions.UpdatePointer
 
+    -- Layouts
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.SimplestFloat
+
     -- Layouts modifiers
 import XMonad.Layout.NoBorders
 import XMonad.Layout.WindowArranger (WindowArrangerMsg(..))
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
-import qualified XMonad.Layout.ToggleLayouts as TL
-
-    -- Layouts
-import XMonad.Layout.ResizableTile
-import XMonad.Layout.SimplestFloat
+import qualified XMonad.Layout.ToggleLayouts as T
 
 ------------------------------------------------------------------------
 ---CONFIG
 ------------------------------------------------------------------------
 -- Font
 myFont :: String
-myFont = "xft:monospace:regular:pixelsize=14"
+myFont = "xft:monospace:regular:size=14:antialias=true::hintingg=true"
 
 -- Sets modkey to super/windows key
 myModMask :: KeyMask
@@ -55,7 +54,7 @@ myTerminal = "alacritty"
 
 -- Sets default text editor
 myTextEditor :: String
-myTextEditor = "emacsclient -c"
+myTextEditor = "emacsclient"
 
 -- Sets default browser
 myBrowser :: String
@@ -65,6 +64,14 @@ myBrowser = "firefox"
 myBorderWidth :: Dimension
 myBorderWidth = 2
 
+-- Border color of normal windows
+myNormColor :: String
+myNormColor   = "#BFBFBF"
+
+-- Border color of focused windows
+myFocusColor :: String
+myFocusColor = "#BD93F9"
+
 -- Gets the number of windows in workspace
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -73,8 +80,17 @@ main :: IO ()
 main = do
   -- Launch xmobar
   xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc.hs"
-  xmonad $ ewmh desktopConfig
-    { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageHook desktopConfig <+> manageDocks
+  -- Xmonad config
+  xmonad $ ewmh def
+    { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
+    , modMask            = myModMask
+    , terminal           = myTerminal
+    , startupHook        = myStartupHook
+    , layoutHook         = myLayoutHook
+    , workspaces         = myWorkspaces
+    , borderWidth        = myBorderWidth
+    , normalBorderColor  = myNormColor
+    , focusedBorderColor = myFocusColor
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = \x -> hPutStrLn xmproc x
       , ppCurrent = xmobarColor "#BD93F9" "" . wrap "[" "]" -- Current workspace in xmobar
@@ -87,15 +103,8 @@ main = do
       , ppExtras  = [windowCount]                           -- # of windows current workspace
       , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
       } >> updatePointer (0.5, 0.5) (0, 0)                  -- Add the pointer follows focus function to logHook
-    , modMask            = myModMask
-    , terminal           = myTerminal
-    , startupHook        = myStartupHook
-    , layoutHook         = myLayoutHook
-    , workspaces         = myWorkspaces
-    , borderWidth        = myBorderWidth
-    , normalBorderColor  = "#BFBFBF"
-    , focusedBorderColor = "#BD93F9"
     } `additionalKeysP` myKeys
+
 
 ------------------------------------------------------------------------
 ---AUTOSTART
@@ -151,7 +160,7 @@ myKeys =
   , ("M-<Space>", sendMessage ToggleStruts)                            -- Toggles struts
   , ("M-n", sendMessage $ Toggle NOBORDERS)                            -- Toggles noborder
   , ("M-S-f", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
-  , ("M-f", sendMessage TL.ToggleLayout)
+  , ("M-f", sendMessage T.ToggleLayout)
 
   , ("M-h", sendMessage Shrink)
   , ("M-l", sendMessage Expand)
@@ -218,7 +227,7 @@ myManageHook = composeAll
 ------------------------------------------------------------------------
 ---LAYOUTS
 ------------------------------------------------------------------------
-myLayoutHook = avoidStruts $ smartBorders $ TL.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
+myLayoutHook = avoidStruts $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
 -- avoid xmobar ────┘             |                   |                                         |                         |
 -- no border if there's only 1 window                 |                                         |                         |
 --                      enable toggling float layout ─┘                                         |                         |
