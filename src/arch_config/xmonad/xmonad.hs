@@ -1,22 +1,9 @@
-------------------------------------------------------------------------
----IMPORTS
-------------------------------------------------------------------------
+-- Imports
     -- Base
 import XMonad
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
-
-    -- Utilities
-import XMonad.Util.EZConfig (additionalKeysP)
-import XMonad.Util.Run (safeSpawn, spawnPipe)
-import XMonad.Util.SpawnOnce
-
-    -- Hooks
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
-import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts(..))
-import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat, doSideFloat, Side(..))
-import XMonad.Hooks.EwmhDesktops
 
     -- Actions
 import XMonad.Actions.Promote
@@ -25,6 +12,20 @@ import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.WithAll (sinkAll, killAll)
 import XMonad.Actions.CycleWS (nextScreen, prevScreen)
 import XMonad.Actions.UpdatePointer
+import XMonad.Actions.MouseResize
+
+    -- Data
+import Data.Char (isSpace, toUpper)
+import Data.Monoid
+import Data.Maybe (isJust)
+import Data.Tree
+import qualified Data.Map as M
+
+    -- Hooks
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat, doSideFloat, Side(..))
+import XMonad.Hooks.EwmhDesktops
 
     -- Layouts
 import XMonad.Layout.ResizableTile
@@ -32,14 +33,29 @@ import XMonad.Layout.SimplestFloat
 
     -- Layouts modifiers
 import XMonad.Layout.NoBorders
-import XMonad.Layout.WindowArranger (WindowArrangerMsg(..))
+import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
 import qualified XMonad.Layout.ToggleLayouts as T
 
-------------------------------------------------------------------------
----CONFIG
-------------------------------------------------------------------------
+    -- Prompt
+import XMonad.Prompt
+import XMonad.Prompt.Input
+import XMonad.Prompt.FuzzyMatch
+import XMonad.Prompt.Man
+--import XMonad.Prompt.Pass
+import XMonad.Prompt.Shell
+import XMonad.Prompt.Ssh
+import XMonad.Prompt.XMonad
+import Control.Arrow (first)
+
+    -- Utilities
+import XMonad.Util.EZConfig (additionalKeysP)
+import XMonad.Util.Run (safeSpawn, spawnPipe)
+import XMonad.Util.SpawnOnce
+
+
+-- Variables and main
 -- Font
 myFont :: String
 myFont = "xft:monospace:regular:size=14:antialias=true::hintingg=true"
@@ -106,32 +122,122 @@ main = do
     } `additionalKeysP` myKeys
 
 
-------------------------------------------------------------------------
----AUTOSTART
-------------------------------------------------------------------------
+-- Autostart hook
 myStartupHook :: X ()
 myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr"
 
-------------------------------------------------------------------------
----KEYBINDINGS
-------------------------------------------------------------------------
+-- Prompts configuration
+jdpXPConfig :: XPConfig
+jdpXPConfig = def
+              { font                = myFont
+              , bgColor             = "#282c34"
+              , fgColor             = "#bbc2cf"
+              , bgHLight            = "#c792ea"
+              , fgHLight            = "#000000"
+              , borderColor         = "#535974"
+              , promptBorderWidth   = 0
+              , promptKeymap        = dtXPKeymap
+              , position            = Top
+              , height              = 20
+              , historySize         = 256
+              , historyFilter       = id
+              , defaultText         = []
+              , autoComplete        = Just 100000  -- set Just 100000 for .1 sec
+              , showCompletionOnTab = False
+              -- , searchPredicate     = isPrefixOf
+              , searchPredicate     = fuzzyMatch
+              , defaultPrompter     = id $ map toUpper  -- change prompt to UPPER
+              , alwaysHighlight     = True
+              , maxComplRows        = Nothing      -- set to 'Just 5' for 5 rows
+              }
+
+-- The same config above minus the autocomplete feature which is annoying
+-- on certain Xprompts, like the search engine prompts.
+jdpXPConfig' :: XPConfig
+jdpXPConfig' = dtXPConfig
+               { autoComplete        = Nothing
+               }
+
+-- A list of all of the standard Xmonad prompts and a key press assigned to them.
+-- These are used in conjunction with a keybinding I set later in the config.
+promptList :: [(String, XPConfig -> X ())]
+promptList = [ ("m", manPrompt)          -- manpages prompt
+             --, ("p", passPrompt)         -- get passwords (requires 'pass')
+             --, ("g", passGeneratePrompt) -- generate passwords (requires 'pass')
+             --, ("r", passRemovePrompt)   -- remove passwords (requires 'pass')
+             , ("s", sshPrompt)          -- ssh prompt
+             , ("x", xmonadPrompt)       -- xmonad prompt
+             ]
+
+jdpXPKeymap :: M.Map (KeyMask,KeySym) (XP ())
+jdpXPKeymap = M.fromList $
+              map (first $ (,) controlMask)   -- control + <key>
+              [ (xK_z, killBefore)            -- kill line backwards
+              , (xK_k, killAfter)             -- kill line forwards
+              , (xK_a, startOfLine)           -- move to the beginning of the line
+              , (xK_e, endOfLine)             -- move to the end of the line
+              , (xK_m, deleteString Next)     -- delete a character foward
+              , (xK_b, moveCursor Prev)       -- move cursor backward
+              , (xK_f, moveCursor Next)       -- move cursor forward
+              , (xK_BackSpace, killWord Prev) -- kill the previous word
+              , (xK_y, pasteString)           -- paste a string
+              , (xK_g, quit)                  -- quit out of prompt
+              , (xK_bracketleft, quit)
+              ]
+              ++
+              map (first $ (,) altMask)       -- meta key + <key>
+              [ (xK_BackSpace, killWord Prev) -- kill the prev word
+              , (xK_f, moveWord Next)         -- move a word forward
+              , (xK_b, moveWord Prev)         -- move a word backward
+              , (xK_d, killWord Next)         -- kill the next word
+              , (xK_n, moveHistory W.focusUp')   -- move up thru history
+              , (xK_p, moveHistory W.focusDown') -- move down thru history
+              ]
+              ++
+              map (first $ (,) 0) -- <key>
+              [ (xK_Return, setSuccess True >> setDone True)
+              , (xK_KP_Enter, setSuccess True >> setDone True)
+              , (xK_BackSpace, deleteString Prev)
+              , (xK_Delete, deleteString Next)
+              , (xK_Left, moveCursor Prev)
+              , (xK_Right, moveCursor Next)
+              , (xK_Home, startOfLine)
+              , (xK_End, endOfLine)
+              , (xK_Down, moveHistory W.focusUp')
+              , (xK_Up, moveHistory W.focusDown')
+              , (xK_Escape, quit)
+              ]
+
+-- This is the list of search engines that I want to use. Some are from
+-- XMonad.Actions.Search, and some are the ones that I added above.
+searchList :: [(String, S.SearchEngine)]
+searchList = [ ("g", S.google)
+             , ("h", S.hoogle)
+             , ("i", S.images)
+             , ("b", S.wayback)
+             , ("w", S.wikipedia)
+             , ("y", S.youtube)
+             , ("z", S.amazon)
+             ]
+
+-- Keybindings
 myKeys :: [([Char], X ())]
 myKeys =
--- Xmonad
+  -- Xmonad
   [ ("M-C-r", spawn "xmonad --recompile")           -- Recompiles xmonad
   , ("M-S-r", spawn "xmonad --restart")             -- Restarts xmonad
   , ("M-S-c", io exitSuccess)                       -- Quits xmonad
 
--- Windows
+  -- Windows
   , ("M-S-q", kill1)                                -- Kill the currently focused client
   , ("M-S-a", killAll)                              -- Kill all the windows on current workspace
 
--- Floating windows
+  -- Floating windows
   , ("M-<Delete>", withFocused $ windows . W.sink)  -- Push floating window back to tile.
   , ("M-S-<Delete>", sinkAll)                       -- Push ALL floating windows back to tile.
 
--- Windows navigation
+  -- Windows navigation
   , ("M-m", windows W.focusMaster)                  -- Move focus to the master window
   , ("M-j", windows W.focusDown)                    -- Move focus to the next window
   , ("M-k", windows W.focusUp)                      -- Move focus to the prev window
@@ -155,7 +261,7 @@ myKeys =
   , ("M-C-<Right>", sendMessage (DecreaseRight 10)) --  Decrease size of focused window right
   , ("M-C-<Left>", sendMessage (DecreaseLeft 10))   --  Decrease size of focused window left
 
--- Layouts
+  -- Layouts
   , ("M-<Tab>", sendMessage NextLayout)                                -- Switch to next layout
   , ("M-<Space>", sendMessage ToggleStruts)                            -- Toggles struts
   , ("M-n", sendMessage $ Toggle NOBORDERS)                            -- Toggles noborder
@@ -167,20 +273,20 @@ myKeys =
   , ("M-C-j", sendMessage MirrorShrink)
   , ("M-C-k", sendMessage MirrorExpand)
 
--- Workspaces
+  -- Workspaces
   , ("M-.", nextScreen)                           -- Switch focus to next monitor
   , ("M-,", prevScreen)                           -- Switch focus to prev monitor
 
--- Open Terminal
+  -- Open Terminal
   , ("M-<Return>", spawn myTerminal)
 
--- Dmenu Scripts (Alt+Ctr+Key)
+  -- Dmenu Scripts (Alt+Ctr+Key)
   , ("M-S-<Return>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
   , ("M1-C-u", spawn "dmenuunicode")
   , ("M1-C-t", spawn "torwrap")
   , ("M1-C-S-t", spawn "tortoggle")
 
--- My Applications (Super+Alt+Key)
+  -- My Applications (Super+Alt+Key)
   , ("M-M1-i", spawn (myTerminal ++ " -e nmtui"))
   , ("M-M1-l", spawn "slock")
   , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
@@ -193,7 +299,7 @@ myKeys =
   , ("M-M1-S-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
 
 
--- Multimedia Keys
+  -- Multimedia Keys
   -- , ("<XF86AudioPlay>", spawn "cmus toggle")
   -- , ("<XF86AudioPrev>", spawn "cmus prev")
   -- , ("<XF86AudioNext>", spawn "cmus next")
@@ -206,33 +312,23 @@ myKeys =
   ]
 
 
-------------------------------------------------------------------------
----WORKSPACES
-------------------------------------------------------------------------
+-- Workspaces
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["emacs","www","sys","doc","gen","gfx","mus","vid","disc"]
+myWorkspaces = ["dev","www","sys","doc","vid","disc"]
 
 myManageHook :: ManageHook
 myManageHook = composeAll
   [ (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-  , className =? "firefox"             --> doShift "www"
-  , className =? "Brave-browser"       --> doShift "www"
-  , className =? "Emacs"               --> doShift "emacs"
-  , className =? "discord"             --> doShift "disc"
-  , className =? "Zathura"             --> doShift "doc"
-  , className =? "mpv"                 --> doShift "vid"
+  , className =? "firefox"             --> doShift (myWorkspaces !! 2)
+  , className =? "Zathura"             --> doShift (myWorkspaces !! 4)
+  , className =? "mpv"                 --> doShift (myWorkspaces !! 5)
+  , className =? "vlc"                 --> doShift (myWorkspaces !! 5)
+  , className =? "discord"             --> doShift (myWorkspaces !! 6)
   , className =? "Pcmanfm"             --> doSideFloat C            -- Spawn window with it's original size centered in the screen
   ]
 
-------------------------------------------------------------------------
----LAYOUTS
-------------------------------------------------------------------------
-myLayoutHook = avoidStruts $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
--- avoid xmobar ────┘             |                   |                                         |                         |
--- no border if there's only 1 window                 |                                         |                         |
---                      enable toggling float layout ─┘                                         |                         |
---                                                  enable toggling fullscreen and no borders ──┘                         |
---                                                                                                     custom layout ─────┘
+-- Layouts
+myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
 
 myDefaultLayout = tall ||| noBorders Full ||| simplestFloat
   where
