@@ -13,6 +13,7 @@ import XMonad.Actions.WithAll (sinkAll, killAll)
 import XMonad.Actions.CycleWS (nextScreen, prevScreen)
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.MouseResize
+import qualified XMonad.Actions.Search as S
 
     -- Data
 import Data.Char (isSpace, toUpper)
@@ -23,7 +24,7 @@ import qualified Data.Map as M
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
-import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat, doSideFloat, Side(..))
 import XMonad.Hooks.EwmhDesktops
 
@@ -88,6 +89,10 @@ myNormColor   = "#BFBFBF"
 myFocusColor :: String
 myFocusColor = "#BD93F9"
 
+-- Setting this for use in xprompts
+altMask :: KeyMask
+altMask = mod1Mask
+
 -- Gets the number of windows in workspace
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -99,6 +104,9 @@ main = do
   -- Xmonad config
   xmonad $ ewmh def
     { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
+	, handleEventHook    = handleEventHook def
+                           <+> fullscreenEventHook
+						   <+> docksEventHook
     , modMask            = myModMask
     , terminal           = myTerminal
     , startupHook        = myStartupHook
@@ -137,7 +145,7 @@ jdpXPConfig = def
               , fgHLight            = "#000000"
               , borderColor         = "#535974"
               , promptBorderWidth   = 0
-              , promptKeymap        = dtXPKeymap
+              , promptKeymap        = jdpXPKeymap
               , position            = Top
               , height              = 20
               , historySize         = 256
@@ -155,7 +163,7 @@ jdpXPConfig = def
 -- The same config above minus the autocomplete feature which is annoying
 -- on certain Xprompts, like the search engine prompts.
 jdpXPConfig' :: XPConfig
-jdpXPConfig' = dtXPConfig
+jdpXPConfig' = jdpXPConfig
                { autoComplete        = Nothing
                }
 
