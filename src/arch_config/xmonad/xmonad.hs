@@ -37,9 +37,13 @@ import XMonad.Layout.LayoutModifier
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
 import XMonad.Layout.NoBorders
+import XMonad.Layout.Renamed
+import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
+import XMonad.Layout.SubLayouts
 import qualified XMonad.Layout.ToggleLayouts as T
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
+import XMonad.Layout.WindowNavigation
 
     -- Prompt
 import XMonad.Prompt
@@ -366,6 +370,5 @@ myKeys =
   ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
   -- Appending some extra xprompts to keybindings list.
   -- Look at "xprompt settings" section this of config for values for "k".
-  ++ [("M-p " ++ k, f jdpXPConfig') | (k,f) <- promptList ]
-  ++ [("M-p " ++ k, f jdpXPConfig' g) | (k,f,g) <- promptList' ]
+  ++ [("M-p " ++ k, f jdpXPConfig) | (k,f) <- promptList ]
 
