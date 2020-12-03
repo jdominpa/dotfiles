@@ -33,6 +33,7 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.SimplestFloat
 
     -- Layouts modifiers
+import XMonad.Layout.LayoutModifier
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
 import XMonad.Layout.NoBorders
