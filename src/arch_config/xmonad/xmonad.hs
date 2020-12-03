@@ -6,43 +6,44 @@ import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
 
     -- Actions
+import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.CycleWS (nextScreen, prevScreen)
+import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
-import XMonad.Actions.CopyWindow (kill1)
-import XMonad.Actions.WithAll (sinkAll, killAll)
-import XMonad.Actions.CycleWS (nextScreen, prevScreen)
-import XMonad.Actions.UpdatePointer
-import XMonad.Actions.MouseResize
 import qualified XMonad.Actions.Search as S
+import XMonad.Actions.UpdatePointer
+import XMonad.Actions.WithAll (sinkAll, killAll)
 
     -- Data
 import Data.Char (isSpace, toUpper)
-import Data.Monoid
-import Data.Maybe (isJust)
-import Data.Tree
 import qualified Data.Map as M
+import Data.Maybe (isJust)
+import Data.Monoid
+import Data.Tree
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat, doSideFloat, Side(..))
-import XMonad.Hooks.EwmhDesktops
 
     -- Layouts
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.SimplestFloat
 
     -- Layouts modifiers
-import XMonad.Layout.NoBorders
-import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Spacing
 import qualified XMonad.Layout.ToggleLayouts as T
+import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 
     -- Prompt
 import XMonad.Prompt
-import XMonad.Prompt.Input
 import XMonad.Prompt.FuzzyMatch
+import XMonad.Prompt.Input
 import XMonad.Prompt.Man
 --import XMonad.Prompt.Pass
 import XMonad.Prompt.Shell
@@ -336,8 +337,26 @@ myManageHook = composeAll
   ]
 
 -- Layouts
-myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
 
-myDefaultLayout = tall ||| noBorders Full ||| simplestFloat
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+-- Layout definition
+tall     = renamed [Replace "tall"]
+           $ windowNavigation
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+monocle  = renamed [Replace "monocle"]
+           $ windowNavigation
+           $ subLayout [] (smartBorders Simplest)
+           $ Full
+floats   = renamed [Replace "floats"]
+           $ windowNavigation
+           $ subLayout [] (smartBorders Simplest)
+           $ simplestFloat
+
+-- Layout hook
+myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
   where
-    tall = ResizableTall 1 (3/100) (1/2) []
+    myDefaultLayout = tall ||| noBorders monocle ||| floats
