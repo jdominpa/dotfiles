@@ -136,6 +136,7 @@ myStartupHook :: X ()
 myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr"
 
+
 -- Prompts configuration
 jdpXPConfig :: XPConfig
 jdpXPConfig = def
@@ -230,17 +231,59 @@ searchList = [ ("g", S.google)
              , ("z", S.amazon)
              ]
 
+
+-- Layout configuration
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+-- Layout definition
+tall     = renamed [Replace "tall"]
+           $ windowNavigation
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+monocle  = renamed [Replace "monocle"]
+           $ windowNavigation
+           $ subLayout [] (smartBorders Simplest)
+           $ Full
+floats   = renamed [Replace "floats"]
+           $ windowNavigation
+           $ subLayout [] (smartBorders Simplest)
+           $ simplestFloat
+
+-- Layout hook
+myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
+  where
+    myDefaultLayout = tall ||| noBorders monocle ||| floats
+
+
+-- Workspaces
+myWorkspaces :: [WorkspaceId]
+myWorkspaces = ["dev","www","sys","doc","vid","disc"]
+
+myManageHook :: ManageHook
+myManageHook = composeAll
+  [ (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+  , className =? "firefox"             --> doShift (myWorkspaces !! 1)
+  , className =? "Zathura"             --> doShift (myWorkspaces !! 3)
+  , className =? "mpv"                 --> doShift (myWorkspaces !! 4)
+  , className =? "vlc"                 --> doShift (myWorkspaces !! 4)
+  , className =? "discord"             --> doShift (myWorkspaces !! 5)
+  , className =? "Pcmanfm"             --> doSideFloat C            -- Spawn window with it's original size centered in the screen
+  ]
+
+
 -- Keybindings
 myKeys :: [([Char], X ())]
 myKeys =
   -- Xmonad
-  [ ("M-C-r", spawn "xmonad --recompile")           -- Recompiles xmonad
-  , ("M-S-r", spawn "xmonad --restart")             -- Restarts xmonad
-  , ("M-S-c", io exitSuccess)                       -- Quits xmonad
+  [ ("M-x c", spawn "xmonad --recompile")           -- Recompiles xmonad
+  , ("M-x r", spawn "xmonad --restart")             -- Restarts xmonad
+  , ("M-x q", io exitSuccess)                       -- Quits xmonad
 
   -- Windows
-  , ("M-S-q", kill1)                                -- Kill the currently focused client
-  , ("M-S-a", killAll)                              -- Kill all the windows on current workspace
+  , ("M-q", kill1)                                  -- Kill the currently focused client
+  , ("M-S-q", killAll)                              -- Kill all the windows on current workspace
 
   -- Floating windows
   , ("M-<Delete>", withFocused $ windows . W.sink)  -- Push floating window back to tile.
@@ -271,11 +314,11 @@ myKeys =
   , ("M-C-<Left>", sendMessage (DecreaseLeft 10))   --  Decrease size of focused window left
 
   -- Layouts
-  , ("M-<Tab>", sendMessage NextLayout)                                -- Switch to next layout
-  , ("M-<Space>", sendMessage ToggleStruts)                            -- Toggles struts
-  , ("M-n", sendMessage $ Toggle NOBORDERS)                            -- Toggles noborder
-  , ("M-S-f", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
-  , ("M-f", sendMessage T.ToggleLayout)
+  , ("M-l n", sendMessage NextLayout)                                  -- Switch to next layout
+  , ("M-l m", sendMessage ToggleStruts)                                -- Toggles struts
+  , ("M-l b", sendMessage $ Toggle NOBORDERS)                          -- Toggles noborder
+  , ("M-l f", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
+  , ("M-l t", sendMessage T.ToggleLayout)
 
   , ("M-h", sendMessage Shrink)
   , ("M-l", sendMessage Expand)
@@ -283,29 +326,26 @@ myKeys =
   , ("M-C-k", sendMessage MirrorExpand)
 
   -- Workspaces
-  , ("M-.", nextScreen)                           -- Switch focus to next monitor
-  , ("M-,", prevScreen)                           -- Switch focus to prev monitor
+  , ("M-x n", nextScreen)                           -- Switch focus to next monitor
+  , ("M-x p", prevScreen)                           -- Switch focus to prev monitor
 
   -- Open Terminal
   , ("M-<Return>", spawn myTerminal)
 
-  -- Dmenu Scripts (Alt+Ctr+Key)
-  , ("M-S-<Return>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
-  , ("M1-C-u", spawn "dmenuunicode")
-  , ("M1-C-t", spawn "torwrap")
-  , ("M1-C-S-t", spawn "tortoggle")
+  -- Dmenu
+  , ("M-<Space>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
 
   -- My Applications (Super+Alt+Key)
-  , ("M-M1-i", spawn (myTerminal ++ " -e nmtui"))
-  , ("M-M1-l", spawn "slock")
-  , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
-  , ("M-M1-a", spawn (myTerminal ++ " -e pulsemixer"))
-  , ("M-M1-p", spawn "pcmanfm")
-  , ("M-M1-w", safeSpawn myBrowser [])
-  , ("M-M1-e", spawn myTextEditor)
-  , ("M-M1-S-e", spawn "emacs")
-  , ("M-M1-m", spawn "xrandr --output DP-0 --auto --right-of DP-2")  -- Turn on second monitor
-  , ("M-M1-S-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
+  , ("M-x l", spawn "slock")
+  , ("M-c i", spawn (myTerminal ++ " -e nmtui"))
+  , ("M-c h", spawn (myTerminal ++ " -e htop"))
+  , ("M-c a", spawn (myTerminal ++ " -e pulsemixer"))
+  , ("M-c p", spawn "pcmanfm")
+  , ("M-c w", safeSpawn myBrowser [])
+  , ("M-c e", spawn myTextEditor)
+  , ("M-c M-e", spawn "emacs")
+  , ("M-x m", spawn "xrandr --output DP-0 --auto --right-of DP-2")  -- Turn on second monitor
+  , ("M-x M-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
 
 
   -- Multimedia Keys
@@ -316,47 +356,15 @@ myKeys =
   , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -2%")
   , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +2%")
   , ("<XF86HomePage>", spawn myBrowser)
-  , ("<XF86Search>", safeSpawn myBrowser ["https://www.duckduckgo.com/"])
+  , ("<XF86Search>", safeSpawn myBrowser ["https://www.google.com/"])
   , ("<Print>", spawn "scrot '%d-%m-%Y_$wx$h.png' -e 'mv $f ~/Imatges/Captures'")
   ]
+  -- Appending search engine prompts to keybindings list.
+  -- Look at "search engines" section of this config for values for "k".
+  ++ [("M-s " ++ k, S.promptSearch jdpXPConfig' f) | (k,f) <- searchList ]
+  ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
+  -- Appending some extra xprompts to keybindings list.
+  -- Look at "xprompt settings" section this of config for values for "k".
+  ++ [("M-p " ++ k, f jdpXPConfig') | (k,f) <- promptList ]
+  ++ [("M-p " ++ k, f jdpXPConfig' g) | (k,f,g) <- promptList' ]
 
-
--- Workspaces
-myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["dev","www","sys","doc","vid","disc"]
-
-myManageHook :: ManageHook
-myManageHook = composeAll
-  [ (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-  , className =? "firefox"             --> doShift (myWorkspaces !! 2)
-  , className =? "Zathura"             --> doShift (myWorkspaces !! 4)
-  , className =? "mpv"                 --> doShift (myWorkspaces !! 5)
-  , className =? "vlc"                 --> doShift (myWorkspaces !! 5)
-  , className =? "discord"             --> doShift (myWorkspaces !! 6)
-  , className =? "Pcmanfm"             --> doSideFloat C            -- Spawn window with it's original size centered in the screen
-  ]
-
--- Layouts
-
-mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
-mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
-
--- Layout definition
-tall     = renamed [Replace "tall"]
-           $ windowNavigation
-           $ subLayout [] (smartBorders Simplest)
-           $ mySpacing 8
-           $ ResizableTall 1 (3/100) (1/2) []
-monocle  = renamed [Replace "monocle"]
-           $ windowNavigation
-           $ subLayout [] (smartBorders Simplest)
-           $ Full
-floats   = renamed [Replace "floats"]
-           $ windowNavigation
-           $ subLayout [] (smartBorders Simplest)
-           $ simplestFloat
-
--- Layout hook
-myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ smartBorders $ T.toggleLayouts simplestFloat $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ myDefaultLayout
-  where
-    myDefaultLayout = tall ||| noBorders monocle ||| floats
