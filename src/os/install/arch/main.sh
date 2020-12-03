@@ -14,9 +14,10 @@ install_yay
 ./desktop.sh
 ./fonts.sh
 ./terminal.sh
-./misc.sh
-./misc_tools.sh
+./gui_progs.sh
+./cmd_line_tools.sh
 ./editors.sh
+./proglang.sh
 ./theming.sh
 
 ./cleanup.sh

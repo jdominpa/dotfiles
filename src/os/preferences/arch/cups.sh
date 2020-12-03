@@ -7,5 +7,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   CUPS activation\n\n"
 
-execute "sudo systemctl enable --now org.cups.cupsd.socket" \
+execute "sudo systemctl enable --now cups.socket" \
     "CUPS"

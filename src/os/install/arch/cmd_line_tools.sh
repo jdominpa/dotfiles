@@ -6,16 +6,13 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Miscellaneous Tools\n\n"
+print_in_purple "\n   Command Line Utilities\n\n"
 
 # Ssh key generator to use ssh keys for github and ssh
 install_package "SSH" "openssh"
 
 # cURL utility
 install_package "cURL" "curl"
-
-# Python 3
-install_package "Python 3" "python"
 
 # Process monitor
 install_package "htop" "htop"

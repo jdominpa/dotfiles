@@ -2,10 +2,12 @@ Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
        , additionalFonts = ["xft:FontAwesome:pixelsize=15"]
        , bgColor = "#282A36"
        , fgColor = "#F8F8F2"
-       , position = Top
+       , position = Static { xpos = 0, ypos = 0, width = 1440, height = 24 }
        , lowerOnStart = True
        , hideOnStart = False
+       , allDesktops = True
        , persistent = True
+       , iconRoot = "$HOME/.xmonad/xpm/" --default: "."
        , commands = [ Run Alsa "default" "Master" [ "--template", "Vol <volume>% <status>"
                                                   , "--High", "75"
                                                   , "--high", "#FF5555"
@@ -31,7 +33,7 @@ Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
                                      , "--high",   "#FF5555"
                                      ] 10
                     , Run Date "%d %b %Y (%a) %R" "date" 10
-                    , Run StdinReader ]
+                    , Run UnsafeStdinReader ]
        , sepChar = "%"
        , alignSep = "}{"
        , template = " %StdinReader% }{ <fc=#8BE9FD>%alsa:default:Master%</fc> : <fc=#FF79C6>%dynnetwork%</fc> : <fc=#BD93F9>%cpu%</fc> : <fc=#F1FA8C>%memory%</fc> : <fc=#50FA7B>%date%</fc> "

@@ -127,7 +127,7 @@ main = do
       , ppVisible = xmobarColor "#BD93F9" ""                -- Visible but not current workspace
       , ppHidden = xmobarColor "#F8F8F2" ""                 -- Hidden workspaces in xmobar
       , ppHiddenNoWindows = xmobarColor "#665C54" ""        -- Hidden workspaces (no windows)
-      , ppTitle = xmobarColor "#F8F8F2" "" . shorten 80     -- Title of active window in xmobar
+      , ppTitle = xmobarColor "#F8F8F2" "" . shorten 60     -- Title of active window in xmobar
       , ppSep =  "<fc=#F8F8F2> : </fc>"                     -- Separators in xmobar
       , ppUrgent = xmobarColor "#FF5555" "" . wrap "!" "!"  -- Urgent workspace
       , ppExtras  = [windowCount]                           -- # of windows current workspace
@@ -140,7 +140,9 @@ main = do
 myStartupHook :: X ()
 myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr"
-
+          spawnOnce "nm-applet &"
+          spawnOnce "volumeicon &"
+          spawnOnce "trayer --edge top --align right  -widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34 --height 22 &"
 
 -- Prompts configuration
 jdpXPConfig :: XPConfig
@@ -245,7 +247,7 @@ mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
 tall     = renamed [Replace "tall"]
            $ windowNavigation
            $ subLayout [] (smartBorders Simplest)
-           $ mySpacing 8
+           $ mySpacing 2
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ windowNavigation
@@ -345,7 +347,7 @@ myKeys =
   , ("M-c i", spawn (myTerminal ++ " -e nmtui"))
   , ("M-c h", spawn (myTerminal ++ " -e htop"))
   , ("M-c a", spawn (myTerminal ++ " -e pulsemixer"))
-  , ("M-c p", spawn "pcmanfm")
+  , ("M-c f", spawn "pcmanfm")
   , ("M-c w", safeSpawn myBrowser [])
   , ("M-c e", spawn myTextEditor)
   , ("M-c M-e", spawn "emacs")
