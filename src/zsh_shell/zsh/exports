@@ -4,14 +4,15 @@ export CORRECT_IGNORE_FILE='.*'
 
 export PAGER=less
 
-if which nvim &> /dev/null; then
-  export EDITOR=$(which nvim)
-else
-  export EDITOR=vim
-fi
+#if which nvim &> /dev/null; then
+#  export EDITOR=$(which nvim)
+#else
+#  export EDITOR=vim
+#fi
 
 if which emacsclient &> /dev/null; then
   export VISUAL=$(which emacsclient)
+  export EDITOR=$VISUAL
 fi
 
 # filename (if known), line number if known, falling back to percent if known,

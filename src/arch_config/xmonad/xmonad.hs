@@ -1,4 +1,3 @@
--- Imports
     -- Base
 import XMonad
 import System.IO (hPutStrLn)
@@ -38,9 +37,7 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, NOBORDERS))
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
-import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
-import XMonad.Layout.SubLayouts
 import qualified XMonad.Layout.ToggleLayouts as T
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.WindowNavigation
@@ -95,10 +92,6 @@ myNormColor   = "#BFBFBF"
 myFocusColor :: String
 myFocusColor = "#BD93F9"
 
--- Setting this for use in xprompts
-altMask :: KeyMask
-altMask = mod1Mask
-
 -- Gets the number of windows in workspace
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -142,31 +135,30 @@ myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr"
           spawnOnce "nm-applet &"
           spawnOnce "volumeicon &"
-          spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34 --height 22 &"
+          spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282A36 --height 22 &"
+
 
 -- Prompts configuration
 jdpXPConfig :: XPConfig
 jdpXPConfig = def
               { font                = myFont
-              , bgColor             = "#282c34"
-              , fgColor             = "#bbc2cf"
-              , bgHLight            = "#c792ea"
-              , fgHLight            = "#000000"
-              , borderColor         = "#535974"
+              , bgColor             = "#282A36"
+              , fgColor             = "#F8F8F2"
+              , bgHLight            = "#BD93F9"
+              , fgHLight            = "#E6E6E6"
+              , borderColor         = "#282A36"
               , promptBorderWidth   = 0
-              , promptKeymap        = jdpXPKeymap
+              , promptKeymap        = emacsLikeXPKeymap -- Emacs like keybindings for prompt
               , position            = Top
               , height              = 20
               , historySize         = 256
               , historyFilter       = id
-              , defaultText         = []
-              , autoComplete        = Just 100000  -- set Just 100000 for .1 sec
+              , defaultText         = ""
+              , autoComplete        = Just 100000       -- set Just 100000 for .1 sec
               , showCompletionOnTab = False
-              -- , searchPredicate     = isPrefixOf
               , searchPredicate     = fuzzyMatch
-              , defaultPrompter     = id $ map toUpper  -- change prompt to UPPER
               , alwaysHighlight     = True
-              , maxComplRows        = Nothing      -- set to 'Just 5' for 5 rows
+              , maxComplRows        = Nothing           -- set to 'Just 5' for 5 rows
               }
 
 -- The same config above minus the autocomplete feature which is annoying
@@ -187,55 +179,16 @@ promptList = [ ("m", manPrompt)          -- manpages prompt
              , ("x", xmonadPrompt)       -- xmonad prompt
              ]
 
-jdpXPKeymap :: M.Map (KeyMask,KeySym) (XP ())
-jdpXPKeymap = M.fromList $
-              map (first $ (,) controlMask)   -- control + <key>
-              [ (xK_z, killBefore)            -- kill line backwards
-              , (xK_k, killAfter)             -- kill line forwards
-              , (xK_a, startOfLine)           -- move to the beginning of the line
-              , (xK_e, endOfLine)             -- move to the end of the line
-              , (xK_m, deleteString Next)     -- delete a character foward
-              , (xK_b, moveCursor Prev)       -- move cursor backward
-              , (xK_f, moveCursor Next)       -- move cursor forward
-              , (xK_BackSpace, killWord Prev) -- kill the previous word
-              , (xK_y, pasteString)           -- paste a string
-              , (xK_g, quit)                  -- quit out of prompt
-              , (xK_bracketleft, quit)
-              ]
-              ++
-              map (first $ (,) altMask)       -- meta key + <key>
-              [ (xK_BackSpace, killWord Prev) -- kill the prev word
-              , (xK_f, moveWord Next)         -- move a word forward
-              , (xK_b, moveWord Prev)         -- move a word backward
-              , (xK_d, killWord Next)         -- kill the next word
-              , (xK_n, moveHistory W.focusUp')   -- move up thru history
-              , (xK_p, moveHistory W.focusDown') -- move down thru history
-              ]
-              ++
-              map (first $ (,) 0) -- <key>
-              [ (xK_Return, setSuccess True >> setDone True)
-              , (xK_KP_Enter, setSuccess True >> setDone True)
-              , (xK_BackSpace, deleteString Prev)
-              , (xK_Delete, deleteString Next)
-              , (xK_Left, moveCursor Prev)
-              , (xK_Right, moveCursor Next)
-              , (xK_Home, startOfLine)
-              , (xK_End, endOfLine)
-              , (xK_Down, moveHistory W.focusUp')
-              , (xK_Up, moveHistory W.focusDown')
-              , (xK_Escape, quit)
-              ]
-
 -- This is the list of search engines that I want to use. Some are from
 -- XMonad.Actions.Search, and some are the ones that I added above.
 searchList :: [(String, S.SearchEngine)]
 searchList = [ ("g", S.google)
-             , ("h", S.hoogle)
-             , ("i", S.images)
-             , ("b", S.wayback)
-             , ("w", S.wikipedia)
              , ("y", S.youtube)
+             , ("i", S.images)
+             , ("w", S.wikipedia)
              , ("z", S.amazon)
+             , ("h", S.hoogle)
+             , ("b", S.wayback)
              ]
 
 
@@ -246,16 +199,13 @@ mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
 -- Layout definition
 tall     = renamed [Replace "tall"]
            $ windowNavigation
-           $ subLayout [] (smartBorders Simplest)
-           $ mySpacing 2
+           $ mySpacing 4
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ windowNavigation
-           $ subLayout [] (smartBorders Simplest)
            $ Full
 floats   = renamed [Replace "floats"]
            $ windowNavigation
-           $ subLayout [] (smartBorders Simplest)
            $ simplestFloat
 
 -- Layout hook
@@ -321,11 +271,11 @@ myKeys =
   , ("M-C-<Left>", sendMessage (DecreaseLeft 10))   --  Decrease size of focused window left
 
   -- Layouts
-  , ("M-l n", sendMessage NextLayout)                                  -- Switch to next layout
-  , ("M-l m", sendMessage ToggleStruts)                                -- Toggles struts
-  , ("M-l b", sendMessage $ Toggle NOBORDERS)                          -- Toggles noborder
-  , ("M-l f", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
-  , ("M-l t", sendMessage T.ToggleLayout)
+  , ("M-o n", sendMessage NextLayout)                                  -- Switch to next layout
+  , ("M-o m", sendMessage ToggleStruts)                                -- Toggles struts
+  , ("M-o b", sendMessage $ Toggle NOBORDERS)                          -- Toggles noborder
+  , ("M-o f", sendMessage (Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
+  , ("M-o t", sendMessage T.ToggleLayout)
 
   , ("M-h", sendMessage Shrink)
   , ("M-l", sendMessage Expand)
@@ -354,7 +304,6 @@ myKeys =
   , ("M-x m", spawn "xrandr --output DP-0 --auto --right-of DP-2")  -- Turn on second monitor
   , ("M-x M-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
 
-
   -- Multimedia Keys
   -- , ("<XF86AudioPlay>", spawn "cmus toggle")
   -- , ("<XF86AudioPrev>", spawn "cmus prev")
@@ -372,5 +321,4 @@ myKeys =
   ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
   -- Appending some extra xprompts to keybindings list.
   -- Look at "xprompt settings" section this of config for values for "k".
-  ++ [("M-p " ++ k, f jdpXPConfig) | (k,f) <- promptList ]
-
+  ++ [("M-p " ++ k, f jdpXPConfig') | (k,f) <- promptList ]
