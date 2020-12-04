@@ -29,7 +29,7 @@ create_symlinks() {
         #"arch_config/config/polybar"
         "arch_config/config/suckless"
         #"arch_config/config/sxhkd"
-        "arch_config/xmonad/xmobarrc.hs"
+        "arch_config/xmonad/xmobarrc"
         "arch_config/xmonad/xmonad.hs"
         "arch_config/config/zathura"
         "arch_config/config/emoji"

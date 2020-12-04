@@ -106,13 +106,13 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 main :: IO ()
 main = do
   -- Launch xmobar
-  xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc.hs"
+  xmproc <- spawnPipe "xmobar --iconroot=$HOME/.xmonad/xpm $HOME/.xmonad/xmobarrc"
   -- Xmonad config
   xmonad $ ewmh def
     { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
-	, handleEventHook    = handleEventHook def
-                           <+> fullscreenEventHook
-						   <+> docksEventHook
+    , handleEventHook = handleEventHook def
+                        <+> fullscreenEventHook
+                        <+> docksEventHook
     , modMask            = myModMask
     , terminal           = myTerminal
     , startupHook        = myStartupHook
@@ -128,7 +128,7 @@ main = do
       , ppHidden = xmobarColor "#F8F8F2" ""                 -- Hidden workspaces in xmobar
       , ppHiddenNoWindows = xmobarColor "#665C54" ""        -- Hidden workspaces (no windows)
       , ppTitle = xmobarColor "#F8F8F2" "" . shorten 60     -- Title of active window in xmobar
-      , ppSep =  "<fc=#F8F8F2> : </fc>"                     -- Separators in xmobar
+      , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"          -- Separators in xmobar
       , ppUrgent = xmobarColor "#FF5555" "" . wrap "!" "!"  -- Urgent workspace
       , ppExtras  = [windowCount]                           -- # of windows current workspace
       , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
@@ -142,7 +142,7 @@ myStartupHook = do
           spawnOnce "xsetroot -cursor_name left_ptr"
           spawnOnce "nm-applet &"
           spawnOnce "volumeicon &"
-          spawnOnce "trayer --edge top --align right  -widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34 --height 22 &"
+          spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34 --height 22 &"
 
 -- Prompts configuration
 jdpXPConfig :: XPConfig
