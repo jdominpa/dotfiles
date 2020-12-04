@@ -48,9 +48,9 @@ import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Input
 import XMonad.Prompt.Man
 --import XMonad.Prompt.Pass
+import XMonad.Prompt.RunOrRaise
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Ssh
-import XMonad.Prompt.XMonad
 import Control.Arrow (first)
 
     -- Utilities
@@ -158,7 +158,7 @@ jdpXPConfig = def
               , showCompletionOnTab = False
               , searchPredicate     = fuzzyMatch
               , alwaysHighlight     = True
-              , maxComplRows        = Nothing           -- set to 'Just 5' for 5 rows
+              , maxComplRows        = Just 5            -- set to 'Just 5' for 5 rows
               }
 
 -- The same config above minus the autocomplete feature which is annoying
@@ -171,12 +171,13 @@ jdpXPConfig' = jdpXPConfig
 -- A list of all of the standard Xmonad prompts and a key press assigned to them.
 -- These are used in conjunction with a keybinding I set later in the config.
 promptList :: [(String, XPConfig -> X ())]
-promptList = [ ("m", manPrompt)          -- manpages prompt
+promptList = [ ("m", manPrompt)            -- manpages prompt
              --, ("p", passPrompt)         -- get passwords (requires 'pass')
              --, ("g", passGeneratePrompt) -- generate passwords (requires 'pass')
              --, ("r", passRemovePrompt)   -- remove passwords (requires 'pass')
-             , ("s", sshPrompt)          -- ssh prompt
-             , ("x", xmonadPrompt)       -- xmonad prompt
+             , ("r", runOrRaisePrompt)     -- run a program, open a file or raise a running program
+             , ("s", sshPrompt)            -- ssh prompt
+             , ("x", shellPrompt)          -- shell prompt
              ]
 
 -- This is the list of search engines that I want to use. Some are from
@@ -237,6 +238,11 @@ myKeys =
   [ ("M-x c", spawn "xmonad --recompile")           -- Recompiles xmonad
   , ("M-x r", spawn "xmonad --restart")             -- Restarts xmonad
   , ("M-x q", io exitSuccess)                       -- Quits xmonad
+  , ("M-x l", spawn "slock")
+
+  -- Monitors
+  , ("M-x m", spawn "xrandr --output DP-0 --auto --right-of DP-2")  -- Turn on second monitor
+  , ("M-x M-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
 
   -- Windows
   , ("M-q", kill1)                                  -- Kill the currently focused client
@@ -289,20 +295,18 @@ myKeys =
   -- Open Terminal
   , ("M-<Return>", spawn myTerminal)
 
-  -- Dmenu
-  , ("M-<Space>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
+  -- Dmenu (currently disabled because I'm trying xmonad prompts)
+  --, ("M-<Space>", spawn "dmenu_run -p 'Launch:' -fn 'monospace-11' -nb '#282A36' -nf '#BFBFBF' -sb '#BD93F9' -sf '#E6E6E6'")
 
   -- My Applications (Super+Alt+Key)
-  , ("M-x l", spawn "slock")
   , ("M-c i", spawn (myTerminal ++ " -e nmtui"))
   , ("M-c h", spawn (myTerminal ++ " -e htop"))
-  , ("M-c a", spawn (myTerminal ++ " -e pulsemixer"))
+  , ("M-c M-a p", spawn (myTerminal ++ " -e pulsemixer"))
+  , ("M-c M-a g", spawn "pavucontrol")
   , ("M-c f", spawn "pcmanfm")
   , ("M-c w", safeSpawn myBrowser [])
   , ("M-c e", spawn myTextEditor)
   , ("M-c M-e", spawn "emacs")
-  , ("M-x m", spawn "xrandr --output DP-0 --auto --right-of DP-2")  -- Turn on second monitor
-  , ("M-x M-m", spawn "xrandr --output DP-0 --off")                 -- Turn off second monitor
 
   -- Multimedia Keys
   -- , ("<XF86AudioPlay>", spawn "cmus toggle")
@@ -321,4 +325,4 @@ myKeys =
   ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
   -- Appending some extra xprompts to keybindings list.
   -- Look at "xprompt settings" section this of config for values for "k".
-  ++ [("M-p " ++ k, f jdpXPConfig') | (k,f) <- promptList ]
+  ++ [("M-<Space> " ++ k, f jdpXPConfig) | (k,f) <- promptList ]

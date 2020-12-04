@@ -36,11 +36,18 @@ install_package "Pulseaudio" "pulseaudio"
 install_package "Pulseaudio-alsa" "pulseaudio-alsa"
 install_package "Pulsemixer" "pulsemixer"
 install_package "Pavucontrol" "pavucontrol"
+install_package "Systray volume icon" "volumeicon"
 install_package "Alsa utilities" "alsa-utils"
+
+# Network programs
+install_package "Systray network icon" "nm-applet"
 
 # Notification system
 install_package "Dunst" "dunst"
 install_package "Library for dunst" "libnotify"
+
+# System tray
+install_package "System tray" "trayer"
 
 # Num lock activation program
 install_package "Numlockx" "numlockx"
