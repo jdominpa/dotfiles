@@ -19,39 +19,33 @@ create_symlinks() {
        #"bash_shell/bash_prompt"
        #"bash_shell/bashrc"
        #"bash_shell/inputrc"
-        "zsh_shell/zshrc"
-        "shell/curlrc"
-
         "git/gitattributes"
         "git/gitconfig"
         "git/gitignore"
+        "shell/curlrc"
+        "zsh_shell/zshrc"
 
     )
 
     declare -a NOT_HOME_FILES_TO_SYMLINK=(
 
+        "emacs/emacs.d/core"
+        "emacs/emacs.d/early-init.el"
+        "emacs/emacs.d/init.el"
+        "emacs/emacs.d/modules"
+        "emacs/emacs.d/personal-packages"
+
         "neovim/config/nvim/after"
         "neovim/config/nvim/autoload"
         "neovim/config/nvim/ftplugin"
+        "neovim/config/nvim/init.vim"
         "neovim/config/nvim/plugin"
         "neovim/config/nvim/ultisnips"
-        "neovim/config/nvim/init.vim"
-
-        #"emacs/emacs.d/lisp"
-        #"emacs/emacs.d/site-lisp"
-        #"emacs/emacs.d/early-init.el"
-        #"emacs/emacs.d/init.el"
-
-        "emacs/emacs.d/core"
-        "emacs/emacs.d/modules"
-        "emacs/emacs.d/personal-packages"
-        "emacs/emacs.d/early-init.el"
-        "emacs/emacs.d/init.el"
 
         "zsh_shell/zsh/aliases"
         "zsh_shell/zsh/colors"
-        "zsh_shell/zsh/exports"
         "zsh_shell/zsh/completions"
+        "zsh_shell/zsh/exports"
 
     )
 
