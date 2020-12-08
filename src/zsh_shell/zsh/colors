@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 #
 # Colors
 #
@@ -138,6 +139,6 @@ function () {
     color "$SCHEME"
   else
     # Default.
-    color dracula
+    color material-palenight
   fi
 }

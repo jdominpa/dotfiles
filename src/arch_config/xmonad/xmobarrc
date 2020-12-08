@@ -1,8 +1,8 @@
 Config { font = "xft:monospace:pixelsize=14:antialias=true:hinting=true"
        , additionalFonts = [ "xft:monospace:pixelsize=11:antialias=true:hinting=true"
                            , "xft:FontAwesome:pixelsize=15:antialias=true:hinting=true" ]
-       , bgColor = "#282A36"
-       , fgColor = "#F8F8F2"
+       , bgColor = "#282C34"
+       , fgColor = "#FF6C6B"
        , position = Top
        , lowerOnStart = True
        , hideOnStart = False

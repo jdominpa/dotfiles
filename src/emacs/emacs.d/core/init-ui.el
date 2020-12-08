@@ -74,7 +74,7 @@
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
-(load-theme 'doom-dracula t)
+(load-theme 'doom-palenight t)
 
 ;; Resize font in all buffers at the same size
 (use-package default-text-scale
@@ -92,8 +92,10 @@
 
 (jdp/set-font)
 
-;; Font ligatures
+;; Font ligatures (currently disabled since I don't know if
+;; I like them)
 (use-package fira-code-mode
+  :disabled t
   :hook prog-mode)
 
 ;; Settings to adjust the opacity of the frame on the fly

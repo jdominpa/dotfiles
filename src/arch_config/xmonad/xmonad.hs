@@ -116,13 +116,13 @@ main = do
     , focusedBorderColor = myFocusColor
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = \x -> hPutStrLn xmproc x
-      , ppCurrent = xmobarColor "#BD93F9" "" . wrap "[" "]" -- Current workspace in xmobar
-      , ppVisible = xmobarColor "#BD93F9" ""                -- Visible but not current workspace
-      , ppHidden = xmobarColor "#F8F8F2" ""                 -- Hidden workspaces in xmobar
-      , ppHiddenNoWindows = xmobarColor "#665C54" ""        -- Hidden workspaces (no windows)
-      , ppTitle = xmobarColor "#F8F8F2" "" . shorten 60     -- Title of active window in xmobar
+      , ppCurrent = xmobarColor "#98BE65" "" . wrap "[" "]" -- Current workspace in xmobar
+      , ppVisible = xmobarColor "#98BE65" ""                -- Visible but not current workspace
+      , ppHidden = xmobarColor "#82AAFF" ""                 -- Hidden workspaces in xmobar
+      , ppHiddenNoWindows = xmobarColor "#C792EA" ""        -- Hidden workspaces (no windows)
+      , ppTitle = xmobarColor "#D0D0D0" "" . shorten 60     -- Title of active window in xmobar
       , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"          -- Separators in xmobar
-      , ppUrgent = xmobarColor "#FF5555" "" . wrap "!" "!"  -- Urgent workspace
+      , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
       , ppExtras  = [windowCount]                           -- # of windows current workspace
       , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
       } >> updatePointer (0.5, 0.5) (0, 0)                  -- Add the pointer follows focus function to logHook
@@ -301,8 +301,7 @@ myKeys =
   -- My Applications (Super+Alt+Key)
   , ("M-c i", spawn (myTerminal ++ " -e nmtui"))
   , ("M-c h", spawn (myTerminal ++ " -e htop"))
-  , ("M-c M-a p", spawn (myTerminal ++ " -e pulsemixer"))
-  , ("M-c M-a g", spawn "pavucontrol")
+  , ("M-c a", spawn "pavucontrol")
   , ("M-c f", spawn "pcmanfm")
   , ("M-c w", safeSpawn myBrowser [])
   , ("M-c e", spawn myTextEditor)

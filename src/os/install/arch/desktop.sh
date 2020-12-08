@@ -31,16 +31,21 @@ install_package "exFAT filesystems" "exfat-utils"
 install_package "Mounter (udisks2)" "udisks2"
 install_package "Automounter (udiskie)" "udiskie"
 
-# Audio programs
+# Sound
 install_package "Pulseaudio" "pulseaudio"
 install_package "Pulseaudio-alsa" "pulseaudio-alsa"
-install_package "Pulsemixer" "pulsemixer"
 install_package "Pavucontrol" "pavucontrol"
 install_package "Systray volume icon" "volumeicon"
 install_package "Alsa utilities" "alsa-utils"
 
+# Bluetooth
+install_package "Pulseaudio bluetooth" "pulseaudio-bluetooth"
+install_package "Bluez" "bluez"
+install_package "Bluez utils" "bluez-libs bluez-utils"
+install_package "Blueberry" "blueberry"
+
 # Network programs
-install_package "Systray network icon" "nm-applet"
+install_package "Systray network icon" "network-manager-applet"
 
 # Notification system
 install_package "Dunst" "dunst"
@@ -61,5 +66,5 @@ install_package "Capitaine cursors" "capitaine-cursors"
 # Printer programs
 install_package "Printing server" "cups"
 install_package "Drivers to print to PDF" "cups-pdf"
-install_package "Scanning program" "sane"
 install_package "HP printer's drivers" "hplip"
+install_package "Scanning program" "sane"

@@ -1,9 +1,9 @@
 #!/bin/bash
 # Profile file. Runs on login
 
-export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//'):$HOME/.emacs.d/bin/"
-export EDITOR="emacsclient -c"
-export VISUAL="emacsclient -c"
+export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
+export EDITOR="$(which emacsclient)"
+export VISUAL="$EDITOR"
 export TERMINAL="alacritty"
 export BROWSER="firefox"
 export READER="zathura"

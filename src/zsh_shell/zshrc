@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 #
 # Global
 #
@@ -44,6 +45,7 @@ zstyle ':completion:*:descriptions' format %F{default}%B%{$__JOAN[ITALIC_ON]%}--
 # (not just tab/shift-tab but cursor keys as well):
 zstyle ':completion:*' menu select
 
+#
 # Prompt
 #
 

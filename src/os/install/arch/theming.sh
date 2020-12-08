@@ -10,3 +10,4 @@ print_in_purple "\n   Theming packages\n\n"
 
 install_package "Papirus icon theme" "papirus-icon-theme"
 install_package "Arc gtk theme" "arc-gtk-theme"
+install_package "Gnome themes extra" "gnome-themes-extra"
