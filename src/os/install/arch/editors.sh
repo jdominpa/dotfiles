@@ -9,4 +9,3 @@ install_package "Neovim" "neovim"
 
 install_package "Emacs" "emacs"
 install_package "ripgrep" "ripgrep"
-install_package "clang" "clang"

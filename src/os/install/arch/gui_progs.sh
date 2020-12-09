@@ -22,6 +22,8 @@ install_package "pcmanfm" "pcmanfm"
 
 # Pdf reader
 install_package "Zathura" "zathura"
+install_package "Zathura comic support" "zathura-cb"
+install_package "Zathura DjVu support" "zathura-djvu"
 install_package "Zathura Mupdf" "zathura-pdf-mupdf"
 install_package "Poppler" "poppler"
 
