@@ -134,7 +134,7 @@ export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%
 #
 
 export HISTSIZE=100000
-export HISTFILE="$HOME/.history"
+export HISTFILE="$HOME/.zsh/history"
 export SAVEHIST=$HISTSIZE
 
 #
@@ -346,7 +346,6 @@ zstyle ':completion:*:*:cdr:*:*' menu selection
 zstyle ':chpwd:*' recent-dirs-default true
 
 # Local and host-specific overrides.
-
 LOCAL_RC=$HOME/.zshrc.local
 test -f $LOCAL_RC && source $LOCAL_RC
 
