@@ -119,7 +119,7 @@ main = do
       , ppCurrent = xmobarColor "#98BE65" "" . wrap "[" "]" -- Current workspace in xmobar
       , ppVisible = xmobarColor "#98BE65" ""                -- Visible but not current workspace
       , ppHidden = xmobarColor "#82AAFF" ""                 -- Hidden workspaces in xmobar
-      , ppHiddenNoWindows = xmobarColor "#C792EA" ""        -- Hidden workspaces (no windows)
+      , ppHiddenNoWindows = xmobarColor "#8F8C9B" ""        -- Hidden workspaces (no windows)
       , ppTitle = xmobarColor "#D0D0D0" "" . shorten 60     -- Title of active window in xmobar
       , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"          -- Separators in xmobar
       , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
@@ -183,7 +183,8 @@ promptList = [ ("m", manPrompt)            -- manpages prompt
 -- This is the list of search engines that I want to use. Some are from
 -- XMonad.Actions.Search, and some are the ones that I added above.
 searchList :: [(String, S.SearchEngine)]
-searchList = [ ("g", S.google)
+searchList = [ ("a", archwiki)
+             , ("g", S.google)
              , ("y", S.youtube)
              , ("i", S.images)
              , ("w", S.wikipedia)
@@ -191,6 +192,8 @@ searchList = [ ("g", S.google)
              , ("h", S.hoogle)
              , ("b", S.wayback)
              ]
+  where
+    archwiki = S.searchEngine "archwiki" "https://wiki.archlinux.org/index.php?search="
 
 
 -- Layout configuration

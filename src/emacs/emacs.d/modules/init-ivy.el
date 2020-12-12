@@ -42,7 +42,7 @@
                 ivy-use-selectable-prompt t)
   (setq-default counsel-mode-override-describe-bindings t)
   (if (executable-find "rg")
-      (bind-key "C-c C-g" 'counsel-rg)))
+      (bind-key "C-c g" 'counsel-rg)))
 
 (use-package ivy-rich
   :after ivy
