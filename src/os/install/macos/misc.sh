@@ -9,4 +9,3 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Miscellaneous\n\n"
 
 brew_install "Whatsapp" "whatsapp" "homebrew/cask" "cask"
-brew_install "Bitwarden" "bitwarden" "homebrew/cask" "cask"
