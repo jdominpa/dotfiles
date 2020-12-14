@@ -118,16 +118,23 @@ get_os() {
 
     local os=""
     local kernelName=""
+    local isWsl=""
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     kernelName="$(uname -s)"
+
+    # Check if we are in WSL
+    isWsl="$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip')"
 
     if [ "$kernelName" == "Darwin" ]; then
         os="macos"
     elif [ "$kernelName" == "Linux" ] && \
          [ -e "/etc/os-release" ]; then
         os="$(. /etc/os-release; printf "%s" "$ID")"
+        if [ "$isWsl" == "microsoft" ]; then
+            os="${os}-wsl"
+        fi
     else
         os="$kernelName"
     fi

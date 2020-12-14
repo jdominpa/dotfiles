@@ -154,48 +154,79 @@ verify_os() {
     local os_name="$(get_os)"
     local os_version="$(get_os_version)"
 
+    case "$os_name" in
+
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Check if the OS is `macOS` and
     # it's above the required version.
 
-    if [ "$os_name" == "macos" ]; then
+        macos)
+            if is_supported_version "$(get_os_version)" "$MINIMUM_MACOS_VERSION"; then
+                return 0
+            else
+                printf "Sorry, this script is intended only for macOS %s+" "$MINIMUM_MACOS_VERSION"
+            fi
+            ;;
+    # if [ "$os_name" == "macos" ]; then
 
-        if is_supported_version "$(get_os_version)" "$MINIMUM_MACOS_VERSION"; then
-            return 0
-        else
-            printf "Sorry, this script is intended only for macOS %s+" "$MINIMUM_MACOS_VERSION"
-        fi
+    #     if is_supported_version "$(get_os_version)" "$MINIMUM_MACOS_VERSION"; then
+    #         return 0
+    #     else
+    #         printf "Sorry, this script is intended only for macOS %s+" "$MINIMUM_MACOS_VERSION"
+    #     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Check if the OS is `Ubuntu` and
     # it's above the required version.
 
-    elif [ "$os_name" == "ubuntu" ]; then
+        ubuntu)
+            if is_supported_version "$os_version" "$MINIMUM_UBUNTU_VERSION"; then
+                return 0
+            else
+                printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_UBUNTU_VERSION"
+            fi
+            ;;
+    # elif [ "$os_name" == "ubuntu" ]; then
 
-        if is_supported_version "$os_version" "$MINIMUM_UBUNTU_VERSION"; then
+    #     if is_supported_version "$os_version" "$MINIMUM_UBUNTU_VERSION"; then
+    #         return 0
+    #     else
+    #         printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_UBUNTU_VERSION"
+    #     fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Check if the OS is `Ubuntu` running in WSL.
+
+        ubuntu-wsl)
             return 0
-        else
-            printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_UBUNTU_VERSION"
-        fi
+            ;;
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Check if the OS is `Arch Linux`.
-    # No need to check version in this case.
 
-    elif [ "$os_name" == "arch" ]; then
+        arch)
+            return 0
+            ;;
+    # elif [ "$os_name" == "arch" ]; then
 
-        return 0
+    #     return 0
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    else
-        printf "Sorry, this script is intended only for macOS, Arch Linux and...! (%s)" "$os_name"
-    fi
+        *)
+            printf "Sorry, this script is intended only for macOS, Arch Linux and...! (%s)" "$os_name"
+            return 1
+            ;;
+    # else
+    #     printf "Sorry, this script is intended only for macOS, Arch Linux and...! (%s)" "$os_name"
+    # fi
 
-    return 1
+    # return 1
+    esac
 
 }
 
