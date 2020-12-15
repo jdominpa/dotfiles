@@ -18,34 +18,24 @@ add_ssh_configs() {
 
 copy_public_ssh_key_to_clipboard () {
 
-    local -r isWsl="$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip')"
-    
-    if [ "$isWsl" == "microsoft" ]; then
+    # In WSL normal clipboard programs don't work and clip.exe must be used instead.
+    if cmd_exists "clip.exe"; then
 
-        # In WSL normal clipboard programs don't work and clip.exe must be used instead.
-        if cmd_exists "clip.exe"; then
+        clip.exe < "$1"
+        print_result $? "Copy public SSH key to clipboard"
 
-            clip.exe < "$1"
-            print_result $? "Copy public SSH key to clipboard"
+    elif cmd_exists "pbcopy"; then
 
-        fi
+        pbcopy < "$1"
+        print_result $? "Copy public SSH key to clipboard"
+
+    elif cmd_exists "xclip"; then
+
+        xclip -selection clip < "$1"
+        print_result $? "Copy public SSH key to clipboard"
 
     else
-
-        if cmd_exists "pbcopy"; then
-
-            pbcopy < "$1"
-            print_result $? "Copy public SSH key to clipboard"
-
-        elif cmd_exists "xclip"; then
-
-            xclip -selection clip < "$1"
-            print_result $? "Copy public SSH key to clipboard"
-
-        else
-            print_warning "Please copy the public SSH key ($1) to clipboard"
-        fi
-
+        print_warning "Please copy the public SSH key ($1) to clipboard"
     fi
 
 }
