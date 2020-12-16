@@ -15,7 +15,7 @@ install_yay
 ./fonts.sh
 ./terminal.sh
 ./gui_progs.sh
-./cmd_line_tools.sh
+./cmd_ln_tools.sh
 ./editors.sh
 ./proglang.sh
 ./theming.sh

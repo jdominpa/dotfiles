@@ -1,3 +1,8 @@
+" Command mode mappings.
+
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
 " Remap W to w
 command! W write
 

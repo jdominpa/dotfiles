@@ -12,7 +12,7 @@ upgrade
 ./git.sh
 ./zsh.sh
 ./misc.sh
-./misc_tools.sh
+./cmd_ln_tools.sh
 ./editors.sh
 ./theming.sh
 

@@ -1,4 +1,4 @@
-if ! has('clipboard')
+if !has('clipboard')
   finish
 endif
 

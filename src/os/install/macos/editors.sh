@@ -12,5 +12,4 @@ brew_install "Neovim" "neovim"
 
 brew_install "Emacs" "emacs-plus" "d12frosted/emacs-plus"
 execute "ln -sf /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app" \
-	"Setting Emacs.app symlink"
-brew_install "Ripgrep" "ripgrep"
+  "Setting Emacs.app symlink"

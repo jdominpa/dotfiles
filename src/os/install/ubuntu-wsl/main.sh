@@ -11,7 +11,7 @@ upgrade
 
 ./git.sh
 ./zsh.sh
-./misc_tools.sh
+./cmd_ln_tools.sh
 ./editors.sh
 
 ./cleanup.sh

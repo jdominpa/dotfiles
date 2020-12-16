@@ -8,3 +8,6 @@ augroup filetype_c
   autocmd BufRead,BufNewFile *.[ch] endif
 
 augroup END
+
+setlocal shiftwidth=4
+setlocal tabstop=4

@@ -6,8 +6,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Miscellaneous Tools\n\n"
+print_in_purple "\n   Command Line Tools\n\n"
 
+install_package "Ripgrep" "ripgrep"
 install_package "cURL" "curl"
 install_package "ShellCheck" "shellcheck"
 install_package "xclip" "xclip"

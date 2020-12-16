@@ -6,23 +6,17 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Command Line Utilities\n\n"
+print_in_purple "\n   Command Line Tools\n\n"
 
-# Ssh key generator to use ssh keys for github and ssh
+install_package "ripgrep" "ripgrep"
 install_package "SSH" "openssh"
-
-# cURL utility
 install_package "cURL" "curl"
+install_package "ShellCheck" "shellcheck"
+install_package "unrar" "unrar"
+install_package "unzip" "unzip"
 
 # Process monitor
 install_package "htop" "htop"
-
-# Check shell syntax
-install_package "ShellCheck" "shellcheck"
-
-# Unrar and unzip programs
-install_package "unrar" "unrar"
-install_package "unzip" "unzip"
 
 # Modify key behavior
 install_package "xcape" "xcape"

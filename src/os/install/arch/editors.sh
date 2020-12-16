@@ -8,4 +8,3 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 install_package "Neovim" "neovim"
 
 install_package "Emacs" "emacs"
-install_package "ripgrep" "ripgrep"

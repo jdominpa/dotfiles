@@ -1,5 +1,5 @@
 " Cycle through relativenumber + number, number (only), and no numbering.
-function! joan#mappings#leader#cycle_numbering() abort
+function! jdominpa#mappings#leader#cycle_numbering() abort
   if exists('+relativenumber')
     execute {
           \ '00': 'set relativenumber   | set number',
@@ -13,6 +13,6 @@ function! joan#mappings#leader#cycle_numbering() abort
 endfunction
 
 " Zap trailing whitespace.
-function! joan#mappings#leader#zap() abort
-  call joan#functions#substitute('\s\+$', '', '')
+function! jdominpa#mappings#leader#zap() abort
+  call jdominpa#functions#substitute('\s\+$', '', '')
 endfunction

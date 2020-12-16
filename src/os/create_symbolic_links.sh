@@ -39,6 +39,7 @@ create_symlinks() {
         "neovim/config/nvim/autoload"
         "neovim/config/nvim/ftplugin"
         "neovim/config/nvim/init.vim"
+        "neovim/config/nvim/lua/jdominpa"
         "neovim/config/nvim/plugin"
         "neovim/config/nvim/ultisnips"
 

@@ -14,6 +14,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./git.sh
 ./gpg.sh
 ./misc.sh
-./misc_tools.sh
+./cmd_ln_tools.sh
 ./editors.sh
 ./font_tools.sh

@@ -20,18 +20,24 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Utility
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdtree'
 
 " Fzf
 Plug 'junegunn/fzf'
 
+" LSP
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+
+" Languages
+Plug 'neovimhaskell/haskell-vim'
+
 " Theme and style
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'chriskempson/base16-vim'
+Plug 'wincent/pinnacle'
 
 call plug#end()
-
 
 " Load init.vim.local settings ------------------------------------------------------
 
