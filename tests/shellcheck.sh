@@ -21,7 +21,8 @@ main() {
         ! -path '../src/shell/inputrc' \
         ! -path '../src/os/preferences/macos/*.applescript' \
         ! -path '../src/os/preferences/macos/*.terminal' \
-	! -path '../src/os/preferences/macos/*.plist' \
+        ! -path '../src/os/preferences/macos/*.plist' \
+        ! -path '../src/os/preferences/macos/*.json' \
         -exec shellcheck \
                 -e SC1090 \
                 -e SC1091 \
