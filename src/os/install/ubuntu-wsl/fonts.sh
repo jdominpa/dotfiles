@@ -6,13 +6,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-update
-upgrade
+print_in_purple "\n   Fonts\n\n"
 
-./git.sh
-./zsh.sh
-./cmd_ln_tools.sh
-./editors.sh
-./fonts.sh
-
-./cleanup.sh
+install_package "Fira Code" "fonts-firacode"

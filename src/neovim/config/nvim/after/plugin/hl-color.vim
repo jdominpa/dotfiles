@@ -2,43 +2,13 @@ if !has('nvim')
   finish
 endif
 
-" Mac specific setting
-if system('uname -s') =~ 'Darwin'
-  let g:base16colorspace=256
-endif
-
 function s:RemoveBg(group)
   let l:highlight=filter(luaeval("require'wincent.pinnacle'.dump(_A)", a:group), 'v:key != "bg"')
   execute 'highlight! clear ' . a:group
   execute 'highlight! ' . a:group . ' ' . luaeval("require'wincent.pinnacle'.highlight(_A)", l:highlight)
 endfunction
 
-function s:CheckColorScheme()
-  if has('termguicolors')
-    let g:base16colorspace=256
-  endif
-
-  let s:config_file = expand('~/.config/nvim/base16')
-
-  if filereadable(s:config_file)
-    let s:config = readfile(s:config_file, '', 2)
-
-    if s:config[1] =~# '^dark\|light$'
-      execute 'set background=' . s:config[1]
-    else
-      echoerr 'Bad background ' . s:config[1] . ' in ' . s:config_file
-    endif
-
-    if filereadable(expand('~/.config/nvim/plugged/base16-vim/colors/base16-' . s:config[0] . '.vim'))
-      execute 'colorscheme base16-' . s:config[0]
-    else
-      echoerr 'Bad scheme ' . s:config[0] . ' in ' . s:config_file
-    endif
-  else " default
-    set background=dark
-    colorscheme base16-material-palenight
-  endif
-
+function s:CheckHighlightColors()
   execute 'highlight Comment ' . luaeval("require'wincent.pinnacle'.italicize('Comment')")
 
   " Hide (or at least make less obvious) the EndOfBuffer region
@@ -100,9 +70,9 @@ if v:progname !=# 'vi'
   if has('autocmd')
     augroup JdominpaAutocolor
       autocmd!
-      autocmd FocusGained * call s:CheckColorScheme()
+      autocmd FocusGained * call s:CheckHighlightColors()
     augroup END
   endif
 
-  call s:CheckColorScheme()
+  call s:CheckHighlightColors()
 endif

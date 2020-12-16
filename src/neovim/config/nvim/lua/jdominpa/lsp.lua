@@ -5,14 +5,19 @@ local nnoremap = function (lhs, rhs)
 end
 
 local on_attach = function ()
+  print("LSP started.")
+
   local mappings = {
     ['<Leader>ld'] = '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',
     ['<Leader>ca'] = '<cmd>lua vim.lsp.buf.code_action()<CR>',
     ['<Leader>cr'] = '<cmd>lua vim.lsp.buf.rename()<CR>',
+    ['<Leader>cf'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
     ['<c-]>'] = '<cmd>lua vim.lsp.buf.definition()<CR>',
     ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
     ['gd'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
     ['gD'] = '<cmd>lua vim.lsp.buf.implementation()<CR>',
+    ['1gD'] = '<cmd>lua vim.lsp.buf.type_definition()<CR>',
+    ['gr'] = '<cmd>lua vim.lsp.buf.references()<CR>',
   }
 
   for lhs, rhs in pairs(mappings) do
@@ -44,18 +49,20 @@ lsp.bind = function ()
 end
 
 lsp.init = function ()
-  require('lspconfig').clangd.setup{
-    cmd = {'clangd', '--background-index'},
+  require('lspconfig').vimls.setup{
     on_attach = on_attach,
   }
 
-  require('lspconfig').vimls.setup{
+  require('lspconfig').clangd.setup{
     on_attach = on_attach,
   }
 
   require('lspconfig').hls.setup{
     cmd = { "haskell-language-server-wrapper", "--lsp" },
-    filetypes = { "hs", "haskell", "lhaskell" },
+    on_attach = on_attach,
+  }
+
+  require('lspconfig').tsserver.setup{
     on_attach = on_attach,
   }
 
