@@ -27,10 +27,6 @@
   :after company
   :hook (global-company-mode . company-quickhelp-mode))
 
-(use-package company-box
-  :after company
-  :hook (company-mode . company-box-mode))
-
 
 (provide 'init-company)
 ;;; init-company.el ends here

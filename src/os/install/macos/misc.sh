@@ -6,6 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Miscellaneous\n\n"
+print_in_purple "\n   Cask Applications\n\n"
 
-brew_install "Whatsapp" "whatsapp" "homebrew/cask" "cask"
+brew_install "iTerm2" "iterm2" "homebrew/cask" "--cask"
+brew_install "Whatsapp" "whatsapp" "homebrew/cask" "--cask"
