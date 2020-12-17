@@ -23,7 +23,7 @@ create_symlinks() {
         "git/gitconfig"
         "git/gitignore"
         "shell/curlrc"
-        "tmux/tmux.conf"
+        #"tmux/tmux.conf"
         "zsh_shell/zshrc"
 
     )

@@ -58,11 +58,6 @@ lsp.init = function ()
   }
 
   require('lspconfig').hls.setup{
-    cmd = { "haskell-language-server-wrapper", "--lsp" },
-    on_attach = on_attach,
-  }
-
-  require('lspconfig').tsserver.setup{
     on_attach = on_attach,
   }
 

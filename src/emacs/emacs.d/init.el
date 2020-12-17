@@ -101,18 +101,21 @@
 (require 'init-emacs-lisp)
 (require 'init-haskell)
 (require 'init-lisp)
+(require 'init-latex)
 (require 'init-markdown)
 (require 'init-shell)
 
 
 ;;; Load customized settings and machine local configuration
+(message "[Configuration] Loading local and customized settings...")
+
 ;; Configuration made through the customize UI will be stored in custom.el
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-(message "[Configuration] Loading local and customized settings...")
-(require 'init-local nil t)
 (when (file-exists-p custom-file)
   (load custom-file))
+
+;; Load local settings placed in ~/.emacs.d/init-local.el file
+(require 'init-local (concat user-emacs-directory "init-local.el") t)
 
 
 ;;; Allow access from emacsclient
