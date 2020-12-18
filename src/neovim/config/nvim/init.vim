@@ -20,6 +20,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Utility
 Plug 'tpope/vim-surround'
+Plug 'SirVer/ultisnips'
 
 " Fzf
 Plug 'junegunn/fzf'
@@ -38,6 +39,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'wincent/pinnacle'
 
 call plug#end()
+
 
 " Load init.vim.local settings ------------------------------------------------------
 

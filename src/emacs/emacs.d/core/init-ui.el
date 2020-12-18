@@ -81,7 +81,7 @@
   :hook (after-init . default-text-scale-mode))
 
 ;; Set font size
-(setq jdp/default-font "Fira Code-13.5")
+(setq jdp/default-font "Fira Code-12.5")
 
 (defun jdp/set-font ()
   "Set the font to `jdp/default-font'. Set that for the current frame, and also make it the default for other, future frames."
