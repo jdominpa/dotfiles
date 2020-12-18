@@ -7,36 +7,23 @@ let maplocalleader = ","
 
 " Plugins ---------------------------------------------------------------------------
 
-" Download and install vim-plug automatically
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  echo "Downloading vim-plug and installing plugins"
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
 " Load plugins
 call plug#begin('~/.config/nvim/plugged')
 
-" Utility
-Plug 'tpope/vim-surround'
-Plug 'SirVer/ultisnips'
-
-" Fzf
-Plug 'junegunn/fzf'
-
-" LSP
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-
-" Languages
-Plug 'neovimhaskell/haskell-vim'
-
-" Theme and style
-Plug 'chriskempson/base16-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'wincent/pinnacle'
+Plug 'chriskempson/base16-vim'            " color scheme
+Plug 'junegunn/fzf'                       " fuzzy file finder
+Plug 'junegunn/goyo.vim'                  " distraction-free writing in vim
+Plug 'lervag/vimtex'                      " extra functionality for editing LaTeX documents
+Plug 'neovim/nvim-lspconfig'              " neovim built-in LSP configuration
+Plug 'neovimhaskell/haskell-vim'          " haskell syntax highlighting
+Plug 'nvim-lua/completion-nvim'           " neovim built-in LSP completion
+Plug 'SirVer/ultisnips'                   " snippets
+Plug 'tpope/vim-commentary'               " functionality to comment lines
+Plug 'tpope/vim-surround'                 " functionality to edit surrounding characters
+Plug 'tweekmonster/startuptime.vim'       " benchmarking startup
+Plug 'vim-airline/vim-airline'            " statusbar configuration
+Plug 'vim-airline/vim-airline-themes'     " statusbar configuration
+Plug 'wincent/pinnacle'                   " extra customization for highlight groups
 
 call plug#end()
 

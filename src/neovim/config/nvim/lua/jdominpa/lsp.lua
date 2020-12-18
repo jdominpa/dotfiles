@@ -59,6 +59,25 @@ lsp.init = function ()
 
   require('lspconfig').hls.setup{
     on_attach = on_attach,
+    root_dir = dirname,
+  }
+
+  require('lspconfig').texlab.setup{
+    on_attach = on_attach,
+    latex = {
+      build = {
+        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1" },
+        executable = "latexmk",
+        onSave = false
+      },
+      forwardSearch = {
+        args = {},
+        onSave = false
+      },
+      lint = {
+        onChange = false
+      },
+    },
   }
 
   -- Override hover winhighlight.

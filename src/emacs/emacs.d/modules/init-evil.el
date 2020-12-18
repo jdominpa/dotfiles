@@ -14,10 +14,6 @@
   :hook (after-init . evil-mode)
   :bind ("M-u" . universal-argument)
   :config
-  ;; C-n and C-p must be unbound in insert mode for company completion to work
-  ;; properly
-  (unbind-key "C-n" evil-insert-state-map)
-  (unbind-key "C-p" evil-insert-state-map)
   (setq-default evil-shift-width 2
                 evil-undo-system 'undo-redo))
 

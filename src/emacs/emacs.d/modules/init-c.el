@@ -10,7 +10,7 @@
 
 (require 'init-programming)
 
-(use-package c-mode
+(use-package cc-mode
   :ensure nil
   :preface
   (defun jdp/c-mode-common-defaults ()
@@ -18,7 +18,7 @@
           c-default-style "k&r")
     (c-set-offset 'substatement-open 0))
   :hook ((c-mode-common . jdp/c-mode-common-defaults)
-         (c-mode-common . lsp-mode)))
+         (c-mode-common . lsp)))
 
 
 (provide 'init-c)
