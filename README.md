@@ -57,7 +57,7 @@ The setup process will:
 
 ### Running linux GUI programs with WSL2
 
-To run programs like GUI Emacs through WSL2 first we have to install a
+To run programs like GUI Emacs through WSL2 first you have to install a
 graphical X server. These are some commonly used ones:
 
 * [VcXsrv](https://sourceforge.net/projects/vcxsrv/) (free open-source
@@ -65,7 +65,7 @@ graphical X server. These are some commonly used ones:
 * [X410](https://x410.dev) (paid X server available on Microsoft
   Store)
 
-After installing an X server we need to set the **DISPLAY**
+After installing an X server you need to set the **DISPLAY**
 environment variable on Linux to use the Windows host's IP address, as
 WSL2 and the Windows host are not in the same network device. To do
 this, put the following in your `bashrc`/`zshrc`:
