@@ -12,7 +12,7 @@ Settings`](#local-settings) section.
 * [Customize](#customize)
   * [Forks](#forks)
   * [Local Settings](#local-settings)
-    * [`~/.bash.local`](#bashlocal)
+    * [`~/.zsh.local`](#bashlocal)
     * [`~/.gitconfig.local`](#gitconfiglocal)
     * [`~/.config/nvim/init.vim.local`](#confignviminitvimlocal)
 * [Update](#update)
@@ -37,8 +37,8 @@ script which you will have to run after restarting the system.
 
 The setup process will:
 
-* Download the dotfiles on your computer (by default it will
-  suggest `~/Projects/dotfiles`)
+* Download the dotfiles on your computer (by default it will suggest
+  `~/Projects/dotfiles`)
 * [Symlink][symlink] the
   [`git`](src/git),
   [`shell`](src/shell),
@@ -49,10 +49,30 @@ The setup process will:
   [`macOS`](src/os/install/macos) /
   [`Arch`](src/os/install/arch) /
   [`Ubuntu`](src/os/install/ubuntu)
+  [`Ubuntu WSL`](src/os/install/ubuntu-wsl)
 * Set custom
   [`macOS`](src/os/preferences/macos) /
   [`Arch`](src/os/preferences/arch) /
   [`Ubuntu`](src/os/preferences/ubuntu) preferences
+
+### Running linux GUI programs with WSL2
+
+To run programs like GUI Emacs through WSL2 first we have to install a
+graphical X server. These are some commonly used ones:
+
+* [VcXsrv](https://sourceforge.net/projects/vcxsrv/) (free open-source
+  X server)
+* [X410](https://x410.dev) (paid X server available on Microsoft
+  Store)
+
+After installing an X server we need to set the **DISPLAY**
+environment variable on Linux to use the Windows host's IP address, as
+WSL2 and the Windows host are not in the same network device. To do
+this, put the following in your `bashrc`/`zshrc`:
+
+```bash
+export DISPLAY=$(ip route | awk '{print $3; exit}'):0
+```
 
 ## Customize
 
@@ -64,8 +84,8 @@ requirements by using the following files:
 #### `~/.zsh.local`
 
 The `~/.zsh.local` file will be automatically sourced after all the
-other [`zsh` related files](src/zsh_shell), thus, allowing its content to add
-to or overwrite the existing aliases, settings, PATH, etc.
+other [`zsh` related files](src/zsh_shell), thus, allowing its content
+to add to or overwrite the existing aliases, settings, PATH, etc.
 
 Here is a very simple example of a `~/.zsh.local` file:
 
@@ -133,7 +153,7 @@ appropriate [`os` script](src/os).
 
 ## License
 
-The code is available under the [GPL-3.0 license][license].
+The code is available under the [MIT license][license].
 
 <!-- Link labels: -->
 
