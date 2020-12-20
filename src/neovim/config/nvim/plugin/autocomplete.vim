@@ -1,10 +1,8 @@
-" Use <Tab> and <S-Tab> to navigate through popup menu
-"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Add <Up> and <Down> to popup menu keybindings
-inoremap <expr> <Up>   pumvisible() ? "\<C-p>" : "\<Up>"
+" Navigation in completion menu
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <Down> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <Up>   pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Bind C-y to confirm completion
 let g:completion_confirm_key = "\<C-y>"

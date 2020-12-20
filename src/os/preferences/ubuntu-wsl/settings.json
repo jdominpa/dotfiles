@@ -39,7 +39,7 @@
             "cursorShape": "filledBox",
 
             // Colorscheme
-            "colorScheme": "Material Palenight",
+            "colorScheme": "Tomorrow Night",
 
             // Transparency
             "useAcrylic": false,
@@ -102,6 +102,49 @@
             "red": "#ff5370",
             "white": "#ffffff",
             "yellow": "#ffcb6b"
+        },
+        {
+            "name": "Tomorrow Night",
+            "black": "#000000",
+            "red": "#cc6666",
+            "green": "#b5bd68",
+            "yellow": "#f0c674",
+            "blue": "#81a2be",
+            "purple": "#b294bb",
+            "cyan": "#8abeb7",
+            "white": "#ffffff",
+            "brightBlack": "#000000",
+            "brightRed": "#cc6666",
+            "brightGreen": "#b5bd68",
+            "brightYellow": "#f0c674",
+            "brightBlue": "#81a2be",
+            "brightPurple": "#b294bb",
+            "brightCyan": "#8abeb7",
+            "brightWhite": "#ffffff",
+            "background": "#1d1f21",
+            "foreground": "#c5c8c6"
+        },
+        {
+            "name": "Solarized Dark",
+            "foreground": "#839496",
+            "background": "#002B36",
+            "cursorColor": "#FFFFFF",
+            "black": "#002B36",
+            "red": "#DC322F",
+            "green": "#859900",
+            "yellow": "#B58900",
+            "blue": "#268BD2",
+            "purple": "#D33682",
+            "cyan": "#2AA198",
+            "white": "#EEE8D5",
+            "brightBlack": "#073642",
+            "brightRed": "#CB4B16",
+            "brightGreen": "#586E75",
+            "brightYellow": "#657B83",
+            "brightBlue": "#839496",
+            "brightPurple": "#6C71C4",
+            "brightCyan": "#93A1A1",
+            "brightWhite": "#FDF6E3"
         }
     ],
 
