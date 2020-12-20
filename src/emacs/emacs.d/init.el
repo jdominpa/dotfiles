@@ -85,9 +85,9 @@
 ;; Vim emulation
 ;(require 'init-evil)
 
-;; Improve narrowing, search and completion
+;; Improve narrowing search and add completion and snippets
 (require 'init-ivy)
-(require 'init-company)
+(require 'init-completion)
 
 ;; Org-mode (a legendary productivity tool that deserves its own category)
 ;; Org-mode helps you keep TODO lists, notes and more.

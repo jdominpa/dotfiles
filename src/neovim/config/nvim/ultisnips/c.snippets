@@ -1,0 +1,48 @@
+# Include
+snippet incc "#include <library>" bA
+#include <${1:stdio.h}>
+$0
+endsnippet
+
+# main()
+snippet main "int main(...) {...}" bA
+int main(${1:args}) {
+    ${2:statements}
+    return 0;
+}
+endsnippet
+
+# Function declaration
+snippet fun "function def" b
+${1:void} ${2:name} (${3:args}) {
+    ${4:${VISUAL}}
+}
+endsnippet
+
+# For loop
+snippet for "for (init-statement; condition; inc-expression) {statements}" b
+for (${1:i = 0}; ${2:i < n}; ${3:i++}) {
+    ${4:statements}
+}${0}
+endsnippet
+
+# If statement
+snippet if "if (condition) {statements}" b
+if (${1:condition}) {
+    ${2:statements}
+}${0}
+endsnippet
+
+# If-else statement
+snippet else "else {statements}" A
+else {
+    ${1:statements}
+}${0}
+endsnippet
+
+# Else if statement
+snippet elif "else if (conditions) {statements}" A
+else if (${1:condition}) {
+    ${2:statements}
+}${0}
+endsnippet
