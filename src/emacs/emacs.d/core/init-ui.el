@@ -74,7 +74,7 @@
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
-(load-theme 'doom-palenight t)
+(load-theme 'doom-tomorrow-night t)
 
 ;; Resize font in all buffers at the same size
 (use-package default-text-scale

@@ -35,7 +35,6 @@
                 ivy-virtual-abbreviate 'fullpath
                 ivy-count-format "(%d/%d) "
                 ivy-initial-inputs-alist nil
-                ivy-magic-tilde nil
                 ivy-dynamic-exhibit-delay-ms 150
                 ivy-use-selectable-prompt t)
   (setq-default counsel-mode-override-describe-bindings t)

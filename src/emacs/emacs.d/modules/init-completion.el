@@ -14,12 +14,11 @@
   :bind (:map company-mode-map
               ([remap completion-at-point] . company-complete)
               ([remap indent-for-tab-command] . company-indent-or-complete-common)
-              :map company-active-map
+         :map company-active-map
               ([tab] . company-complete-selection))
   :config
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t
-                company-show-numbers t
                 company-idle-delay 0
                 company-minimum-prefix-length 1
                 company-tooltip-flip-when-above t))
@@ -31,7 +30,11 @@
 ;; Code snippets
 (use-package yasnippet
   :hook (after-init . yas-global-mode)
+  :bind (:map yas-minor-mode-map
+              ("C-SPC" . yas-expand))
   :config
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
   (use-package yasnippet-snippets))
 
 
