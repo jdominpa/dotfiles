@@ -22,6 +22,7 @@ main() {
         ! -path '../src/os/preferences/macos/*.applescript' \
         ! -path '../src/os/preferences/macos/*.terminal' \
         ! -path '../src/os/preferences/macos/*.plist' \
+        ! -path '../src/os/preferences/macos/*.json' \
         ! -path '../src/os/preferences/ubuntu-wsl/*.json' \
         -exec shellcheck \
                 -e SC1090 \
