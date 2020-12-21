@@ -1,8 +1,8 @@
 ;;; init-evil.el --- Evil mode packages and configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; Configuration for evil-mode.  This module also installs additional packages
-;; to improve evil-mode integration in Emacs.
+;; Configuration for evil-mode.  This module also installs additional
+;; packages to improve evil-mode integration in Emacs.
 
 ;;; Code:
 
@@ -20,9 +20,9 @@
 (use-package evil-collection
   :after evil
   :config
-  ;; Evil-collection tries to make company-mode work like vim plugins. Since we'll
-  ;; be making our own company-mode config, we disable this option so that it doesn't
-  ;; clash with our settings
+  ;; Evil-collection tries to make company-mode work like vim
+  ;; plugins. Since we'll be making our own company-mode config, we
+  ;; disable this option so that it doesn't clash with our settings
   (setq evil-collection-company-use-tng nil)
   (evil-collection-init))
 

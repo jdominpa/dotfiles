@@ -17,6 +17,10 @@
          :map company-active-map
               ([tab] . company-complete-selection))
   :config
+  ;; Ensure that C-k is bound to select previous candidate in
+  ;; company-active-map if we are using evil-mode
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert company-active-map (kbd "C-k") 'company-select-previous-or-abort))
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t
                 company-idle-delay 0

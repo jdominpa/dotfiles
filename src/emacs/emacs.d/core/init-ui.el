@@ -92,12 +92,6 @@
 
 (jdp/set-font)
 
-;; Font ligatures (currently disabled since I don't know if
-;; I like them)
-(use-package fira-code-mode
-  :disabled t
-  :hook prog-mode)
-
 ;; Settings to adjust the opacity of the frame on the fly
 (defun jdp/adjust-opacity (frame incr)
   "Adjust the background opacity of FRAME by increment INCR."

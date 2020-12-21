@@ -74,7 +74,6 @@
 ;; Load the rest of core modules
 (message "[Core] Loading remaining core modules...")
 (require 'init-ui)
-;;(require 'init-sessions)
 (require 'init-buffers)
 (require 'init-editor)
 
@@ -95,7 +94,7 @@
 
 ;; Programming languages support
 (message "[Modules] Loading language modules...")
-(require 'init-version-control)
+(require 'init-version-control) ;; TODO: check this module
 (require 'init-lsp)
 (require 'init-c)
 (require 'init-emacs-lisp)
