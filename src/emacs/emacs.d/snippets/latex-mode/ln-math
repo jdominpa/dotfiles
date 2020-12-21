@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: newline math
+# key: dm
+# --
+$$
+$1
+$$
+$0

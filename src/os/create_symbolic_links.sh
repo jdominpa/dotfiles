@@ -35,6 +35,7 @@ create_symlinks() {
         "emacs/emacs.d/init.el"
         "emacs/emacs.d/modules"
         "emacs/emacs.d/personal-packages"
+        "emacs/emacs.d/snippets"
 
         "neovim/config/nvim/after"
         "neovim/config/nvim/autoload"

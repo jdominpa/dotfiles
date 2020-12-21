@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: subscript
+# key: __
+# condition: (texmathp)
+# --
+_{$1}$0

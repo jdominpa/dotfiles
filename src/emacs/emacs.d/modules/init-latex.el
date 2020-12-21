@@ -6,11 +6,12 @@
 ;;; Code:
 
 (use-package tex
-  :defer t
   :ensure auctex)
 
 (use-package pdf-tools
-  :config (pdf-tools-install))
+  :config
+  (pdf-tools-install)
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))))
 
 
 (provide 'init-latex)
