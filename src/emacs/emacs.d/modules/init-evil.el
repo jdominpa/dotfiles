@@ -26,6 +26,10 @@
   :after evil
   :hook (evil-mode . global-evil-surround-mode))
 
+(use-package evil-commentary
+  :after evil
+  :hook (evil-mode . evil-commentary-mode))
+
 (use-package evil-magit
   :disabled t
   :after evil)
