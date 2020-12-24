@@ -20,15 +20,6 @@
               ("C-c h" . hoogle))
   :config (use-package lsp-haskell))
 
-;; Currently disabled in favor of lsp-mode
-(use-package dante
-  :disabled t
-  :after haskell-mode
-  :hook (haskell-mode . dante-mode)
-  :config
-  (flycheck-add-next-checker 'haskell-dante
-                             '(warning . haskell-hlint)))
-
 
 (provide 'init-haskell)
 ;;; init-haskell.el ends here

@@ -60,12 +60,6 @@
   :config
   (setq-default beacon-size 30))
 
-;; Change default modeline to doom-modeline
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode))
-(use-package all-the-icons
-  :after doom-modeline)
-
 ;; Set up a nice theme
 (use-package doom-themes
   :config

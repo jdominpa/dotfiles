@@ -44,7 +44,7 @@
 (setq use-package-always-ensure t
       use-package-verbose t)
 
-;; Package to diminish minor modes
+;; Package to remove minor modes from modeline
 (use-package diminish)
 
 ;; Package to have certain buffers automatically fullscreen

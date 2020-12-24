@@ -46,8 +46,7 @@
   :ensure nil
   :hook (emacs-lisp-mode . eldoc-mode)
   :bind (:map emacs-lisp-mode-map
-              ("C-x C-e" . jdp/eval-last-sexp-or-region)
-              ("C-c C-e" . pp-eval-expression)))
+              ("C-x C-e" . jdp/eval-last-sexp-or-region)))
 
 ;; Expand macros
 (use-package macrostep

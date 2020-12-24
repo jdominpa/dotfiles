@@ -12,13 +12,8 @@
 
 (use-package cc-mode
   :ensure nil
-  :preface
-  (defun jdp/c-mode-common-defaults ()
-    (setq c-basic-offset 4
-          c-default-style "k&r")
-    (c-set-offset 'substatement-open 0))
-  :hook ((c-mode-common . jdp/c-mode-common-defaults)
-         (c-mode-common . lsp-deferred)))
+  :hook (c-mode-common . lsp-deferred)
+  :config (setq-default c-default-style "k&r"))
 
 
 (provide 'init-c)

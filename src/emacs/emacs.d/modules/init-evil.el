@@ -28,6 +28,7 @@
 
 (use-package evil-commentary
   :after evil
+  :diminish
   :hook (evil-mode . evil-commentary-mode))
 
 (use-package evil-magit

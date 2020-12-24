@@ -94,7 +94,7 @@
 
 ;; Programming languages support
 (message "[Modules] Loading language modules...")
-(require 'init-version-control) ;; TODO: check this module
+(require 'init-version-control)
 (require 'init-lsp)
 (require 'init-c)
 (require 'init-emacs-lisp)

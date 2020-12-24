@@ -31,10 +31,6 @@
 (use-package ns-auto-titlebar
   :config (ns-auto-titlebar-mode))
 
-;; Disable cmd-h keybind in magit mode
-(with-eval-after-load 'magit
-  (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)]))))
-
 ;; Command-Option-f to toggle fullscreen mode
 (when (fboundp 'toggle-frame-fullscreen)
   (bind-key "M-ƒ" 'toggle-frame-fullscreen))

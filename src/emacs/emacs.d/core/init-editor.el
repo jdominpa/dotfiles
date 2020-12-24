@@ -17,9 +17,6 @@
               save-interprogram-paste-before-kill t   ;; Move clipboard to kill ring before replacing it
               mouse-yank-at-point t)                  ;; Mouse yanks at point instead of at click
 
-;; Newline behaviour
-(bind-key "RET" 'newline-and-indent)
-
 ;; Store backup and autosave files in the tmp dir
 (setq-default backup-directory-alist
               `((".*" . ,temporary-file-directory)))
@@ -29,7 +26,6 @@
 ;; Revert buffers automatically when underlying files are changed externally
 (use-package autorevert
   :ensure nil
-  :diminish
   :hook (after-init . global-auto-revert-mode)
   :config
   (setq global-auto-revert-non-file-buffers t
@@ -69,7 +65,6 @@
 
 ;; Projectile to manage projects
 (use-package projectile
-  :diminish projectile-mode
   :hook (after-init . projectile-mode)
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
