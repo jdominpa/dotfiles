@@ -102,6 +102,7 @@
 (require 'init-lisp)
 (require 'init-latex)
 (require 'init-markdown)
+(require 'init-python)
 (require 'init-shell)
 
 

@@ -18,7 +18,7 @@
           c-default-style "k&r")
     (c-set-offset 'substatement-open 0))
   :hook ((c-mode-common . jdp/c-mode-common-defaults)
-         (c-mode-common . lsp)))
+         (c-mode-common . lsp-deferred)))
 
 
 (provide 'init-c)

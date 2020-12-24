@@ -109,20 +109,6 @@
 (bind-key "M-C-8" (lambda () (interactive) (jdp/adjust-opacity nil 2)))
 (bind-key "M-C-6" (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
-;; Package to dim unfocused buffers
-(use-package dimmer
-  :init (setq-default dimmer-fraction 0.20)
-  :hook (after-init . dimmer-mode)
-  :config
-  (dimmer-configure-which-key)
-  (dimmer-configure-magit)
-  ;; Don't dim in terminal windows. Even with 256 colours it can
-  ;; lead to poor contrast.  Better would be to vary dimmer-fraction
-  ;; according to frame type.
-  (defun jdp/display-non-graphic-p ()
-    (not (display-graphic-p)))
-  (push 'jdp/display-non-graphic-p dimmer-exclusion-predicates))
-
 ;; Show available keybindings after we start to type
 (use-package which-key
   :diminish

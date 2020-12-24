@@ -11,11 +11,7 @@
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
-  :hook (after-init . evil-mode)
-  :bind ("M-u" . universal-argument)
-  :config
-  (setq-default evil-shift-width 2
-                evil-undo-system 'undo-redo))
+  :hook (after-init . evil-mode))
 
 (use-package evil-collection
   :after evil
