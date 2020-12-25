@@ -62,6 +62,8 @@ lsp.init = function ()
     root_dir = dirname,
   }
 
+  require('lspconfig').pyright.setup{}
+
   require('lspconfig').texlab.setup{
     on_attach = on_attach,
     latex = {

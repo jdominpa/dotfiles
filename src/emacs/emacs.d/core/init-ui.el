@@ -61,14 +61,8 @@
   (setq-default beacon-size 30))
 
 ;; Set up a nice theme
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
-
-(load-theme 'doom-tomorrow-night t)
+(use-package base16-theme
+  :config (load-theme 'base16-tomorrow-night t))
 
 ;; Resize font in all buffers at the same size
 (use-package default-text-scale
