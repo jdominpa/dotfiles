@@ -31,6 +31,29 @@
   :diminish
   :hook (evil-mode . evil-commentary-mode))
 
+(use-package evil-snipe
+  :after evil
+  :diminish evil-snipe-mode evil-snipe-local-mode
+  :hook ((evil-mode . evil-snipe-mode)
+         (evil-mode . evil-snipe-override-mode)))
+
+(use-package evil-easymotion
+  :after evil
+  :config
+  (evilem-default-keybindings "SPC")
+
+  (evilem-define (kbd "SPC s") 'evil-snipe-repeat
+                 :pre-hook (save-excursion (call-interactively #'evil-snipe-s))
+                 :bind ((evil-snipe-scope 'buffer)
+                        (evil-snipe-enable-highlight)
+                        (evil-snipe-enable-incremental-highlight)))
+
+  (evilem-define (kbd "SPC S") 'evil-snipe-repeat-reverse
+                 :pre-hook (save-excursion (call-interactively #'evil-snipe-s))
+                 :bind ((evil-snipe-scope 'buffer)
+                        (evil-snipe-enable-highlight)
+                        (evil-snipe-enable-incremental-highlight))))
+
 (use-package evil-magit
   :disabled t
   :after evil)
