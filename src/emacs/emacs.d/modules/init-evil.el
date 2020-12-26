@@ -54,10 +54,6 @@
                         (evil-snipe-enable-highlight)
                         (evil-snipe-enable-incremental-highlight))))
 
-(use-package evil-magit
-  :disabled t
-  :after evil)
-
 (use-package evil-org
   :after (evil org)
   :hook ((org-mode . evil-org-mode)
