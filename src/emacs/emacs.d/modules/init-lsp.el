@@ -14,9 +14,7 @@
   :hook (lsp-mode . lsp-ui-mode)
   :config
   (setq lsp-ui-doc-position 'bottom
-        lsp-ui-doc-alignment 'window
-        lsp-ui-doc-show-with-cursor nil
-        lsp-ui-sideline-show-code-actions nil))
+        lsp-ui-doc-show-with-cursor nil))
 
 (use-package lsp-ivy
   :after lsp)
