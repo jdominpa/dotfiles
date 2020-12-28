@@ -18,7 +18,7 @@ it does]])
 
 | OS      | Code                                                                                      |
 |---------+-------------------------------------------------------------------------------------------|
-| macOS   | =bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"=  |
+| macOS   | = bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)" =  |
 | Linux   | ~bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~ |
 | testing | =asda asdba=, ~asdad~                                                                     |
 |---------+-------------------------------------------------------------------------------------------|
