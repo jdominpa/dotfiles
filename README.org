@@ -1,12 +1,11 @@
 #+TITLE: [[https://github.com/jdominpa][Personal dotfiles]]
 #+AUTHOR: Joan Domingo Pasarin
 #+EMAIL: jdomingopasarin@icloud.com
-#+OPTIONS: toc:
 
 These are the base dotfiles that I start with when I set up a new
-environment. They are heavily based on [[https://github.com/alrra/dotfiles][Cătălin Mariș dotfiles]].  For
-more specific local needs I use the =.local= files described in the
-[[*Local Settings][Local Settings]] section.
+environment. They are heavily based on [[https://github.com/alrra/dotfiles][Cătălin Mariș dotfiles]]. For
+more specific local needs I use the =.local= files described in the [[*Local
+ Settings][Local Settings]] section.
 
 * Setup
 
@@ -16,11 +15,13 @@ terminal:
 (*DO NOT* run the =setup= snippet if you do not fully understand [[https://github.com/jdominpa/dotfiles/src/os/setup.sh][what
 it does]])
 
-| OS      | Code                                                                                                           |
-|---------+----------------------------------------------------------------------------------------------------------------|
-| macOS   | src_sh[:exports code]{bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"}  |
-| Linux   | src_sh[:exports code]{bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"} |
-|---------+----------------------------------------------------------------------------------------------------------------|
+#+begin_src bash
+  # macOS
+  bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"
+
+  # Linux
+  bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"
+#+end_src
 
 *NOTE*: in an arch linux system the setup script can be run in a
 tty. Because of that, =setup= won't execute the =update_content=
