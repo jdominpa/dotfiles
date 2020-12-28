@@ -8,7 +8,7 @@ environment. They are heavily based on [[https://github.com/alrra/dotfiles][Căt
 more specific local needs I use the =.local= files described in the
 [[*Local Settings][Local Settings]] section.
 
-* Setup
+* TODO Setup
 
 To set up the =dotfiles= just run the appropriate snippet in the
 terminal:
@@ -16,11 +16,12 @@ terminal:
 (*DO NOT* run the =setup= snippet if you do not fully understand [[https://github.com/jdominpa/dotfiles/src/os/setup.sh][what
 it does]])
 
-| OS    | Code                                                                                      |
-|-------+-------------------------------------------------------------------------------------------|
-| macOS | ~bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~  |
-| Linux | ~bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~ |
-|-------+-------------------------------------------------------------------------------------------|
+| OS      | Code                                                                                      |
+|---------+-------------------------------------------------------------------------------------------|
+| macOS   | ~bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~  |
+| Linux   | ~bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~ |
+| testing | =asda=, ~asdad~                                                                          |
+|---------+-------------------------------------------------------------------------------------------|
 
 *NOTE*: in an arch linux system the setup script can be run in a
 tty. Because of that, =setup= won't execute the =update_content=
