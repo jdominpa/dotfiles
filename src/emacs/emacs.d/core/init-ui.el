@@ -23,12 +23,9 @@
 
 ;; Remove fringes at startup and at every frame created after. Make Emacs start
 ;; maximized.
-(let ((no-border '(internal-border-width . 0))
-      (maximized '(fullscreen . maximized)))
+(let ((no-border '(internal-border-width . 0)))
   (add-to-list 'initial-frame-alist no-border)
-  (add-to-list 'default-frame-alist no-border)
-  (add-to-list 'initial-frame-alist maximized)
-  (add-to-list 'default-frame-alist maximized))
+  (add-to-list 'default-frame-alist no-border))
 
 ;; Non-zero values for `line-spacing' can mess up ansi-term and co,
 ;; so we zero it explicitly in those cases.
