@@ -20,7 +20,7 @@ it does]])
 |---------+-------------------------------------------------------------------------------------------|
 | macOS   | ~bash -c "$(curl -LsS https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~  |
 | Linux   | ~bash -c "$(wget -qO - https://raw.github.com/jdominpa/dotfiles/master/src/os/setup.sh)"~ |
-| testing | =asda=, ~asdad~                                                                          |
+| testing | =asda asdba=, ~asdad~                                                                     |
 |---------+-------------------------------------------------------------------------------------------|
 
 *NOTE*: in an arch linux system the setup script can be run in a
