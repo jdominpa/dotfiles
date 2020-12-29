@@ -34,7 +34,7 @@
   :config
   (use-package ibuffer-vc)
 
-  (when (package-installed-p 'fullframe)
+  (with-eval-after-load 'fullframe
     (fullframe ibuffer ibuffer-quit))
 
   (setq-default ibuffer-show-empty-filter-groups nil)

@@ -26,7 +26,7 @@
          ("C-x M-g" . magit-dispatch))
   :config
   (setq-default magit-diff-refine-hunk t)
-  (when (package-installed-p 'fullframe)
+  (with-eval-after-load 'fullframe
     (fullframe magit-status magit-mode-quit-window)))
 
 (use-package magit-todos
