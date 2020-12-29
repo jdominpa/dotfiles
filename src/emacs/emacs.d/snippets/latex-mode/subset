@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: square
-# key: sr
+# name: subset
+# key: cc
 # condition: (texmathp)
 # --
-^2
+\subset

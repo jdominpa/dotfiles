@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: cube
-# key: cb
+# name: to
+# key: ->
 # condition: (texmathp)
 # --
-^3
+\to

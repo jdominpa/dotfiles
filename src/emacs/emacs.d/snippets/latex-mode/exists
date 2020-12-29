@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: superscript
-# key: td
+# name: existance quantifier
+# key: E
 # condition: (texmathp)
 # --
-^{$1}$0
+\exists

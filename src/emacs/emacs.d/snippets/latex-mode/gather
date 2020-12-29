@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: gather
+# key: gth
+# expand-env: ((yas-also-indent-empty-lines t))
+# --
+\begin{gather${1:*}}
+$2
+\end{gather$1}
+$0

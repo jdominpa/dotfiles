@@ -6,7 +6,8 @@
 ;;; Code:
 
 (use-package tex
-  :ensure auctex)
+  :ensure auctex
+  :hook (LaTeX-mode . turn-on-auto-fill))
 
 (use-package pdf-tools
   :config

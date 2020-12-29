@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: left and right angle bracket
+# key: <>
+# condition: (texmathp)
+# --
+\langle $1 \rangle$0

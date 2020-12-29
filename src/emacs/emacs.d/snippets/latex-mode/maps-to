@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: subscript
-# key: __
+# name: maps to
+# key: !>
 # condition: (texmathp)
 # --
-_{$1}$0
+\mapsto
