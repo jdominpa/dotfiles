@@ -16,9 +16,7 @@
          (after-init . counsel-mode))
   :bind (:map ivy-mode-map
               ("C-s" . swiper)
-              :map ivy-minibuffer-map
-              ("TAB" . ivy-alt-done)
-              :map counsel-mode-map
+         :map counsel-mode-map
               ([remap swiper] . counsel-grep-or-swiper)
               ([remap swiper-backward] . counsel-grep-or-swiper-backward))
   :config

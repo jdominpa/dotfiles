@@ -6,6 +6,7 @@
 ;;; Code:
 
 (add-to-list 'completion-styles 'initials t)
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; Company package for autocompletion
 (use-package company
@@ -17,10 +18,6 @@
          :map company-active-map
               ([tab] . company-complete-selection))
   :config
-  ;; Ensure that C-k is bound to select previous candidate in
-  ;; company-active-map if we are using evil-mode
-  (with-eval-after-load 'evil
-    (evil-define-key 'insert company-active-map (kbd "C-k") 'company-select-previous-or-abort))
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t
                 company-idle-delay 0
@@ -37,8 +34,8 @@
   :bind (:map yas-minor-mode-map
               ("C-SPC" . yas-expand))
   :config
-  (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (use-package yasnippet-snippets))
 
 
