@@ -6,7 +6,7 @@
 ;;; Code:
 
 (add-to-list 'completion-styles 'initials t)
-(global-set-key (kbd "M-/") 'hippie-expand)
+(bind-key "M-/" 'hippie-expand)
 
 ;; Company package for autocompletion
 (use-package company
@@ -16,13 +16,16 @@
               ([remap completion-at-point] . company-complete)
               ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
-              ([tab] . company-complete-selection))
+              ("TAB" . nil)
+              ([tab] . nil)
+              ("RET" . nil)
+              ([return] . nil)
+              ("C-SPC" . company-complete-selection))
   :config
-  (setq-default company-dabbrev-other-buffers 'all
-                company-tooltip-align-annotations t
-                company-show-numbers t
+  (setq-default company-show-numbers t
                 company-idle-delay 0
                 company-minimum-prefix-length 1
+                company-tooltip-align-annotations t
                 company-tooltip-flip-when-above t))
 
 (use-package company-quickhelp
@@ -31,12 +34,7 @@
 
 ;; Code snippets
 (use-package yasnippet
-  :hook (after-init . yas-global-mode)
-  :bind (:map yas-minor-mode-map
-              ("C-SPC" . yas-expand))
-  :config
-  (define-key yas-minor-mode-map (kbd "TAB") nil)
-  (define-key yas-minor-mode-map (kbd "<tab>") nil))
+  :hook (after-init . yas-global-mode))
 
 (use-package yasnippet-snippets
   :after yasnippet)

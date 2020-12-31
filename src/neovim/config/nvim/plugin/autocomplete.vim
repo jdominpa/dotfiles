@@ -5,7 +5,7 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <Up>   pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Bind C-y to confirm completion
-let g:completion_confirm_key = "\<C-y>"
+let g:completion_confirm_key = "<C-Space>"
 
 " Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
