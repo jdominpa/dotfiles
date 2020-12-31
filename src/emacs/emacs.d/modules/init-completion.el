@@ -20,6 +20,7 @@
   :config
   (setq-default company-dabbrev-other-buffers 'all
                 company-tooltip-align-annotations t
+                company-show-numbers t
                 company-idle-delay 0
                 company-minimum-prefix-length 1
                 company-tooltip-flip-when-above t))
@@ -35,8 +36,10 @@
               ("C-SPC" . yas-expand))
   :config
   (define-key yas-minor-mode-map (kbd "TAB") nil)
-  (define-key yas-minor-mode-map (kbd "<tab>") nil)
-  (use-package yasnippet-snippets))
+  (define-key yas-minor-mode-map (kbd "<tab>") nil))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
 
 
 (provide 'init-completion)
