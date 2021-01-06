@@ -11,7 +11,8 @@
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
-  :hook (after-init . evil-mode))
+  :config
+  (evil-mode))
 
 (use-package evil-collection
   :after evil
@@ -24,18 +25,21 @@
 
 (use-package evil-surround
   :after evil
-  :hook (evil-mode . global-evil-surround-mode))
+  :config
+  (global-evil-surround-mode))
 
 (use-package evil-commentary
   :after evil
   :diminish
-  :hook (evil-mode . evil-commentary-mode))
+  :config
+  (evil-commentary-mode))
 
 (use-package evil-snipe
   :after evil
   :diminish evil-snipe-mode evil-snipe-local-mode
-  :hook ((evil-mode . evil-snipe-mode)
-         (evil-mode . evil-snipe-override-mode)))
+  :config
+  (evil-snipe-mode)
+  (evil-snipe-override-mode))
 
 (use-package evil-easymotion
   :after evil
@@ -56,8 +60,7 @@
 
 (use-package evil-org
   :after (evil org)
-  :hook ((org-mode . evil-org-mode)
-         (evil-org-mode . (lambda () (evil-org-set-key-theme))))
+  :hook (org-mode . evil-org-mode)
   :config
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))

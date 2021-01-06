@@ -22,14 +22,16 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Make comments autofill in prog-mode
-(add-hook 'prog-mode-hook (lambda ()
-                            (setq-local comment-auto-fill-only-comments t)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (setq-local comment-auto-fill-only-comments t)))
 
 ;; On-the-fly syntax checking
 (use-package flycheck
   :hook (prog-mode . global-flycheck-mode)
   :config
-  (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list))
+  (setq flycheck-display-errors-function
+        #'flycheck-display-error-messages-unless-error-list))
 
 ;; Change modeline color according to flycheck status
 (use-package flycheck-color-mode-line

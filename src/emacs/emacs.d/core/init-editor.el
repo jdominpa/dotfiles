@@ -26,30 +26,31 @@
 ;; Revert buffers automatically when underlying files are changed externally
 (use-package autorevert
   :ensure nil
-  :hook (after-init . global-auto-revert-mode)
   :config
   (setq global-auto-revert-non-file-buffers t
-        auto-revert-verbose nil))
+        auto-revert-verbose nil)
+  (global-auto-revert-mode))
 
 ;; Show matching parens
-(use-package show-paren-mode
+(use-package paren
   :ensure nil
-  :hook (after-init . show-paren-mode))
+  :config
+  (show-paren-mode))
 
 ;; Insert closing parens after opening one
-(use-package electric-pair-mode
+(use-package electric
   :ensure nil
-  :hook ((after-init . electric-pair-mode)
-         (after-init . electric-indent-mode)))
+  :config
+  (electric-pair-mode)
+  (electric-indent-mode))
 
 ;; Save recent files
 (use-package recentf
   :ensure nil
-  :hook (after-init . recentf-mode)
   :config
   (setq-default recentf-save-file (expand-file-name "recentf" user-emacs-directory)
-                recentf-max-saved-items 1000
-                recentf-exclude '("/tmp/" "/ssh:")))
+                recentf-exclude '("/tmp/" "/ssh:"))
+  (recentf-mode))
 
 ;; Enable narrowing commands
 (put 'narrow-to-region 'disabled nil)
@@ -65,31 +66,27 @@
 
 ;; Projectile to manage projects
 (use-package projectile
-  :hook (after-init . projectile-mode)
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (if (file-directory-p "~/Projects")
       (setq projectile-project-search-path '("~/Projects")))
-  (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory)))
-
-(use-package ibuffer-projectile
-  :after projectile)
+  (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory))
+  (projectile-mode))
 
 ;; Settings for grep and grep-like tools
 (setq-default grep-highlight-matches t
               grep-scroll-output t)
 
-(use-package wgrep)
+(use-package wgrep
+  :commands wgrep-change-to-wgrep-mode)
+
 (use-package rg
   :if (executable-find "rg")
-  :config (rg-enable-default-bindings))
+  ;; TODO: why is ensure-system-package not installed
+  ;; :ensure-system-package (rg . ripgrep)
+  :bind ("C-c s" . rg-menu))
 
 ;; Dired configuration
-(use-package diredfl
-  :config
-  (diredfl-global-mode)
-  (require 'dired-x))
-
 (use-package dired
   :ensure nil
   :config
@@ -99,8 +96,16 @@
         dired-recursive-copies 'top
         dired-dwim-target t))
 
+(use-package diredfl
+  :after dired
+  :config
+  (diredfl-global-mode)
+  ;;(require 'dired-x)    TODO: currently not in use
+  )
+
 ;; Package to edit files as root user
-(use-package sudo-edit)
+(use-package sudo-edit
+  :defer t)
 
 ;; ediff - don't start in another frame
 (setq-default ediff-split-window-function 'split-window-horizontally
@@ -118,18 +123,21 @@
 
 (use-package whitespace-cleanup-mode
   :diminish
-  :hook (after-init . global-whitespace-cleanup-mode))
+  :config
+  (global-whitespace-cleanup-mode))
 
 ;; flyspell-mode does spell-checking on the fly as you type
-(require 'ispell)
 (use-package flyspell
   :ensure nil
-  :if (executable-find ispell-program-name)
-  :config (setq ispell-program-name "aspell"))
+  :preface (require 'ispell)
+  :if (executable-find ispell-program-name) ; TODO: check ensure-system-package
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)))
 
 ;; Highlight escape sequences like \n
 (use-package highlight-escape-sequences
-  :hook (after-init . hes-mode))
+  :config
+  (hes-mode))
 
 
 (provide 'init-editor)

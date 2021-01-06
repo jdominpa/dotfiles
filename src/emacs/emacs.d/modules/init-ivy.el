@@ -8,12 +8,13 @@
 
 ;;; Code:
 
+(use-package amx)
+
 ;; We only need to install counsel since ivy and swiper will be
 ;; installed as dependencies
 (use-package counsel
   :diminish ivy-mode counsel-mode
-  :hook ((after-init . ivy-mode)
-         (after-init . counsel-mode))
+  :demand t
   :bind (:map ivy-mode-map
               ("C-s" . swiper)
          :map counsel-mode-map
@@ -23,7 +24,6 @@
   (setq-default ivy-use-virtual-buffers t
                 ivy-wrap t
                 enable-recursive-minibuffers t
-                projectile-completion-system 'ivy
                 ivy-virtual-abbreviate 'fullpath
                 ivy-count-format "(%d/%d) "
                 ivy-initial-inputs-alist nil
@@ -31,13 +31,15 @@
                 ivy-use-selectable-prompt t)
   (setq-default counsel-mode-override-describe-bindings t)
   (if (executable-find "rg")
-      (bind-key "C-c g" 'counsel-rg)))
+      (bind-key "C-c g" 'counsel-rg))
+  (ivy-mode)
+  (counsel-mode))
 
 (use-package ivy-rich
   :after ivy
-  :hook (ivy-mode . ivy-rich-mode)
   :config
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (ivy-rich-mode))
 
 
 (provide 'init-ivy)

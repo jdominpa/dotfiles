@@ -1,7 +1,7 @@
 ;;; init-emacs-lisp.el --- elsip programming settings -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; Configuration for Elsip programming
+;; Configuration for elisp programming.
 
 ;;; Code:
 
@@ -20,33 +20,33 @@
       (goto-char (point-max))
       (insert ";;; " fname " ends here\n"))))
 
-(defun jdp/make-read-only (expression out-buffer-name)
-  "Enable `view-mode' in the output buffer - if any - so it can be closed with `\"q\"."
-  (when (get-buffer out-buffer-name)
-    (with-current-buffer out-buffer-name
-      (view-mode 1))))
-(advice-add 'pp-display-expression :after 'jdp/make-read-only)
-
 ;; Prettify output from elisp evaluated expressions
 (use-package ipretty
-  :hook (after-init . ipretty-mode))
+  :config
+  (ipretty-mode))
 
-;; Make C-x C-e run 'eval-region if the region is active
-(defun jdp/eval-last-sexp-or-region (prefix)
-  "Eval region from BEG to END if active, otherwise the last sexp."
-  (interactive "P")
-  (if (and (mark) (use-region-p))
-      (eval-region (min (point) (mark)) (max (point) (mark)))
-    (pp-eval-last-sexp prefix)))
-
-(bind-key [remap eval-expression] 'pp-eval-expression)
-
-;; Elisp mode configuration
 (use-package emacs-lisp-mode
   :ensure nil
+  :preface
+  (defun jdp/make-read-only (expression out-buffer-name)
+    "Enable `view-mode' in the output buffer - if any - so it can be closed with `\"q\"."
+    (when (get-buffer out-buffer-name)
+      (with-current-buffer out-buffer-name
+        (view-mode 1))))
+  (advice-add 'pp-display-expression :after 'jdp/make-read-only)
+
+  ;; Make C-x C-e run 'eval-region if the region is active
+  (defun jdp/eval-last-sexp-or-region (prefix)
+    "Eval region from BEG to END if active, otherwise the last sexp."
+    (interactive "P")
+    (if (and (mark) (use-region-p))
+        (eval-region (min (point) (mark)) (max (point) (mark)))
+      (pp-eval-last-sexp prefix)))
+
   :hook (emacs-lisp-mode . eldoc-mode)
-  :bind (:map emacs-lisp-mode-map
-              ("C-x C-e" . jdp/eval-last-sexp-or-region)))
+  :bind (([remap eval-expression] . pp-eval-expression)
+         :map emacs-lisp-mode-map
+         ("C-x C-e" . jdp/eval-last-sexp-or-region)))
 
 ;; Expand macros
 (use-package macrostep
@@ -55,8 +55,9 @@
 
 ;; Automatic byte compilation
 (use-package auto-compile
-  :hook ((after-init . auto-compile-on-save-mode)
-         (after-init . auto-compile-on-load-mode)))
+  :config
+  (auto-compile-on-save-mode)
+  (auto-compile-on-load-mode))
 
 
 (provide 'init-emacs-lisp)

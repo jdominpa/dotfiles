@@ -13,7 +13,8 @@
 (use-package cc-mode
   :ensure nil
   :hook (c-mode-common . lsp-deferred)
-  :config (setq-default c-default-style "k&r"))
+  :config
+  (setq-default c-default-style "k&r"))
 
 
 (provide 'init-c)

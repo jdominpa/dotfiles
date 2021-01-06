@@ -17,8 +17,10 @@
          (haskell-mode . interactive-haskell-mode))
   :mode "\\.ghci\\'"
   :bind (:map haskell-mode-map
-              ("C-c h" . hoogle))
-  :config (use-package lsp-haskell))
+              ("C-c h" . hoogle)))
+
+(use-package lsp-haskell
+  :after haskell-mode)
 
 
 (provide 'init-haskell)

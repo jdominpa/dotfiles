@@ -11,7 +11,7 @@
 ;; Company package for autocompletion
 (use-package company
   :diminish
-  :hook (after-init . global-company-mode)
+  :hook (prog-mode . company-mode)
   :bind (:map company-mode-map
               ([remap completion-at-point] . company-complete)
               ([remap indent-for-tab-command] . company-indent-or-complete-common)
@@ -23,18 +23,19 @@
               ("C-SPC" . company-complete-selection))
   :config
   (setq-default company-show-numbers t
-                company-idle-delay 0
+                company-idle-delay 0.25
                 company-minimum-prefix-length 1
                 company-tooltip-align-annotations t
                 company-tooltip-flip-when-above t))
 
 (use-package company-quickhelp
   :after company
-  :hook (global-company-mode . company-quickhelp-mode))
+  :hook (company-mode . company-quickhelp-mode))
 
 ;; Code snippets
 (use-package yasnippet
-  :hook (after-init . yas-global-mode))
+  :config
+  (yas-global-mode))
 
 (use-package yasnippet-snippets
   :after yasnippet)

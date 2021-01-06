@@ -9,6 +9,7 @@
 ;; the shell. This fixes that problem
 (use-package exec-path-from-shell
   :config
+  (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
 
 ;; Set cmd to be meta key and disable option key
@@ -29,7 +30,9 @@
 
 ;; Make macOS titlebar match Emacs' theme
 (use-package ns-auto-titlebar
-  :config (ns-auto-titlebar-mode))
+  :config
+  ; FIXME: check if ns-auto-titlebar-mode needs argument
+  (ns-auto-titlebar-mode 1))
 
 ;; Command-Option-f to toggle fullscreen mode
 (when (fboundp 'toggle-frame-fullscreen)

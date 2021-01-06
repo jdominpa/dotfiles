@@ -48,22 +48,25 @@
 
 ;; A simple visible bell to replace the constant beeping
 (use-package mode-line-bell
-  :hook (after-init . mode-line-bell-mode))
+  :config
+  (mode-line-bell-mode))
 
 ;; Package to flash point after jumping
 (use-package beacon
   :diminish
-  :hook (after-init . beacon-mode)
   :config
-  (setq-default beacon-size 30))
+  (setq-default beacon-size 30)
+  (beacon-mode))
 
 ;; Set up a nice theme
 (use-package base16-theme
-  :config (load-theme 'base16-tomorrow-night t))
+  :config
+  (load-theme 'base16-tomorrow-night t))
 
 ;; Resize font in all buffers at the same size
 (use-package default-text-scale
-  :hook (after-init . default-text-scale-mode))
+  :config
+  (default-text-scale-mode))
 
 ;; Set font size
 (setq jdp/default-font "Fira Code-12.5")
@@ -97,9 +100,9 @@
 ;; Show available keybindings after we start to type
 (use-package which-key
   :diminish
-  :hook (after-init . which-key-mode)
   :config
-  (setq-default which-key-idle-delay 1.25))
+  (setq-default which-key-idle-delay 1.25)
+  (which-key-mode))
 
 
 (provide 'init-ui)

@@ -19,7 +19,7 @@
 (jdp/add-subdirs-to-load-path
  (expand-file-name "personal-packages/" user-emacs-directory))
 
-;;; Utilities for grabbing upstream libs
+;;; Utilities for grabbing upstream libs
 
 (defun personal-packages-dir-for (name)
   (expand-file-name (format "personal-packages/%s" name) user-emacs-directory))

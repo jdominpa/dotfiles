@@ -9,11 +9,6 @@
 ;;; Inicial configuration before loading core and additional modules
 (message "[Startup] Starting custom configuration...")
 
-;; Check Emacs version
-(let ((minver "25.1"))
-  (when (version< emacs-version minver)
-    (error "This Emacs configuration requires version v%s or higher, but you're running v%s" minver emacs-version)))
-
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
@@ -30,11 +25,11 @@
                   gc-cons-percentage 0.1)))
 
 (defun jdp/defer-garbage-collection-h ()
+  "Increase gc threshold to maximum value."
   (setq gc-cons-threshold most-positive-fixnum))
 
 (defun jdp/restore-garbage-collection-h ()
-  ;; Defer it so that commands launched immediately after will enjoy the
-  ;; benefits.
+  "Restore normal gc threshold value."
   (run-at-time
    1 nil (lambda () (setq gc-cons-threshold 16777216))))
 
