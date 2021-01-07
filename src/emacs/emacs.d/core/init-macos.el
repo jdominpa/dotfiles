@@ -28,12 +28,6 @@
 (bind-keys ("M-h" . ns-do-hide-emacs)
            ("M-H" . ns-do-hide-others))
 
-;; Make macOS titlebar match Emacs' theme
-(use-package ns-auto-titlebar
-  :config
-  ; FIXME: check if ns-auto-titlebar-mode needs argument
-  (ns-auto-titlebar-mode 1))
-
 ;; Command-Option-f to toggle fullscreen mode
 (when (fboundp 'toggle-frame-fullscreen)
   (bind-key "M-ƒ" 'toggle-frame-fullscreen))

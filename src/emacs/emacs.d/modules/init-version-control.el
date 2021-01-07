@@ -21,8 +21,7 @@
 
 (use-package magit
   :hook (git-commit-mode . goto-address-mode)
-  :bind (("C-x g" . magit-status)
-         ("C-x M-g" . magit-dispatch))
+  :bind ("C-x g" . magit-status)
   :config
   (setq-default magit-diff-refine-hunk t)
   (with-eval-after-load 'fullframe

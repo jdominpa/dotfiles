@@ -100,8 +100,7 @@
   :after dired
   :config
   (diredfl-global-mode)
-  ;;(require 'dired-x)    TODO: currently not in use
-  )
+  (require 'dired-x))
 
 ;; Package to edit files as root user
 (use-package sudo-edit
