@@ -9,22 +9,12 @@ create_symlinks() {
 
     declare -a HOME_FILES_TO_SYMLINK=(
 
-       #"bash_shell/aliases/bash_aliases"
-       #"bash_shell/autocomplete/$(get_os)/bash_autocomplete"
-       #"bash_shell/colors/$(get_os)/bash_colors"
-       #"bash_shell/bash_exports"
-       #"bash_shell/bash_logout"
-       #"bash_shell/bash_options"
-       #"bash_shell/bash_profile"
-       #"bash_shell/bash_prompt"
-       #"bash_shell/bashrc"
-       #"bash_shell/inputrc"
         "git/gitattributes"
         "git/gitconfig"
         "git/gitignore"
         "shell/curlrc"
         #"tmux/tmux.conf"
-        "zsh_shell/zshrc"
+        "zsh_shell/zshenv"
 
     )
 
@@ -48,7 +38,7 @@ create_symlinks() {
         "zsh_shell/zsh/aliases"
         "zsh_shell/zsh/colors"
         "zsh_shell/zsh/completions"
-        "zsh_shell/zsh/exports"
+        "zsh_shell/zsh/.zshrc"
 
     )
 

@@ -14,7 +14,7 @@ __JOAN[ITALIC_OFF]=$'\e[23m'
 # Completion
 #
 
-fpath=($HOME/.zsh/completions $fpath)
+fpath=($ZDOTDIR/completions $fpath)
 
 autoload -Uz compinit
 compinit -u
@@ -134,7 +134,7 @@ export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%
 #
 
 export HISTSIZE=100000
-export HISTFILE="$HOME/.zsh/history"
+export HISTFILE="$ZDOTDIR/history"
 export SAVEHIST=$HISTSIZE
 
 #
@@ -167,8 +167,6 @@ setopt SHARE_HISTORY           # share history across shells
 #
 # Bindings
 #
-
-bindkey -e # emacs bindings, set to -v for vi bindings
 
 # Use "cbt" capability ("back_tab", as per `man terminfo`), if we have it:
 if tput cbt &> /dev/null; then
@@ -210,9 +208,8 @@ bindkey '^Z' fg-bg
 # Other
 #
 
-source $HOME/.zsh/aliases
-source $HOME/.zsh/colors
-source $HOME/.zsh/exports
+source $ZDOTDIR/aliases
+source $ZDOTDIR/colors
 
 #
 # Hooks
@@ -346,7 +343,7 @@ zstyle ':completion:*:*:cdr:*:*' menu selection
 zstyle ':chpwd:*' recent-dirs-default true
 
 # Local and host-specific overrides.
-LOCAL_RC=$HOME/.zshrc.local
+LOCAL_RC=$ZDOTDIR/.zshrc.local
 test -f $LOCAL_RC && source $LOCAL_RC
 
 #
@@ -355,19 +352,3 @@ test -f $LOCAL_RC && source $LOCAL_RC
 
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
-
-#
-# Source .zsh.local
-#
-
-[ -r "$HOME/.zsh.local" ] && . "$HOME/.zsh.local"
-
-#
-# /etc/motd
-#
-
-if [ -e /etc/motd ]; then
-  if ! cmp -s $HOME/.hushlogin /etc/motd; then
-    tee $HOME/.hushlogin < /etc/motd
-  fi
-fi
