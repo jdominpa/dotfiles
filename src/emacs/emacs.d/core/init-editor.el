@@ -81,8 +81,7 @@
   :commands wgrep-change-to-wgrep-mode)
 
 (use-package rg
-  ;; :if (executable-find "rg")
-  :ensure-system-package (rg . ripgrep) ; TODO: check on macOS
+  :if (executable-find "rg")
   :bind ("C-c s" . rg-menu))
 
 ;; Dired configuration
@@ -129,7 +128,6 @@
   :ensure nil
   :preface (require 'ispell)
   :if (executable-find ispell-program-name)
-  ;; :ensure-system-package ispell ; TODO: check ensure-system-package
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
