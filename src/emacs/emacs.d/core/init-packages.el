@@ -45,6 +45,11 @@
       use-package-compute-statistics t
       use-package-verbose t)
 
+;; use-package extenstion to ensure system binaries are installed
+;; in the system
+(use-package use-package-ensure-system-package
+  :defer t)
+
 ;; Package to remove minor modes from modeline
 (use-package diminish
   :defer t)

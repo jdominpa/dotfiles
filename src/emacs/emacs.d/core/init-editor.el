@@ -81,9 +81,8 @@
   :commands wgrep-change-to-wgrep-mode)
 
 (use-package rg
-  :if (executable-find "rg")
-  ;; TODO: why is ensure-system-package not installed
-  ;; :ensure-system-package (rg . ripgrep)
+  ;; :if (executable-find "rg")
+  :ensure-system-package (rg . ripgrep) ; TODO: check on macOS
   :bind ("C-c s" . rg-menu))
 
 ;; Dired configuration
@@ -129,7 +128,8 @@
 (use-package flyspell
   :ensure nil
   :preface (require 'ispell)
-  :if (executable-find ispell-program-name) ; TODO: check ensure-system-package
+  :if (executable-find ispell-program-name)
+  ;; :ensure-system-package ispell ; TODO: check ensure-system-package
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
