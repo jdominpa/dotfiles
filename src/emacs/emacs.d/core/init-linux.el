@@ -9,7 +9,11 @@
 ;; the shell. This fixes that problem
 (use-package exec-path-from-shell
   :config
+<<<<<<< HEAD
   (setq exec-path-from-shell-arguments '("-l"))
+=======
+  (setq exec-path-from-shell-arguments nil)
+>>>>>>> origin/master
   (exec-path-from-shell-initialize))
 
 
