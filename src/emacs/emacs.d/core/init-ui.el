@@ -33,6 +33,9 @@
           (lambda ()
             (setq line-spacing 0)))
 
+;; Disable cursor blinking
+(blink-cursor-mode -1)
+
 ;; Nice scrolling
 (setq scroll-margin 0
       scroll-conservatively 1000
