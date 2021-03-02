@@ -28,10 +28,6 @@
                 company-tooltip-align-annotations t
                 company-tooltip-flip-when-above t))
 
-(use-package company-quickhelp
-  :after company
-  :hook (company-mode . company-quickhelp-mode))
-
 ;; Code snippets
 (use-package yasnippet
   :config

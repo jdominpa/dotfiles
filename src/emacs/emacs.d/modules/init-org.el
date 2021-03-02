@@ -8,8 +8,7 @@
 
 (use-package org
   :ensure org-plus-contrib
-  :hook ((org-mode . eldoc-mode)
-         (org-mode . org-indent-mode)
+  :hook ((org-mode . org-indent-mode)
          (org-mode . auto-fill-mode))
   :config
   (setq org-ellipsis " ▾")

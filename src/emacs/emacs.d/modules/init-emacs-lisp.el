@@ -43,7 +43,6 @@
         (eval-region (min (point) (mark)) (max (point) (mark)))
       (pp-eval-last-sexp prefix)))
 
-  :hook (emacs-lisp-mode . eldoc-mode)
   :bind (([remap eval-expression] . pp-eval-expression)
          :map emacs-lisp-mode-map
          ("C-x C-e" . jdp/eval-last-sexp-or-region)))

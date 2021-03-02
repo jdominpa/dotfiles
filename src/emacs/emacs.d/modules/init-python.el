@@ -9,7 +9,6 @@
 
 (use-package python-mode
   :ensure nil
-  :hook (python-mode . eldoc-mode)
   :config (setq python-shell-interpreter "python3"))
 
 (use-package lsp-pyright

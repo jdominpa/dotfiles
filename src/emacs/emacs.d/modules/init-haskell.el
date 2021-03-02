@@ -12,7 +12,6 @@
 (use-package haskell-mode
   :hook (((haskell-mode haskell-literate-mode) . lsp-deferred)
          ((haskell-mode haskell-cabal-mode) . subword-mode)
-         (haskell-mode . eldoc-mode)
          (haskell-mode . haskell-indentation-mode)
          (haskell-mode . interactive-haskell-mode))
   :mode "\\.ghci\\'"
