@@ -71,17 +71,9 @@
   :config
   (default-text-scale-mode))
 
-;; Set font size
-(setq jdp/default-font "Fira Code-12.5")
-
-(defun jdp/set-font ()
-  "Set the font to `jdp/default-font'. Set that for the current frame, and also make it the default for other, future frames."
-  (if (assoc 'font default-frame-alist)
-      (setcdr (assoc 'font default-frame-alist) jdp/default-font)
-    (add-to-list 'default-frame-alist (cons 'font jdp/default-font))
-    (set-frame-font jdp/default-font)))
-
-(jdp/set-font)
+;; Font configuration
+(when (member "Fira Code" (font-family-list))
+  (set-frame-font "Fira Code-14" nil t))
 
 ;; Settings to adjust the opacity of the frame on the fly
 (defun jdp/adjust-opacity (frame incr)
