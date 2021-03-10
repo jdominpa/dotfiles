@@ -73,7 +73,7 @@
 
 ;; Font configuration
 (when (member "Fira Code" (font-family-list))
-  (set-frame-font "Fira Code-14" nil t))
+  (set-frame-font "Fira Code-13" nil t))
 
 ;; Settings to adjust the opacity of the frame on the fly
 (defun jdp/adjust-opacity (frame incr)

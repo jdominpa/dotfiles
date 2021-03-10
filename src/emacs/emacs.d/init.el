@@ -22,7 +22,12 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold 16777216
-                  gc-cons-percentage 0.1)))
+                  gc-cons-percentage 0.1)
+            (message "[Init-time] Emacs loaded in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
 
 (defun jdp/defer-garbage-collection-h ()
   "Increase gc threshold to maximum value."

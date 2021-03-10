@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: universal quantifier
+# key: A
+# condition: (texmathp)
+# --
+\forall
