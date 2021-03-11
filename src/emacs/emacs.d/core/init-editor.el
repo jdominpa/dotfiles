@@ -17,11 +17,11 @@
               save-interprogram-paste-before-kill t   ;; Move clipboard to kill ring before replacing it
               mouse-yank-at-point t)                  ;; Mouse yanks at point instead of at click
 
-;; Store backup and autosave files in the tmp dir
+;; Store backup and autosave files in the backups and auto-saves directories
 (setq-default backup-directory-alist
-              `((".*" . ,temporary-file-directory)))
-(setq-default auto-save-file-name-transforms
-              `((".*" ,temporary-file-directory t)))
+              `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+(setq-default auto-save-list-file-prefix (expand-file-name "auto-saves/sessions/" user-emacs-directory)
+              auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-saves/" user-emacs-directory) t)))
 
 ;; Revert buffers automatically when underlying files are changed externally
 (use-package autorevert
@@ -48,8 +48,8 @@
 (use-package recentf
   :ensure nil
   :config
-  (setq-default recentf-save-file (expand-file-name "recentf" user-emacs-directory)
-                recentf-exclude '("/tmp/" "/ssh:"))
+  (setq-default recentf-exclude '("/tmp/" "/ssh:")
+                recentf-save-file (expand-file-name "recentf" user-emacs-directory))
   (recentf-mode))
 
 ;; Enable narrowing commands
@@ -68,8 +68,8 @@
 (use-package projectile
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
-  (if (file-directory-p "~/Projects")
-      (setq projectile-project-search-path '("~/Projects")))
+  (when (file-directory-p "~/Projects")
+    (setq projectile-project-search-path '("~/Projects")))
   (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory))
   (projectile-mode))
 
