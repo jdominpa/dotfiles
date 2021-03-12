@@ -14,6 +14,7 @@
   :hook (lsp-mode . lsp-ui-mode)
   :config
   (setq lsp-ui-doc-position 'bottom
+        lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-show-with-cursor nil))
 
 (use-package lsp-ivy

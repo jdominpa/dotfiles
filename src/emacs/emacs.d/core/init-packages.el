@@ -41,8 +41,7 @@
 
 ;; Install all packages
 (require 'use-package-ensure)
-(setq use-package-always-ensure t
-      use-package-verbose t)
+(setq use-package-always-ensure t)
 
 ;; Package to remove minor modes from modeline
 (use-package diminish
@@ -54,8 +53,7 @@
   :config (fullframe list-packages quit-window))
 
 ;; Package to update Emacs' GPG keyring
-(use-package gnu-elpa-keyring-update
-  :init (setq package-check-signature nil))
+(use-package gnu-elpa-keyring-update)
 
 
 (provide 'init-packages)

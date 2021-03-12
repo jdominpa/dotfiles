@@ -59,7 +59,6 @@
                         (evil-snipe-enable-incremental-highlight))))
 
 (use-package evil-org
-  :after (evil org)
   :hook (org-mode . evil-org-mode)
   :config
   (require 'evil-org-agenda)
