@@ -5,12 +5,6 @@ nnoremap <Leader><Leader> <C-^>
 
 nnoremap <Leader>o :only<CR>
 
-" List buffers
-nnoremap <Leader>ls :buffers<CR>
-
-" Open NERDTree
-nnoremap <Leader>t :NERDTreeToggle<CR>
-
 " <Leader>r -- Cycle through relativenumber + number, number (only), and no
 " numbering (mnemonic: relative).
 nnoremap <silent> <Leader>r :call jdominpa#mappings#leader#cycle_numbering()<CR>

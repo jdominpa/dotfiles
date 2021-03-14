@@ -11,19 +11,20 @@ let maplocalleader = ","
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'chriskempson/base16-vim'            " color scheme
-Plug 'junegunn/fzf'                       " fuzzy file finder
 Plug 'junegunn/goyo.vim'                  " distraction-free writing in vim
 Plug 'lervag/vimtex'                      " extra functionality for editing LaTeX documents
 Plug 'neovim/nvim-lspconfig'              " neovim built-in LSP configuration
 Plug 'neovimhaskell/haskell-vim'          " haskell syntax highlighting
 Plug 'nvim-lua/completion-nvim'           " neovim built-in LSP completion
+Plug 'nvim-lua/popup.nvim'                " -
+Plug 'nvim-lua/plenary.nvim'              " fuzzy finder
+Plug 'nvim-telescope/telescope.nvim'      " -
 Plug 'SirVer/ultisnips'                   " snippets
 Plug 'tpope/vim-commentary'               " functionality to comment lines
 Plug 'tpope/vim-surround'                 " functionality to edit surrounding characters
 Plug 'tweekmonster/startuptime.vim'       " benchmarking startup
 Plug 'vim-airline/vim-airline'            " statusbar configuration
 Plug 'vim-airline/vim-airline-themes'     " statusbar configuration
-Plug 'wincent/pinnacle'                   " extra customization for highlight groups
 
 call plug#end()
 

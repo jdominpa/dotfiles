@@ -35,12 +35,5 @@ function s:CheckColorScheme()
 endfunction
 
 if v:progname !=# 'vi'
-  if has('autocmd')
-    augroup JdominpaAutocolor
-      autocmd!
-      autocmd FocusGained * call s:CheckColorScheme()
-    augroup END
-  endif
-
   call s:CheckColorScheme()
 endif

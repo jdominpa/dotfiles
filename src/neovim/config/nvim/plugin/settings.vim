@@ -69,7 +69,6 @@ if exists('+relativenumber')
   set relativenumber                  " show relative numbers in gutter
 endif
 
-set scrolloff=3                       " start scrolling 3 lines before edge of viewport
 set shell=sh                          " shell to use for `!`, `:!`, `system()` etc.
 set noshiftround                      " don't always indent by multiple of shiftwidth
 set shiftwidth=2                      " spaces per tab (when shifting)

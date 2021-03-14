@@ -1,7 +1,3 @@
-if !has('nvim')
-  finish
-endif
-
 lua require('jdominpa.lsp').init()
 
 sign define LspDiagnosticsErrorSign text=✖
