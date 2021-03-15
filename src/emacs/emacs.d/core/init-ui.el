@@ -21,12 +21,6 @@
 (setq initial-scratch-message nil
       inhibit-startup-screen t)
 
-;; Remove fringes at startup and at every frame created after. Make Emacs start
-;; maximized.
-(let ((no-border '(internal-border-width . 0)))
-  (add-to-list 'initial-frame-alist no-border)
-  (add-to-list 'default-frame-alist no-border))
-
 ;; Non-zero values for `line-spacing' can mess up ansi-term and co,
 ;; so we zero it explicitly in those cases.
 (add-hook 'term-mode-hook
@@ -36,10 +30,16 @@
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
 
-;; Nice scrolling
+;; Better buffer scrolling
 (setq scroll-margin 0
       scroll-conservatively 1000
       scroll-preserve-screen-position 'always)
+
+;; Improve mouse motion
+(setq mouse-wheel-scroll-amount '(1
+                                  ((shift) . 5)
+                                  ((control))))
+(setq mouse-wheel-progressive-speed nil)
 
 ;; Mode line settings
 (setq line-number-mode t
@@ -96,7 +96,6 @@
 (use-package which-key
   :diminish
   :config
-  (setq-default which-key-idle-delay 1.25)
   (which-key-mode))
 
 

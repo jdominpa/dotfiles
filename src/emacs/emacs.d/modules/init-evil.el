@@ -10,8 +10,8 @@
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
   :config
+  (setq evil-want-C-u-scroll t)
   (evil-mode))
 
 (use-package evil-collection
