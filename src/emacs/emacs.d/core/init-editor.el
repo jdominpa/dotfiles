@@ -92,13 +92,13 @@
   (setq-default dired-dwim-target t)
   (setq dired-recursive-deletes 'top
         dired-recursive-copies 'top
-        dired-dwim-target t))
+        dired-dwim-target t)
+  (require 'dired-x))
 
 (use-package diredfl
   :after dired
   :config
-  (diredfl-global-mode)
-  (require 'dired-x))
+  (diredfl-global-mode))
 
 ;; Package to edit files as root user
 (use-package sudo-edit

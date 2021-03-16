@@ -35,7 +35,6 @@
 
 ;; Change modeline color according to flycheck status
 (use-package flycheck-color-mode-line
-  :after flycheck
   :hook (flycheck-mode . flycheck-color-mode-line-mode))
 
 
