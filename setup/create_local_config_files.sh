@@ -7,11 +7,13 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 create_zsh_local() {
 
-    declare -r FILE_PATH="$ZDOTDIR/.zshrc.local"
+    declare -r DIR_PATH="$HOME/.zsh"
+    declare -r FILE_PATH="$HOME/.zsh/.zshrc.local"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if [ ! -e "$FILE_PATH" ] || [ -z "$FILE_PATH" ]; then
+        mkdir -p "$DIR_PATH"
         printf "%s\n\n" "#!/bin/zsh" >> "$FILE_PATH"
     fi
 
