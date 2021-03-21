@@ -45,7 +45,7 @@ stow_packages() {
 
     for pkg in "${STOW_PKGS[@]}"; do
 
-        execute "stow --dotfiles -d $source -t ~ $pkg" "$pkg"
+        execute "stow --dotfiles -d $source -t $HOME $pkg" "$pkg"
 
     done
 
