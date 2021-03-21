@@ -123,4 +123,4 @@ username with your own in the [[*Setup][setup snippets]] and in the [[https://gi
 
 * License
 
-The code is available under the [[https://github.com/jdominpa/dotfiles/blob/master/LICENSE][MIT license]].
+The code is available under the [[https://github.com/jdominpa/dotfiles/blob/master/LICENSE][GNU General Public License v3.0]].
