@@ -32,7 +32,7 @@ stow_symlinks() {
 
     print_in_purple "\n   Stowing packages\n\n"
 
-    execute "stow --dotfiles -d $source -t ~ arch" \
+    execute "stow --dotfiles -d $source -t $HOME arch" \
             "Arch configuration files"
 
 }
