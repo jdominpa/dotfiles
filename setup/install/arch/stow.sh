@@ -6,14 +6,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-./xcode.sh
-./homebrew.sh
-./stow.sh
+print_in_purple "\n   GNU Stow\n\n"
 
-./git.sh
-./gpg.sh
-./zsh.sh
-./casks.sh
-./cmd_ln_tools.sh
-./editors.sh
-./font_tools.sh
+install_package "Stow" "stow"

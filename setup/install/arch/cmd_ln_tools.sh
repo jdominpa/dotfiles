@@ -8,9 +8,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Command Line Tools\n\n"
 
+install_package "cURL" "curl"
 install_package "ripgrep" "ripgrep"
 install_package "SSH" "openssh"
-install_package "cURL" "curl"
+install_package "Stow" "stow"
 install_package "unrar" "unrar"
 install_package "unzip" "unzip"
 

@@ -9,6 +9,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 update
 upgrade
 
+./stow.sh
+
 ./git.sh
 ./zsh.sh
 ./cmd_ln_tools.sh

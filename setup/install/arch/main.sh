@@ -11,6 +11,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 update_and_upgrade
 install_yay
 
+./stow.sh
+
 ./desktop.sh
 ./fonts.sh
 ./terminal.sh

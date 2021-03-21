@@ -8,6 +8,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Command Line Tools\n\n"
 
-brew_install "Ripgrep" "ripgrep"
 brew_install "Coreutils" "coreutils"
 brew_install "Python 3" "python"
+brew_install "Ripgrep" "ripgrep"
+brew_install "Stow" "stow"
