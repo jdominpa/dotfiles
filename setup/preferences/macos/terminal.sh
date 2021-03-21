@@ -22,5 +22,5 @@ execute "defaults write com.apple.terminal StringEncodings -array 4" \
 execute "./set_terminal_theme.applescript" \
     "Set custom terminal theme"
 
-execute "/bin/zsh -i -c 'color dracula'" \
+execute "/bin/zsh -i -c 'color tomorrow-night'" \
     "Set shell colors"

@@ -168,13 +168,6 @@ verify_os() {
                 printf "Sorry, this script is intended only for macOS %s+" "$MINIMUM_MACOS_VERSION"
             fi
             ;;
-    # if [ "$os_name" == "macos" ]; then
-
-    #     if is_supported_version "$(get_os_version)" "$MINIMUM_MACOS_VERSION"; then
-    #         return 0
-    #     else
-    #         printf "Sorry, this script is intended only for macOS %s+" "$MINIMUM_MACOS_VERSION"
-    #     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -188,13 +181,6 @@ verify_os() {
                 printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_UBUNTU_VERSION"
             fi
             ;;
-    # elif [ "$os_name" == "ubuntu" ]; then
-
-    #     if is_supported_version "$os_version" "$MINIMUM_UBUNTU_VERSION"; then
-    #         return 0
-    #     else
-    #         printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_UBUNTU_VERSION"
-    #     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -211,9 +197,6 @@ verify_os() {
         arch)
             return 0
             ;;
-    # elif [ "$os_name" == "arch" ]; then
-
-    #     return 0
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -221,11 +204,6 @@ verify_os() {
             printf "Sorry, this script is intended only for macOS, Arch Linux and...! (%s)" "$os_name"
             return 1
             ;;
-    # else
-    #     printf "Sorry, this script is intended only for macOS, Arch Linux and...! (%s)" "$os_name"
-    # fi
-
-    # return 1
     esac
 
 }
@@ -280,7 +258,7 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    ./create_symbolic_links.sh "$@"
+    ./stow_packages.sh "$@"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

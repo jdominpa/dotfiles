@@ -14,7 +14,7 @@ create_symlinks() {
         "git/gitignore"
         "shell/curlrc"
         #"tmux/tmux.conf"
-        "zsh_shell/zshenv"
+        "shell/zshenv"
 
     )
 
@@ -35,10 +35,10 @@ create_symlinks() {
         "neovim/config/nvim/plugin"
         "neovim/config/nvim/ultisnips"
 
-        "zsh_shell/zsh/aliases"
-        "zsh_shell/zsh/colors"
-        "zsh_shell/zsh/completions"
-        "zsh_shell/zsh/.zshrc"
+        "shell/zsh/aliases"
+        "shell/zsh/colors"
+        "shell/zsh/completions"
+        "shell/zsh/.zshrc"
 
     )
 
@@ -56,7 +56,7 @@ create_symlinks() {
 
     for i in "${HOME_FILES_TO_SYMLINK[@]}"; do
 
-        sourceFile="$(cd .. && pwd)/$i"
+        sourceFile="$(cd .. && pwd)/stow/$i"
         targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
         if [ ! -e "$targetFile" ] || $skipQuestions; then
@@ -92,7 +92,7 @@ create_symlinks() {
 
     for i in "${NOT_HOME_FILES_TO_SYMLINK[@]}"; do
 
-        sourceFile="$(cd .. && pwd)/$i"
+        sourceFile="$(cd .. && pwd)/stow/$i"
         targetFile="$HOME/.$(printf "%s" "$i" | sed "s|[^/]*/||")"
         pathToSymlink="$(printf "%s" "$targetFile" | rev | sed "s|[^/]*/||" | rev)"
 

@@ -8,7 +8,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Command Line Tools\n\n"
 
-brew_install "Ripgrep" "ripgrep"
-brew_install "ShellCheck" "shellcheck"
-brew_install "Coreutils" "coreutils"
-brew_install "Python 3" "python"
+install_package "Build essentials like gcc" "build-essential"
+install_package "Man pages for dev tools" "manpages-dev"
+install_package "Ripgrep" "ripgrep"
+install_package "cURL" "curl"
+install_package "Unzip" "unzip"
