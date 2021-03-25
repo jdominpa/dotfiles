@@ -57,7 +57,7 @@ system and we make no effort whatsoever to run relevant tests."
   :type 'alist)
 
 (defcustom jdp-fonts-monospaced-list
-  '("Hack" "DejaVu Sans Mono" "Iosevka Comfy" "Source Code Pro"
+  '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
     "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid")
   "List of typefaces for coding.
 
@@ -128,8 +128,8 @@ to pass to the `bold' face's weight property."
   (let* ((u (if (eq face 'default) 100 1.0))
          (h (or height u))
          (w (or weight 'normal)))
-    ;; ;; Read this: <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=45920>
-    ;; ;; Hence why the following fails.  Keeping it for posterity...
+    ;; Read this: <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=45920>
+    ;; Hence why the following fails.  Keeping it for posterity...
     ;; (set-face-attribute face nil :family family :weight w :height h)
     (if (eq (face-attribute face :weight) w)
           (internal-set-lisp-face-attribute face :family family 0)
