@@ -148,7 +148,7 @@ to pass to the `bold' face's weight property."
   "Prompt for candidate among DISPLAYS."
   (let ((def (nth 1 jdp-fonts-font-display-hist)))
     (completing-read
-     (format-prompt "Pick display size" def)
+     "Pick display size: "
      displays nil nil nil 'jdp-fonts-font-display-hist def)))
 
 ;;;###autoload
