@@ -77,7 +77,7 @@
 (message "[Modules] Loading additional modules...")
 
 ;; Vim emulation
-(require 'init-evil)
+;; (require 'init-evil)
 
 ;; Improve narrowing search and add completion and snippets
 (require 'init-ivy)

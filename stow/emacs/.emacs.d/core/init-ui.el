@@ -62,9 +62,17 @@
   (beacon-mode))
 
 ;; Set up a nice theme
-(use-package base16-theme
+;; (use-package base16-theme
+;;   :config
+;;   (load-theme 'base16-tomorrow-night t))
+(use-package modus-themes
+  :init
+  ;; Load the theme files before enabling a theme
+  (modus-themes-load-themes)
   :config
-  (load-theme 'base16-tomorrow-night t))
+  ;; Load the theme of your choice:
+  (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
 
 ;; Resize font in all buffers at the same size
 (use-package default-text-scale

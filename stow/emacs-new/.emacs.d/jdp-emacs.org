@@ -1,0 +1,249 @@
+#+TITLE: GNU Emacs configuration file
+#+AUTHOR: Joan Domingo Pasarin
+#+EMAIL: jdomingopasarin@icloud.com
+#+OPTIONS: toc:nil
+#+MACRO: export-date (eval (format-time-string "%F %R %z" (current-time)))
+#+MACRO: emacs-development-version (eval (substring (emacs-version) 0 17))
+
++ Created: 2021-03-22
++ Updated: *{{{export-date}}}*.
++ Emacs Version: {{{emacs-development-version}}}
++ File history:
+  [[https://github.com/jdominpa/dotfiles/commits/master/stow/emacs/.emacs.d]].
+
+#+TOC: headlines 8 insert TOC here, with eight headline levels
+
+* Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+
+** Links to this document
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+
++ Git repository :: [[https://github.com/jdominpa/dotfiles]]
+
+** What is this document
+:PROPERTIES:
+:CUSTOM_ID: what_is_this_document
+:END:
+
+This document, referred to in the source code version as =emacs.org=,
+contains all of my configurations for GNU Emacs. When I started using
+Emacs I created a structure of =.el= files stored in various
+directories inside =.emacs.d= an used =init.el= to load all of
+them. Since the creation of this document I've started using a
+literate configuration which follows the principles of "literate
+programming": a combination of ordinary text and inline code
+blocks. Emacs then parses this file to proper =.el= files evaluating
+only the Elisp ("Emacs Lisp") parts. The rest of the text is there to
+explain the underlying rationale of the configuration.
+
+The advantatge of using literate programming is that we can document
+the code exhaustively in a way that couldn't be achievable with a
+regular code file. Not only can we use typography to its full
+potential, but we can also use techniques such as links between
+sections and URLs.
+
+In more practical terms, this file is an =org-mode= file. It's divided
+in sections and each section provides information about the
+configuration it contains.
+
+Finally, I would like to make notice that a lot of this configuration
+is inspired (or copied directly from) by [[https://protesilaos.com/dotemacs/][Protesilaos Stavrou
+configuration]] also done in Org. If you check his configuration files
+you'll find many similarities with this configuration. If you want to
+learn about Emacs, politics and philosophy definetly check out his
+[[https://www.youtube.com/channel/UC0uTPqBCFIpZxlz_Lv1tk_g][youtube channel]] and his [[https://protesilaos.com/][website]] (check other people's Emacs work in
+[[#other_people_emacs_work_section][this section]]).
+
+*** Contents of init.el
+:PROPERTIES:
+:CUSTOM_ID: contents_init
+:END:
+
+The =emacs.org= file is loaded from another file, named =init.el= per
+the Emacs conventions. Mine sets up package archives, installs
+=use-package= and loads this org file.
+
+Before Emacs version 27.1 package initialization had to be done in
+=init.el= by means of calling =package-initialize=. However, v27.1
+introduced the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][=early-init.el=]] file which gets loaded before
+=init.el=. In that version and any later ones package initialization
+is enabled by default and done after loading =early-init.el= but
+before loading =init.el=. Hence, calling =package-initialize= is no
+longer needed.
+
+You will find that after defining package archives =init.el= installs
+=use-package=. [[https://github.com/jwiegley/use-package][Use-package]] is a macro used to organize and isolate
+package configuration in Emacs in a clean and performance-oriented
+way. Although use-package is not intended to be a package manager, it
+has some useful funcionality to interface with package managers. In
+this configuration I use the variable =use-package-always-ensure= to
+install any uninstalled packages at startup.
+
+Finally, =init.el= (see below) also sets some variables and provides a
+couple of functions that control the startup and closing of my Emacs
+sessions.
+
++ =jdp-emacs-build-config= is a function that runs before closing
+  Emacs' session. It regenerates my configuration and byte compiles
+  the output. This helps me make sure that the latest version of my
+  setup is always running without slowing the startup process.
++ =jdp-emacs-load-config= will either load the output of the previous
+  function or, if it doesn't find that output, parse this document. In
+  either case, my configuration gets loaded.
+
+#+include: init.el src emacs-lisp :tangle no
+
+**** The =early-init.el=
+:PROPERTIES:
+:CUSTOM_ID: early-init
+:END:
+
+As I have explained before, starting with Emacs v27.1 and forward, we
+can use =early-init.el= can be used to control finer details about
+package initialization and some GUI elements. Here is mine:
+
+#+include: early-init.el src emacs-lisp :tangle no
+
+*** About the source code of this document
+:PROPERTIES:
+:CUSTOM_ID: about_this_document
+:END:
+
+The previous source code blocks are not declared as emacs-lisp source
+code in the =org-mode= version of this document but rather as
+examples, so they can't be parsed by the actual setup.
+
+From this point forward, code blocks are wrapped in =#+begin_src= and
+=#+end_src= tags (not visible in the website version of this
+page). For Emacs v27.1, these templates can be inserted with the
+keybind =C-c C-,=.
+
+In addition, each section has a unique custom id used to reference the
+section in other places of the document. There are also normal links
+using URLs which can be inserted in Org mode with =C-c C-l=.
+
+** COPYING
+:PROPERTIES:
+:CUSTOM_ID: copying
+:END:
+
+Copyright (c) 2021 Joan Domingo Pasarin <jdomingopasarin@icloud.com>
+
+This file is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 3, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+For a full copy of the GNU General Public License see
+[[http://www.gnu.org/licenses/]].
+
+* Base settings
+:PROPERTIES:
+:CUSTOM_ID: base_settings
+:END:
+
+This section contains the configurations that are needed prior to the
+setup of everything else.
+
+** Put customisation settings in a "custom.el" file
+:PROPERTIES:
+:CUSTOM_ID: customisation_settings
+:END:
+
+When a package gets installed or you customize a variable through the
+customize interface, Emacs will append Elisp code to your init
+file. This can become a source of inconsistencies and thats why I
+instruct Emacs to place all the customisation in a =custom.el= file
+stored in =.emacs.d= and load it at startup.
+
+#+begin_src emacs-lisp
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+end_src
+
+** Custom color theme
+:PROPERTIES:
+:CUSTOM_ID: color_theme
+:END:
+
+These days I use the [[https://protesilaos.com/modus-themes/][Modus Themes]] created by Protesilaos Stavrou (you
+can check the repository [[https://gitlab.com/protesilaos/modus-themes/][here]]). The package is composed of two color
+themes which are "Modus Operandi" (light) and "Modus Vivendi"
+(dark). To learn more about all the customisation options available
+you can check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f][this]] section of the Modus Themes website.
+
+#+begin_src emacs-lisp
+  (use-package modus-themes
+    :init
+    ;; Customisation options
+    (setq modus-themes-bold-constructs t
+          modus-themes-slanted-constructs t
+          modus-themes-mode-line nil)
+    ;; Load the theme files before enabling a theme
+    (modus-themes-load-themes)
+    :config
+    (modus-themes-load-vivendi)
+    :bind ([f5] . modus-themes-toggle))
+#+end_src
+
+** Typeface configurations
+:PROPERTIES:
+:CUSTOM_ID: typeface_configurations
+:END:
+
+I use Emacs to program in various languages and writing a variety of
+mathematical related content (notes, articles, university
+homework,...). Any font I use has to be readable at both small and
+large sizes, have nice bold weights, be equally readable against light
+and dark backgrounds, use the =*.ttf= spec and not have a name that
+advertises some brand directly.
+
+The section on [[#font_configuration][Font configurations]] defines typefaces that I like and
+consider suitable for my needs.
+
+Lastly, on a modern GNU/Linux system that uses =fontconfig=,
+user-specific fonts are stored in =~/.local/share/fonts=.
+
+*** TODO Font configurations
+:PROPERTIES:
+:CUSTOM_ID: font_configuration
+:END:
+
+#+begin_src emacs-lisp
+  (when (member "Fira Code" (font-family-list))
+    (set-frame-font "Fira Code-13" nil t))
+#+end_src
+
+* Other people's Emacs work
+:PROPERTIES:
+:CUSTOM_ID: other_people_emacs_work
+:END:
+
+Over the years the Emacs community has grown with new people that
+catch their interest in this unique program.  As a program, one can
+say that Emacs has extensibility as one of the, if not the, most
+important core values. Because of that, anyone that uses Emacs has
+crafted or will end up crafting their own enviromment and workflow
+through the use of this extensibility. To help in this process, it can
+be useful to check out the knowledge accumulated by the community
+which can be found in custom Elisp code, videos or written tutorials
+on particular workflows, and packages that cover a broad range of
+needs.
+
+Here is a non-exhaustive list of users that I have found to be helpful:
+
++ Protesilaos Stavrou :: Protesilaos' work in Emacs covers a broad
+     range of themes, from switching to Emacs to the configuration of
+     completion systems, buffer management, etc. His content can be
+     found in his [[https://protesilaos.com/dotemacs/][youtube channel]] and in his [[https://protesilaos.com/][website]].
