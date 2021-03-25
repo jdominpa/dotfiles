@@ -3,7 +3,7 @@
 #+EMAIL: jdomingopasarin@icloud.com
 #+OPTIONS: toc:nil
 #+MACRO: export-date (eval (format-time-string "%F %R %z" (current-time)))
-#+MACRO: emacs-development-version (eval (substring (emacs-version) 0 17))
+#+MACRO: emacs-development-version (eval (substring (emacs-version) 0 14))
 
 + Created: 2021-03-22
 + Updated: *{{{export-date}}}*.
@@ -57,7 +57,7 @@ configuration]] also done in Org. If you check his configuration files
 you'll find many similarities with this configuration. If you want to
 learn about Emacs, politics and philosophy definetly check out his
 [[https://www.youtube.com/channel/UC0uTPqBCFIpZxlz_Lv1tk_g][youtube channel]] and his [[https://protesilaos.com/][website]] (check other people's Emacs work in
-[[#other_people_emacs_work_section][this section]]).
+[[#other_people_emacs_work][this section]]).
 
 *** Contents of init.el
 :PROPERTIES:
@@ -221,6 +221,34 @@ user-specific fonts are stored in =~/.local/share/fonts=.
 :END:
 
 #+begin_src emacs-lisp
+  ;; (require 'jdp-fonts)
+  ;; (setq prot-fonts-typeface-sets-alist
+  ;; 	'((laptop 80 "Fira Code" normal "DejaVu Sans" normal)
+  ;; 	  (desktop 100 "Fira Code" normal "DejaVu Sans" normal))
+  ;;   (setq prot-fonts-monospaced-list
+  ;; 	'("Hack" "DejaVu Sans Mono" "Iosevka Comfy" "Source Code Pro"
+  ;; 	  "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
+  ;;   (setq prot-fonts-heights-list
+  ;; 	'(100 105 110 120 130 140 150 160 170 180 190))
+  ;;   (setq prot-fonts-line-spacing-alist
+  ;; 	'(("Ubuntu Mono" . 2)))
+  ;;   (setq prot-fonts-laptop-desktop-keys-list '(laptop desktop))
+  ;;   (setq prot-fonts-max-small-resolution-width 1366)
+  ;;   (setq prot-fonts-bold-weight-alist
+  ;; 	'(("Iosevka Comfy" . semibold)
+  ;; 	  ("Fira Code" . semibold)
+  ;; 	  ("Source Code Pro" . semibold)))
+  ;;   ;; This is defined in Emacs' C code, though I feel this is a good
+  ;;   ;; place to put it.
+  ;;   (setq x-underline-at-descent-line t)
+  ;;   ;; And this just sets the right font depending on whether my laptop is
+  ;;   ;; connected to an external monitor or not.
+  ;;   (prot-fonts-fonts-per-monitor)
+  ;;   (add-hook 'prot-fonts-set-typeface-hook #'prot-fonts-line-spacing)
+  ;;   (add-hook 'prot-fonts-set-typeface-hook #'prot-fonts-bold-face)
+  ;;   ;; See theme section for this hook
+  ;;   (add-hook 'modus-themes-after-load-theme-hook #'prot-fonts-bold-face)
+  ;;   (define-key global-map (kbd "C-c f") #'prot-fonts-set-fonts-dwim)
   (when (member "Fira Code" (font-family-list))
     (set-frame-font "Fira Code-13" nil t))
 #+end_src
