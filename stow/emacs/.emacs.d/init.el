@@ -69,66 +69,44 @@
 ;; I create an "el" version of my Org configuration file right before
 ;; closing down Emacs. By doing this I make sure that the latest
 ;; version of the code is always loaded.
-(defvar jdp-emacs-configuration-main-file "jdp-emacs"
+(defvar jdp-emacs-configuration-file "jdp-emacs"
   "Name of the main configuration file without extension.")
 
-;; I use a "local-emacs" Org file to set up individual configurations
-;; for each machine (i.e. local configurations). This file is separate
-;; from the main configuration file.
-(defvar jdp-emacs-configuration-local-file "local-emacs"
-  "Name of the local configuration file without extension.")
-
-(defun jdp-emacs--expand-file-name (file extension)
-  "Return canonical path to FILE with EXTENSION."
+(defun jdp-emacs--expand-file-name (extension)
+  "Return canonical path to `jdp-emacs-configuration-file' with EXTENSION."
   (expand-file-name
-   (concat user-emacs-directory file extension)))
+   (concat user-emacs-directory jdp-emacs-configuration-file extension)))
 
 (defun jdp-emacs-load-config ()
   "Load main Emacs configuration, either '.el' or '.org' file."
-  (let* ((main-init jdp-emacs-configuration-main-file)
-	 (main-init-el (jdp-emacs--expand-file-name main-init ".el"))
-	 (main-init-org (jdp-emacs--expand-file-name main-init ".org"))
-	 (local-init jdp-emacs-configuration-local-file)
-	 (local-init-el (jdp-emacs--expand-file-name local-init ".el"))
-	 (local-init-org (jdp-emacs--expand-file-name local-init ".org")))
-    (if (file-exists-p main-init-el)
-	(load-file main-init-el)
-      (when (file-exists-p main-init-org)
+  (let ((config-el (jdp-emacs--expand-file-name ".el"))
+	(config-org (jdp-emacs--expand-file-name ".org")))
+    (if (file-exists-p config-el)
+	(load-file config-el)
+      (when (file-exists-p config-org)
 	(require 'org)
-	(org-babel-load-file main-init-org)))
-    (if (file-exists-p local-init-el)
-	(load-file local-init-el)
-      (when (file-exists-p local-init-org)
-	(require 'org)
-	(org-babel-load-file local-init-org)))))
+	(org-babel-load-file config-org)))))
 
 ;; Load configurations.
 (jdp-emacs-load-config)
 
 ;; The following is for when Emacs gets closed.
+(declare-function org-babel-tangle-file "ob-tangle")
+
 (defun jdp-emacs-build-config ()
   "Create Elisp init file from my Org dotemacs.
 Add this function to `kill-emacs-hook`, to use the newest file in
 the next session. The idea is to reduce startup time by moving
 this process to the end of a session rather than the beginning of
 it."
-  (let* ((main-init jdp-emacs-configuration-main-file)
-	 (main-init-el (jdp-emacs--expand-file-name main-init ".el"))
-	 (main-init-org (jdp-emacs--expand-file-name main-init ".org"))
-	 (local-init jdp-emacs-configuration-local-file)
-	 (local-init-el (jdp-emacs--expand-file-name local-init ".el"))
-	 (local-init-org (jdp-emacs--expand-file-name local-init ".org")))
-    (when (file-exists-p main-init-el)
-      (delete-file main-init-el))
-    (when (file-exists-p local-init-el)
-      (delete-file local-init-el))
-    (require 'org)
-    (when (file-exists-p main-init-org)
-      (org-babel-tangle-file main-init-org main-init-el)
-      (byte-compile-file main-init-el))
-    (when (file-exists-p local-init-org)
-      (org-babel-tangle-file local-init-org local-init-el)
-      (byte-compile-file local-init-el))))
+  (let ((config-el (jdp-emacs--expand-file-name ".el"))
+	(config-org (jdp-emacs--expand-file-name ".org")))
+    (when (file-exists-p config-org)
+      (when (file-exists-p config-el)
+	(delete-file config-el))
+      (require 'org)
+      (org-babel-tangle-file config-org config-el)
+      (byte-compile-file config-el))))
 
 (add-hook 'kill-emacs-hook #'jdp-emacs-build-config)
 

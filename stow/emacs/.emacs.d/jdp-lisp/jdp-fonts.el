@@ -31,8 +31,10 @@
   :group 'font)
 
 (defcustom jdp-fonts-typeface-sets-alist
-  '((laptop 90 "Fira Code" normal "DejaVu Sans" normal)
-    (desktop 130 "Fira Code" light "DejaVu Sans" normal))
+  '((laptop 90 "Hack" normal "DejaVu Sans" normal)
+    (desktop 130 "Iosevka" light "Roboto" normal)
+    (reader 150 "Iosevka" light "Fira Code" normal)
+    (presentation 180 "Iosevka" light "Source Sans Pro" normal))
   "Alist of desired typefaces and their particularities.
 
 The list specifies, in this order:
@@ -67,7 +69,7 @@ an error will be displayed when trying to set one of them."
   :type 'list)
 
 (defcustom jdp-fonts-heights-list
-  '(100 105 110 120 130 140 150 160 170 180 190)
+  '(100 110 120 130 140 150 160 170 180 190 200)
   "List of font heights for `jdp-fonts-set-font-size-family'."
   :group 'jdp-fonts
   :type 'list)
@@ -252,8 +254,7 @@ respectively."
 ;; XXX: This will not work with every theme, but only those that
 ;; inherit the `bold' face instead of specifying a weight property.
 ;; The intent is to configure this once and have it propagate wherever
-;; a heavier weight is displayed.  My Modus themes handle this
-;; properly.
+;; a heavier weight is displayed.
 (jdp-fonts--font-adjustment
  jdp-fonts-bold-face
  "Determine weight for the `bold' face, based on font family."

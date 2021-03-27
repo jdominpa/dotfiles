@@ -215,29 +215,47 @@ consider suitable for my needs.
 Lastly, on a modern GNU/Linux system that uses =fontconfig=,
 user-specific fonts are stored in =~/.local/share/fonts=.
 
-*** TODO Font configurations
+*** Font configurations
 :PROPERTIES:
 :CUSTOM_ID: font_configuration
 :END:
+
+I have a set of functions defined in the library =jdp-fonts.el= to
+help with typeface configurations. Here are some important ones:
+
++ =jdp-fonts-set-fonts= is a command that lets you select with
+  completion a predetermined set of font configuration. This
+  predetermined sets can be defined with the variable
+  =jdp-fonts-typeface-sets-alist=.
++ =jdp-fonts-fonts-per-monitor= sets the appropriate font family and
+  size depending on whether I am using my laptop or my desktop PC.
++ =jdp-fonts-bold-face= allows us to set a list of typefaces
+  associated with weights for their "bold" variation. We can use it
+  with fonts that have various weights such as "light", "extrabold",
+  "semibold", to control what weight should be used with heavy
+  emphasis text. Note that this only works if your theme uses the
+  =bold= face instead of the =:weight bold= property.
 
 #+begin_src emacs-lisp
   (use-package jdp-fonts
     :ensure nil
     :config
     (setq jdp-fonts-typeface-sets-alist
-	  '((laptop 160 "Fira Code" normal "DejaVu Sans" normal)
-	    (desktop 130 "Fira Code" normal "DejaVu Sans" normal)))
+	  '((laptop 140 "Hack" normal "DejaVu Sans Condensed" normal)
+	    (desktop 130 "Hack" normal "Inter" normal)
+	    (reader 160 "Iosevka" light "FiraGO" normal)
+	    (presentation 180 "Iosevka" light "FiraGO" normal)))
     (setq jdp-fonts-monospaced-list
-	  '("Hack" "DejaVu Sans Mono" "Iosevka Comfy" "Source Code Pro"
+	  '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
 	    "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
     (setq jdp-fonts-heights-list
-	  '(100 105 110 120 130 140 150 160 170 180 190 200))
+	  (number-sequence 100 200 5))
     (setq jdp-fonts-line-spacing-alist
 	  '(("Ubuntu Mono" . 2)))
     (setq jdp-fonts-laptop-desktop-keys-list '(laptop desktop))
     (setq jdp-fonts-max-small-resolution-width 1366)
     (setq jdp-fonts-bold-weight-alist
-	  '(("Iosevka Comfy" . semibold)
+	  '(("Iosevka" . semibold)
 	    ("Fira Code" . semibold)
 	    ("Source Code Pro" . semibold)))
     ;; This is defined in Emacs' C code, though I feel this is a good
@@ -251,6 +269,114 @@ user-specific fonts are stored in =~/.local/share/fonts=.
     ;; See theme section for this hook
     (add-hook 'modus-themes-after-load-theme-hook #'jdp-fonts-bold-face)
     (global-set-key (kbd "C-c f") #'jdp-fonts-set-fonts-dwim))
+#+end_src
+
+Here is the source code of =jdp-fonts.el=.
+
+#+include: jdp-lisp/jdp-fonts.el src emacs-lisp :tangle no
+
+*** Simple font suitability test
+:PROPERTIES:
+:CUSTOM_ID: font_test
+:END:
+
+Here is a simple test to make an initial assessment of the overall
+quality of a monospaced font: /can you discern the characters at a
+quick glance?/ If you can, the typeface passes the test, otherwise
+search another one.
+
+Note that obviously this test isn not scientific and perfect in any
+way, but it is a good place to start.
+
+#+begin_example
+()[]{}<>«»
+6bB8&
+0ODdoaoOQGC
+I1tilIJL|
+!¡ij
+5$§SsS5
+17ZzZ2
+9gqpG6
+hnmMN
+uvvwWuuwvy
+x×X
+.,·°%
+¡!¿?
+:;
+`''"‘’“”
+-~≈=≠+*_
+…⋯
+...
+
+Sample character set
+Check for monospacing and Greek glyphs
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789
+~!@#$%^&*+
+`'"‘’“”.,;:…
+()[]{}-_=|<>/\
+ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ
+αβγδεζηθικλμνξοπρστυφχψω
+
+// NOTE that I got this from Hack's website:
+// https://source-foundry.github.io/Hack/font-specimen.html
+//  The four boxing wizards jump
+#include <stdio.h> // <= quickly.
+int main(int argc, char **argv) {
+  long il1[]={1-2/3.4,5+6==7/8};
+  int OxFaced=0xBAD||"[{(CQUINE";
+  unsigned O0,l1,Z2,S5,G6,B8__XY;
+  printf("@$Hamburgefo%c`",'\n');
+  return ~7&8^9?0:l1|!"j->k+=*w";
+}
+#+end_example
+
+*** Bidirectional writing and =so-long.el=
+:PROPERTIES:
+:CUSTOM_ID: bidirectional_writing
+:END:
+
+By default Emacs supports bidirectional writing. I only write/read in
+Latin alphabets therefore, I set the default directionality to what my
+languages use which can improve the responsiveness of Emacs in some
+cases.
+
+Good performance is the reason to also enable =global-so-long-mode=,
+built into Emacs versions >= 27, which allows the active major mode to
+adapt buffers with very long lines. What "very long" means can be
+customized if you want with =M-x find-library so-long=.
+
+The code below is a variation of the one found in Alain M. Lafon in
+the [[https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html][Comprehensive guide on handling long lines in Emacs]] (2020-09-29).
+
+#+begin_src emacs-lisp
+  (setq-default bidi-paragraph-direction 'left-to-right)
+  (setq bidi-inhibit-bpa t)
+
+  (use-package so-long
+    :ensure nil
+    :config
+    (global-so-long-mode))
+#+end_src
+
+** Key chord hints (which-key)
+
+I install =which-key= to display hints of possible tails of a key
+chord. However, I don't like the hint popup to show up almost
+instantly so I set a high idle delay. I also do that because you can
+follow up any key chord with =C-h= to produce a help buffer with all
+the possible tails of the key chord.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (setq which-key-dont-use-unicode t
+	  which-key-show-early-on-C-h nil
+	  which-key-idle-delay 1.5
+	  which-key-separator " ")
+    (which-key-mode))
 #+end_src
 
 * Other people's Emacs work
