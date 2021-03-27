@@ -46,10 +46,6 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; use-package configuration
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
-
 (require 'vc)
 (setq vc-follow-symlinks t) ; My dotfiles are managed with stow symlinks
 

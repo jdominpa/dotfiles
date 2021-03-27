@@ -31,30 +31,30 @@
 :END:
 
 This document, referred to in the source code version as =emacs.org=,
-contains all of my configurations for GNU Emacs. When I started using
+contains all of my configurations for GNU Emacs.  When I started using
 Emacs I created a structure of =.el= files stored in various
-directories inside =.emacs.d= an used =init.el= to load all of
-them. Since the creation of this document I've started using a
-literate configuration which follows the principles of "literate
-programming": a combination of ordinary text and inline code
-blocks. Emacs then parses this file to proper =.el= files evaluating
-only the Elisp ("Emacs Lisp") parts. The rest of the text is there to
-explain the underlying rationale of the configuration.
+directories inside =.emacs.d= an used =init.el= to load all of them.
+Since the creation of this document I've started using a literate
+configuration which follows the principles of "literate programming":
+a combination of ordinary text and inline code blocks.  Emacs then
+parses this file to proper =.el= files evaluating only the Elisp
+("Emacs Lisp") parts.  The rest of the text is there to explain the
+underlying rationale of the configuration.
 
 The advantatge of using literate programming is that we can document
 the code exhaustively in a way that couldn't be achievable with a
-regular code file. Not only can we use typography to its full
+regular code file.  Not only can we use typography to its full
 potential, but we can also use techniques such as links between
 sections and URLs.
 
-In more practical terms, this file is an =org-mode= file. It's divided
-in sections and each section provides information about the
+In more practical terms, this file is an =org-mode= file.  It's
+divided in sections and each section provides information about the
 configuration it contains.
 
 Finally, I would like to make notice that a lot of this configuration
 is inspired (or copied directly from) by [[https://protesilaos.com/dotemacs/][Protesilaos Stavrou
-configuration]] also done in Org. If you check his configuration files
-you'll find many similarities with this configuration. If you want to
+configuration]] also done in Org.  If you check his configuration files
+you'll find many similarities with this configuration.  If you want to
 learn about Emacs, politics and philosophy definetly check out his
 [[https://www.youtube.com/channel/UC0uTPqBCFIpZxlz_Lv1tk_g][youtube channel]] and his [[https://protesilaos.com/][website]] (check other people's Emacs work in
 [[#other_people_emacs_work][this section]]).
@@ -81,8 +81,8 @@ You will find that after defining package archives =init.el= installs
 package configuration in Emacs in a clean and performance-oriented
 way. Although use-package is not intended to be a package manager, it
 has some useful funcionality to interface with package managers. In
-this configuration I use the variable =use-package-always-ensure= to
-install any uninstalled packages at startup.
+this configuration I use the keyword =:ensure= to install any
+uninstalled external packages at startup.
 
 Finally, =init.el= (see below) also sets some variables and provides a
 couple of functions that control the startup and closing of my Emacs
@@ -92,6 +92,7 @@ sessions.
   Emacs' session. It regenerates my configuration and byte compiles
   the output. This helps me make sure that the latest version of my
   setup is always running without slowing the startup process.
+
 + =jdp-emacs-load-config= will either load the output of the previous
   function or, if it doesn't find that output, parse this document. In
   either case, my configuration gets loaded.
@@ -155,16 +156,48 @@ For a full copy of the GNU General Public License see
 This section contains the configurations that are needed prior to the
 setup of everything else.
 
+** Common custom functions (jdp-simple.el)
+:PROPERTIES:
+:CUSTOM_ID: custom_functions
+:END:
+
+=jdp-simple.el= contains my own custom commands that are broadly in
+line with the built-in =simple.el= and =lisp.el= libraries.  You can
+find the code below to read more about each command.
+
+Since this is a foundational part of my Emacs setup, I decide to also
+re-bind and change some keybindings.
+
+#+begin_src emacs-lisp
+  (use-package jdp-simple
+    :config
+    (define-key global-map (kbd "C-z") nil)
+    (define-key global-map (kbd "C-x C-z") nil)
+    (define-key global-map (kbd "M-`") nil)
+    (define-key global-map (kbd "C-S-n") #'jdp-simple-multi-line-next)
+    (define-key global-map (kbd "C-S-p") #'jdp-simple-multi-line-prev)
+    (define-key global-map (kbd "M-SPC") #'cycle-spacing)
+    (define-key global-map (kbd "M-c") #'capitalize-dwim)
+    (define-key global-map (kbd "M-l") #'downcase-dwim)
+    (define-key global-map (kbd "M-u") #'upcase-dwim)
+    (define-key global-map (kbd "C-=") #'count-words))
+#+end_src
+
+These are the contents of the =jdp-simple.el= library (the source code
+can be found [[https://github.com/jdominpa/dotfiles/blob/master/stow/emacs/.emacs.d/jdp-lisp/jdp-simple.el][here]]).
+
+#+include: jdp-lisp/jdp-simple.el src emacs-lisp :tangle no
+
 ** Put customisation settings in a "custom.el" file
 :PROPERTIES:
 :CUSTOM_ID: customisation_settings
 :END:
 
 When a package gets installed or you customize a variable through the
-customize interface, Emacs will append Elisp code to your init
-file. This can become a source of inconsistencies and thats why I
-instruct Emacs to place all the customisation in a =custom.el= file
-stored in =.emacs.d= and load it at startup.
+customize interface, Emacs will append Elisp code to your init file.
+This can become a source of inconsistencies and thats why I instruct
+Emacs to place all the customisation in a =custom.el= file stored in
+=.emacs.d= and load it at startup.
 
 #+begin_src emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -178,13 +211,14 @@ stored in =.emacs.d= and load it at startup.
 :END:
 
 These days I use the [[https://protesilaos.com/modus-themes/][Modus Themes]] created by Protesilaos Stavrou (you
-can check the repository [[https://gitlab.com/protesilaos/modus-themes/][here]]). The package is composed of two color
-themes which are "Modus Operandi" (light) and "Modus Vivendi"
-(dark). To learn more about all the customisation options available
-you can check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f][this]] section of the Modus Themes website.
+can check the repository [[https://gitlab.com/protesilaos/modus-themes/][here]]).  The package is composed of two color
+themes which are "Modus Operandi" (light) and "Modus Vivendi" (dark).
+To learn more about all the customisation options available you can
+check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8b53f][this]] section of the Modus Themes website.
 
 #+begin_src emacs-lisp
   (use-package modus-themes
+    :ensure t
     :init
     ;; Customisation options
     (setq modus-themes-bold-constructs t
@@ -204,7 +238,7 @@ you can check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-
 
 I use Emacs to program in various languages and writing a variety of
 mathematical related content (notes, articles, university
-homework,...). Any font I use has to be readable at both small and
+homework,...).  Any font I use has to be readable at both small and
 large sizes, have nice bold weights, be equally readable against light
 and dark backgrounds, use the =*.ttf= spec and not have a name that
 advertises some brand directly.
@@ -215,49 +249,50 @@ consider suitable for my needs.
 Lastly, on a modern GNU/Linux system that uses =fontconfig=,
 user-specific fonts are stored in =~/.local/share/fonts=.
 
-*** Font configurations
+*** Font configurations (jdp-fonts.el)
 :PROPERTIES:
 :CUSTOM_ID: font_configuration
 :END:
 
 I have a set of functions defined in the library =jdp-fonts.el= to
-help with typeface configurations. Here are some important ones:
+help with typeface configurations.  Here are some important ones:
 
 + =jdp-fonts-set-fonts= is a command that lets you select with
-  completion a predetermined set of font configuration. This
+  completion a predetermined set of font configuration.  This
   predetermined sets can be defined with the variable
   =jdp-fonts-typeface-sets-alist=.
+
 + =jdp-fonts-fonts-per-monitor= sets the appropriate font family and
   size depending on whether I am using my laptop or my desktop PC.
+
 + =jdp-fonts-bold-face= allows us to set a list of typefaces
-  associated with weights for their "bold" variation. We can use it
+  associated with weights for their "bold" variation.  We can use it
   with fonts that have various weights such as "light", "extrabold",
   "semibold", to control what weight should be used with heavy
-  emphasis text. Note that this only works if your theme uses the
+  emphasis text.  Note that this only works if your theme uses the
   =bold= face instead of the =:weight bold= property.
 
 #+begin_src emacs-lisp
   (use-package jdp-fonts
-    :ensure nil
     :config
     (setq jdp-fonts-typeface-sets-alist
-	  '((laptop 140 "Hack" normal "DejaVu Sans Condensed" normal)
-	    (desktop 130 "Hack" normal "Inter" normal)
-	    (reader 160 "Iosevka" light "FiraGO" normal)
-	    (presentation 180 "Iosevka" light "FiraGO" normal)))
+          '((laptop 140 "Hack" normal "DejaVu Sans Condensed" normal)
+            (desktop 130 "Hack" normal "Inter" normal)
+            (reader 160 "Iosevka" light "FiraGO" normal)
+            (presentation 180 "Iosevka" light "FiraGO" normal)))
     (setq jdp-fonts-monospaced-list
-	  '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
-	    "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
+          '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
+            "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
     (setq jdp-fonts-heights-list
-	  (number-sequence 100 200 5))
+          (number-sequence 100 200 5))
     (setq jdp-fonts-line-spacing-alist
-	  '(("Ubuntu Mono" . 2)))
+          '(("Ubuntu Mono" . 2)))
     (setq jdp-fonts-laptop-desktop-keys-list '(laptop desktop))
     (setq jdp-fonts-max-small-resolution-width 1366)
     (setq jdp-fonts-bold-weight-alist
-	  '(("Iosevka" . semibold)
-	    ("Fira Code" . semibold)
-	    ("Source Code Pro" . semibold)))
+          '(("Iosevka" . semibold)
+            ("Fira Code" . semibold)
+            ("Source Code Pro" . semibold)))
     ;; This is defined in Emacs' C code, though I feel this is a good
     ;; place to put it.
     (setq x-underline-at-descent-line t)
@@ -268,7 +303,7 @@ help with typeface configurations. Here are some important ones:
     (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-bold-face)
     ;; See theme section for this hook
     (add-hook 'modus-themes-after-load-theme-hook #'jdp-fonts-bold-face)
-    (global-set-key (kbd "C-c f") #'jdp-fonts-set-fonts-dwim))
+    (define-key global-map (kbd "C-c f") #'jdp-fonts-set-fonts-dwim))
 #+end_src
 
 Here is the source code of =jdp-fonts.el=.
@@ -345,7 +380,7 @@ cases.
 
 Good performance is the reason to also enable =global-so-long-mode=,
 built into Emacs versions >= 27, which allows the active major mode to
-adapt buffers with very long lines. What "very long" means can be
+adapt buffers with very long lines.  What "very long" means can be
 customized if you want with =M-x find-library so-long=.
 
 The code below is a variation of the one found in Alain M. Lafon in
@@ -356,27 +391,185 @@ the [[https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lin
   (setq bidi-inhibit-bpa t)
 
   (use-package so-long
-    :ensure nil
     :config
     (global-so-long-mode))
 #+end_src
 
 ** Key chord hints (which-key)
+:PROPERTIES:
+:CUSTOM_ID: key_chord_hints
+:END:
 
 I install =which-key= to display hints of possible tails of a key
-chord. However, I don't like the hint popup to show up almost
-instantly so I set a high idle delay. I also do that because you can
+chord.  However, I don't like the hint popup to show up almost
+instantly so I set a high idle delay.  I also do that because you can
 follow up any key chord with =C-h= to produce a help buffer with all
 the possible tails of the key chord.
 
 #+begin_src emacs-lisp
   (use-package which-key
+    :ensure t
     :config
     (setq which-key-dont-use-unicode t
-	  which-key-show-early-on-C-h nil
-	  which-key-idle-delay 1.5
-	  which-key-separator " ")
+          which-key-show-early-on-C-h nil
+          which-key-idle-delay 1.5
+          which-key-separator " ")
     (which-key-mode))
+#+end_src
+
+** TODO Asynchronous facilities
+:PROPERTIES:
+:CUSTOM_ID: async_facilities
+:END:
+
+This package provides some asynchronous processing facilities for
+various Emacs interfaces such as dired's copy and rename operations
+(also read *Dired (directory editor, file manager)*).
+
+All we need here is to just load the feature.
+
+#+begin_src emacs-lisp
+  (use-package async
+    :ensure t
+    :defer t)
+#+end_src
+
+* Selection candidates and search methods
+:PROPERTIES:
+:CUSTOM_ID: selection_candidates
+:END:
+
+** Configurations for in-built search commands
+:PROPERTIES:
+:CUSTOM_ID: in-built_search
+:END:
+
+The built-in search mechanisms defined in the libraries =isearch.el=
+and =replace.el= are minimal in their presentation, yet they have
+powerful applications.  These are the main points of entry to the
+commands they offer:
+
++ =isearch-forward= (=C-s=) prompts for a string and searches the
+  buffer for the string incrementally with live feedback on its
+  progress.  =isearch-backward= (=C-r=) moves in the opposite
+  direction.
+
+  - Two distinct keys may seem redundant at first, but you really
+    appreciate this level of precision when recording keyboard macros.
+    
+  - Use =C-M-s= and =C-M-r= for running a search against a regular
+    expression, or call =isearch-toggle-regexp= (=M-r=) after starting
+    a regular isearch.
+
++ =query-replace= (=M-%=) replaces all matches of a string and asks
+  you for confirmation on each of them.  If you check its help page
+  (press =?= after invoking the command), you will learn that =!=
+  stands for an affirmative answer to all, which is a standard in all
+  such prompts.
+
+  - =query-replace-regexp= (=C-M-%=) does the same for regular
+    expressions.
+
++ =occur= (=M-s o=) places all matches of a regular expression or
+  string in a dedicated buffer.  That can function as an index for
+  moving to the relevant points in the buffer, but also as a means of
+  refactoring all matches at once.  Just make the =*Occur*= buffer
+  editable with =e=.  Running =occur= with a numeric argument provides
+  N lines of context around the given match.
+
+The beauty of the Occur and Replace commands is that they can be
+initiated from within an active Isearch session, using the same keys.
+So =C-s INPUT M-s o= will search for input and then run =occur= on it.
+Try =C-h k C-s= to get a help menu with all the extra keys you can use
+with =isearch=.  These are the ones I use the most:
+
+| Key chord | Description                  |
+|-----------+------------------------------|
+| C-s C-w   | Search char or word at point |
+| M-s .     | Search for symbol at point   |
+| M-s o     | Run `occur' on regexp        |
+| M-s h r   | Highlight regexp             |
+| M-s h u   | Undo the highlight           |
+| C-s M-r   | Toggle regexp search         |
+| M-%       | Run `query-replace'          |
+| C-M-%     | `query-replace-regexp'       |
+
+Every one of the above, except the first item, can be executed on
+their own, or as extensions of =C-s= (and variants).
+
+The Occur and Replace operations are aware of the active region which
+means that if you highlight, say, a paragraph and do =M-%= you will
+only replace matches inside of that area (while not relevant to our
+point, this also works for =undo= (=C-/=), which is super useful).
+
+Moving on to my own configuration, here is my setup for these in-built
+tools:
+
+#+begin_src emacs-lisp
+  (use-package isearch
+    :config
+    (setq search-highlight t
+	  isearch-lax-whitespace t
+	  isearch-regexp-lax-whitespace nil
+	  isearch-lazy-highlight t
+	  isearch-lazy-count t
+	  lazy-count-prefix-format nil
+	  lazy-count-suffix-format " (%s/%s)")
+    (define-key minibuffer-local-isearch-map (kbd "M-/") #'isearch-complete-edit)
+    (define-key isearch-mode-map (kbd "M-/") #'isearch-complete))
+
+  (use-package jdp-search
+    :config
+    (define-key isearch-mode-map (kbd "<backspace>") #'jdp-search-isearch-abort-dwim))
+#+end_src
+
+Here is the contents of =jdp-search.el=:
+
+#+include: jdp-lisp/jdp-search.el src emacs-lisp :tangle no
+
+* Applications and utilities
+:PROPERTIES:
+:CUSTOM_ID: applications_utilities
+:END:
+
+Configuration for everything that but normally be a standalone
+application or utility.
+
+** Version control tools
+:PROPERTIES:
+:CUSTOM_ID: version_control
+:END:
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :hook (git-commit-mode . goto-address-mode)
+    :bind ("C-x g" . magit-status)
+    :config
+    (setq-default magit-diff-refine-hunk t))
+
+  (use-package magit-todos
+    :ensure t
+    :hook (magit-status-mode . magit-todos-mode))
+#+end_src
+
+* History and state
+:PROPERTIES:
+:CUSTOM_ID: history_state
+:END:
+
+** Backup files
+:PROPERTIES:
+:CUSTOM_ID: backup_files
+:END:
+
+Here are some settings pertaining backup files.  I rarely use them but
+every now and then you need them and in that scenario, they become
+extremely useful.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist
+        `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
 #+end_src
 
 * Other people's Emacs work
@@ -387,10 +580,10 @@ the possible tails of the key chord.
 Over the years the Emacs community has grown with new people that
 catch their interest in this unique program.  As a program, one can
 say that Emacs has extensibility as one of the, if not the, most
-important core values. Because of that, anyone that uses Emacs has
+important core values.  Because of that, anyone that uses Emacs has
 crafted or will end up crafting their own enviromment and workflow
-through the use of this extensibility. To help in this process, it can
-be useful to check out the knowledge accumulated by the community
+through the use of this extensibility.  To help in this process, it
+can be useful to check out the knowledge accumulated by the community
 which can be found in custom Elisp code, videos or written tutorials
 on particular workflows, and packages that cover a broad range of
 needs.
@@ -398,6 +591,6 @@ needs.
 Here is a non-exhaustive list of users that I have found to be helpful:
 
 + Protesilaos Stavrou :: Protesilaos' work in Emacs covers a broad
-     range of themes, from switching to Emacs to the configuration of
-     completion systems, buffer management, etc. His content can be
-     found in his [[https://protesilaos.com/dotemacs/][youtube channel]] and in his [[https://protesilaos.com/][website]].
+  range of themes, from switching to Emacs to the configuration of
+  completion systems, buffer management, etc.  His content can be
+  found in his [[https://protesilaos.com/dotemacs/][youtube channel]] and in his [[https://protesilaos.com/][website]].

@@ -168,7 +168,7 @@ holding the family's name.
 WEIGHT-MONO is the weight property of FONT-MONO, while WEIGHT-VAR
 is that of FONT-VAR."
   (interactive)
-  (if window-system
+  (if (display-graphic-p)
       (let* ((data jdp-fonts-typeface-sets-alist)
              (displays (mapcar #'car jdp-fonts-typeface-sets-alist))
              (display-strings (mapcar (lambda (x)
@@ -196,7 +196,7 @@ This command is mostly intended for testing typefaces defined in
 `jdp-fonts-monospaced-list' at common heights specified in
 `jdp-fonts-heights-list'."
   (interactive)
-  (if window-system
+  (if (display-graphic-p)
       (let* ((fonts jdp-fonts-monospaced-list)
              (font (completing-read "Select main font: " fonts nil nil
                                     nil 'jdp-fonts-font-family-hist))
@@ -285,7 +285,7 @@ keys from `jdp-fonts-laptop-desktop-keys-list'."
 ;;;###autoload
 (defun jdp-fonts-fonts-per-monitor ()
   "Use font settings based on screen size."
-  (when window-system
+  (when (display-graphic-p)
     (let* ((display (jdp-fonts--display-type-for-monitor))
            (data jdp-fonts-typeface-sets-alist)
            (size (cadr (assoc display data)))
