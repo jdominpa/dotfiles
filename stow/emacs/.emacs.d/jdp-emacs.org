@@ -439,9 +439,29 @@ All we need here is to just load the feature.
 :CUSTOM_ID: selection_candidates
 :END:
 
-** Configurations for in-built search commands
+** Completion framework and extras
 :PROPERTIES:
-:CUSTOM_ID: in-built_search
+:CUSTOM_ID: completion_and_extras
+:END:
+
+The way I use Emacs is through searching and narrowing selection
+candidates.  To put it in another way, we spend less time worrying
+about where things are and more on how quickly can w bring them to
+focus.
+
+*** TODO Orderless completion style
+:PROPERTIES:
+:CUSTOM_ID: orderless_completion
+:END:
+
+** Configurations for built-in search commands
+:PROPERTIES:
+:CUSTOM_ID: built-in_search
+:END:
+
+*** Isearch, occur, grep and extras (jdp-search.el)
+:PROPERTIES:
+:CUSTOM_ID: isearch_and_extras
 :END:
 
 The built-in search mechanisms defined in the libraries =isearch.el=
@@ -502,7 +522,7 @@ means that if you highlight, say, a paragraph and do =M-%= you will
 only replace matches inside of that area (while not relevant to our
 point, this also works for =undo= (=C-/=), which is super useful).
 
-Moving on to my own configuration, here is my setup for these in-built
+Moving on to my own configuration, here is my setup for these built-in
 tools:
 
 #+begin_src emacs-lisp
@@ -518,6 +538,9 @@ tools:
     (define-key minibuffer-local-isearch-map (kbd "M-/") #'isearch-complete-edit)
     (define-key isearch-mode-map (kbd "M-/") #'isearch-complete))
 
+  (use-package grep
+    :commands (grep grep-find grep-find-toggle-abbreviation))
+
   (use-package jdp-search
     :config
     (define-key isearch-mode-map (kbd "<backspace>") #'jdp-search-isearch-abort-dwim))
@@ -527,12 +550,32 @@ Here is the contents of =jdp-search.el=:
 
 #+include: jdp-lisp/jdp-search.el src emacs-lisp :tangle no
 
+*** =wgrep= (writable grep)
+:PROPERTIES:
+:CUSTOM_ID: wgrep
+:END:
+
+=wgrep= allows us to make a grep buffer writable and save the changes
+to all affected buffers.  Technically this is the same as using the
+built-in =occur=.  In the source code below you will see that I use
+the same keys defined for editing in =occur= by default to edit the
+grep buffer with =wgrep=.
+
+#+begin_src emacs-lisp
+  (use-package wgrep
+    :ensure t
+    :bind (:map grep-mode-map
+                ("e" . #'wgrep-change-to-wgrep-mode)
+                ("C-x C-q" . #'wgrep-change-to-wgrep-mode)
+                ("C-c C-c" . #'wgrep-finish-edit)))
+#+end_src
+
 * Applications and utilities
 :PROPERTIES:
 :CUSTOM_ID: applications_utilities
 :END:
 
-Configuration for everything that but normally be a standalone
+Configuration for everything that would normally be a standalone
 application or utility.
 
 ** Version control tools
@@ -540,13 +583,27 @@ application or utility.
 :CUSTOM_ID: version_control
 :END:
 
+I use Magit for any /git related/ task.  Magit offers a modal
+interface which organizes all the common /git/ commands in sets of
+keys that can be pressed without any modifiers.
+
+Inside a =magit-status= buffer you can press the =?= key to see a
+transient menu with all the possible key presses and their associated
+commands.  This extends to any other Magit buffer, i.e. you can press
+=?= in any Magit buffer to see a menu with all available commands.
+
+Magit has great defaults and should work out of the box in general. I
+use the =C-c g= key to call =magit-status= at any moment.  In
+addition, I install the magit-todos package which displays TODOs found
+in the git repository in the =magit-status= buffer.
+
 #+begin_src emacs-lisp
   (use-package magit
     :ensure t
     :hook (git-commit-mode . goto-address-mode)
-    :bind ("C-x g" . magit-status)
+    :bind ("C-c g" . magit-status)
     :config
-    (setq-default magit-diff-refine-hunk t))
+    (setq magit-diff-refine-hunk t))
 
   (use-package magit-todos
     :ensure t
