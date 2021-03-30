@@ -515,7 +515,7 @@ Here are the contents of the =jdp-orderless.el= library:
 
 #+include: jdp-lisp/jdp-orderless.el src emacs-lisp :tangle no
 
-*** Minibuffer configurations and extras
+*** TODO Minibuffer configurations and extras
 :PROPERTIES:
 :CUSTOM_ID: minibuffer_and_extras
 :END:
@@ -570,6 +570,14 @@ Also check my setup for the Minibuffer history (savehist-mode).
 
 =recentf= is a built-in minor mode that keeps track of recently
 visited files allowing us to revisit them faster.
+
+#+begin_src emacs-lisp
+  (use-package recentf
+    :config
+    (setq recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip")
+          recentf-save-file (expand-file-name "recentf" user-emacs-directory))
+    (recentf-mode))
+#+end_src
 
 ** Configurations for built-in search commands
 :PROPERTIES:
@@ -685,6 +693,72 @@ grep buffer with =wgrep=.
                 ("e" . #'wgrep-change-to-wgrep-mode)
                 ("C-x C-q" . #'wgrep-change-to-wgrep-mode)
                 ("C-c C-c" . #'wgrep-finish-edit)))
+#+end_src
+
+* Directory, buffer and window management
+:PROPERTIES:
+:CUSTOM_ID: directory_buffer_window
+:END:
+
+** Dired
+:PROPERTIES:
+:CUSTOM_ID: dired
+:END:
+
+The directory editor abbreviated as "Dired" is a built-in directory
+and file manager.  You can use it to interactively create, delete,
+copy or rename files and directories, etc.  Here is a list of settings
+and configurations that I use in dired:
+
++ Don't prompt when deleting or copying recursively.
+
++ Send deletions to the system's Trash.  This is safer than the
+  standard =rm= since it allows us to recover deleted files.
+
++ Reformat output.  Sort directories first, show dotfiles, omit
+  implicit directories and use human-readable size units.
+
++ Hide all the details by default (permissions, size, etc.).  You can
+  toggle them back on by pressing =(=.  Enable =hl-line-mode= to make
+  it easier to spot the current item.
+
++ While having two dired buffers open, the rename and copy operations
+  will place the path of the inactive one as the target destination.
+  When multiple dired buffers are present, this works between the
+  current and most recently used ones.
+
+Here is also a list of packages that I use with Dired:
+
++ Dired subtree :: This third-party package offers tree-style
+  navigation, meaning that the subdirectories of the current Dired
+  buffer can be expanded and contracted in place.  It is possible to
+  perform the same kind of folding on their subdirectories, and so on.
++ Dired extras (dired-x.el) :: These is built-in package which offers
+  some additional Dired features.  The one I use the most is
+  =dired-jump= which will take you to the directory that contains the
+  current buffer.
+
+#+begin_src emacs-lisp
+  (use-package dired
+    :hook ((dired-mode . dired-hide-details-mode)
+	   (dired-mode . hl-line-mode))
+    :config
+    (setq dired-recursive-copies 'always
+	  dired-recursive-deletes 'always)
+    (setq delete-by-moving-to-trash t)
+    (setq dired-listing-switches
+	  "-AXhlv --group-directories-first")
+    (setq dired-dwim-target t))
+
+  (use-package dired-x
+    :bind (("C-x C-j" . dired-jump)
+	   ("C-x 4 C-j" . dired-jump-other-window)))
+
+  (use-package dired-subtree
+    :ensure t
+    :bind (:map dired-mode-map
+		("<tab>" . dired-subtree-toggle)
+		("<C-tab>" . dired-subtree-cycle)))
 #+end_src
 
 * Applications and utilities
