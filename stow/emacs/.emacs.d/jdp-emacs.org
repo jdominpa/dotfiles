@@ -417,14 +417,14 @@ the possible tails of the key chord.
     (which-key-mode))
 #+end_src
 
-** TODO Asynchronous facilities
+** Asynchronous facilities
 :PROPERTIES:
 :CUSTOM_ID: async_facilities
 :END:
 
 This package provides some asynchronous processing facilities for
 various Emacs interfaces such as dired's copy and rename operations
-(also read *Dired (directory editor, file manager)*).
+(also read [[#dired][Dired (directory editor, file manager)]]).
 
 All we need here is to just load the feature.
 
@@ -700,7 +700,7 @@ grep buffer with =wgrep=.
 :CUSTOM_ID: directory_buffer_window
 :END:
 
-** Dired
+** Dired (directory editor, file manager)
 :PROPERTIES:
 :CUSTOM_ID: dired
 :END:
@@ -750,17 +750,82 @@ Here is also a list of packages that I use with Dired:
 	  "-AXhlv --group-directories-first")
     (setq dired-dwim-target t))
 
+  (use-package dired-aux
+    :config
+    (setq dired-isearch-filenames 'dwim
+	  dired-create-destination-dirs 'ask))
+
   (use-package dired-x
     :bind (("C-x C-j" . dired-jump)
-	   ("C-x 4 C-j" . dired-jump-other-window)))
+	   ("C-x 4 C-j" . dired-jump-other-window))
+    :config
+    (setq dired-clean-up-buffers-too t
+	  dired-clean-confirm-killing-deleted-buffers t))
 
   (use-package dired-subtree
     :ensure t
     :bind (:map dired-mode-map
 		("<tab>" . dired-subtree-toggle)
 		("<C-tab>" . dired-subtree-cycle)))
+
+  ;; Part of the `async' package.
+  (use-package dired-async
+    :hook (dired-mode . dired-async-mode))
 #+end_src
 
+** Buffer management
+:PROPERTIES:
+:CUSTOM_ID: buffer_management
+:END:
+
+*** Unique buffer naming
+:PROPERTIES:
+:CUSTOM_ID: unique_buffer_naming
+:END:
+
+Uniquify is a library that has some useful utilities to make working
+with multiple buffers easier.  When two buffers with the same name are
+open, Emacs will desambiguate their names by displaying the element of
+differentiation in accordance with =uniquify-buffer-name-style= while
+=uniquify-strip-common-suffix= will remove the part of the file system
+path they have in common.
+
+These operations are reversed when one of the buffers is removed an
+there is no more chance of ambiguity.
+
+#+begin_src emacs-lisp
+  (setq uniquify-buffer-name-style 'forward
+        uniquify-strip-common-suffix t
+        uniquify-after-kill-buffer-p t)
+#+end_src
+
+*** Ibuffer and extras
+:PROPERTIES:
+:CUSTOM_ID: ibuffer
+:END:
+
+Ibuffer is a built-in package that serves as a drop-in replacement for
+=list-buffers=.  It offers granular control over the buffer list and
+is more powerful overall.  Hence, I bind it to =C-x C-b=.
+
+Here are the configurations I make to =ibuffer=:
+
++ Prompt for confirmation only when deleting a modified buffer.
++ Do not open on the other window; use the current one.
++ Do not show empty filter groups.
+
+#+begin_src emacs-lisp
+  (use-package ibuffer
+    :hook ((ibuffer . ibuffer-set-up-preferred-filters)
+           (ibuffer . hl-line-mode))
+    :bind ("C-x C-b" . ibuffer)
+    :config
+    (setq ibuffer-expert t
+          ; ibuffer-display-summary nil
+          ibuffer-use-other-window nil
+          ibuffer-show-empty-filter-groups nil
+          ibuffer-use-header-line t))
+#+end_src
 * Applications and utilities
 :PROPERTIES:
 :CUSTOM_ID: applications_utilities
@@ -799,6 +864,34 @@ in the git repository in the =magit-status= buffer.
   (use-package magit-todos
     :ensure t
     :hook (magit-status-mode . magit-todos-mode))
+#+end_src
+
+* Language settings for code and prose
+:PROPERTIES:
+:CUSTOM_ID: language_settings
+:END:
+
+This section deals with configurations and packages used for writing
+with natural or programming languages.
+
+** Programming languages
+:PROPERTIES:
+:CUSTOM_ID: programming_languages
+:END:
+
+*** Elisp
+:PROPERTIES:
+:CUSTOM_ID: elisp
+:END:
+
+Macrostep is a package that enables macro expansion to see what the
+code is going to be interpreted as.
+
+#+begin_src emacs-lisp
+  (use-package macrostep
+    :ensure t
+    :bind (:map emacs-lisp-mode-map
+                ("C-c e" . macrostep-expand)))
 #+end_src
 
 * History and state
