@@ -170,17 +170,16 @@ re-bind and change some keybindings.
 
 #+begin_src emacs-lisp
   (use-package jdp-simple
-    :config
-    (define-key global-map (kbd "C-z") nil)
-    (define-key global-map (kbd "C-x C-z") nil)
-    (define-key global-map (kbd "M-`") nil)
-    (define-key global-map (kbd "C-S-n") #'jdp-simple-multi-line-next)
-    (define-key global-map (kbd "C-S-p") #'jdp-simple-multi-line-prev)
-    (define-key global-map (kbd "M-SPC") #'cycle-spacing)
-    (define-key global-map (kbd "M-c") #'capitalize-dwim)
-    (define-key global-map (kbd "M-l") #'downcase-dwim)
-    (define-key global-map (kbd "M-u") #'upcase-dwim)
-    (define-key global-map (kbd "C-=") #'count-words))
+    :bind (("C-z" . nil)
+           ("C-x C-z" . nil)
+           ("M-`" . nil)
+           ("C-S-n" . jdp-simple-multi-line-next)
+           ("C-S-p" . jdp-simple-multi-line-prev)
+           ("M-SPC" . cycle-spacing)
+           ("M-c" . capitalize-dwim)
+           ("M-l" . downcase-dwim)
+           ("M-u" . upcase-dwim)
+           ("C-=" . count-words)))
 #+end_src
 
 These are the contents of the =jdp-simple.el= library (the source code
@@ -222,8 +221,8 @@ check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8
     :init
     ;; Customisation options
     (setq modus-themes-bold-constructs t
-          modus-themes-slanted-constructs t
-          modus-themes-mode-line nil)
+	  modus-themes-slanted-constructs t
+	  modus-themes-mode-line nil)
     ;; Load the theme files before enabling a theme
     (modus-themes-load-themes)
     :config
@@ -274,25 +273,27 @@ help with typeface configurations.  Here are some important ones:
 
 #+begin_src emacs-lisp
   (use-package jdp-fonts
+    :demand t
+    :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
     :config
     (setq jdp-fonts-typeface-sets-alist
-          '((laptop 140 "Hack" normal "DejaVu Sans Condensed" normal)
-            (desktop 130 "Hack" normal "Inter" normal)
-            (reader 160 "Iosevka" light "FiraGO" normal)
-            (presentation 180 "Iosevka" light "FiraGO" normal)))
+	  '((laptop 140 "Fira Code" normal "DejaVu Sans Condensed" normal)
+	    (desktop 130 "Fira Code" normal "Inter" normal)
+	    (reader 160 "Iosevka" light "FiraGO" normal)
+	    (presentation 180 "Iosevka" light "FiraGO" normal)))
     (setq jdp-fonts-monospaced-list
-          '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
-            "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
+	  '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
+	    "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
     (setq jdp-fonts-heights-list
-          (number-sequence 100 200 5))
+	  (number-sequence 100 200 5))
     (setq jdp-fonts-line-spacing-alist
-          '(("Ubuntu Mono" . 2)))
+	  '(("Ubuntu Mono" . 2)))
     (setq jdp-fonts-laptop-desktop-keys-list '(laptop desktop))
     (setq jdp-fonts-max-small-resolution-width 1366)
     (setq jdp-fonts-bold-weight-alist
-          '(("Iosevka" . semibold)
-            ("Fira Code" . semibold)
-            ("Source Code Pro" . semibold)))
+	  '(("Iosevka" . semibold)
+	    ("Fira Code" . semibold)
+	    ("Source Code Pro" . semibold)))
     ;; This is defined in Emacs' C code, though I feel this is a good
     ;; place to put it.
     (setq x-underline-at-descent-line t)
@@ -302,8 +303,7 @@ help with typeface configurations.  Here are some important ones:
     (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-line-spacing)
     (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-bold-face)
     ;; See theme section for this hook
-    (add-hook 'modus-themes-after-load-theme-hook #'jdp-fonts-bold-face)
-    (define-key global-map (kbd "C-c f") #'jdp-fonts-set-fonts-dwim))
+    (add-hook 'modus-themes-after-load-theme-hook #'jdp-fonts-bold-face))
 #+end_src
 
 Here is the source code of =jdp-fonts.el=.
@@ -501,14 +501,15 @@ component:
 
   (use-package orderless
     :ensure t
+    :bind (:map minibuffer-local-completion-map
+                ("?" . nil)
+                ("SPC" . nil))
     :config
     (setq orderless-matching-styles jdp-orderless-default-styles)
     (setq orderless-style-dispatchers
           '(jdp-orderless-flex-dispatcher
             jdp-orderless-literal-dispatcher
-            jdp-orderless-initialism-dispatcher))
-    (define-key minibuffer-local-completion-map (kbd "?") nil)
-    (define-key minibuffer-local-completion-map (kbd "SPC") nil))
+            jdp-orderless-initialism-dispatcher)))
 #+end_src
 
 Here are the contents of the =jdp-orderless.el= library:
@@ -537,10 +538,13 @@ is an overview of of the settings covered:
   represented as a number next to the minibuffer prompt if a recursive
   edit is in progress.
 
-Also check my setup for the Minibuffer history (savehist-mode).
+*TODO* Also check my setup for the Minibuffer history (savehist-mode).
 
 #+begin_src emacs-lisp
   (use-package minibuffer
+    :bind (:map completion-list-mode-map
+                ("n" . next-completion)
+                ("p" . previous-completion))
     :config
     (setq completion-styles '(orderless partial-completion)
           completion-category-defaults nil
@@ -556,11 +560,7 @@ Also check my setup for the Minibuffer history (savehist-mode).
     (setq minibuffer-eldef-shorten-default t)
     (file-name-shadow-mode)
     (minibuffer-depth-indicate-mode)
-    (minibuffer-electric-default-mode)
-
-    ;; Some keybindings for *Completions* buffer.
-    (define-key completion-list-mode-map (kbd "n") #'next-completion)
-    (define-key completion-list-mode-map (kbd "p") #'previous-completion))
+    (minibuffer-electric-default-mode))
 #+end_src
 
 *** TODO Completion for recent files and directories with recentf
@@ -652,6 +652,11 @@ tools:
 
 #+begin_src emacs-lisp
   (use-package isearch
+    :bind (:map minibuffer-local-isearch-map
+		("M-/" . isearch-complete-edit)
+	   :map isearch-mode-map
+		("C-g" . isearch-cancel)
+		("M-/" . isearch-complete))
     :config
     (setq search-highlight t
 	  isearch-lax-whitespace t
@@ -659,16 +664,14 @@ tools:
 	  isearch-lazy-highlight t
 	  isearch-lazy-count t
 	  lazy-count-prefix-format nil
-	  lazy-count-suffix-format " (%s/%s)")
-    (define-key minibuffer-local-isearch-map (kbd "M-/") #'isearch-complete-edit)
-    (define-key isearch-mode-map (kbd "M-/") #'isearch-complete))
+	  lazy-count-suffix-format " (%s/%s)"))
 
   (use-package grep
     :commands (grep grep-find grep-find-toggle-abbreviation))
 
   (use-package jdp-search
-    :config
-    (define-key isearch-mode-map (kbd "<backspace>") #'jdp-search-isearch-abort-dwim))
+    :bind (:map isearch-mode-map
+		("<backspace>" . jdp-search-isearch-abort-dwim)))
 #+end_src
 
 Here is the contents of =jdp-search.el=:
@@ -799,7 +802,7 @@ there is no more chance of ambiguity.
         uniquify-after-kill-buffer-p t)
 #+end_src
 
-*** Ibuffer and extras
+*** TODO Ibuffer and extras
 :PROPERTIES:
 :CUSTOM_ID: ibuffer
 :END:
@@ -817,15 +820,23 @@ Here are the configurations I make to =ibuffer=:
 #+begin_src emacs-lisp
   (use-package ibuffer
     :hook ((ibuffer . ibuffer-set-up-preferred-filters)
-           (ibuffer . hl-line-mode))
+	   (ibuffer . hl-line-mode))
     :bind ("C-x C-b" . ibuffer)
     :config
     (setq ibuffer-expert t
-          ; ibuffer-display-summary nil
-          ibuffer-use-other-window nil
-          ibuffer-show-empty-filter-groups nil
-          ibuffer-use-header-line t))
+	  ibuffer-display-summary nil
+	  ibuffer-use-other-window nil
+	  ibuffer-show-empty-filter-groups nil
+	  ibuffer-movement-cycle nil
+	  ibuffer-use-header-line t
+	  ibuffer-default-shrink-to-minimum-size nil
+	  ibuffer-saved-filter-groups nil
+	  ibuffer-old-time 48))
+
+  ;; (use-package jdp-ibuffer
+  ;;   :bind ("M-s v" . jdp-ibuffer-buffers-vc-root))
 #+end_src
+
 * Applications and utilities
 :PROPERTIES:
 :CUSTOM_ID: applications_utilities
