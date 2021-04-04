@@ -218,16 +218,16 @@ check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8
 #+begin_src emacs-lisp
   (use-package modus-themes
     :ensure t
+    :bind ([f5] . modus-themes-toggle)
     :init
     ;; Customisation options
     (setq modus-themes-bold-constructs t
-	  modus-themes-slanted-constructs t
-	  modus-themes-mode-line nil)
+          modus-themes-slanted-constructs t
+          modus-themes-mode-line nil)
     ;; Load the theme files before enabling a theme
     (modus-themes-load-themes)
     :config
-    (modus-themes-load-vivendi)
-    :bind ([f5] . modus-themes-toggle))
+    (modus-themes-load-vivendi))
 #+end_src
 
 ** Typeface configurations
@@ -236,10 +236,10 @@ check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8
 :END:
 
 I use Emacs to program in various languages and writing a variety of
-mathematical related content (notes, articles, university
-homework,...).  Any font I use has to be readable at both small and
-large sizes, have nice bold weights, be equally readable against light
-and dark backgrounds, use the =*.ttf= spec and not have a name that
+mathematical related content (notes, articles, university homework,
+etc.).  Any font I use has to be readable at both small and large
+sizes, have nice bold weights, be equally readable against light and
+dark backgrounds, use the =*.ttf= spec and not have a name that
 advertises some brand directly.
 
 The section on [[#font_configuration][Font configurations]] defines typefaces that I like and
@@ -373,7 +373,7 @@ int main(int argc, char **argv) {
 :CUSTOM_ID: bidirectional_writing
 :END:
 
-By default Emacs supports bidirectional writing. I only write/read in
+By default Emacs supports bidirectional writing.  I only write/read in
 Latin alphabets therefore, I set the default directionality to what my
 languages use which can improve the responsiveness of Emacs in some
 cases.
@@ -410,10 +410,8 @@ the possible tails of the key chord.
   (use-package which-key
     :ensure t
     :config
-    (setq which-key-dont-use-unicode t
-          which-key-show-early-on-C-h nil
-          which-key-idle-delay 1.5
-          which-key-separator " ")
+    (setq which-key-show-early-on-C-h nil
+          which-key-idle-delay 1.5)
     (which-key-mode))
 #+end_src
 
@@ -465,12 +463,12 @@ customize the delimiters used to determine components and the styles
 used for the patter matching.
 
 In this section I set up =orderless=.  The =orderless= completion
-style is append to the minibuffer's customisation options for
+style is appended to the minibuffer's customisation options for
 =completion-styles= in the section [[#minibuffer_and_extras][Minibuffer configuration and
 extras]].
 
 The file =jdp-orderless.el= contains some small changes that I make.
-It defines three style dispatchers.  Those are single characters that
+It defines three style dispatchers which are single characters that
 set a style for a particular component when appended to that
 component:
 
@@ -516,6 +514,26 @@ Here are the contents of the =jdp-orderless.el= library:
 
 #+include: jdp-lisp/jdp-orderless.el src emacs-lisp :tangle no
 
+*** Completion annotations (marginalia)
+:PROPERTIES:
+:CUSTOM_ID: completion_annotations
+:END:
+
+Marginalia is a package developed by Daniel Mendler and Omar Antolín
+Camarena that provides annotations to completion candidates.  It works
+with Selectrum, Icomplete vertical, Embark's competions buffer and the
+default completions' buffer.
+
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :demand t
+    :config
+    (setq marginalia-annotators
+          '(marginalia-annotators-heavy marginalia-annotators-light nil))
+    (marginalia-mode))
+#+end_src
+
 *** TODO Minibuffer configurations and extras
 :PROPERTIES:
 :CUSTOM_ID: minibuffer_and_extras
@@ -541,6 +559,16 @@ is an overview of of the settings covered:
 *TODO* Also check my setup for the Minibuffer history (savehist-mode).
 
 #+begin_src emacs-lisp
+  (use-package jdp-minibuffer
+    :bind (:map completion-list-mode-map
+                ("M-v" . jdp-minibuffer-focus-mini)
+                ("C-n" . jdp-minibuffer-next-completion-or-mini)
+                ("C-p" . jdp-minibuffer-previous-completion-or-mini)
+           :map minibuffer-local-completion-map
+                ("C-n" . jdp-minibuffer-switch-to-completions-top)
+                ("C-p" . jdp-minibuffer-switch-to-completions-bottom)
+                ("C-l" . jdp-minibuffer-toggle-completions)))
+
   (use-package minibuffer
     :bind (:map completion-list-mode-map
                 ("n" . next-completion)
@@ -549,7 +577,7 @@ is an overview of of the settings covered:
     (setq completion-styles '(orderless partial-completion)
           completion-category-defaults nil
           completion-category-overrides nil
-          completion-cycle-threshold 3
+          completion-cycle-threshold nil
           completion-show-help nil
           completion-auto-help t
           completion-ignore-case t)
@@ -665,6 +693,12 @@ tools:
 	  isearch-lazy-count t
 	  lazy-count-prefix-format nil
 	  lazy-count-suffix-format " (%s/%s)"))
+
+  (use-package replace
+    :hook (occur-mode . hl-line-mode)
+    :bind (("M-s M-o" . multi-occur)
+	   :map occur-mode-map
+		("t" . toggle-truncate-lines)))
 
   (use-package grep
     :commands (grep grep-find grep-find-toggle-abbreviation))
@@ -802,7 +836,7 @@ there is no more chance of ambiguity.
         uniquify-after-kill-buffer-p t)
 #+end_src
 
-*** TODO Ibuffer and extras
+*** Ibuffer and extras
 :PROPERTIES:
 :CUSTOM_ID: ibuffer
 :END:
@@ -820,21 +854,18 @@ Here are the configurations I make to =ibuffer=:
 #+begin_src emacs-lisp
   (use-package ibuffer
     :hook ((ibuffer . ibuffer-set-up-preferred-filters)
-	   (ibuffer . hl-line-mode))
+           (ibuffer . hl-line-mode))
     :bind ("C-x C-b" . ibuffer)
     :config
     (setq ibuffer-expert t
-	  ibuffer-display-summary nil
-	  ibuffer-use-other-window nil
-	  ibuffer-show-empty-filter-groups nil
-	  ibuffer-movement-cycle nil
-	  ibuffer-use-header-line t
-	  ibuffer-default-shrink-to-minimum-size nil
-	  ibuffer-saved-filter-groups nil
-	  ibuffer-old-time 48))
-
-  ;; (use-package jdp-ibuffer
-  ;;   :bind ("M-s v" . jdp-ibuffer-buffers-vc-root))
+          ibuffer-display-summary nil
+          ibuffer-use-other-window nil
+          ibuffer-show-empty-filter-groups nil
+          ibuffer-movement-cycle nil
+          ibuffer-use-header-line t
+          ibuffer-default-shrink-to-minimum-size nil
+          ibuffer-saved-filter-groups nil
+          ibuffer-old-time 48))
 #+end_src
 
 * Applications and utilities
@@ -875,6 +906,34 @@ in the git repository in the =magit-status= buffer.
   (use-package magit-todos
     :ensure t
     :hook (magit-status-mode . magit-todos-mode))
+#+end_src
+
+** Org-mode
+:PROPERTIES:
+:CUSTOM_ID: org_mode
+:END:
+
+Org is a markup language similar to Markdown.  We use symbols to
+indicate the meaning of a construct and its context, such as a
+headline or a table.
+
+The real power of Org is that everything is built-in and integrate in
+Emacs.  A set of integrated libraries and an extensive ecosystem makes
+working with Org extremely easy and fun to do.  For example, as
+explained in the section [[#what_is_this_document][What is this document]], this document is
+written in =org-mode= and we use =org-babel-tangle= to output the
+source blocks to a =.el= file.  In addition, we can export the
+document to an HTML or pdf equivalent whenever we find the need for
+it.
+
+#+begin_src emacs-lisp
+  (use-package org
+    :hook ((org-mode . org-indent-mode)
+           (org-mode . auto-fill-mode))
+    :config
+    (setq org-adapt-indentation nil
+          org-catch-invisible-edits 'show)
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
 
 * Language settings for code and prose
