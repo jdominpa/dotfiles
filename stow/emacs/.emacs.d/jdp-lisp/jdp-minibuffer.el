@@ -42,7 +42,23 @@
   (interactive)
   (if (get-buffer-window "*Completions*" 0)
       (minibuffer-hide-completions)
-    (minibuffer-completion-help)))
+    (minibuffer-completion-help)
+    (jdp-minibuffer--fit-completions-window)))
+
+;;;###autoload
+(defun jdp-minibuffer-keyboard-quit-dwim ()
+  "Control the exit behaviour for completions' buffers.
+
+If in a completions' buffer and unless the region is active, run
+`abort-recursive-edit'.  Otherwise run `keyboard-quit'.
+
+If the region is active, deactivate it.  A second invocation of
+this command is then required to abort the session."
+  (interactive)
+  (when (derived-mode-p 'completion-list-mode)
+    (if (use-region-p)
+        (keyboard-quit)
+      (abort-recursive-edit))))
 
 (defun jdp-minibuffer--switch-to-completions ()
   "Subroutine for switching to the completions' buffer."
@@ -76,39 +92,17 @@ Meant to be bound in `minibuffer-local-completion-map'."
       t))
 
 ;;;###autoload
-(defun jdp-minibuffer-switch-to-completions-bottom ()
-  "Switch to the bottom of the completions' buffer.
-Meant to be bound in `minibuffer-local-completion-map'."
-  (interactive)
-  (jdp-minibuffer--switch-to-completions)
-  (goto-char (point-max))
-  (next-completion -1)
-  (goto-char (point-at-bol))
-  (recenter
-   (- -1
-      (min (max 0 scroll-margin)
-           (truncate (/ (window-body-height) 4.0))))
-      t))
-
-;;;###autoload
 (defun jdp-minibuffer-next-completion-or-mini (&optional arg)
   "Move to the next completion or switch to the minibuffer.
 This performs a regular motion for optional ARG lines, but when
 point can no longer move in that direction it switches to the
 minibuffer."
   (interactive "p")
-  (cond
-   ((and (bobp)
-         (get-text-property (point) 'invisible))
-    (forward-char 1)
-    (next-completion (or arg 1)))
-   ((or (eobp)
-        (eq (point-max)
-            (save-excursion (forward-line 1) (point))))
-    (jdp-minibuffer-focus-mini))
-   (t
+  (if (or (eobp)
+          (eq (point-max)
+              (save-excursion (forward-line 1) (point))))
+      (jdp-minibuffer-focus-mini)
     (next-completion (or arg 1))))
-  (setq this-command 'next-line))
 
 ;;;###autoload
 (defun jdp-minibuffer-previous-completion-or-mini (&optional arg)
@@ -120,8 +114,7 @@ minibuffer."
   (let ((num (if (and (numberp arg) (> arg 0))
 		 (* -1 arg)
 	       (error "Invalid argument %s" arg))))
-    (if (or (bobp)
-            (eq (point) (1+ (point-min))))
+    (if (bobp)
         (jdp-minibuffer-focus-mini)
       (next-completion (or num 1)))))
 

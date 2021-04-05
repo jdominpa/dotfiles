@@ -562,6 +562,7 @@ is an overview of of the settings covered:
   (use-package jdp-minibuffer
     :bind (:map completion-list-mode-map
                 ("M-v" . jdp-minibuffer-focus-mini)
+                ("C-g" . jdp-minibuffer-keyboard-quit-dwim)
                 ("C-n" . jdp-minibuffer-next-completion-or-mini)
                 ("C-p" . jdp-minibuffer-previous-completion-or-mini)
            :map minibuffer-local-completion-map
@@ -590,6 +591,10 @@ is an overview of of the settings covered:
     (minibuffer-depth-indicate-mode)
     (minibuffer-electric-default-mode))
 #+end_src
+
+And here is =jdp-minibuffer.el=:
+
+#+include: jdp-lisp/jdp-minibuffer.el src emacs-lisp :tangle no
 
 *** TODO Completion for recent files and directories with recentf
 :PROPERTIES:
