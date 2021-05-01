@@ -596,7 +596,7 @@ And here is =jdp-minibuffer.el=:
 
 #+include: jdp-lisp/jdp-minibuffer.el src emacs-lisp :tangle no
 
-*** TODO Completion for recent files and directories with recentf
+*** Completion for recent files and directories with recentf
 :PROPERTIES:
 :CUSTOM_ID: completion_recentf
 :END:
@@ -606,6 +606,7 @@ visited files allowing us to revisit them faster.
 
 #+begin_src emacs-lisp
   (use-package recentf
+    :bind ("C-x C-r" . recentf-open-files)
     :config
     (setq recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip")
           recentf-save-file (expand-file-name "recentf" user-emacs-directory))
@@ -686,31 +687,31 @@ tools:
 #+begin_src emacs-lisp
   (use-package isearch
     :bind (:map minibuffer-local-isearch-map
-		("M-/" . isearch-complete-edit)
-	   :map isearch-mode-map
-		("C-g" . isearch-cancel)
-		("M-/" . isearch-complete))
+                ("M-/" . isearch-complete-edit)
+           :map isearch-mode-map
+                ("C-g" . isearch-cancel)
+                ("M-/" . isearch-complete))
     :config
     (setq search-highlight t
-	  isearch-lax-whitespace t
-	  isearch-regexp-lax-whitespace nil
-	  isearch-lazy-highlight t
-	  isearch-lazy-count t
-	  lazy-count-prefix-format nil
-	  lazy-count-suffix-format " (%s/%s)"))
+          isearch-lax-whitespace t
+          isearch-regexp-lax-whitespace nil
+          isearch-lazy-highlight t
+          isearch-lazy-count t
+          lazy-count-prefix-format nil
+          lazy-count-suffix-format " (%s/%s)"))
 
   (use-package replace
     :hook (occur-mode . hl-line-mode)
     :bind (("M-s M-o" . multi-occur)
-	   :map occur-mode-map
-		("t" . toggle-truncate-lines)))
+           :map occur-mode-map
+                ("t" . toggle-truncate-lines)))
 
   (use-package grep
     :commands (grep grep-find grep-find-toggle-abbreviation))
 
   (use-package jdp-search
     :bind (:map isearch-mode-map
-		("<backspace>" . jdp-search-isearch-abort-dwim)))
+                ("<backspace>" . jdp-search-isearch-abort-dwim)))
 #+end_src
 
 Here is the contents of =jdp-search.el=:
@@ -941,6 +942,127 @@ it.
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
 
+* General interface
+:PROPERTIES:
+:CUSTOM_ID: general_interface
+:END:
+
+This section contains configurations for all aspects of the Emacs user
+interface.
+
+** Cursor and mouse settings
+:PROPERTIES:
+:CUSTOM_ID: cursor_mouse_settings
+:END:
+
+*** Cursor tweaks
+:PROPERTIES:
+:CUSTOM_ID: cursor_tweaks
+:END:
+
+By default, Emacs' cursor blinks constantly unless it has been
+inactive for a small period of time.  I prefer to have it fixed and
+not blink so I disable the blinking mode.
+
+I also use the =beacon-mode= package which highlights the point
+whenever it jumps to a new position.
+
+#+begin_src emacs-lisp
+  (blink-cursor-mode -1)
+
+  (use-package beacon
+    :ensure t
+    :config
+    (setq-default beacon-size 30)
+    (beacon-mode))
+#+end_src
+
+*** Mouse wheel behaviour
+:PROPERTIES:
+:CUSTOM_ID: mouse_wheel
+:END:
+
+The value of =mouse-wheel-scroll-amount= indicates:
+
++ By default scroll one line at a time.
++ Scroll five lines at a time while holding Shift.
++ Scroll half a screen while holding Meta.
+
+I also set some extra settings related to mouse scrolling.
+
+#+begin_src emacs-lisp
+  (use-package mouse
+    :config
+    (setq mouse-wheel-scroll-amount
+          '(1
+            ((shift) . 5)
+            ((meta) . 0.5)
+            ((control) . text-scale)))
+    (setq mouse-wheel-progressive-speed nil
+          mouse-wheel-follow-mouse t))
+#+end_src
+
+*** Scrolling behaviour
+:PROPERTIES:
+:CUSTOM_ID: scrolling_behaviour
+:END:
+
+By default Emacs repositions the point to the middle of the screen
+after scrolling the page.  This creates some friction because we have
+to be constantly guessing where the point has been repositioned.
+
+#+begin_src emacs-lisp
+  (setq scroll-margin 0
+        scroll-conservatively 1000
+        scroll-preserve-screen-position 'always)
+#+end_src
+
+** Conveniences and minor extras
+:PROPERTIES:
+:CUSTOM_ID: conveniences_minor_extras
+:END:
+
+*** Auto revert mode
+:PROPERTIES:
+:CUSTOM_ID: auto_revert_mode
+:END:
+
+This mode updates the buffer whenever the file changes externally or
+inside Emacs.
+
+#+begin_src emacs-lisp
+  (use-package autorevert
+    :hook (after-init . auto-revert-mode))
+#+end_src
+
+*** Pulse highlight changes (goggles)
+:PROPERTIES:
+:CUSTOM_ID: pulse_highlight
+:END:
+
+Goggles is a package developed by Daniel Mendler which pulses the area
+where some change took place.
+
+#+begin_src emacs-lisp
+  (use-package goggles
+    :ensure t
+    :hook ((prog-mode text-mode) . goggles-mode)
+    :config
+    (setq-default goggles-pules t))
+#+end_src
+
+*** Newline characters for file ending
+:PROPERTIES:
+:CUSTOM_ID: newline_characters
+:END:
+
+=mode-require-final-newline= adds a newline character when visiting or
+saving a buffer of relevance like a diff file.
+
+#+begin_src emacs-lisp
+  (setq mode-require-final-newline 'visit-save)
+#+end_src
+
 * Language settings for code and prose
 :PROPERTIES:
 :CUSTOM_ID: language_settings
@@ -967,6 +1089,37 @@ code is going to be interpreted as.
     :ensure t
     :bind (:map emacs-lisp-mode-map
                 ("C-c e" . macrostep-expand)))
+#+end_src
+
+** LaTeX
+:PROPERTIES:
+:CUSTOM_ID: latex
+:END:
+
+Latex is a typesetting system used to write academical and scientific
+documents.  To use it you write a =.tex= source document that can be
+compiled to diferent types of files (usually PDF files).  In the
+source document you use commands starting with the =\= character to
+tell the compiler how to format the text.
+
+I use the package [[https://github.com/politza/pdf-tools][pdftools]] which replaces DocView for PDF files.  This
+package improves the speed of DocView and adds some useful features
+like isearch, occur and following links.
+
+#+begin_src emacs-lisp
+  (use-package tex
+    :ensure auctex
+    :hook (LaTeX-mode . turn-on-auto-fill)
+    :config
+    (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
+    (add-hook 'TeX-after-compilation-finished-functions
+              #'TeX-revert-document-buffer))
+
+  (use-package pdf-tools
+    :ensure t
+    :magic ("%PDF" . pdf-view-mode)
+    :config
+    (pdf-tools-install))
 #+end_src
 
 * History and state

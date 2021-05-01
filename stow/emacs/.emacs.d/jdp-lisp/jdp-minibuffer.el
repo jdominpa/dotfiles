@@ -98,9 +98,7 @@ This performs a regular motion for optional ARG lines, but when
 point can no longer move in that direction it switches to the
 minibuffer."
   (interactive "p")
-  (if (or (eobp)
-          (eq (point-max)
-              (save-excursion (forward-line 1) (point))))
+  (if (eobp)
       (jdp-minibuffer-focus-mini)
     (next-completion (or arg 1))))
 
