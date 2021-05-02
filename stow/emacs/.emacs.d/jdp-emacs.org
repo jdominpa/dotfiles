@@ -787,32 +787,32 @@ Here is also a list of packages that I use with Dired:
 #+begin_src emacs-lisp
   (use-package dired
     :hook ((dired-mode . dired-hide-details-mode)
-	   (dired-mode . hl-line-mode))
+           (dired-mode . hl-line-mode))
     :config
     (setq dired-recursive-copies 'always
-	  dired-recursive-deletes 'always)
+          dired-recursive-deletes 'always)
     (setq delete-by-moving-to-trash t)
     (setq dired-listing-switches
-	  "-AXhlv --group-directories-first")
+          "-AXhlv --group-directories-first")
     (setq dired-dwim-target t))
 
   (use-package dired-aux
     :config
     (setq dired-isearch-filenames 'dwim
-	  dired-create-destination-dirs 'ask))
+          dired-create-destination-dirs 'ask))
 
   (use-package dired-x
     :bind (("C-x C-j" . dired-jump)
-	   ("C-x 4 C-j" . dired-jump-other-window))
+           ("C-x 4 C-j" . dired-jump-other-window))
     :config
     (setq dired-clean-up-buffers-too t
-	  dired-clean-confirm-killing-deleted-buffers t))
+          dired-clean-confirm-killing-deleted-buffers t))
 
   (use-package dired-subtree
     :ensure t
     :bind (:map dired-mode-map
-		("<tab>" . dired-subtree-toggle)
-		("<C-tab>" . dired-subtree-cycle)))
+                ("<tab>" . dired-subtree-toggle)
+                ("<C-tab>" . dired-subtree-cycle)))
 
   ;; Part of the `async' package.
   (use-package dired-async
@@ -952,6 +952,146 @@ it.
 
 This section contains configurations for all aspects of the Emacs user
 interface.
+
+** Go to last change
+:PROPERTIES:
+:CUSTOM_ID: goto_last_change
+:END:
+
+I use the =C-z= binding to go to the last change in the buffer.  The
+binding is [[#custom_functions][disabled elsewhere in this document]].
+
+#+begin_src emacs-lisp
+  (use-package goto-last-change
+    :ensure t
+    :bind ("C-z" . goto-last-change))
+#+end_src
+
+** Mode line
+:PROPERTIES:
+:CUSTOM_ID: mode_line
+:END:
+
+I used to use external packages like =doom-modeline= to modify the
+default Emacs modeline but I have come to the conclusion that the
+default one is good enough.
+
+In this section I do some minor tweaks to the modeline mainly, I
+change the kmacro minor mode tag to something more meaningful and
+switch the position of some elements of the modeline.
+
+#+begin_src emacs-lisp
+  (setq mode-line-defining-kbd-macro
+        (propertize " Macro" 'face 'mode-line-emphasis))
+  (setq-default mode-line-format
+                '("%e"
+                  mode-line-front-space
+                  mode-line-mule-info
+                  mode-line-client
+                  mode-line-modified
+                  mode-line-remote
+                  mode-line-frame-identification
+                  mode-line-buffer-identification
+                  "  "
+                  mode-line-position
+                  mode-line-modes
+                  "  "
+                  (vc-mode vc-mode)
+                  "  "
+                  mode-line-misc-info
+                  mode-line-end-spaces))
+#+end_src
+
+*** Hide modeline "lighters" (minions)
+:PROPERTIES:
+:CUSTOM_ID: hide_modeline
+:END:
+
+Lighters are the tags that indicate active minor modes in the
+modeline.  Jonas Bernoulli's package =minions= wraps up all lighters
+and hides them behind a character.
+
+#+begin_src emacs-lisp
+  (use-package minions
+    :ensure t
+    :config
+    (setq minions-mode-line-lighter ";")
+    (setq minions-direct (list 'defining-kbd-macro
+                               'flymake-mode))
+    (minions-mode))
+#+end_src
+
+*** Mode line recursion indicators
+:PROPERTIES:
+:CUSTOM_ID: modeline_recursion_indicators
+:END:
+
+Currently trying this package
+
+#+begin_src emacs-lisp
+  (use-package recursion-indicator
+    :ensure t
+    :config
+    (setq recursion-indicator-general "&"
+          recursion-indicator-minibuffer "@")
+    (recursion-indicator-mode))
+#+end_src
+
+*** Battery status
+:PROPERTIES:
+:CUSTOM_ID: battery_status
+:END:
+
+Emacs has a built-in library for displaying battery status.  When I
+use Emacs in a laptop I usually have it in fullscreen mode.
+Displaying battery status in the modeline allows me to not have to
+check it with the mouse.
+
+#+begin_src emacs-lisp
+  (use-package battery
+    :config
+    (setq battery-mode-line-format " [%b%p%%]"
+          battery-load-low 20
+          battery-load-critical 10)
+    (display-battery-mode))
+#+end_src
+
+*** Display current time
+:PROPERTIES:
+:CUSTOM_ID: current_time
+:END:
+
+When I'm on my laptop I like to have Emacs in fullscreen mode.  Using
+the built-in library to display time allows me to not have to use the
+mouse to bring out the system status bar to check the time.
+
+#+begin_src emacs-lisp
+  (use-package time
+    :config
+    (setq display-time-format "%H:%M %d-%m-%Y"
+          display-time-interval 60)
+    (display-time-mode))
+#+end_src
+
+** TODO Line/column numbers and relevant indicators
+:PROPERTIES:
+:CUSTOM_ID: numbers_relevant_indicators
+:END:
+
+In this section I setup some indicators like the =diff-hl= package and
+I ensure that the modeline shows the line and column numbers.
+
+#+begin_src emacs-lisp
+  (setq line-number-mode t
+        column-number-mode t
+        size-indication-mode t)
+
+  (use-package diff-hl
+    :ensure t
+    :config
+    (setq diff-hl-draw-borders nil)
+    (global-diff-hl-mode))
+#+end_src
 
 ** Cursor and mouse settings
 :PROPERTIES:
