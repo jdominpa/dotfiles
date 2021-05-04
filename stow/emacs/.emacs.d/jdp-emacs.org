@@ -1272,18 +1272,108 @@ saving a buffer of relevance like a diff file.
 This section deals with configurations and packages used for writing
 with natural or programming languages.
 
+** LSP-mode
+:PROPERTIES:
+:CUSTOM_ID: lsp-mode
+:END:
+
+The Language Server Protocol (LSP) is a protocol developed by
+Microsoft and used between an editor/IDE and a language server that
+provides features like auto-completion, go to definition, finding
+references, etc.  This features used to be built-in in each editor in
+the past but LSP has changed that.  Now with LSP the editor
+communicates with a Language Server which provides all of the smart
+features mentioned above.
+
+=lsp-mode= is an Emacs client for the LSP protocol.  It provides a lot
+of IDE features like code completion and code navigation for example
+and provides optional integration with popular Emacs packages like
+=company=, =flycheck= and =projectile= (I don't use this last one).
+
+My =lsp-mode= configuration is pretty simple.  Apart from setting the
+=lsp-keymap-prefix= variable I also add the =lsp-ui= package which
+provides most of the UI aspects of =lsp-mode=.
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :commands (lsp lsp-deferred)
+    :init (setq lsp-keymap-prefix "C-c l")
+    :hook (lsp-mode . lsp-enable-which-key-integration))
+
+  (use-package lsp-ui
+    :ensure t
+    :hook (lsp-mode . lsp-ui-mode)
+    :config
+    (setq lsp-ui-doc-position 'bottom
+          lsp-ui-doc-show-with-mouse nil
+          lsp-ui-doc-show-with-cursor nil))
+#+end_src
+
 ** Programming languages
 :PROPERTIES:
 :CUSTOM_ID: programming_languages
 :END:
+
+*** General settings
+:PROPERTIES:
+:CUSTOM_ID: general_settings
+:END:
+
+Here are some general configurations I want for =prog-mode=, that is,
+in every programming language mode.  This settings include the
+following:
+
++ Making URL's in comments and strings clickable.
++ Make comments autofill.
++ Show the name of the current function in the modeline with
+  =which-function-mode=.
++ Highlight annotations like TODOs in source code (=hl-todo=).
++ Color code matching delimiters.
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'goto-address-prog-mode)
+
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (setq-local comment-auto-fill-only-comments t)))
+
+  (use-package which-func
+    :hook (prog-mode . which-function-mode))
+
+  (use-package hl-todo
+    :hook (prog-mode . global-hl-todo-mode))
+
+  (use-package rainbow-delimiters
+    :ensure t
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+*** C
+:PROPERTIES:
+:CUSTOM_ID: c
+:END:
+
+Configurations for writing in C/C++.  These include the following:
+
++ Enabling =lsp-mode=.
++ Setting the default C writing style.
+
+#+begin_src emacs-lisp
+  (use-package cc-mode
+    :hook (c-mode-common . lsp-deferred)
+    :config
+    (setq-default c-default-style "k&r"))
+#+end_src
 
 *** Elisp
 :PROPERTIES:
 :CUSTOM_ID: elisp
 :END:
 
-Macrostep is a package that enables macro expansion to see what the
-code is going to be interpreted as.
+Macrostep is a package that allows us to expand macros to see what the
+code is going to be interpreted as.  I use it a lot to check the
+expansions of =use-package= in my Emacs configuration.
 
 #+begin_src emacs-lisp
   (use-package macrostep
@@ -1292,7 +1382,7 @@ code is going to be interpreted as.
                 ("C-c e" . macrostep-expand)))
 #+end_src
 
-** LaTeX
+*** LaTeX
 :PROPERTIES:
 :CUSTOM_ID: latex
 :END:
@@ -1321,6 +1411,36 @@ like isearch, occur and following links.
     :magic ("%PDF" . pdf-view-mode)
     :config
     (pdf-tools-install))
+#+end_src
+
+*** Python
+:PROPERTIES:
+:CUSTOM_ID: python
+:END:
+
+Configurations for writing in Python.  These include the following:
+
++ Setting the python interpreter to Python3.
++ Enabling =lsp-mode=.
+
+#+begin_src emacs-lisp
+  (setq python-shell-interpreter "python3")
+
+  (use-package lsp-python-ms
+    :init (setq lsp-python-ms-auto-install-server t)
+    :hook (python-mode . lsp-deferred))
+#+end_src
+
+*** Shellscript
+:PROPERTIES:
+:CUSTOM_ID: shellscript
+:END:
+
+In this section I configure Emacs so that it makes any shellscript
+file executable automatically after saving the file.
+
+#+begin_src emacs-lisp
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 #+end_src
 
 ** Configure 'electric' behaviour
@@ -1393,6 +1513,23 @@ and marks the line where the note, warning or error is.
     :config
     (setq flycheck-display-errors-function
           #'flycheck-display-error-messages-unless-error-list))
+#+end_src
+
+** Eldoc
+:PROPERTIES:
+:CUSTOM_ID: eldoc
+:END:
+
+ElDoc is a minor mode that shows in the echo area the argument list of
+the function call you are currently writing.  It was created for
+writing elisp but it works with other languages like C, Perl, Python,
+etc.  Also, if the point is on top of a variable eldoc will show its
+documentation string.
+
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :config
+    (global-eldoc-mode))
 #+end_src
 
 * History and state
