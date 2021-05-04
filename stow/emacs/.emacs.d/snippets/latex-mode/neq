@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: not equal
+# key: !=
+# condition: (texmathp)
+# --
+\neq

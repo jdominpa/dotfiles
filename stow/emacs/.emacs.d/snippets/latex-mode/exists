@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: existance quantifier
+# key: E
+# condition: (texmathp)
+# --
+\exists

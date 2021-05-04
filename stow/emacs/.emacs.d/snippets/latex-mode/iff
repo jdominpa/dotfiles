@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: if and only if
+# key: iff
+# condition: (texmathp)
+# --
+\iff

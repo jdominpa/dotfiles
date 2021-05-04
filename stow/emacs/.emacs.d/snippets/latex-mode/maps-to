@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: maps to
+# key: !>
+# condition: (texmathp)
+# --
+\mapsto

@@ -599,6 +599,75 @@ And here is =jdp-minibuffer.el=:
 
 #+include: jdp-lisp/jdp-minibuffer.el src emacs-lisp :tangle no
 
+*** TODO Enhanced minibuffer commands (consult)
+:PROPERTIES:
+:CUSTOM_ID: enhanced_minibuffer_commands
+:END:
+
+#+begin_src emacs-lisp
+  (use-package consult
+    :ensure t
+    :bind (;; C-c bindings
+           ("C-c h" . consult-history)
+           ("C-c k" . consult-kmacro)
+           ;; C-x bindings
+           ("C-x M-:" . consult-complex-command)
+           ("C-x b" . consult-buffer)
+           ("C-x 4 b" . consult-buffer-other-window)
+           ("C-x 5 b" . consult-buffer-other-frame)
+           ;; Custom M-# bindings for fast register access
+           ("M-#" . consult-register-load)
+           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+           ("C-M-#" . consult-register)
+           ;; Other custom bindings
+           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+           ("C-h a" . consult-apropos)               ;; orig. apropos-command
+           ;; M-g bindings (goto-map)
+           ("M-g e" . consult-compile-error)
+           ("M-g g" . consult-goto-line)
+           ("M-g M-g" . consult-goto-line)
+           ("M-g o" . consult-outline)
+           ("M-g m" . consult-mark)
+           ("M-g k" . consult-global-mark)
+           ("M-g i" . consult-imenu)
+           ("M-g I" . consult-project-imenu)
+           ;; M-s bindings (search-map)
+           ("M-s f" . consult-find)
+           ("M-s L" . consult-locate)
+           ("M-s g" . consult-grep)
+           ("M-s G" . consult-git-grep)
+           ("M-s r" . consult-ripgrep)
+           ("M-s l" . consult-line)
+           ("M-s k" . consult-keep-lines)
+           ("M-s u" . consult-focus-lines)
+           ;; Isearch integration
+           ("M-s e" . consult-isearch)
+           :map isearch-mode-map
+           ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
+           ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
+           ("M-s l" . consult-line)                  ;; required by consult-line to detect isearch
+           :map consult-narrow-map
+           ("?" . consult-narrow-help))
+    :config
+    (setq register-preview-delay 0.8
+          register-preview-function #'consult-register-format)
+
+    ;; This adds thin lines, sorting and hides the mode line of the
+    ;; window in the register preview window.
+    (advice-add #'register-preview :override #'consult-register-window)
+
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
+
+    (setq consult-narrow-key ">"))
+
+  (use-package consult-flycheck
+    :ensure t
+    :bind (:map flycheck-command-map
+                ("!" . consult-flycheck)))
+#+end_src
+
 *** Completion for recent files and directories with recentf
 :PROPERTIES:
 :CUSTOM_ID: completion_recentf
@@ -1441,6 +1510,28 @@ file executable automatically after saving the file.
 
 #+begin_src emacs-lisp
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+#+end_src
+
+** Snippets
+:PROPERTIES:
+:CUSTOM_ID: snippets
+:END:
+
+Snippets are expandable templates that can be used to speed up the
+process of coding.  Each snippet usually has a keyword which gets
+expanded after pressing a particular key.  In Emacs' case, snippets
+are covered by the package =yasnippet= and by default can be expanded
+with the TAB key.
+
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+    (yas-global-mode))
+
+  (use-package yasnippet-snippets
+    :ensure t
+    :after yasnippet)
 #+end_src
 
 ** Configure 'electric' behaviour

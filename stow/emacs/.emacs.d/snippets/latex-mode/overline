@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: overline
+# key: bar
+# condition: (texmathp)
+# --
+\overline{$1}$0

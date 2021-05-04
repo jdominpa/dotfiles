@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: to
+# key: ->
+# condition: (texmathp)
+# --
+\to
