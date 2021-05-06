@@ -156,6 +156,23 @@ For a full copy of the GNU General Public License see
 This section contains the configurations that are needed prior to the
 setup of everything else.
 
+** Common auxiliary functions (jdp-simple.el)
+:PROPERTIES:
+:CUSTOM_ID: common_auxiliary_functions
+:END:
+
+There are a few functions that I use in multiple sections of my Emacs
+configuration.  To keep them all together I placed them in a dedicated
+=jdp-common.el= file.  All I do here is load the file.
+
+#+begin_src emacs-lisp
+  (use-package jdp-common)
+#+end_src
+
+Here are the contents of the =jdp-common.el= file:
+
+#+include: jdp-lisp/jdp-common.el src emacs-lisp :tangle no
+
 ** Common custom functions (jdp-simple.el)
 :PROPERTIES:
 :CUSTOM_ID: custom_functions
@@ -412,6 +429,7 @@ the possible tails of the key chord.
 #+begin_src emacs-lisp
   (use-package which-key
     :ensure t
+    :disabled t
     :config
     (setq which-key-show-early-on-C-h nil
           which-key-idle-delay 1.5)
@@ -524,16 +542,16 @@ Here are the contents of the =jdp-orderless.el= library:
 
 Marginalia is a package developed by Daniel Mendler and Omar Antolín
 Camarena that provides annotations to completion candidates.  It works
-with Selectrum, Icomplete vertical, Embark's competions buffer and the
+with Selectrum, Icomplete vertical, Embark's completions buffer and the
 default completions' buffer.
 
 #+begin_src emacs-lisp
   (use-package marginalia
     :ensure t
-    :demand t
     :config
     (setq marginalia-annotators
-          '(marginalia-annotators-heavy marginalia-annotators-light nil))
+          '(marginalia-annotators-heavy
+            marginalia-annotators-light nil))
     (marginalia-mode))
 #+end_src
 
@@ -563,20 +581,26 @@ is an overview of of the settings covered:
 
 #+begin_src emacs-lisp
   (use-package jdp-minibuffer
+    :demand t
     :bind (:map completion-list-mode-map
-                ("M-v" . jdp-minibuffer-focus-mini)
+                ("M-v" . jdp-minibuffer-focus-minibuffer)
                 ("C-g" . jdp-minibuffer-keyboard-quit-dwim)
                 ("C-n" . jdp-minibuffer-next-completion-or-mini)
                 ("C-p" . jdp-minibuffer-previous-completion-or-mini)
            :map minibuffer-local-completion-map
                 ("C-n" . jdp-minibuffer-switch-to-completions-top)
                 ("C-p" . jdp-minibuffer-switch-to-completions-bottom)
-                ("C-l" . jdp-minibuffer-toggle-completions)))
+                ("C-l" . jdp-minibuffer-toggle-completions))
+    :config
+    (setq jdp-minibuffer-remove-shadowed-file-names t)
+    (setq jdp-minibuffer-minimum-input 3
+          jdp-minibuffer-live-update-delay 0.3)
+    (setq jdp-minibuffer-completion-passlist nil
+          jdp-minibuffer-completion-blocklist nil))
 
   (use-package minibuffer
-    :bind (:map completion-list-mode-map
-                ("n" . next-completion)
-                ("p" . previous-completion))
+    :demand t
+    :hook (completion-list-mode . jdp-common-truncate-lines-silently)
     :config
     (setq completion-styles '(orderless partial-completion)
           completion-category-defaults nil
@@ -589,6 +613,7 @@ is an overview of of the settings covered:
           read-file-name-completion-ignore-case t)
     (setq enable-recursive-minibuffers t
           read-answer-short t)
+    (setq resize-mini-windows t)
     (setq minibuffer-eldef-shorten-default t)
     (file-name-shadow-mode)
     (minibuffer-depth-indicate-mode)
@@ -659,6 +684,9 @@ And here is =jdp-minibuffer.el=:
     ;; Use Consult to select xref locations with preview
     (setq xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
+
+    ;; Disable previews
+    (setq consult-preview-key nil)
 
     (setq consult-narrow-key ">"))
 
@@ -1395,8 +1423,6 @@ following:
 
 + Making URL's in comments and strings clickable.
 + Make comments autofill.
-+ Show the name of the current function in the modeline with
-  =which-function-mode=.
 + Highlight annotations like TODOs in source code (=hl-todo=).
 + Color code matching delimiters.
 
@@ -1406,9 +1432,6 @@ following:
   (add-hook 'prog-mode-hook
             (lambda ()
               (setq-local comment-auto-fill-only-comments t)))
-
-  (use-package which-func
-    :hook (prog-mode . which-function-mode))
 
   (use-package hl-todo
     :hook (prog-mode . global-hl-todo-mode))
