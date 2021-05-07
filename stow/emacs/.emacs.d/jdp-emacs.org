@@ -549,9 +549,6 @@ default completions' buffer.
   (use-package marginalia
     :ensure t
     :config
-    (setq marginalia-annotators
-          '(marginalia-annotators-heavy
-            marginalia-annotators-light nil))
     (marginalia-mode))
 #+end_src
 
@@ -615,6 +612,8 @@ is an overview of of the settings covered:
           completion-show-help nil
           completion-auto-help t
           completion-ignore-case t)
+    (unless (version< emacs-version "28")
+      (setq completions-format 'one-column))
     (setq read-buffer-completion-ignore-case t
           read-file-name-completion-ignore-case t)
     (setq enable-recursive-minibuffers t
@@ -1155,7 +1154,7 @@ check it with the mouse.
 #+begin_src emacs-lisp
   (use-package battery
     :config
-    (setq battery-mode-line-format " [%b%p%%]"
+    (setq battery-mode-line-format "[%b%p%%] "
           battery-load-low 20
           battery-load-critical 10)
     (display-battery-mode))
@@ -1175,6 +1174,7 @@ mouse to bring out the system status bar to check the time.
     :config
     (setq display-time-format "%H:%M %d-%m-%Y"
           display-time-interval 60)
+    (setq display-time-default-load-average nil)
     (display-time-mode))
 #+end_src
 
