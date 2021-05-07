@@ -582,15 +582,21 @@ is an overview of of the settings covered:
 #+begin_src emacs-lisp
   (use-package jdp-minibuffer
     :demand t
+    :hook ((completion-list-mode . jdp-minibuffer-hl-line)
+           (completion-list-mode . jdp-minibuffer-display-line-numbers))
     :bind (:map completion-list-mode-map
-                ("M-v" . jdp-minibuffer-focus-minibuffer)
-                ("C-g" . jdp-minibuffer-keyboard-quit-dwim)
-                ("C-n" . jdp-minibuffer-next-completion-or-mini)
-                ("C-p" . jdp-minibuffer-previous-completion-or-mini)
+           ("M-g" . jdp-minibuffer-choose-completion-number)
+           ("M-v" . jdp-minibuffer-focus-minibuffer)
+           ("C-g" . jdp-minibuffer-keyboard-quit-dwim)
+           ("C-n" . jdp-minibuffer-next-completion-or-mini)
+           ("C-p" . jdp-minibuffer-previous-completion-or-mini)
            :map minibuffer-local-completion-map
-                ("C-n" . jdp-minibuffer-switch-to-completions-top)
-                ("C-p" . jdp-minibuffer-switch-to-completions-bottom)
-                ("C-l" . jdp-minibuffer-toggle-completions))
+           ("M-g" . jdp-minibuffer-choose-completion-number)
+           ("C-n" . jdp-minibuffer-switch-to-completions-top)
+           ("C-p" . jdp-minibuffer-switch-to-completions-bottom)
+           ("C-l" . jdp-minibuffer-toggle-completions)
+           :map minibuffer-local-filename-completion-map
+           ("<M-backspace>" . jdp-minibuffer-backward-updir))
     :config
     (setq jdp-minibuffer-remove-shadowed-file-names t)
     (setq jdp-minibuffer-minimum-input 3
@@ -600,7 +606,7 @@ is an overview of of the settings covered:
 
   (use-package minibuffer
     :demand t
-    :hook (completion-list-mode . jdp-common-truncate-lines-silently)
+    :hook (completion-list-mode . jdp-common-truncate-lines-silently) ; from `jdp-common.el'
     :config
     (setq completion-styles '(orderless partial-completion)
           completion-category-defaults nil
@@ -632,41 +638,35 @@ And here is =jdp-minibuffer.el=:
 #+begin_src emacs-lisp
   (use-package consult
     :ensure t
-    :bind (;; C-c bindings
-           ("C-c h" . consult-history)
+    :bind (("C-c h" . consult-history)
            ("C-c k" . consult-kmacro)
-           ;; C-x bindings
-           ("C-x M-:" . consult-complex-command)
            ("C-x b" . consult-buffer)
            ("C-x 4 b" . consult-buffer-other-window)
-           ("C-x 5 b" . consult-buffer-other-frame)
-           ;; Custom M-# bindings for fast register access
+           ;; ("C-x 5 b" . consult-buffer-other-frame)
            ("M-#" . consult-register-load)
            ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
            ("C-M-#" . consult-register)
-           ;; Other custom bindings
-           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-           ("C-h a" . consult-apropos)               ;; orig. apropos-command
-           ;; M-g bindings (goto-map)
+           ;; ("C-h a" . consult-apropos)               ;; orig. apropos-command
            ("M-g e" . consult-compile-error)
-           ("M-g g" . consult-goto-line)
-           ("M-g M-g" . consult-goto-line)
            ("M-g o" . consult-outline)
-           ("M-g m" . consult-mark)
            ("M-g k" . consult-global-mark)
-           ("M-g i" . consult-imenu)
+           ;; ("M-g i" . consult-imenu)
            ("M-g I" . consult-project-imenu)
-           ;; M-s bindings (search-map)
            ("M-s f" . consult-find)
            ("M-s L" . consult-locate)
-           ("M-s g" . consult-grep)
-           ("M-s G" . consult-git-grep)
-           ("M-s r" . consult-ripgrep)
+           ;; ("M-s r" . consult-ripgrep)
            ("M-s l" . consult-line)
            ("M-s k" . consult-keep-lines)
            ("M-s u" . consult-focus-lines)
-           ;; Isearch integration
-           ("M-s e" . consult-isearch)
+           ;; ("M-s e" . consult-isearch)
+         
+           ("C-x M-:" . consult-complex-command)
+           ("M-y" . consult-yank-pop)
+           ("M-g g" . consult-goto-line)
+           ("M-g M-g" . consult-goto-line)
+           ("M-g m" . consult-mark)
+           ("M-s g" . consult-grep)
+           ("M-s G" . consult-git-grep)
            :map isearch-mode-map
            ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
            ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
