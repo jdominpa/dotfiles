@@ -469,7 +469,7 @@ candidates.  To put it in another way, we spend less time worrying
 about where things are and more on how quickly can w bring them to
 focus.
 
-*** Orderless completion style (and jdp-orderless.el)
+*** Orderless completion style (jdp-orderless.el)
 :PROPERTIES:
 :CUSTOM_ID: orderless_completion
 :END:
@@ -558,8 +558,75 @@ default completions' buffer.
 :CUSTOM_ID: minibuffer_and_extras
 :END:
 
-The code in this section is dedicated to the minibuffer setup.  Here
-is an overview of of the settings covered:
+The minibuffer is the epicentre of interactivity with all sorts of
+Emacs workflows: selecting buffers, opening files, providing answers
+to prompts, etc.  Emacs has the following built-in capabilities to
+perform these interactions:
+
++ Narrowing :: Use pattern matching to filter a list of choices.  In
+  addition to the built-in matching styles there are also external
+  packages that extend the existing ones like Orderless (see [[#orderless_completion][Orderless
+  completion style (jdp-orderless.el)]])
+
++ Selecting :: Visualise the list of possible completions and pick one
+  of them using regular motions.  By default, Emacs displays the
+  results in a special =*Completions*= buffer which does not have a
+  lot of features.
+
+There are third party completion frameworks that do the aforementioned
+like Ivy and Helm.  Others like Selectrum and the built-in Icomplete
+focus on the latter.
+
+I used to use Ivy but Emacs version 28 comes with a way to display
+=*Completions*= in a vertical list, one item per line.  Using a
+handful of functions written by Protesilaos (see his [[https://protesilaos.com/dotemacs/][dotfiles]] for more
+information) I have extended the minibuffer's default completions
+capabilities to a point I am satisfied with.  These extensions can be
+found in the =jdp-minibuffer.el= file reproduced below, while the
+properties of the =*Completions*= buffer is controlled by the
+=display-buffer-alist= (see Window rules and basic tweaks). *TODO*
+
+What my completion setup does is the follwing:
+
++ When minibuffer completion is invoked, a live updating
+  =*Completions*= buffer is placed right above the minibuffer
+  displaying all completion candidates in a vertical list with meta
+  data provided by Marginalia (see [[#completion_annotations][Completion annotations
+  (marginalia)]]).  This only happens after some input has been
+  provided, otherwise all you see is an empty minibuffer.
+
+  - The length of minimium input that triggers live updating
+    completion is controlled by the variable
+    =jdp-minibuffer-minimum-input=.
+
+  - =jdp-minibuffer-live-update-delay= controls how fast the live
+    updating completion should respond to minibuffer input.
+
+  - The variables =jdp-minibuffer-completion-blocklist= and
+    =jdp-minibuffer-completion-passlist= can be used to disable live
+    completion for specific commands or bypass the minimum input
+    threshold and the delay.
+
++ Using the usual motions =C-n= and =C-p= we can switch from the
+  minibuffer to the completions and vice versa treating the two areas
+  as a contiguous space.
+
++ When completing file names, the current path will be hidden by
+  specifying a base directory either of the user's =$HOME= or the file
+  system's absolute root.  In other word, =~/= or =/= followed by any
+  valid candidate will clear the minibuffer's contents and continue
+  the completion with respect to the new path.
+
++ The =M-backspace= deletes a character by default unless it finds a
+  directory signified by =/= in which case, it will remove the entire
+  directory.
+
++ While in the minibuffer or the =*Completions*= buffer, we can pick a
+  completion candidate with =jdp-minibuffer-choose-completion-number=
+  which takes a numeric prefix and selects the candidate that
+  corresponds to that number.
+
+Finally, here is an overview of the settings covered:
 
 + Completion styles :: As seen in the [[#orderless_completion][Orderless completion style]]
   section, I use orderless for completion in general.  I also add the
@@ -613,8 +680,8 @@ is an overview of of the settings covered:
           completion-show-help nil
           completion-auto-help t
           completion-ignore-case t)
-    (unless (version< emacs-version "28")
-      (setq completions-format 'one-column))
+    (setq completions-format 'one-column
+          completions-detailed t)
     (setq read-buffer-completion-ignore-case t
           read-file-name-completion-ignore-case t)
     (setq enable-recursive-minibuffers t
@@ -630,65 +697,78 @@ And here is =jdp-minibuffer.el=:
 
 #+include: jdp-lisp/jdp-minibuffer.el src emacs-lisp :tangle no
 
-*** TODO Enhanced minibuffer commands (consult)
+*** Enhanced minibuffer commands (consult)
 :PROPERTIES:
 :CUSTOM_ID: enhanced_minibuffer_commands
 :END:
 
+Consult is a package developed by Daniel Mendler which works with the
+standard minibuffer completion system and other interfaces like
+Icomplete and Selectrum.
+
+Consult offers minibuffer-centric commands that either enhance already
+existing commands or provides new ones entirely.
+
+Some Consult commands are straight drop-in improvements for built-in
+ones.  For example =consult-complex-command= is and interactive
+improved version of the =repeat-complex-command=.  The same thing
+happens with the =goto-line= command.
+
+Other commands enhance the defaults with a filtering mechanism.  An
+example would be =consult-imenu= which recognises syntactic constructs
+that are variables, functions and macros.
+
+This package has a filtering mechanism internally known as narrowing
+which can be accessed with a keybinding for all commands that support
+it.  The key is configured with the variable =consult-narrow-key=
+which I have set to =>=.  The way the system works is the following:
+you type the narrowing key followed by another key that specifies the
+targets that we want to match.  These narrowing conditions can be
+removed at any time by hitting backspace.
+
+The narrowing-by-type system can be used without the narrowing key
+also.  Typing the type specific character will activate the filter
+without needing to input the =consult-narrow-key=.
+
+Consult also has various commands that call asynchronously external
+processes such as =grep= or =find=.  Not only are the external
+commands called in an asynchronous way but they also implement a
+two-stage input scheme:
+
++ First you type a pattern which will be passed to the external
+  program.  This triggers the asynchronous call and our input looks
+  like =#PATTERN= at this point.
+
++ You can then type another field delimiter (by default =#=) which
+  will instruct Consult to keep the results that =#PATTERN= found and
+  use Emacs' own mechanisms to further narrow the list.  At this point
+  our input will look like =#PATTERNS#MORE-PATTERNS= where
+  =#MORE-PATTERNS= will use the Emacs' completion style.
+
+By default, certain Consult commands show previews which I find to be
+distracting.  Hence, I disable preview entirely.
+
 #+begin_src emacs-lisp
   (use-package consult
     :ensure t
-    :bind (("C-c h" . consult-history)
-           ("C-c k" . consult-kmacro)
-           ("C-x b" . consult-buffer)
-           ("C-x 4 b" . consult-buffer-other-window)
-           ;; ("C-x 5 b" . consult-buffer-other-frame)
-           ("M-#" . consult-register-load)
-           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-           ("C-M-#" . consult-register)
-           ;; ("C-h a" . consult-apropos)               ;; orig. apropos-command
-           ("M-g e" . consult-compile-error)
-           ("M-g o" . consult-outline)
-           ("M-g k" . consult-global-mark)
-           ;; ("M-g i" . consult-imenu)
-           ("M-g I" . consult-project-imenu)
-           ("M-s f" . consult-find)
-           ("M-s L" . consult-locate)
-           ;; ("M-s r" . consult-ripgrep)
-           ("M-s l" . consult-line)
-           ("M-s k" . consult-keep-lines)
-           ("M-s u" . consult-focus-lines)
-           ;; ("M-s e" . consult-isearch)
-         
-           ("C-x M-:" . consult-complex-command)
+    :bind (("C-x M-:" . consult-complex-command)
+           ("C-x M-m" . consult-minor-mode-menu)
+           ("C-x M-k" . consult-kmacro)
            ("M-y" . consult-yank-pop)
+           ("M-K" . consult-keep-lines) ; M-S-k is similar to M-S-5 (M-%)
+           ("M-F" . consult-focus-lines)
            ("M-g g" . consult-goto-line)
            ("M-g M-g" . consult-goto-line)
            ("M-g m" . consult-mark)
            ("M-s g" . consult-grep)
-           ("M-s G" . consult-git-grep)
-           :map isearch-mode-map
-           ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
-           ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
-           ("M-s l" . consult-line)                  ;; required by consult-line to detect isearch
+           ;TODO ("C-M-#" . consult-register)
            :map consult-narrow-map
            ("?" . consult-narrow-help))
     :config
     (setq register-preview-delay 0.8
           register-preview-function #'consult-register-format)
-
-    ;; This adds thin lines, sorting and hides the mode line of the
-    ;; window in the register preview window.
-    (advice-add #'register-preview :override #'consult-register-window)
-
-    ;; Use Consult to select xref locations with preview
-    (setq xref-show-xrefs-function #'consult-xref
-          xref-show-definitions-function #'consult-xref)
-
-    ;; Disable previews
-    (setq consult-preview-key nil)
-
-    (setq consult-narrow-key ">"))
+    (setq consult-preview-key nil ; disable previews
+          consult-narrow-key ">"))
 
   (use-package consult-flycheck
     :ensure t
@@ -976,6 +1056,29 @@ Here are the configurations I make to =ibuffer=:
           ibuffer-default-shrink-to-minimum-size nil
           ibuffer-saved-filter-groups nil
           ibuffer-old-time 48))
+#+end_src
+
+** TODO Window configuration
+:PROPERTIES:
+:CUSTOM_ID: window_configuration
+:END:
+
+*** Window rules and basic tweaks
+:PROPERTIES:
+:CUSTOM_ID: window_rules
+:END:
+
+#+begin_src emacs-lisp
+  (use-package window
+    :config
+    (setq display-buffer-alist
+          `(;; bottom side window
+            ("\\*\\(Embark\\)?.*Completions.*"
+             (display-buffer-in-side-window)
+             (side . bottom)
+             (slot . 0)
+             (window-parameters . ((no-other-window . t)
+                                   (mode-line-format . none)))))))
 #+end_src
 
 * Applications and utilities
@@ -1400,8 +1503,7 @@ provides most of the UI aspects of =lsp-mode=.
   (use-package lsp-mode
     :ensure t
     :commands (lsp lsp-deferred)
-    :init (setq lsp-keymap-prefix "C-c l")
-    :hook (lsp-mode . lsp-enable-which-key-integration))
+    :init (setq lsp-keymap-prefix "C-c l"))
 
   (use-package lsp-ui
     :ensure t
