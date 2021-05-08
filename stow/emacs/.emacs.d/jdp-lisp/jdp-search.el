@@ -24,6 +24,18 @@
 
 ;;; Code:
 
+(require 'isearch)
+
+;;;###autoload
+(defun jdp-search-isearch-other-end ()
+  "End current search in the opposite side of the match.
+Particularly useful when the match does not fall within the
+confines of word boundaries (e.g. multiple words)."
+  (interactive)
+  (isearch-done)
+  (when isearch-other-end
+    (goto-char isearch-other-end)))
+
 ;;;###autoload
 (defun jdp-search-isearch-abort-dwim ()
   "Delete failed `isearch' input, single char, or cancel search.

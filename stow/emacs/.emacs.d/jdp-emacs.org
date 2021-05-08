@@ -156,7 +156,7 @@ For a full copy of the GNU General Public License see
 This section contains the configurations that are needed prior to the
 setup of everything else.
 
-** Common auxiliary functions (jdp-simple.el)
+** Common auxiliary functions (jdp-common.el)
 :PROPERTIES:
 :CUSTOM_ID: common_auxiliary_functions
 :END:
@@ -193,6 +193,7 @@ re-bind and change some keybindings.
            ("C-S-n" . jdp-simple-multi-line-next)
            ("C-S-p" . jdp-simple-multi-line-prev)
            ("M-SPC" . cycle-spacing)
+           ("M-o" . delete-blank-lines)
            ("M-c" . capitalize-dwim)
            ("M-l" . downcase-dwim)
            ("M-u" . upcase-dwim)
@@ -786,31 +787,35 @@ tools:
 #+begin_src emacs-lisp
   (use-package isearch
     :bind (:map minibuffer-local-isearch-map
-                ("M-/" . isearch-complete-edit)
+           ("M-/" . isearch-complete-edit)
            :map isearch-mode-map
-                ("C-g" . isearch-cancel)
-                ("M-/" . isearch-complete))
+           ("C-g" . isearch-cancel)
+           ("M-/" . isearch-complete))
     :config
-    (setq search-highlight t
+    (setq search-whitespace-regexp ".*?"
           isearch-lax-whitespace t
-          isearch-regexp-lax-whitespace nil
+          isearch-regexp-lax-whitespace nil)
+    (setq search-highlight t
           isearch-lazy-highlight t
           isearch-lazy-count t
           lazy-count-prefix-format nil
-          lazy-count-suffix-format " (%s/%s)"))
+          lazy-count-suffix-format " (%s/%s)")
+    (setq isearch-yank-on-move 'shift))
 
   (use-package replace
-    :hook (occur-mode . hl-line-mode)
+    :hook ((occur-mode . hl-line-mode)
+           (occur-mode . jdp-common-truncate-lines-silently))
     :bind (("M-s M-o" . multi-occur)
            :map occur-mode-map
-                ("t" . toggle-truncate-lines)))
+           ("t" . toggle-truncate-lines)))
 
   (use-package grep
     :commands (grep grep-find grep-find-toggle-abbreviation))
 
   (use-package jdp-search
     :bind (:map isearch-mode-map
-                ("<backspace>" . jdp-search-isearch-abort-dwim)))
+           ("<backspace>" . jdp-search-isearch-abort-dwim)
+           ("<C-return>" . jdp-search-isearch-other-end)))
 #+end_src
 
 Here is the contents of =jdp-search.el=:
