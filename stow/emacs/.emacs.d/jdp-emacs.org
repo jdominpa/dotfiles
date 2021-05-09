@@ -1058,7 +1058,7 @@ Here are the configurations I make to =ibuffer=:
           ibuffer-old-time 48))
 #+end_src
 
-** TODO Window configuration
+** Window configuration
 :PROPERTIES:
 :CUSTOM_ID: window_configuration
 :END:
@@ -1170,16 +1170,19 @@ Also check: [[#directional_window_motions][Directional window motions (windmove)
 
 #+begin_src emacs-lisp
   (use-package winner
-    :bind (("M-n" . winner-undo)
-           ("M-p" . winner-redo))
+    :demand t
+    :bind (("M-p" . winner-undo)
+           ("M-n" . winner-redo))
     :config
     (winner-mode))
 #+end_src
 
-*** Directional window motions (windmove)
+*** TODO Directional window motions (windmove)
 :PROPERTIES:
 :CUSTOM_ID: directional_window_motions
 :END:
+
+*TODO* review keybindings
 
 Windmove is also built into Emacs. It provides functions for selecting
 a window in any of the cardinal directions. It also has commands for
@@ -1193,14 +1196,15 @@ See also: [[#window_history][Window history (winner-mode)]]
 
 #+begin_src emacs-lisp
   (use-package windmove
-    :bind (("M-<up>" . windmove-up)
-           ("M-<right>" . windmove-right) ; override `right-word'
-           ("M-<down>" . windmove-down)
-           ("M-<left>" . windmove-left)   ; override `left-word'
-           ("M-S-<up>" . windmove-up)
-           ("M-S-<right>" . windmove-right)
-           ("M-S-<down>" . windmove-down)
-           ("M-S-<left>" . windmove-left))
+    :demand t
+    :bind (("C-x C-<up>" . windmove-up)
+           ("C-x C-<right>" . windmove-right) ; override `next-buffer'
+           ("C-x C-<down>" . windmove-down)
+           ("C-x C-<left>" . windmove-left)   ; override `previous-buffer'
+           ("C-x C-S-<up>" . windmove-swap-states-up)
+           ("C-x C-S-<right>" . windmove-swap-states-right)
+           ("C-x C-S-<down>" . windmove-swap-states-down)
+           ("C-x C-S-<left>" . windmove-swap-states-left))
     :config
     (setq windmove-create-window nil))
 #+end_src
@@ -1243,6 +1247,46 @@ in the git repository in the =magit-status= buffer.
   (use-package magit-todos
     :ensure t
     :hook (magit-status-mode . magit-todos-mode))
+#+end_src
+
+** Command-line shells
+:PROPERTIES:
+:CUSTOM_ID: command_line_shells
+:END:
+
+Emacs can act as both a /terminal emulator for command line shells/
+and a /toolkit for terminal emulators/.  The following section covers
+only the first one as I don not use the likes of =aansi-term= or
+=vterm=.
+
+*** Eshell
+:PROPERTIES:
+:CUSTOM_ID: eshell
+:END:
+
+Eshell is a command prompt written entirely in Elisp.  This comes with
+its pros and cons: it can understand Elisp and behaves almost like
+Unix shells like Bash but there are certain differences such as
+specific commands that are not the same.  Another con is that Eshell
+can not display pseudo graphical programs like =mutt=, =htop=,
+=ncmpcpp= and so on.
+
+In my case, I find Eshell to be enough to do everything I need a
+command line for.
+
+#+begin_src emacs-lisp
+  (use-package eshell
+    :config
+    (setq eshell-cd-on-directory t
+          eshell-hist-ignoredups t
+          eshell-save-history-on-exit t
+          eshell-scroll-to-bottom-on-input t)
+    (setq eshell-directory-name
+          (expand-file-name "eshell" user-emacs-directory))
+    (setq eshell-aliases-file
+          (expand-file-name "eshell/alias" user-emacs-directory))
+    (setq password-cache t
+          password-cache-expiry 600))
 #+end_src
 
 ** Org-mode
