@@ -295,9 +295,9 @@ help with typeface configurations.  Here are some important ones:
     :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
     :config
     (setq jdp-fonts-typeface-sets-alist
-          '((laptop 150 "Fira Code" normal "DejaVu Sans Condensed" normal)
+          '((laptop 160 "Fira Code" normal "DejaVu Sans Condensed" normal)
             (desktop 130 "Fira Code" normal "Inter" normal)
-            (reader 160 "Iosevka" light "FiraGO" normal)
+            (reader 170 "Iosevka" light "FiraGO" normal)
             (presentation 180 "Iosevka" light "FiraGO" normal)))
     (setq jdp-fonts-monospaced-list
           '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
@@ -1063,22 +1063,146 @@ Here are the configurations I make to =ibuffer=:
 :CUSTOM_ID: window_configuration
 :END:
 
+A few years ago, before I started using Emacs, I used to use a tiling
+window manager.  This type of window managers try to display all open
+windows on the screen while making sure that they are not overlaping
+and all screen space is used.  Initially I thought this was a great
+way of displaying and managing windows but after some time, I came to
+the conclusion that it is flawed.  The available space on any screen
+is finite and the tiling system becomes inefficient at scale.  Even if
+you have different workspaces (most tiling window managers have them),
+I found that the system becomes cumbersome to use.
+
+After I started using Emacs, I found that a better way to manage
+buffers (or windows in the case of a desktop) is to use search methods
+with filtering and narrowing mechanisms to bring to the surface what
+we need at any time.  This removes the need to know where things are
+placed and the restriction of finite space.
+
+Having said that, Emacs also has multiplexing capabilities by means of
+setting window rules, using directional window navigation keys and
+recording history and layouts.
+
 *** Window rules and basic tweaks
 :PROPERTIES:
 :CUSTOM_ID: window_rules
 :END:
 
+The =display-buffer-alist= variable is used to define window rules to
+control the place and behaviour of them.  It is mainly used with
+auxiliary buffers such as shells, compilation output, etc.  The idea
+is to create an intuitive workflow where specific buffer groups or
+types are always shown at a given location to improve predictability.
+
+For each buffer in =display-buffer-alist= we can define several
+functions for selecting the appropriate window.  These functions will
+be executed in sequence.
+
+Information about buffer actions can be found at the GNU Emacs Lisp
+Reference Manual, using =C-h f display-buffer= and with =C-h f
+display-buffer-in-side-window=.
+
 #+begin_src emacs-lisp
   (use-package window
+    :demand t
+    :bind (("C-x _" . balance-windows)
+           ("C-x -" . fit-window-to-buffer)
+           ("C-x +" . balance-windows-area)
+           ("C-x }" . enlarge-window)
+           ("C-x {" . shrink-window)
+           ("C-x >" . enlarge-window-horizontally) ; override `scroll-right'
+           ("C-x <" . shrink-window-horizontally)  ; override `scroll-left'
+           :map resize-window-repeat-map
+           (">" . enlarge-window-horizontally)
+           ("<" . shrink-window-horizontally))
     :config
     (setq display-buffer-alist
-          `(;; bottom side window
+          `(;; top side window
+            ("\\*\\(Flycheck\\|Package-Lint\\|vc-git :\\).*"
+             (display-buffer-in-side-window)
+             (window-height . 0.16)
+             (side . top)
+             (slot . 0))
+            ("\\*Messages.*"
+             (display-buffer-in-side-window)
+             (window-height . 0.16)
+             (side . top)
+             (slot . 1))
+            ("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|compilation\\)\\*"
+             (display-buffer-in-side-window)
+             (window-height . 0.16)
+             (side . top)
+             (slot . 2)
+             (window-parameters . ((no-other-window . t))))
+            ;; bottom side window
             ("\\*\\(Embark\\)?.*Completions.*"
              (display-buffer-in-side-window)
              (side . bottom)
              (slot . 0)
              (window-parameters . ((no-other-window . t)
-                                   (mode-line-format . none)))))))
+                                   (mode-line-format . none))))
+            ;; left side window
+            ("\\*Help.*"
+             (display-buffer-in-side-window)
+             (window-width . 0.2)
+             (side . left)
+             (slot . 0))
+            ;; bottom buffer (NOT side window)
+            ("\\*.*\\(e?shell\\|v?term\\).*"
+             (display-buffer-reuse-mode-window display-buffer-at-bottom)
+             (window-height . 0.2))))
+    (setq window-combination-resize t
+          window-sides-vertical nil
+          switch-to-buffer-in-dedicated-window 'pop))
+#+end_src
+
+*** Window history (winner-mode)
+:PROPERTIES:
+:CUSTOM_ID: window_history
+:END:
+
+Winner is a built-in tool that keeps a record of buffer and window
+layout changes. It then allows us to move back and forth in the
+history of said changes. I have it enabled by default and I assign its
+two main functions to =C-M-<left>= and =C-M-<right>=.
+
+Also check: [[#directional_window_motions][Directional window motions (windmove)]]
+
+#+begin_src emacs-lisp
+  (use-package winner
+    :bind (("M-n" . winner-undo)
+           ("M-p" . winner-redo))
+    :config
+    (winner-mode))
+#+end_src
+
+*** Directional window motions (windmove)
+:PROPERTIES:
+:CUSTOM_ID: directional_window_motions
+:END:
+
+Windmove is also built into Emacs. It provides functions for selecting
+a window in any of the cardinal directions. It also has commands for
+deleting a window in the given direction as well as for switching the
+current window with the one in the given direction. I do not need the
+directional deletion motions, as they require extra key bindings while
+I feel that it is easy enough to select a window and delete it
+outright with delete-window (on C-x 0 by default).
+
+See also: [[#window_history][Window history (winner-mode)]]
+
+#+begin_src emacs-lisp
+  (use-package windmove
+    :bind (("M-<up>" . windmove-up)
+           ("M-<right>" . windmove-right) ; override `right-word'
+           ("M-<down>" . windmove-down)
+           ("M-<left>" . windmove-left)   ; override `left-word'
+           ("M-S-<up>" . windmove-up)
+           ("M-S-<right>" . windmove-right)
+           ("M-S-<down>" . windmove-down)
+           ("M-S-<left>" . windmove-left))
+    :config
+    (setq windmove-create-window nil))
 #+end_src
 
 * Applications and utilities
