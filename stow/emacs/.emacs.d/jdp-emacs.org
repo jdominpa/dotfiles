@@ -858,6 +858,57 @@ Here are some actions that we can gain access to by invoking either
             (t . list))))
 #+end_src
 
+*** Projects
+:PROPERTIES:
+:CUSTOM_ID: projects
+:END:
+
+Starting with Emacs 28, =project.el= contains lots of interesting
+additions that make it an all-round useful tool. Some of them are a
+new prefix key bound to =C-x p=. This has good mnemonic value, like
+those for tabs (=C-x t=) and registers (=C-x r=).
+
+A project is a version controlled directory governed by some program.
+Nowadays that program is usually =git= though there are other backends
+supported.
+
+Using any of the commands listed in =C-x p C-h= will append the
+current project to a list of "known projects", stored in the
+dynamically updated =project--list= variable, whose contents are
+stored in a file defined by =project-list-file=. It is then possible
+to switch between your projects and proceed to immediately perform an
+action on them with =C-x p p=. A menu with possible commands will
+appear once you select a project. That is customisable via
+=project-switch-commands=.
+
+=C-x p p= (=project-switch-project=) can also be used to store a new
+version-controlled directory in the =project--list= through the
+=... (choose a dir)= option.
+
+Here is an overview of the =jdp-project.el= commands:
+
++ =jdp-project-commit-log= produces a list of the most recent commits
+  in the project.  The length of the list can be configured with the
+  =jdp-project-commit-log-limit= variable.  If there is no project to
+  act upon, the command will prompt for one with completion against
+  the project list.
+
++ =jdp-project-retrieve-tag= lets us switch to an earlier tagged
+  commit or branch using completion.  As with the previous command,
+  when no project is present, it asks for one before doing its work.
+
+#+begin_src emacs-lisp
+  (use-package jdp-project
+    :bind (("C-x p l" . jdp-project-commit-log)
+           ("C-x p t" . jdp-project-retrieve-tag))
+    :config
+    (setq jdp-project-commit-log-limit 25))
+#+end_src
+
+This is the =jdp-project.el= file:
+
+#+include: jdp-lisp/jdp-project.el src emacs-lisp :tangle no
+
 *** Completion for recent files and directories with recentf
 :PROPERTIES:
 :CUSTOM_ID: completion_recentf
