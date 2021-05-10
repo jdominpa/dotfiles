@@ -430,7 +430,6 @@ the possible tails of the key chord.
 #+begin_src emacs-lisp
   (use-package which-key
     :ensure t
-    :disabled t
     :config
     (setq which-key-show-early-on-C-h nil
           which-key-idle-delay 1.5)
@@ -697,7 +696,7 @@ And here is =jdp-minibuffer.el=:
 
 #+include: jdp-lisp/jdp-minibuffer.el src emacs-lisp :tangle no
 
-*** Enhanced minibuffer commands (consult)
+*** TODO Enhanced minibuffer commands (consult)
 :PROPERTIES:
 :CUSTOM_ID: enhanced_minibuffer_commands
 :END:
@@ -774,6 +773,89 @@ distracting.  Hence, I disable preview entirely.
     :ensure t
     :bind (:map flycheck-command-map
                 ("!" . consult-flycheck)))
+#+end_src
+
+*** Extended minibuffer actions and more (embark)
+:PROPERTIES:
+:CUSTOM_ID: embark
+:END:
+
+Embark a unified fraemwork of Emacs keymaps which lets us carry out
+/contextually relevant actions/ on *targets* through a prefix key.
+
++ Actions are standard Emacs commands like =describe-symbol= or other
+  interactive commands that read arguments from the minibuffer.
+
++ Targets are semantically sensitive constructs such as the symbol at
+  point, a file name, the active region, the current completion
+  candidate in the minibuffer, etc.
+  
++ The contextually relevant actions are defined in keymaps whose scope
+  matches the category of the target.  For example, =embark-file-map=
+  holds all keys and commands assossiated with a file name target.
+
++ The prefix key is an Embark command such as =embark-act= or
+  =embark-become=.
+
+Embark can act on individual targets or sets of targets.  To learn
+more about the available keymaps we can use =M-x describe-keymap= and
+then search for =embark=.
+
+Here are some actions that we can gain access to by invoking either
+=embark-act=, or =embark-become=:
+
++ To learn which keymap's contents get enabled in the present context,
+  follow up the =embark-act= call with =C-h=.
+
+  - Keymaps aside, we can call any command after invoking
+    =embark-act=. This can be either with =M-x= or via a key
+    binding. For example, if you want to grep for the symbol at point
+    in the current project, you can do embark-act and then =C-x p g=.
+
++ We can collect entire set of targets and store them in a buffer
+  which we can then re-use or save to disk.  This can be done with the
+  =embark-collect-snapshot= command, which we can access through
+  =embark-act=.
+
+  - The =*Embark Collect*= buffer can be presented as a grid or a
+    list, with the possibility of manually switching between the two
+    with the =embark-collect-toggle-view= command.  The list view has
+    space to display annotations (see [[#completion_annotations][Completion annotations
+    (marginalia)]]) like the first line of a variable's doc string and
+    current value.
+
+  - =*Embark Collect*= buffer also has a live-updating version which
+    can be used to filter the list of targets.
+
+  - In addition to beign able to produce a snapshot, Embark can also
+    collect the targets in a buffer whose major mode is specialised to
+    work on the category that those targets belong to.  This can be
+    done with the =embark-export= command.  For example, if we are
+    targeting files, then the export takes them to a =dired-mode=
+    buffer; buffers go to =ibuffer-mode=; grep results go to
+    =grep-mode=, and so on.
+
+#+begin_src emacs-lisp
+  (use-package embark
+    :ensure t
+    :bind (("C-;" . embark-act)
+           :map minibuffer-local-completion-map
+           ("C-;" . embark-act)
+           ("C->" . embark-become)
+           ("M-q" . embark-collect-toggle-view) ; parallel of `fill-paragraph'
+           :map embark-collect-mode-map
+           ("C-;" . embark-act)
+           :map embark-symbol-map
+           ("k" . describe-keymap))
+    :config
+    (setq embark-collect-initial-view-alist
+          '((file . list)
+            (buffer . list)
+            (symbol . list)
+            (line . list)
+            (xref-location . list)
+            (kill-ring . zebra)
+            (t . list))))
 #+end_src
 
 *** Completion for recent files and directories with recentf
@@ -1182,7 +1264,7 @@ Also check: [[#directional_window_motions][Directional window motions (windmove)
 :CUSTOM_ID: directional_window_motions
 :END:
 
-*TODO* review keybindings
+*TODO* currently trying ace-window
 
 Windmove is also built into Emacs. It provides functions for selecting
 a window in any of the cardinal directions. It also has commands for
@@ -1195,18 +1277,24 @@ outright with delete-window (on C-x 0 by default).
 See also: [[#window_history][Window history (winner-mode)]]
 
 #+begin_src emacs-lisp
-  (use-package windmove
-    :demand t
-    :bind (("C-x C-<up>" . windmove-up)
-           ("C-x C-<right>" . windmove-right) ; override `next-buffer'
-           ("C-x C-<down>" . windmove-down)
-           ("C-x C-<left>" . windmove-left)   ; override `previous-buffer'
-           ("C-x C-S-<up>" . windmove-swap-states-up)
-           ("C-x C-S-<right>" . windmove-swap-states-right)
-           ("C-x C-S-<down>" . windmove-swap-states-down)
-           ("C-x C-S-<left>" . windmove-swap-states-left))
+  ;; (use-package windmove
+  ;;   :demand t
+  ;;   :bind (("C-x C-<up>" . windmove-up)
+  ;;          ("C-x C-<right>" . windmove-right) ; override `next-buffer'
+  ;;          ("C-x C-<down>" . windmove-down)
+  ;;          ("C-x C-<left>" . windmove-left)   ; override `previous-buffer'
+  ;;          ("C-x C-S-<up>" . windmove-swap-states-up)
+  ;;          ("C-x C-S-<right>" . windmove-swap-states-right)
+  ;;          ("C-x C-S-<down>" . windmove-swap-states-down)
+  ;;          ("C-x C-S-<left>" . windmove-swap-states-left))
+  ;;   :config
+  ;;   (setq windmove-create-window nil))
+
+  (use-package ace-window
+    :ensure t
+    :bind ("C-x o" . ace-window)
     :config
-    (setq windmove-create-window nil))
+    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+end_src
 
 * Applications and utilities
@@ -1504,17 +1592,8 @@ By default, Emacs' cursor blinks constantly unless it has been
 inactive for a small period of time.  I prefer to have it fixed and
 not blink so I disable the blinking mode.
 
-I also use the =beacon-mode= package which highlights the point
-whenever it jumps to a new position.
-
 #+begin_src emacs-lisp
   (blink-cursor-mode -1)
-
-  (use-package beacon
-    :ensure t
-    :config
-    (setq-default beacon-size 30)
-    (beacon-mode))
 #+end_src
 
 *** Mouse wheel behaviour
