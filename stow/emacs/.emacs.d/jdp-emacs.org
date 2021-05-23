@@ -759,6 +759,8 @@ distracting.  Hence, I disable preview entirely.
            ("M-g g" . consult-goto-line)
            ("M-g M-g" . consult-goto-line)
            ("M-g m" . consult-mark)
+           ("M-g i" . consult-imenu)
+           ("M-g o" . consult-outline)
            ("M-s g" . consult-grep)
            ;TODO ("C-M-#" . consult-register)
            :map consult-narrow-map
@@ -773,89 +775,6 @@ distracting.  Hence, I disable preview entirely.
     :ensure t
     :bind (:map flycheck-command-map
                 ("!" . consult-flycheck)))
-#+end_src
-
-*** Extended minibuffer actions and more (embark)
-:PROPERTIES:
-:CUSTOM_ID: embark
-:END:
-
-Embark a unified fraemwork of Emacs keymaps which lets us carry out
-/contextually relevant actions/ on *targets* through a prefix key.
-
-+ Actions are standard Emacs commands like =describe-symbol= or other
-  interactive commands that read arguments from the minibuffer.
-
-+ Targets are semantically sensitive constructs such as the symbol at
-  point, a file name, the active region, the current completion
-  candidate in the minibuffer, etc.
-  
-+ The contextually relevant actions are defined in keymaps whose scope
-  matches the category of the target.  For example, =embark-file-map=
-  holds all keys and commands assossiated with a file name target.
-
-+ The prefix key is an Embark command such as =embark-act= or
-  =embark-become=.
-
-Embark can act on individual targets or sets of targets.  To learn
-more about the available keymaps we can use =M-x describe-keymap= and
-then search for =embark=.
-
-Here are some actions that we can gain access to by invoking either
-=embark-act=, or =embark-become=:
-
-+ To learn which keymap's contents get enabled in the present context,
-  follow up the =embark-act= call with =C-h=.
-
-  - Keymaps aside, we can call any command after invoking
-    =embark-act=. This can be either with =M-x= or via a key
-    binding. For example, if you want to grep for the symbol at point
-    in the current project, you can do embark-act and then =C-x p g=.
-
-+ We can collect entire set of targets and store them in a buffer
-  which we can then re-use or save to disk.  This can be done with the
-  =embark-collect-snapshot= command, which we can access through
-  =embark-act=.
-
-  - The =*Embark Collect*= buffer can be presented as a grid or a
-    list, with the possibility of manually switching between the two
-    with the =embark-collect-toggle-view= command.  The list view has
-    space to display annotations (see [[#completion_annotations][Completion annotations
-    (marginalia)]]) like the first line of a variable's doc string and
-    current value.
-
-  - =*Embark Collect*= buffer also has a live-updating version which
-    can be used to filter the list of targets.
-
-  - In addition to beign able to produce a snapshot, Embark can also
-    collect the targets in a buffer whose major mode is specialised to
-    work on the category that those targets belong to.  This can be
-    done with the =embark-export= command.  For example, if we are
-    targeting files, then the export takes them to a =dired-mode=
-    buffer; buffers go to =ibuffer-mode=; grep results go to
-    =grep-mode=, and so on.
-
-#+begin_src emacs-lisp
-  (use-package embark
-    :ensure t
-    :bind (("C-;" . embark-act)
-           :map minibuffer-local-completion-map
-           ("C-;" . embark-act)
-           ("C->" . embark-become)
-           ("M-q" . embark-collect-toggle-view) ; parallel of `fill-paragraph'
-           :map embark-collect-mode-map
-           ("C-;" . embark-act)
-           :map embark-symbol-map
-           ("k" . describe-keymap))
-    :config
-    (setq embark-collect-initial-view-alist
-          '((file . list)
-            (buffer . list)
-            (symbol . list)
-            (line . list)
-            (xref-location . list)
-            (kill-ring . zebra)
-            (t . list))))
 #+end_src
 
 *** Projects
@@ -1283,7 +1202,7 @@ display-buffer-in-side-window=.
             ;; bottom buffer (NOT side window)
             ("\\*.*\\(e?shell\\|v?term\\).*"
              (display-buffer-reuse-mode-window display-buffer-at-bottom)
-             (window-height . 0.2))))
+             (window-height . 0.35))))
     (setq window-combination-resize t
           window-sides-vertical nil
           switch-to-buffer-in-dedicated-window 'pop))
@@ -1310,37 +1229,27 @@ Also check: [[#directional_window_motions][Directional window motions (windmove)
     (winner-mode))
 #+end_src
 
-*** TODO Directional window motions (windmove)
+*** Switching windows (ace-window)
 :PROPERTIES:
-:CUSTOM_ID: directional_window_motions
+:CUSTOM_ID: switching_windows
 :END:
 
-*TODO* currently trying ace-window
+=ace-window= is a package that improves the process of switching
+between open windows.  It offers the command =ace-window= which
+extends the functionality of the built-in =other-window= command in
+the following way:
 
-Windmove is also built into Emacs. It provides functions for selecting
-a window in any of the cardinal directions. It also has commands for
-deleting a window in the given direction as well as for switching the
-current window with the one in the given direction. I do not need the
-directional deletion motions, as they require extra key bindings while
-I feel that it is easy enough to select a window and delete it
-outright with delete-window (on C-x 0 by default).
+1. If there are only two windows on display, =ace-window= will behave
+   like the regular =other-window= command.
+
+2. If there are three or more windows on display, =ace-window= will
+   show a highlighted character on each window.  Pressing one of these
+   characters will switch to the corresponding window and finish the
+   command.
 
 See also: [[#window_history][Window history (winner-mode)]]
 
 #+begin_src emacs-lisp
-  ;; (use-package windmove
-  ;;   :demand t
-  ;;   :bind (("C-x C-<up>" . windmove-up)
-  ;;          ("C-x C-<right>" . windmove-right) ; override `next-buffer'
-  ;;          ("C-x C-<down>" . windmove-down)
-  ;;          ("C-x C-<left>" . windmove-left)   ; override `previous-buffer'
-  ;;          ("C-x C-S-<up>" . windmove-swap-states-up)
-  ;;          ("C-x C-S-<right>" . windmove-swap-states-right)
-  ;;          ("C-x C-S-<down>" . windmove-swap-states-down)
-  ;;          ("C-x C-S-<left>" . windmove-swap-states-left))
-  ;;   :config
-  ;;   (setq windmove-create-window nil))
-
   (use-package ace-window
     :ensure t
     :bind ("C-x o" . ace-window)
@@ -1388,20 +1297,15 @@ in the git repository in the =magit-status= buffer.
     :hook (magit-status-mode . magit-todos-mode))
 #+end_src
 
-** Command-line shells
+** Eshell
 :PROPERTIES:
-:CUSTOM_ID: command_line_shells
+:CUSTOM_ID: eshell
 :END:
 
 Emacs can act as both a /terminal emulator for command line shells/
 and a /toolkit for terminal emulators/.  The following section covers
-only the first one as I don not use the likes of =aansi-term= or
+only the first one as I don not use the likes of =ansi-term= or
 =vterm=.
-
-*** Eshell
-:PROPERTIES:
-:CUSTOM_ID: eshell
-:END:
 
 Eshell is a command prompt written entirely in Elisp.  This comes with
 its pros and cons: it can understand Elisp and behaves almost like
@@ -1454,6 +1358,78 @@ it.
     (setq org-adapt-indentation nil
           org-catch-invisible-edits 'show)
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+#+end_src
+
+** Extensions for PDFs (pdf-tools)
+:PROPERTIES:
+:CUSTOM_ID: pdf_extensions
+:END:
+
+The =pdf-tools= package builds on top of the external libraries
+=poppler= and =imagemagick= to deliver a set of minor modes for
+reading and interacting with PDF files.
+
+All we need to start reading PDFs is to put the =pdf-loader-install=
+function in our configurations which will load the tools once we open
+an appropriate file.  The keybind =C-h m= can be used to consult the
+key bindings of a PDF buffer.  These are the basic ones:
+
+| Key   | Effect            |
+|-------+-------------------|
+| +     | Enlarge (zoom in) |
+| -     | Shrink (zoom out) |
+| 0     | Reset zoom        |
+| C-n   | Next line         |
+| C-p   | Previous line     |
+| SPC   | Scroll down       |
+| S-SPC | Scroll up         |
+
+To see which minor modes out of the entire suite are activated we can
+use the variable =pdf-tools-enabled-modes=.  One of the minor modes I
+use is the =pdf-sync-minor-mode= which syncs the PDF with its
+corresponding TeX file when we are using a setup that compiles the
+latter to the former.
+
+The value of =pdf-tools= is that it integrates with =isearch= and
+=occur= to easily search through the file and produce a buffer of
+locations with matching queries.  These facilities are implemented as
+the minor modes =pdf-isearch-minor-mode= and
+=pdf-occur-global-minor-mode=.
+
+Another helpful integration is with Emacs' =outline-mode= and =imenu=
+with the minor mode =pdf-outline-minor-mode=.  Hitting =o= while
+viewing a PDF will produce an outline of the document which can be
+navigated with =M-x imenu= using minibuffer completion.
+
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :config
+    (setq pdf-view-display-size 'fit-height
+          pdf-view-continuous t)
+
+    ;; Those functions and hooks are adapted from the manual of my
+    ;; modus-themes.  The idea is to (i) add a backdrop that is distinct
+    ;; from the background of the PDF's page and (ii) make pdf-tools adapt
+    ;; to theme switching via, e.g., `modus-themes-toggle'.
+    (defun contrib/pdf-tools-backdrop ()
+      (face-remap-add-relative
+       'default
+       `(:background ,(modus-themes-color 'bg-alt))))
+
+    (defun contrib/pdf-tools-midnight-mode-toggle ()
+      (when (derived-mode-p 'pdf-view-mode)
+        (if (eq (car custom-enabled-themes) 'modus-vivendi)
+            (pdf-view-midnight-minor-mode 1)
+          (pdf-view-midnight-minor-mode -1))
+        (contrib/pdf-tools-backdrop)))
+
+    (add-hook 'pdf-tools-enabled-hook
+              #'contrib/pdf-tools-midnight-mode-toggle)
+    (add-hook 'modus-themes-after-load-theme-hook
+              #'contrib/pdf-tools-midnight-mode-toggle)
+
+    (pdf-loader-install))
 #+end_src
 
 * General interface
@@ -1890,10 +1866,6 @@ compiled to diferent types of files (usually PDF files).  In the
 source document you use commands starting with the =\= character to
 tell the compiler how to format the text.
 
-I use the package [[https://github.com/politza/pdf-tools][pdftools]] which replaces DocView for PDF files.  This
-package improves the speed of DocView and adds some useful features
-like isearch, occur and following links.
-
 #+begin_src emacs-lisp
   (use-package tex
     :ensure auctex
@@ -1902,12 +1874,6 @@ like isearch, occur and following links.
     (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
     (add-hook 'TeX-after-compilation-finished-functions
               #'TeX-revert-document-buffer))
-
-  (use-package pdf-tools
-    :ensure t
-    :magic ("%PDF" . pdf-view-mode)
-    :config
-    (pdf-tools-install))
 #+end_src
 
 *** Python
@@ -2051,10 +2017,33 @@ documentation string.
     (global-eldoc-mode))
 #+end_src
 
-* History and state
+* TODO History and state
 :PROPERTIES:
 :CUSTOM_ID: history_state
 :END:
+
+*TODO* continue with desktop-mode configuration.
+
+** Emacs server
+:PROPERTIES:
+:CUSTOM_ID: emacs_server
+:END:
+
+The following uses the first /running/ process of Emacs as a server
+which other instances of Emacs can connect to.  This means that
+calling =emacsclient= will share the same buffer list and data as the
+original running process.  The server persists for as long as there is
+an Emacs frame attached to it.
+
+#+begin_src emacs-lisp
+  (use-package server
+    :config
+    (add-hook 'after-init-hook
+              (lambda ()
+                (require 'server)
+                (unless (server-running-p)
+                  (server-start)))))
+#+end_src
 
 ** Backup files
 :PROPERTIES:
