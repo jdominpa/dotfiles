@@ -8,10 +8,21 @@ export CORRECT_IGNORE_FILE='.*'
 
 export PAGER=less
 
-if which emacsclient &> /dev/null; then
-  export VISUAL=$(which emacsclient)
+if which nvim &> /dev/null; then
+  export VISUAL=$(which nvim)
+  export EDITOR=$VISUAL
+elif which vim &> /dev/null; then
+  export VISUAL=$(which vim)
+  export EDITOR=$VISUAL
+else
+  export VISUAL=$(which vi)
   export EDITOR=$VISUAL
 fi
+
+# if which emacsclient &> /dev/null; then
+#   export VISUAL=$(which emacsclient)
+#   export EDITOR=$VISUAL
+# fi
 
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash

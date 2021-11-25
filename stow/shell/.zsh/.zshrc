@@ -209,7 +209,6 @@ bindkey '^Z' fg-bg
 #
 
 source $ZDOTDIR/aliases
-source $ZDOTDIR/colors
 
 #
 # Hooks

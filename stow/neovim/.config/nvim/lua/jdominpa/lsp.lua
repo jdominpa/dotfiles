@@ -57,11 +57,6 @@ lsp.init = function ()
     on_attach = on_attach,
   }
 
-  require('lspconfig').hls.setup{
-    on_attach = on_attach,
-    root_dir = dirname,
-  }
-
   require('lspconfig').pyright.setup{}
 
   require('lspconfig').texlab.setup{
