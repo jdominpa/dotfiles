@@ -21,5 +21,4 @@ install_package "htop" "htop"
 install_package "xclip" "xclip"
 
 # Pacman utilities
-install_package "Reflector" "reflector"
 install_package "Pacman utilities" "pacman-contrib"
