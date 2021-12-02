@@ -1,99 +1,28 @@
-local lsp = {}
+local nvim_lsp = require "lspconfig"
 
-local nnoremap = function (lhs, rhs)
-  vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, {noremap = true, silent = true})
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+
+  local opts = { noremap = true, silent = true }
+
+  buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+  buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  buf_set_keymap("n", "<space>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
+  buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
 end
 
-local on_attach = function ()
-  print("LSP started.")
-
-  local mappings = {
-    ['<Leader>ld'] = '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',
-    ['<Leader>ca'] = '<cmd>lua vim.lsp.buf.code_action()<CR>',
-    ['<Leader>cr'] = '<cmd>lua vim.lsp.buf.rename()<CR>',
-    ['<Leader>cf'] = '<cmd>lua vim.lsp.buf.formatting()<CR>',
-    ['<c-]>'] = '<cmd>lua vim.lsp.buf.definition()<CR>',
-    ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
-    ['gd'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
-    ['gD'] = '<cmd>lua vim.lsp.buf.implementation()<CR>',
-    ['1gD'] = '<cmd>lua vim.lsp.buf.type_definition()<CR>',
-    ['gr'] = '<cmd>lua vim.lsp.buf.references()<CR>',
-  }
-
-  for lhs, rhs in pairs(mappings) do
-    nnoremap(lhs, rhs)
-  end
-
-  vim.api.nvim_win_set_option(0, 'signcolumn', 'yes')
-
-  require('completion').on_attach()
-end
-
-lsp.bind = function ()
-  pcall(function ()
-    if vim.api.nvim_win_get_var(0, 'textDocument/hover') then
-      nnoremap('K', ':call nvim_win_close(0, v:true)<CR>')
-      nnoremap('<Esc>', ':call nvim_win_close(0, v:true)<CR>')
-
-      vim.api.nvim_win_set_option(0, 'cursorline', false)
-
-      -- I believe this is supposed to happen automatically because I can see
-      -- this in lsp/util.lua:
-      --
-      --     api.nvim_buf_set_option(floating_bufnr, 'modifiable', false)
-      --
-      -- but it doesn't seem to be working.
-      vim.api.nvim_buf_set_option(0, 'modifiable', false)
-    end
-  end)
-end
-
-lsp.init = function ()
-  require('lspconfig').vimls.setup{
+local servers = { "clangd", "pyright", "ltex", "texlab" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
     on_attach = on_attach,
   }
-
-  require('lspconfig').clangd.setup{
-    on_attach = on_attach,
-  }
-
-  require('lspconfig').pyright.setup{}
-
-  require('lspconfig').texlab.setup{
-    on_attach = on_attach,
-    latex = {
-      build = {
-        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1" },
-        executable = "latexmk",
-        onSave = false
-      },
-      forwardSearch = {
-        args = {},
-        onSave = false
-      },
-      lint = {
-        onChange = false
-      },
-    },
-  }
-
-  -- Override hover winhighlight.
-  local method = 'textDocument/hover'
-  local hover = vim.lsp.handlers[method]
-  vim.lsp.handlers[method] = function (_, method, result)
-     hover(_, method, result)
-
-     for _, winnr in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-       if pcall(function ()
-         vim.api.nvim_win_get_var(winnr, 'textDocument/hover')
-       end) then
-         vim.api.nvim_win_set_option(winnr, 'winhighlight', 'Normal:Visual,NormalNC:Visual')
-         break
-       else
-         -- Not a hover window.
-       end
-     end
-  end
 end
-
-return lsp

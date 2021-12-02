@@ -10,7 +10,6 @@ stow_packages() {
     declare -a DIRECTORIES_TO_CREATE=(
 
         ".config/nvim"
-        ".config/nvim/lua"
         ".emacs.d"
         ".zsh"
 
