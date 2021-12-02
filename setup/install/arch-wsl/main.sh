@@ -9,6 +9,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./git.sh
 
 update_and_upgrade
+install_package "Base-devel" "base-devel"
 install_yay
 
 ./stow.sh
