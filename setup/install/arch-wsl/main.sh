@@ -6,16 +6,16 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-update
-upgrade
+./git.sh
+
+update_and_upgrade
+install_yay
 
 ./stow.sh
 
-./git.sh
-./zsh.sh
-./misc.sh
+./terminal.sh
 ./cmd_ln_tools.sh
 ./editors.sh
-./theming.sh
+./proglang.sh
 
 ./cleanup.sh

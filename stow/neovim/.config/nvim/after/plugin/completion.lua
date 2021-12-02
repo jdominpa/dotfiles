@@ -17,7 +17,6 @@ cmp.setup {
       },
       { "i", "c" }
     ),
-    ["<C-space>"] = cmp.mapping.complete()
   },
 
   sources = {

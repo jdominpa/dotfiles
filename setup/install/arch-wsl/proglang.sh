@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../../utils.sh" \
@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Theming\n\n"
+print_in_purple "\n   Programming Languages\n\n"
 
-install_package "Gnome tweaks" "gnome-tweaks"
-install_package "Gnome tweak tool" "gnome-tweak-tool"
+# Python 3
+install_package "Python 3" "python"

@@ -186,7 +186,7 @@ verify_os() {
 
     # Check if the OS is `Ubuntu` running in WSL.
 
-        ubuntu-wsl)
+        arch-wsl)
             return 0
             ;;
 
