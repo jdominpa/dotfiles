@@ -18,5 +18,6 @@ install_yay
 ./cmd_ln_tools.sh
 ./editors.sh
 ./proglang.sh
+./fonts.sh
 
 ./cleanup.sh

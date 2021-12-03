@@ -9,3 +9,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Fonts\n\n"
 
 install_package "Fira Code" "fonts-firacode"
+install_package "Iosevka" "fonts-iosevka"
