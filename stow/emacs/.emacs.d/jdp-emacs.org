@@ -295,10 +295,9 @@ help with typeface configurations.  Here are some important ones:
     :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
     :config
     (setq jdp-fonts-typeface-sets-alist
-          '((laptop 160 "Fira Code" normal "DejaVu Sans Condensed" normal)
-            (desktop 130 "Fira Code" normal "Inter" normal)
+          '((desktop 130 "Iosevka" normal "Inter" normal)
             (reader 170 "Iosevka" light "FiraGO" normal)
-            (presentation 180 "Iosevka" light "FiraGO" normal)))
+            (presentation 180 "Fira Code" light "FiraGO" normal)))
     (setq jdp-fonts-monospaced-list
           '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
             "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
@@ -312,17 +311,17 @@ help with typeface configurations.  Here are some important ones:
           '(("Iosevka" . semibold)
             ("Fira Code" . semibold)
             ("Source Code Pro" . semibold)))
-  
+
     ;; This is defined in Emacs' C code, though I feel this is a good
     ;; place to put it.
     (setq x-underline-at-descent-line t)
-  
+
     ;; And this just sets the right font depending on whether my laptop is
     ;; connected to an external monitor or not.
     (jdp-fonts-fonts-per-monitor)
     (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-line-spacing)
     (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-bold-face)
-  
+
     ;; See theme section for this hook
     (add-hook 'modus-themes-after-load-theme-hook #'jdp-fonts-bold-face))
 #+end_src
@@ -552,7 +551,7 @@ default completions' buffer.
     (marginalia-mode))
 #+end_src
 
-*** TODO Minibuffer configurations and extras
+*** Minibuffer configurations and extras (mct)
 :PROPERTIES:
 :CUSTOM_ID: minibuffer_and_extras
 :END:
@@ -574,56 +573,9 @@ perform these interactions:
 
 There are third party completion frameworks that do the aforementioned
 like Ivy and Helm.  Others like Selectrum and the built-in Icomplete
-focus on the latter.
-
-I used to use Ivy but Emacs version 28 comes with a way to display
-=*Completions*= in a vertical list, one item per line.  Using a
-handful of functions written by Protesilaos (see his [[https://protesilaos.com/dotemacs/][dotfiles]] for more
-information) I have extended the minibuffer's default completions
-capabilities to a point I am satisfied with.  These extensions can be
-found in the =jdp-minibuffer.el= file reproduced below, while the
-properties of the =*Completions*= buffer is controlled by the
-=display-buffer-alist= (see Window rules and basic tweaks). *TODO*
-
-What my completion setup does is the follwing:
-
-+ When minibuffer completion is invoked, a live updating
-  =*Completions*= buffer is placed right above the minibuffer
-  displaying all completion candidates in a vertical list with meta
-  data provided by Marginalia (see [[#completion_annotations][Completion annotations
-  (marginalia)]]).  This only happens after some input has been
-  provided, otherwise all you see is an empty minibuffer.
-
-  - The length of minimium input that triggers live updating
-    completion is controlled by the variable
-    =jdp-minibuffer-minimum-input=.
-
-  - =jdp-minibuffer-live-update-delay= controls how fast the live
-    updating completion should respond to minibuffer input.
-
-  - The variables =jdp-minibuffer-completion-blocklist= and
-    =jdp-minibuffer-completion-passlist= can be used to disable live
-    completion for specific commands or bypass the minimum input
-    threshold and the delay.
-
-+ Using the usual motions =C-n= and =C-p= we can switch from the
-  minibuffer to the completions and vice versa treating the two areas
-  as a contiguous space.
-
-+ When completing file names, the current path will be hidden by
-  specifying a base directory either of the user's =$HOME= or the file
-  system's absolute root.  In other word, =~/= or =/= followed by any
-  valid candidate will clear the minibuffer's contents and continue
-  the completion with respect to the new path.
-
-+ The =M-backspace= deletes a character by default unless it finds a
-  directory signified by =/= in which case, it will remove the entire
-  directory.
-
-+ While in the minibuffer or the =*Completions*= buffer, we can pick a
-  completion candidate with =jdp-minibuffer-choose-completion-number=
-  which takes a numeric prefix and selects the candidate that
-  corresponds to that number.
+focus on the latter.  At the moment I'm trying the =mct= package
+developed by Protesilaos Stavrou although I might try the package
+=vertico= in the future.
 
 Finally, here is an overview of the settings covered:
 
@@ -644,30 +596,6 @@ Finally, here is an overview of the settings covered:
 *TODO* Also check my setup for the Minibuffer history (savehist-mode).
 
 #+begin_src emacs-lisp
-  (use-package jdp-minibuffer
-    :demand t
-    :hook ((completion-list-mode . jdp-minibuffer-hl-line)
-           (completion-list-mode . jdp-minibuffer-display-line-numbers))
-    :bind (:map completion-list-mode-map
-           ("M-g" . jdp-minibuffer-choose-completion-number)
-           ("M-v" . jdp-minibuffer-focus-minibuffer)
-           ("C-g" . jdp-minibuffer-keyboard-quit-dwim)
-           ("C-n" . jdp-minibuffer-next-completion-or-mini)
-           ("C-p" . jdp-minibuffer-previous-completion-or-mini)
-           :map minibuffer-local-completion-map
-           ("M-g" . jdp-minibuffer-choose-completion-number)
-           ("C-n" . jdp-minibuffer-switch-to-completions-top)
-           ("C-p" . jdp-minibuffer-switch-to-completions-bottom)
-           ("C-l" . jdp-minibuffer-toggle-completions)
-           :map minibuffer-local-filename-completion-map
-           ("<M-backspace>" . jdp-minibuffer-backward-updir))
-    :config
-    (setq jdp-minibuffer-remove-shadowed-file-names t)
-    (setq jdp-minibuffer-minimum-input 3
-          jdp-minibuffer-live-update-delay 0.3)
-    (setq jdp-minibuffer-completion-passlist nil
-          jdp-minibuffer-completion-blocklist nil))
-
   (use-package minibuffer
     :demand t
     :hook (completion-list-mode . jdp-common-truncate-lines-silently) ; from `jdp-common.el'
@@ -690,11 +618,20 @@ Finally, here is an overview of the settings covered:
     (file-name-shadow-mode)
     (minibuffer-depth-indicate-mode)
     (minibuffer-electric-default-mode))
+
+  (use-package mct
+    :ensure t
+    :config
+    (setq mct-remove-shadowed-file-names t
+          mct-hide-completion-mode-line t
+          mct-show-completion-line-numbers t)
+    (setq mct-minimum-input 3
+          mct-live-update-delay 0.5
+          mct-completions-format 'one-column)
+    (setq mct-completion-passlist nil
+          mct-completion-blocklist nil)
+    (mct-mode))
 #+end_src
-
-And here is =jdp-minibuffer.el=:
-
-#+include: jdp-lisp/jdp-minibuffer.el src emacs-lisp :tangle no
 
 *** TODO Enhanced minibuffer commands (consult)
 :PROPERTIES:
@@ -1196,8 +1133,8 @@ display-buffer-in-side-window=.
             ;; left side window
             ("\\*Help.*"
              (display-buffer-in-side-window)
-             (window-width . 0.2)
-             (side . left)
+             (window-height . 0.25)
+             (side . bottom)
              (slot . 0))
             ;; bottom buffer (NOT side window)
             ("\\*.*\\(e?shell\\|v?term\\).*"
