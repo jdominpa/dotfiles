@@ -1133,7 +1133,7 @@ display-buffer-in-side-window=.
             ;; left side window
             ("\\*Help.*"
              (display-buffer-in-side-window)
-             (window-height . 0.25)
+             (window-height . 0.4)
              (side . bottom)
              (slot . 0))
             ;; bottom buffer (NOT side window)
