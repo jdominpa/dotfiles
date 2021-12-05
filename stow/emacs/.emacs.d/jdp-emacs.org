@@ -551,7 +551,7 @@ default completions' buffer.
     (marginalia-mode))
 #+end_src
 
-*** Minibuffer configurations and extras (mct)
+*** Minibuffer configurations and extras (vertico)
 :PROPERTIES:
 :CUSTOM_ID: minibuffer_and_extras
 :END:
@@ -573,9 +573,9 @@ perform these interactions:
 
 There are third party completion frameworks that do the aforementioned
 like Ivy and Helm.  Others like Selectrum and the built-in Icomplete
-focus on the latter.  At the moment I'm trying the =mct= package
-developed by Protesilaos Stavrou although I might try the package
-=vertico= in the future.
+focus on the latter.  At the moment I am using =vertico= which
+provides a preformant and minimalistic vertical completion UI based on
+the Emacs' default completion system.
 
 Finally, here is an overview of the settings covered:
 
@@ -592,8 +592,6 @@ Finally, here is an overview of the settings covered:
   The =minibuffer-depth-indicate-mode= will show a depth indicator
   represented as a number next to the minibuffer prompt if a recursive
   edit is in progress.
-
-*TODO* Also check my setup for the Minibuffer history (savehist-mode).
 
 #+begin_src emacs-lisp
   (use-package minibuffer
@@ -619,21 +617,18 @@ Finally, here is an overview of the settings covered:
     (minibuffer-depth-indicate-mode)
     (minibuffer-electric-default-mode))
 
-  (use-package mct
+  (use-package vertico
     :ensure t
     :config
-    (setq mct-remove-shadowed-file-names t
-          mct-hide-completion-mode-line t
-          mct-show-completion-line-numbers t)
-    (setq mct-minimum-input 3
-          mct-live-update-delay 0.5
-          mct-completions-format 'one-column)
-    (setq mct-completion-passlist nil
-          mct-completion-blocklist nil)
-    (mct-mode))
+    (vertico-mode))
+
+  (use-package vertico-reverse
+    :after vertico
+    :config
+    (vertico-reverse-mode))
 #+end_src
 
-*** TODO Enhanced minibuffer commands (consult)
+*** Enhanced minibuffer commands (consult)
 :PROPERTIES:
 :CUSTOM_ID: enhanced_minibuffer_commands
 :END:
@@ -699,7 +694,6 @@ distracting.  Hence, I disable preview entirely.
            ("M-g i" . consult-imenu)
            ("M-g o" . consult-outline)
            ("M-s g" . consult-grep)
-           ;TODO ("C-M-#" . consult-register)
            :map consult-narrow-map
            ("?" . consult-narrow-help))
     :config
@@ -780,6 +774,37 @@ visited files allowing us to revisit them faster.
     (setq recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip")
           recentf-save-file (expand-file-name "recentf" user-emacs-directory))
     (recentf-mode))
+#+end_src
+
+*** In-buffer completions (corfu)
+:PROPERTIES:
+:CUSTOM_ID: in_buffer_completions
+:END:
+
+[[https://github.com/minad/corfu][=corfu=]] is a package developed by Daniel Mendler (author of =consult=
+and several others) which focuses on text expansion within the buffer.
+Its UI involves the typical pop-up window that shows the completion
+candidates for the text before the point.  We can then use =C-n= and
+=C-p= to cycle through these candidates and select the one we want and
+exit with =RET=.  =TAB= can also be used and it will try to complete
+as much as possible and only exit if there is a unique match.  Also,
+=M-h= and =M-g= can be used to show documentation of the currently
+selected candidate.
+
+I also install the [[https://github.com/minad/cape][=cape=]] package, also by Daniel, which adds some
+backends to =corfu=.
+
+#+begin_src emacs-lisp
+  (use-package corfu
+    :ensure t
+    :config
+    (corfu-global-mode))
+
+  (use-package cape
+    :ensure t
+    :config
+    (dolist (backend '(cape-keyword cape-file cape-dabbrev))
+      (add-to-list 'completion-at-point-functions backend)))
 #+end_src
 
 ** Configurations for built-in search commands
@@ -1725,9 +1750,9 @@ provides most of the UI aspects of =lsp-mode=.
           lsp-ui-doc-show-with-cursor nil))
 #+end_src
 
-** Programming languages
+** Programming languages support
 :PROPERTIES:
-:CUSTOM_ID: programming_languages
+:CUSTOM_ID: programming_languages_support
 :END:
 
 *** General settings
@@ -1954,12 +1979,14 @@ documentation string.
     (global-eldoc-mode))
 #+end_src
 
-* TODO History and state
+* History and state
 :PROPERTIES:
 :CUSTOM_ID: history_state
 :END:
 
-*TODO* continue with desktop-mode configuration.
+This section contains configurations for packages and options
+dedicated to recording the state of various Emacs tools (history of
+the minibuffer for example).
 
 ** Emacs server
 :PROPERTIES:
@@ -1982,7 +2009,27 @@ an Emacs frame attached to it.
                   (server-start)))))
 #+end_src
 
-** Backup files
+** Record diferent types of history
+:PROPERTIES:
+:CUSTOM_ID: types_of_history
+:END:
+
+*** Record cursor position
+:PROPERTIES:
+:CUSTOM_ID: cursor_position
+:END:
+
+Remember the position of the point in any given file.
+
+#+begin_src emacs-lisp
+  (use-package saveplace
+    :config
+    (setq save-place-file (locate-user-emacs-file "saveplace")
+          save-place-forget-unreadable-files t)
+    (save-place-mode))
+#+end_src
+
+*** Backup files
 :PROPERTIES:
 :CUSTOM_ID: backup_files
 :END:
@@ -2066,3 +2113,20 @@ Here is a non-exhaustive list of users that I have found to be helpful:
   range of themes, from switching to Emacs to the configuration of
   completion systems, buffer management, etc.  His content can be
   found in his [[https://protesilaos.com/dotemacs/][youtube channel]] and in his [[https://protesilaos.com/][website]].
+
++ Mike Zamansky :: Mike is a computer science professor who has been
+  doing [[https://www.youtube.com/channel/UCxkMDXQ5qzYOgXPRnOBrp1w][videos on Emacs]] for several years.  There is a wealth of
+  information to parse from those presentations as well as the
+  corresponding [[https://github.com/zamansky/dot-emacs][dot-emacs code repository]].
+
++ System Crafters :: David Wilson's work on Emacs covers a broad range
+  of themes, encapsulated in the [[https://github.com/daviwil/emacs-from-scratch][Emacs from scratch]] configuration. The
+  [[https://www.youtube.com/c/SystemCrafters][Youtube channel]] contains lots of videos on how to set up and use all
+  sorts of packages in Emacs, such as Org and the Mu4e email
+  client. It is fair to say that if something is related to Emacs,
+  David has either already done a video about it or is planning to do
+  one in the near future. The [[https://systemcrafters.cc/][System Crafters]] website includes
+  references to all such work, while it also covers contributions by
+  the community that David has helped foster. The material on offer is
+  top-notch. It serves as an excellent resource and point of reference
+  for new and experienced users alike.

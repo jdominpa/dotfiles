@@ -29,13 +29,6 @@
 
 ;;; Code:
 
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (require 'package)
 
 ;; Standard package repositories. Accesing a package repo over https
@@ -83,12 +76,12 @@
 (defun jdp-emacs-load-config ()
   "Load main Emacs configuration, either '.el' or '.org' file."
   (let ((config-el (jdp-emacs--expand-file-name ".el"))
-	(config-org (jdp-emacs--expand-file-name ".org")))
+	    (config-org (jdp-emacs--expand-file-name ".org")))
     (if (file-exists-p config-el)
-	(load-file config-el)
+	    (load-file config-el)
       (when (file-exists-p config-org)
-	(require 'org)
-	(org-babel-load-file config-org)))))
+	    (require 'org)
+	    (org-babel-load-file config-org)))))
 
 ;; Load configurations.
 (jdp-emacs-load-config)
@@ -103,10 +96,10 @@ the next session. The idea is to reduce startup time by moving
 this process to the end of a session rather than the beginning of
 it."
   (let ((config-el (jdp-emacs--expand-file-name ".el"))
-	(config-org (jdp-emacs--expand-file-name ".org")))
+	    (config-org (jdp-emacs--expand-file-name ".org")))
     (when (file-exists-p config-org)
       (when (file-exists-p config-el)
-	(delete-file config-el))
+	    (delete-file config-el))
       (require 'org)
       (org-babel-tangle-file config-org config-el)
       (byte-compile-file config-el))))
