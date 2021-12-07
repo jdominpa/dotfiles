@@ -295,7 +295,7 @@ help with typeface configurations.  Here are some important ones:
     :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
     :config
     (setq jdp-fonts-typeface-sets-alist
-          '((desktop 130 "Iosevka" normal "Inter" normal)
+          '((desktop 140 "Iosevka" normal "Inter" normal)
             (reader 170 "Iosevka" light "FiraGO" normal)
             (presentation 180 "Fira Code" light "FiraGO" normal)))
     (setq jdp-fonts-monospaced-list
@@ -1102,19 +1102,19 @@ recording history and layouts.
 :CUSTOM_ID: window_rules
 :END:
 
-The =display-buffer-alist= variable is used to define window rules to
-control the place and behaviour of them.  It is mainly used with
-auxiliary buffers such as shells, compilation output, etc.  The idea
-is to create an intuitive workflow where specific buffer groups or
-types are always shown at a given location to improve predictability.
+In this section I set some keybinds related to adjusting window size.
+They are the following:
 
-For each buffer in =display-buffer-alist= we can define several
-functions for selecting the appropriate window.  These functions will
-be executed in sequence.
-
-Information about buffer actions can be found at the GNU Emacs Lisp
-Reference Manual, using =C-h f display-buffer= and with =C-h f
-display-buffer-in-side-window=.
++ =balance-windows= adjusts all windows so that they have the same
+  size.
++ =fit-window-to-buffer= adjusts the selected window to display its
+  buffer's contents exactly.
++ =balance-windows-area= makes all visible windows the same area
+  approximately.
++ =enlarge-window= and =shrink-window= increase or decrease the
+  height of the window respectively.
++ =enlarge-window-horizontally= and =shrink-window-horizontally=
+  increase or decrease the width of the window respectively
 
 #+begin_src emacs-lisp
   (use-package window
@@ -1130,41 +1130,6 @@ display-buffer-in-side-window=.
            (">" . enlarge-window-horizontally)
            ("<" . shrink-window-horizontally))
     :config
-    (setq display-buffer-alist
-          `(;; top side window
-            ("\\*\\(Flycheck\\|Package-Lint\\|vc-git :\\).*"
-             (display-buffer-in-side-window)
-             (window-height . 0.16)
-             (side . top)
-             (slot . 0))
-            ("\\*Messages.*"
-             (display-buffer-in-side-window)
-             (window-height . 0.16)
-             (side . top)
-             (slot . 1))
-            ("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|compilation\\)\\*"
-             (display-buffer-in-side-window)
-             (window-height . 0.16)
-             (side . top)
-             (slot . 2)
-             (window-parameters . ((no-other-window . t))))
-            ;; bottom side window
-            ("\\*\\(Embark\\)?.*Completions.*"
-             (display-buffer-in-side-window)
-             (side . bottom)
-             (slot . 0)
-             (window-parameters . ((no-other-window . t)
-                                   (mode-line-format . none))))
-            ;; left side window
-            ("\\*Help.*"
-             (display-buffer-in-side-window)
-             (window-height . 0.4)
-             (side . bottom)
-             (slot . 0))
-            ;; bottom buffer (NOT side window)
-            ("\\*.*\\(e?shell\\|v?term\\).*"
-             (display-buffer-reuse-mode-window display-buffer-at-bottom)
-             (window-height . 0.35))))
     (setq window-combination-resize t
           window-sides-vertical nil
           switch-to-buffer-in-dedicated-window 'pop))
@@ -1739,6 +1704,7 @@ provides most of the UI aspects of =lsp-mode=.
   (use-package lsp-mode
     :ensure t
     :commands (lsp lsp-deferred)
+    :hook (lsp-mode . lsp-enable-which-key-integration)
     :init (setq lsp-keymap-prefix "C-c l"))
 
   (use-package lsp-ui
@@ -1798,7 +1764,8 @@ Configurations for writing in C/C++.  These include the following:
   (use-package cc-mode
     :hook (c-mode-common . lsp-deferred)
     :config
-    (setq-default c-default-style "k&r"))
+    (setq-default c-default-style "k&r"
+                  c-basic-offset 4))
 #+end_src
 
 *** Elisp
