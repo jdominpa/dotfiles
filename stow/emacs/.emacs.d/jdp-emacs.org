@@ -416,6 +416,32 @@ the [[https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lin
     (global-so-long-mode))
 #+end_src
 
+** Multiple cursors (multiple-cursors)
+:PROPERTIES:
+:CUSTOM_ID: multiple_cursors
+:END:
+
+=multiple-cursors= is a package that allows us to edit multiple places
+in the buffer at the same time.  It works as follows:
+
+1. You select a region of text.
+2. You then use one of the functions the package provides to create an
+   extra cursor in the next place in the buffer that matches your
+   selected region (you can repeat this step as many times as you
+   want).
+3. You can now edit both regions at the same time using the "multiple
+   cursors".
+4. When you finish you can delete all the extra cursors with =RET= or
+   =C-g=.
+
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :ensure t
+    :bind (("C-." . mc/mark-next-like-this)
+           ("C-," . mc/mark-previous-like-this)
+           ("C->" . mc/mark-all-like-this)))
+#+end_src
+
 ** Key chord hints (which-key)
 :PROPERTIES:
 :CUSTOM_ID: key_chord_hints
