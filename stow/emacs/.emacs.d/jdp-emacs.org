@@ -197,7 +197,8 @@ re-bind and change some keybindings.
            ("M-c" . capitalize-dwim)
            ("M-l" . downcase-dwim)
            ("M-u" . upcase-dwim)
-           ("C-=" . count-words)))
+           ("C-=" . count-words)
+           ("C-^" . jdp-simple-reverse-delete-indentation)))
 #+end_src
 
 These are the contents of the =jdp-simple.el= library (the source code

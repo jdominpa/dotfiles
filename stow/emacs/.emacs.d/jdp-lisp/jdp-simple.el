@@ -39,5 +39,10 @@ provided, move cursor 15*NUM lines backward."
       (forward-line (* -15 num))
     (forward-line -15)))
 
+(defun jdp-simple-reverse-delete-indentation ()
+  "Join the current line to the following line."
+  (interactive)
+  (delete-indentation t))
+
 (provide 'jdp-simple)
 ;;; jdp-simple.el ends here
