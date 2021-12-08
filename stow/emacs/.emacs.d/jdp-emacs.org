@@ -190,15 +190,19 @@ re-bind and change some keybindings.
     :bind (("C-z" . nil)
            ("C-x C-z" . nil)
            ("M-`" . nil)
+           ("C-h K" . describe-keymap)
+           ;; Commands for lines
            ("C-S-n" . jdp-simple-multi-line-next)
            ("C-S-p" . jdp-simple-multi-line-prev)
            ("M-SPC" . cycle-spacing)
            ("M-o" . delete-blank-lines)
+           ;; Commands for text manipulation
            ("M-c" . capitalize-dwim)
-           ("M-l" . downcase-dwim)
+           ("M-l" . downcase-dwim)        ; "lower" case
            ("M-u" . upcase-dwim)
-           ("C-=" . count-words)
-           ("C-^" . jdp-simple-reverse-delete-indentation)))
+           ("C-^" . jdp-simple-reverse-delete-indentation)
+           ;; Commands for buffers
+           ("C-=" . count-words)))
 #+end_src
 
 These are the contents of the =jdp-simple.el= library (the source code
@@ -460,7 +464,7 @@ the possible tails of the key chord.
     :ensure t
     :config
     (setq which-key-show-early-on-C-h nil
-          which-key-idle-delay 1.5)
+          which-key-idle-delay 1.25)
     (which-key-mode))
 #+end_src
 
