@@ -2,6 +2,10 @@
 # Set zsh directory
 export ZDOTDIR=$HOME/.zsh
 
+# Local and host-specific overrides
+LOCAL_RC=$HOME/.zshenv.local
+test -f $LOCAL_RC && source $LOCAL_RC
+
 # Stop (eg.) `git push github` from triggering:
 # zsh: correct 'github' to '.github' [yes, no, edit, abort]?
 export CORRECT_IGNORE_FILE='.*'

@@ -809,9 +809,14 @@ visited files allowing us to revisit them faster.
     (recentf-mode))
 #+end_src
 
-*** In-buffer completions (corfu)
+*** In-buffer completions
 :PROPERTIES:
 :CUSTOM_ID: in_buffer_completions
+:END:
+
+**** Corfu (Completion Overlay Region FUnction) and CAPE
+:PROPERTIES:
+:CUSTOM_ID: corfu
 :END:
 
 [[https://github.com/minad/corfu][=corfu=]] is a package developed by Daniel Mendler (author of =consult=
@@ -831,6 +836,7 @@ backends to =corfu=.
   (use-package corfu
     :ensure t
     :config
+    (setq corfu-cycle t)
     (corfu-global-mode))
 
   (use-package cape
@@ -838,6 +844,23 @@ backends to =corfu=.
     :config
     (dolist (backend '(cape-keyword cape-file cape-dabbrev))
       (add-to-list 'completion-at-point-functions backend)))
+#+end_src
+
+**** Dabbrev (dynamic word completion)
+:PROPERTIES:
+:CUSTOM_ID: dabbrev
+:END:
+
+This is Emacs' own completion system for in-buffer text.  By default
+=dabbrev-expand= tries to complete the text at point.  Repeated
+invocations of the command will cycle through the candidates.  With
+Corfu, the completion candidates are displayed in a pop-up window near
+point ([[#corfu][Corfu for in-buffer completion]]).
+
+#+begin_src emacs-lisp
+  (use-package dabbrev
+    :bind (("M-/" . dabbrev-completion)
+           ("C-M-/" . dabbrev-expand)))
 #+end_src
 
 ** Configurations for built-in search commands
