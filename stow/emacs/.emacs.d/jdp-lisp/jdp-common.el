@@ -37,11 +37,5 @@
       (* -1 n)
     (error "%s is not a valid positive number" n)))
 
-;;;###autoload
-(defun jdp-common-truncate-lines-silently ()
-  "Toggle line truncation without printing messages."
-  (let ((inhibit-message t))
-    (toggle-truncate-lines t)))
-
 (provide 'jdp-common)
 ;;; jdp-common.el ends here

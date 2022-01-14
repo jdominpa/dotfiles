@@ -51,13 +51,12 @@ In more practical terms, this file is an =org-mode= file.  It's
 divided in sections and each section provides information about the
 configuration it contains.
 
-Finally, I would like to make notice that a lot of this configuration
-is inspired (or copied directly from) by [[https://protesilaos.com/dotemacs/][Protesilaos Stavrou
-configuration]] also done in Org.  If you check his configuration files
-you'll find many similarities with this configuration.  If you want to
-learn about Emacs, politics and philosophy definetly check out his
-[[https://www.youtube.com/channel/UC0uTPqBCFIpZxlz_Lv1tk_g][youtube channel]] and his [[https://protesilaos.com/][website]] (check other people's Emacs work in
-[[#other_people_emacs_work][this section]]).
+Finally, I would like to make point out that a lot of this
+configuration is inspired (or copied directly from) by [[https://protesilaos.com/dotemacs/][Protesilaos
+Stavrou configuration]] also done in Org.  If you check his set up
+you'll find many similarities with mine.  If you want to learn about
+Emacs, politics and philosophy definetly check out his [[https://www.youtube.com/channel/UC0uTPqBCFIpZxlz_Lv1tk_g][youtube channel]]
+and his [[https://protesilaos.com/][website]] (check other people's Emacs work in [[#other_people_emacs_work][this section]]).
 
 *** Contents of init.el
 :PROPERTIES:
@@ -71,10 +70,10 @@ the Emacs conventions. Mine sets up package archives, installs
 Before Emacs version 27.1 package initialization had to be done in
 =init.el= by means of calling =package-initialize=. However, v27.1
 introduced the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][=early-init.el=]] file which gets loaded before
-=init.el=. In that version and any later ones package initialization
-is enabled by default and done after loading =early-init.el= but
-before loading =init.el=. Hence, calling =package-initialize= is no
-longer needed.
+=init.el=. Therefore, from version 27.1 onwards, package
+initialization is enabled by default and done after loading
+=early-init.el= but before loading =init.el=. Hence, calling
+=package-initialize= is no longer needed.
 
 You will find that after defining package archives =init.el= installs
 =use-package=. [[https://github.com/jwiegley/use-package][Use-package]] is a macro used to organize and isolate
@@ -242,11 +241,11 @@ check [[https://protesilaos.com/modus-themes/#h:bf1c82f2-46c7-4eb2-ad00-dd11fdd8
   (use-package modus-themes
     :ensure t
     :bind ([f5] . modus-themes-toggle)
+    :custom
+    (modus-themes-bold-constructs t)
+    (modus-themes-slanted-constructs t)
+    (modus-themes-mode-line nil)
     :init
-    ;; Customisation options
-    (setq modus-themes-bold-constructs t
-          modus-themes-slanted-constructs t
-          modus-themes-mode-line nil)
     ;; Load the theme files before enabling a theme
     (modus-themes-load-themes)
     :config
@@ -298,37 +297,33 @@ help with typeface configurations.  Here are some important ones:
   (use-package jdp-fonts
     :demand t
     :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
-    :config
-    (setq jdp-fonts-typeface-sets-alist
-          '((desktop 140 "Iosevka" normal "Inter" normal)
-            (reader 170 "Iosevka" light "FiraGO" normal)
-            (presentation 180 "Fira Code" light "FiraGO" normal)))
-    (setq jdp-fonts-monospaced-list
-          '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
-            "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
-    (setq jdp-fonts-heights-list
-          (number-sequence 100 200 5))
-    (setq jdp-fonts-line-spacing-alist
-          '(("Ubuntu Mono" . 2)))
-    (setq jdp-fonts-laptop-desktop-keys-list '(laptop desktop)
-          jdp-fonts-max-small-resolution-width 1440)
-    (setq jdp-fonts-bold-weight-alist
-          '(("Iosevka" . semibold)
-            ("Fira Code" . semibold)
-            ("Source Code Pro" . semibold)))
-
+    :custom
+    (jdp-fonts-typeface-sets-alist
+     '((desktop 140 "Iosevka" normal "Inter" normal)
+       (reader 170 "Iosevka" light "FiraGO" normal)
+       (presentation 180 "Fira Code" light "FiraGO" normal)))
+    (jdp-fonts-monospaced-list
+     '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
+       "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
+    (jdp-fonts-heights-list (number-sequence 100 200 5))
+    (jdp-fonts-line-spacing-alist '(("Ubuntu Mono" . 2)))
+    (jdp-fonts-laptop-desktop-keys-list '(laptop desktop))
+    (jdp-fonts-max-small-resolution-width 1440)
+    (jdp-fonts-bold-weight-alist '(("Iosevka" . semibold)
+                                   ("Fira Code" . semibold)
+                                   ("Source Code Pro" . semibold)))
     ;; This is defined in Emacs' C code, though I feel this is a good
     ;; place to put it.
-    (setq x-underline-at-descent-line t)
-
+    (x-underline-at-descent-line t)
+    :hook ((jdp-fonts-set-typeface . jdp-fonts-line-spacing)
+           (jdp-fonts-set-typeface . jdp-fonts-bold-face)
+           ;; See theme section for the following hook
+           (modus-themes-after-load-theme . jdp-fonts-bold-face))
+    :config
     ;; And this just sets the right font depending on whether my laptop is
     ;; connected to an external monitor or not.
-    (jdp-fonts-fonts-per-monitor)
-    (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-line-spacing)
-    (add-hook 'jdp-fonts-set-typeface-hook #'jdp-fonts-bold-face)
+    (jdp-fonts-fonts-per-monitor))
 
-    ;; See theme section for this hook
-    (add-hook 'modus-themes-after-load-theme-hook #'jdp-fonts-bold-face))
 #+end_src
 
 Here is the source code of =jdp-fonts.el=.
@@ -462,9 +457,10 @@ the possible tails of the key chord.
 #+begin_src emacs-lisp
   (use-package which-key
     :ensure t
+    :custom
+    (which-key-show-early-on-C-h nil)
+    (which-key-idle-delay 1.25)
     :config
-    (setq which-key-show-early-on-C-h nil
-          which-key-idle-delay 1.25)
     (which-key-mode))
 #+end_src
 
@@ -511,61 +507,57 @@ matching completion style.  It works by dividing the written pattern
 in the minibuffer into space-separated components and matches
 candidates that match the components in any order (i.e. "orderless").
 The components can be matched using various styles such as regexp,
-literal, flex, initialism, etc.  Beign an Emacs package, you can
-customize the delimiters used to determine components and the styles
-used for the patter matching.
+literal, flex, initialism, etc.  These styles are internally now as
+dispatchers.  Being an Emacs package, you can customize the delimiters
+used to determine components and the dispatchers used for the patter
+matching.
 
 In this section I set up =orderless=.  The =orderless= completion
 style is appended to the minibuffer's customisation options for
 =completion-styles= in the section [[#minibuffer_and_extras][Minibuffer configuration and
-extras]].
-
-The file =jdp-orderless.el= contains some small changes that I make.
-It defines three style dispatchers which are single characters that
-set a style for a particular component when appended to that
-component:
-
-+ With the equals sign appended to a sequence of characters, we call
-  =jdp-orderless-literal-dispatcher= which instructs orderless to
-  match that sequence as a literal string.
-
-+ With a comma appended to a sequence of characters, we call
-  =jdp-orderless-initialism-dispatcher= which instructs orderless to
-  match that sequence as a initialism string.
-
-+ With the tilda sign appended to a sequence of characters, we call
-  =jdp-orderless-flex-dispatcher= which instructs orderless to match
-  that sequence as a flex string.
+extras]].  My set up is based on a macro which I have outright stolen
+from Omar called =dispatch:=.  Given a regular expression and an
+orderless style, this macro creates a dispatcher named
+=dispatch:style= which applies the given style to all components
+matching the regular expression.  In my configuration I use the macro
+to define dispatchers for various styles, some of which are: literals,
+regular expressions, prefixes, initialisms, etc.  In addition, I set
+up orderless to separate components by spaces and + signs.
 
 #+begin_src emacs-lisp
-  (use-package jdp-orderless
-    :config
-    (setq jdp-orderless-default-styles
-          '(orderless-prefixes
-            orderless-strict-leading-initialism
-            orderless-regexp))
-    (setq jdp-orderless-alternative-styles
-          '(orderless-literal
-            orderless-prefixes
-            orderless-strict-leading-initialism
-            orderless-regexp)))
-
   (use-package orderless
     :ensure t
+    :demand t
     :bind (:map minibuffer-local-completion-map
                 ("?" . nil)
                 ("SPC" . nil))
     :config
-    (setq orderless-matching-styles jdp-orderless-default-styles)
-    (setq orderless-style-dispatchers
-          '(jdp-orderless-flex-dispatcher
-            jdp-orderless-literal-dispatcher
-            jdp-orderless-initialism-dispatcher)))
+    (defmacro dispatch: (regexp style)
+      (cl-flet ((symcat (a b) (intern (concat a (symbol-name b)))))
+        `(defun ,(symcat "dispatch:" style) (pattern _index _total)
+           (when (string-match ,regexp pattern)
+             (cons ',(symcat "orderless-" style) (match-string 1 pattern))))))
+    (defun pre/post (str)
+      (format "^%s\\(.*\\)$\\|^\\(?1:.*\\)%s$" str str))
+    (dispatch: (pre/post "=") literal)
+    (dispatch: (pre/post "`") regexp)
+    (dispatch: (pre/post (if (or minibuffer-completing-file-name
+                                 (derived-mode-p 'eshell-mode))
+                             "%"
+                           "[%.]"))
+               initialism)
+    (dispatch: "^{\\(.*\\)}$" flex)
+    (dispatch: "^\\([^][^\\+*]*[./-][^][\\+*$]*\\)$" prefixes)
+    (dispatch: "^!\\(.+\\)$" without-literal)
+    :custom
+    (orderless-matching-styles 'orderless-regexp)
+    (orderless-style-dispatchers '(dispatch:literal
+                                   dispatch:regexp
+                                   dispatch:initialism
+                                   dispatch:flex
+                                   dispatch:prefixes
+                                   dispatch:without-literal)))
 #+end_src
-
-Here are the contents of the =jdp-orderless.el= library:
-
-#+include: jdp-lisp/jdp-orderless.el src emacs-lisp :tangle no
 
 *** Completion annotations (marginalia)
 :PROPERTIES:
@@ -628,24 +620,20 @@ Finally, here is an overview of the settings covered:
 
 #+begin_src emacs-lisp
   (use-package minibuffer
-    :demand t
-    :hook (completion-list-mode . jdp-common-truncate-lines-silently) ; from `jdp-common.el'
+    :custom
+    (completion-styles '(orderless))
+    (completion-cycle-threshold nil)
+    (completion-show-help nil)
+    (completion-auto-help t)
+    (read-buffer-completion-ignore-case t)
+    (read-file-name-completion-ignore-case t)
+    (enable-recursive-minibuffers t)
+    (read-answer-short t)
+    (resize-mini-windows t)
+    (minibuffer-eldef-shorten-default t)
     :config
-    (setq completion-styles '(orderless partial-completion)
-          completion-category-defaults nil
-          completion-category-overrides nil
-          completion-cycle-threshold nil
-          completion-show-help nil
-          completion-auto-help t
+    (setq completion-category-defaults nil
           completion-ignore-case t)
-    (setq completions-format 'one-column
-          completions-detailed t)
-    (setq read-buffer-completion-ignore-case t
-          read-file-name-completion-ignore-case t)
-    (setq enable-recursive-minibuffers t
-          read-answer-short t)
-    (setq resize-mini-windows t)
-    (setq minibuffer-eldef-shorten-default t)
     (file-name-shadow-mode)
     (minibuffer-depth-indicate-mode)
     (minibuffer-electric-default-mode))
@@ -653,12 +641,33 @@ Finally, here is an overview of the settings covered:
   (use-package vertico
     :ensure t
     :config
-    (vertico-mode))
-
-  (use-package vertico-reverse
-    :after vertico
-    :config
+    (vertico-mode)
     (vertico-reverse-mode))
+#+end_src
+
+*** Minibuffer history (savehist-mode)
+:PROPERTIES:
+:CUSTOM_ID: minibuffer_history
+:END:
+
+The built-in =savehist-mode= keeps a record of previous actions
+involving the minibuffer.  Those inputs can be accessed with =M-p= and
+=M-n=.  Well designed commands that use completion have their own
+history, which means that their record won't be mixed up with the ones
+from other commands.  You can also search backwardly with =M-r=.
+
+Emacs will remember your input and choices so it will prioritise the
+desired results when trying to complete an input.
+
+#+begin_src emacs-lisp
+  (use-package savehist
+    :custom
+    (savehist-file (locate-user-emacs-file "savehist"))
+    (history-length 1000)
+    (history-delete-duplicates t)
+    (savehist-save-minibuffer-history t)
+    :config
+    (savehist-mode))
 #+end_src
 
 *** Enhanced minibuffer commands (consult)
@@ -720,23 +729,25 @@ distracting.  Hence, I disable preview entirely.
            ("C-x M-k" . consult-kmacro)
            ("M-y" . consult-yank-pop)
            ("M-K" . consult-keep-lines) ; M-S-k is similar to M-S-5 (M-%)
-           ("M-F" . consult-focus-lines)
+           ("M-F" . consult-focus-lines)  ; same principle
            ("M-g g" . consult-goto-line)
            ("M-g M-g" . consult-goto-line)
-           ("M-g m" . consult-mark)
-           ("M-g i" . consult-imenu)
-           ("M-g o" . consult-outline)
-           ("M-s g" . consult-grep)
+           ("M-s M-b" . consult-buffer)
+           ("M-s M-g" . consult-grep)
+           ("M-s M-h" . consult-history)
+           ("M-s M-m" . consult-mark)
            :map consult-narrow-map
            ("?" . consult-narrow-help))
+    :custom
+    (register-preview-delay 0.8)
+    (consult-preview-key nil) ; disable previews
+    (consult-narrow-key ">")
     :config
-    (setq register-preview-delay 0.8
-          register-preview-function #'consult-register-format)
-    (setq consult-preview-key nil ; disable previews
-          consult-narrow-key ">"))
+    (setq register-preview-function #'consult-register-format))
 
   (use-package consult-flycheck
     :ensure t
+    :after consult
     :bind (:map flycheck-command-map
                 ("!" . consult-flycheck)))
 #+end_src
@@ -784,8 +795,8 @@ Here is an overview of the =jdp-project.el= commands:
   (use-package jdp-project
     :bind (("C-x p l" . jdp-project-commit-log)
            ("C-x p t" . jdp-project-retrieve-tag))
-    :config
-    (setq jdp-project-commit-log-limit 25))
+    :custom
+    (jdp-project-commit-log-limit 25))
 #+end_src
 
 This is the =jdp-project.el= file:
