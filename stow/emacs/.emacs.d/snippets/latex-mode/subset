@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: subset
-# key: cc
-# condition: (texmathp)
-# --
-\subset
