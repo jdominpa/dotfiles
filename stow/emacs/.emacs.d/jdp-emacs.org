@@ -199,9 +199,7 @@ re-bind and change some keybindings.
            ("M-c" . capitalize-dwim)
            ("M-l" . downcase-dwim)        ; "lower" case
            ("M-u" . upcase-dwim)
-           ("C-^" . jdp-simple-reverse-delete-indentation)
-           ;; Commands for buffers
-           ("C-=" . count-words)))
+           ("C-^" . jdp-simple-reverse-delete-indentation)))
 #+end_src
 
 These are the contents of the =jdp-simple.el= library (the source code
@@ -441,6 +439,34 @@ in the buffer at the same time.  It works as follows:
            ("C->" . mc/skip-to-next-like-this)
            ("C-<" . mc/skip-to-previous-like-this)
            ("C-c C->" . mc/mark-all-like-this)))
+#+end_src
+
+** Expand region (expand-region)
+:PROPERTIES:
+:CUSTOM_ID: expand_region
+:END:
+
+=expand-region= is a package that implements incremental region
+selection by semantic units.  For example, let's say you have the
+following line of text:
+
+#+begin_example
+(setq alphabet-start "abc def")
+                        ^ cursor here
+#+end_example
+
+When you press the key bound to =er/expand-region= the word =abc= will
+be marked.  Pressing the keybind a second time will expand the region
+marked to the content inside quotes.  A third press will expand to the
+entire quote ="abc def"=.  Then the contents of the sexp =setq
+alphabet-start "abc def"= will be marked and finally the whole sexp.
+
+I use the key =C-== to call =er/expand-region=.
+
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :bind ("C-=" . er/expand-region))
 #+end_src
 
 ** Key chord hints (which-key)
@@ -814,9 +840,10 @@ visited files allowing us to revisit them faster.
 #+begin_src emacs-lisp
   (use-package recentf
     :bind ("C-x C-r" . recentf-open-files)
+    :custom
+    (recentf-save-file (expand-file-name "recentf" user-emacs-directory))
+    (recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip"))
     :config
-    (setq recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip")
-          recentf-save-file (expand-file-name "recentf" user-emacs-directory))
     (recentf-mode))
 #+end_src
 
@@ -847,14 +874,23 @@ backends to =corfu=.
   (use-package corfu
     :ensure t
     :config
-    (setq corfu-cycle t)
+    ;; TODO: Not working at the moment
+    ;; (package-install-file "corfu-doc")
     (corfu-global-mode))
 
   (use-package cape
     :ensure t
-    :config
+    :after corfu
+    :init
     (dolist (backend '(cape-keyword cape-file cape-dabbrev))
       (add-to-list 'completion-at-point-functions backend)))
+
+  (use-package kind-icon
+    :ensure t
+    :after corfu
+    :custom (kind-icon-default-face 'corfu-default)
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
 **** Dabbrev (dynamic word completion)
@@ -952,16 +988,17 @@ tools:
            :map isearch-mode-map
            ("C-g" . isearch-cancel)
            ("M-/" . isearch-complete))
+    :custom
+    (search-whitespace-regexp ".*?")
+    (search-highlight t)
+    (isearch-lazy-highlight t)
+    (isearch-lazy-count t)
+    (lazy-count-prefix-format nil)
+    (lazy-count-suffix-format " (%s/%s)")
+    (isearch-yank-on-move 'shift)
     :config
-    (setq search-whitespace-regexp ".*?"
-          isearch-lax-whitespace t
-          isearch-regexp-lax-whitespace nil)
-    (setq search-highlight t
-          isearch-lazy-highlight t
-          isearch-lazy-count t
-          lazy-count-prefix-format nil
-          lazy-count-suffix-format " (%s/%s)")
-    (setq isearch-yank-on-move 'shift))
+    (setq isearch-lax-whitespace t
+          isearch-regexp-lax-whitespace nil))
 
   (use-package replace
     :hook ((occur-mode . hl-line-mode)
@@ -1050,25 +1087,25 @@ Here is also a list of packages that I use with Dired:
   (use-package dired
     :hook ((dired-mode . dired-hide-details-mode)
            (dired-mode . hl-line-mode))
-    :config
-    (setq dired-recursive-copies 'always
-          dired-recursive-deletes 'always)
-    (setq delete-by-moving-to-trash t)
-    (setq dired-listing-switches
-          "-AXhlv --group-directories-first")
-    (setq dired-dwim-target t))
+    :custom
+    (dired-recursive-copies 'always)
+    (dired-recursive-deletes 'always)
+    (delete-by-moving-to-trash t)
+    (dired-listing-switches
+     "-AXhlv --group-directories-first")
+    (dired-dwim-target t))
 
   (use-package dired-aux
-    :config
-    (setq dired-isearch-filenames 'dwim
-          dired-create-destination-dirs 'ask))
+    :custom
+    (dired-isearch-filenames 'dwim)
+    (dired-create-destination-dirs 'ask))
 
   (use-package dired-x
     :bind (("C-x C-j" . dired-jump)
            ("C-x 4 C-j" . dired-jump-other-window))
-    :config
-    (setq dired-clean-up-buffers-too t
-          dired-clean-confirm-killing-deleted-buffers t))
+    :custom
+    (dired-clean-up-buffers-too t)
+    (dired-clean-confirm-killing-deleted-buffers t))
 
   (use-package dired-subtree
     :ensure t
@@ -1102,9 +1139,9 @@ These operations are reversed when one of the buffers is removed an
 there is no more chance of ambiguity.
 
 #+begin_src emacs-lisp
-  (setq uniquify-buffer-name-style 'forward
-        uniquify-strip-common-suffix t
-        uniquify-after-kill-buffer-p t)
+  (customize-set-variable 'uniquify-buffer-name-style 'forward)
+  (customize-set-variable 'uniquify-strip-common-suffix t)
+  (customize-set-variable 'uniquify-after-kill-buffer-p t)
 #+end_src
 
 *** Ibuffer and extras
@@ -1127,16 +1164,16 @@ Here are the configurations I make to =ibuffer=:
     :hook ((ibuffer . ibuffer-set-up-preferred-filters)
            (ibuffer . hl-line-mode))
     :bind ("C-x C-b" . ibuffer)
-    :config
-    (setq ibuffer-expert t
-          ibuffer-display-summary nil
-          ibuffer-use-other-window nil
-          ibuffer-show-empty-filter-groups nil
-          ibuffer-movement-cycle nil
-          ibuffer-use-header-line t
-          ibuffer-default-shrink-to-minimum-size nil
-          ibuffer-saved-filter-groups nil
-          ibuffer-old-time 48))
+    :custom
+    (ibuffer-expert t)
+    (ibuffer-display-summary nil)
+    (ibuffer-use-other-window nil)
+    (ibuffer-show-empty-filter-groups nil)
+    (ibuffer-movement-cycle nil)
+    (ibuffer-use-header-line t)
+    (ibuffer-default-shrink-to-minimum-size nil)
+    (ibuffer-saved-filter-groups nil)
+    (ibuffer-old-time 48))
 #+end_src
 
 ** Window configuration
@@ -1194,12 +1231,14 @@ They are the following:
            ("C-x >" . enlarge-window-horizontally) ; override `scroll-right'
            ("C-x <" . shrink-window-horizontally)  ; override `scroll-left'
            :map resize-window-repeat-map
+           ("}" . enlarge-window)
+           ("{" . shrink-window)
            (">" . enlarge-window-horizontally)
            ("<" . shrink-window-horizontally))
-    :config
-    (setq window-combination-resize t
-          window-sides-vertical nil
-          switch-to-buffer-in-dedicated-window 'pop))
+    :custom
+    (window-combination-resize t)
+    (window-sides-vertical nil)
+    (switch-to-buffer-in-dedicated-window 'pop))
 #+end_src
 
 *** Window history (winner-mode)
@@ -1217,8 +1256,8 @@ Also check: [[#directional_window_motions][Directional window motions (windmove)
 #+begin_src emacs-lisp
   (use-package winner
     :demand t
-    :bind (("M-p" . winner-undo)
-           ("M-n" . winner-redo))
+    :bind (("C-M-<left>" . winner-undo)
+           ("C-M-<right>" . winner-redo))
     :config
     (winner-mode))
 #+end_src
@@ -1247,8 +1286,8 @@ See also: [[#window_history][Window history (winner-mode)]]
   (use-package ace-window
     :ensure t
     :bind ("C-x o" . ace-window)
-    :config
-    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+    :custom
+    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+end_src
 
 * Applications and utilities
@@ -1283,8 +1322,8 @@ in the git repository in the =magit-status= buffer.
     :ensure t
     :hook (git-commit-mode . goto-address-mode)
     :bind ("C-c g" . magit-status)
-    :config
-    (setq magit-diff-refine-hunk t))
+    :custom
+    (magit-diff-refine-hunk t))
 
   (use-package magit-todos
     :ensure t
@@ -1313,17 +1352,17 @@ command line for.
 
 #+begin_src emacs-lisp
   (use-package eshell
-    :config
-    (setq eshell-cd-on-directory t
-          eshell-hist-ignoredups t
-          eshell-save-history-on-exit t
-          eshell-scroll-to-bottom-on-input t)
-    (setq eshell-directory-name
-          (expand-file-name "eshell" user-emacs-directory))
-    (setq eshell-aliases-file
-          (expand-file-name "eshell/alias" user-emacs-directory))
-    (setq password-cache t
-          password-cache-expiry 600))
+    :custom
+    (eshell-cd-on-directory t)
+    (eshell-hist-ignoredups t)
+    (eshell-save-history-on-exit t)
+    (eshell-scroll-to-bottom-on-input t)
+    (eshell-directory-name
+     (expand-file-name "eshell" user-emacs-directory))
+    (eshell-aliases-file
+     (expand-file-name "eshell/alias" user-emacs-directory))
+    (password-cache t)
+    (password-cache-expiry 600))
 #+end_src
 
 ** Org-mode
@@ -1348,9 +1387,10 @@ it.
   (use-package org
     :hook ((org-mode . org-indent-mode)
            (org-mode . auto-fill-mode))
+    :custom
+    (org-adapt-indentation nil)
+    (org-catch-invisible-edits 'show)
     :config
-    (setq org-adapt-indentation nil
-          org-catch-invisible-edits 'show)
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
 
@@ -1398,31 +1438,10 @@ navigated with =M-x imenu= using minibuffer completion.
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :ensure t
+    :custom
+    (pdf-view-display-size 'fit-height)
+    (pdf-view-continuous t)
     :config
-    (setq pdf-view-display-size 'fit-height
-          pdf-view-continuous t)
-
-    ;; Those functions and hooks are adapted from the manual of my
-    ;; modus-themes.  The idea is to (i) add a backdrop that is distinct
-    ;; from the background of the PDF's page and (ii) make pdf-tools adapt
-    ;; to theme switching via, e.g., `modus-themes-toggle'.
-    (defun contrib/pdf-tools-backdrop ()
-      (face-remap-add-relative
-       'default
-       `(:background ,(modus-themes-color 'bg-alt))))
-
-    (defun contrib/pdf-tools-midnight-mode-toggle ()
-      (when (derived-mode-p 'pdf-view-mode)
-        (if (eq (car custom-enabled-themes) 'modus-vivendi)
-            (pdf-view-midnight-minor-mode 1)
-          (pdf-view-midnight-minor-mode -1))
-        (contrib/pdf-tools-backdrop)))
-
-    (add-hook 'pdf-tools-enabled-hook
-              #'contrib/pdf-tools-midnight-mode-toggle)
-    (add-hook 'modus-themes-after-load-theme-hook
-              #'contrib/pdf-tools-midnight-mode-toggle)
-
     (pdf-loader-install))
 #+end_src
 
@@ -1464,31 +1483,31 @@ that line and column numbers are both shown in the modeline as well as
 the current position in the buffer.
 
 #+begin_src emacs-lisp
-  (setq line-number-mode t
-        column-number-mode t
-        size-indication-mode t)
+  (customize-set-variable 'line-number-mode t)
+  (customize-set-variable 'column-number-mode t)
+  (customize-set-variable 'size-indication-mode t)
 
   (setq mode-line-defining-kbd-macro
         (propertize " Macro" 'face 'mode-line-emphasis))
 
-  (setq-default mode-line-format
-                '("%e"
-                  mode-line-front-space
-                  mode-line-mule-info
-                  mode-line-client
-                  mode-line-modified
-                  mode-line-remote
-                  mode-line-frame-identification
-                  mode-line-buffer-identification
-                  "  "
-                  mode-line-position
-                  " "
-                  mode-line-modes
-                  "  "
-                  (vc-mode vc-mode)
-                  "  "
-                  mode-line-misc-info
-                  mode-line-end-spaces))
+  (customize-set-variable 'mode-line-format
+                          '("%e"
+                            mode-line-front-space
+                            mode-line-mule-info
+                            mode-line-client
+                            mode-line-modified
+                            mode-line-remote
+                            mode-line-frame-identification
+                            mode-line-buffer-identification
+                            "  "
+                            mode-line-position
+                            " "
+                            mode-line-modes
+                            "  "
+                            (vc-mode vc-mode)
+                            "  "
+                            mode-line-misc-info
+                            mode-line-end-spaces))
 #+end_src
 
 *** Hide modeline "lighters" (minions)
@@ -1503,27 +1522,12 @@ and hides them behind a character.
 #+begin_src emacs-lisp
   (use-package minions
     :ensure t
+    :custom
+    (minions-mode-line-lighter ";")
+    (minions-direct (list 'defining-kbd-macro
+                          'flymake-mode))
     :config
-    (setq minions-mode-line-lighter ";")
-    (setq minions-direct (list 'defining-kbd-macro
-                               'flymake-mode))
     (minions-mode))
-#+end_src
-
-*** Mode line recursion indicators
-:PROPERTIES:
-:CUSTOM_ID: modeline_recursion_indicators
-:END:
-
-Currently trying this package
-
-#+begin_src emacs-lisp
-  (use-package recursion-indicator
-    :ensure t
-    :config
-    (setq recursion-indicator-general "&"
-          recursion-indicator-minibuffer "@")
-    (recursion-indicator-mode))
 #+end_src
 
 *** Battery status
@@ -1538,10 +1542,11 @@ check it with the mouse.
 
 #+begin_src emacs-lisp
   (use-package battery
+    :custom
+    (battery-mode-line-format "[%b%p%%] ")
+    (battery-load-low 20)
+    (battery-load-critical 10)
     :config
-    (setq battery-mode-line-format "[%b%p%%] "
-          battery-load-low 20
-          battery-load-critical 10)
     (display-battery-mode))
 #+end_src
 
@@ -1556,10 +1561,11 @@ mouse to bring out the system status bar to check the time.
 
 #+begin_src emacs-lisp
   (use-package time
+    :custom
+    (display-time-format "%H:%M %d-%m-%Y")
+    (display-time-interval 60)
+    (display-time-default-load-average nil)
     :config
-    (setq display-time-format "%H:%M %d-%m-%Y"
-          display-time-interval 60)
-    (setq display-time-default-load-average nil)
     (display-time-mode))
 #+end_src
 
@@ -1581,8 +1587,9 @@ the fringes of the window.
 #+begin_src emacs-lisp
   (use-package diff-hl
     :ensure t
+    :custom
+    (diff-hl-draw-borders nil)
     :config
-    (setq diff-hl-draw-borders nil)
     (global-diff-hl-mode))
 
   ;; Whitespace configuration
@@ -1632,14 +1639,14 @@ I also set some extra settings related to mouse scrolling.
 
 #+begin_src emacs-lisp
   (use-package mouse
-    :config
-    (setq mouse-wheel-scroll-amount
-          '(1
-            ((shift) . 5)
-            ((meta) . 0.5)
-            ((control) . text-scale)))
-    (setq mouse-wheel-progressive-speed nil
-          mouse-wheel-follow-mouse t))
+    :custom
+    (mouse-wheel-scroll-amount
+     '(1
+       ((shift) . 5)
+       ((meta) . 0.5)
+       ((control) . text-scale)))
+    (mouse-wheel-progressive-speed nil)
+    (mouse-wheel-follow-mouse t))
 #+end_src
 
 *** Scrolling behaviour
@@ -1652,9 +1659,9 @@ after scrolling the page.  This creates some friction because we have
 to be constantly guessing where the point has been repositioned.
 
 #+begin_src emacs-lisp
-  (setq scroll-margin 0
-        scroll-conservatively 1000
-        scroll-preserve-screen-position 'always)
+  (customize-set-variable 'scroll-margin 0)
+  (customize-set-variable 'scroll-conservatively 1000)
+  (customize-set-variable 'scroll-preserve-screen-position 'always)
 #+end_src
 
 *** Delete selection
@@ -1703,7 +1710,7 @@ kill.  Doing that will place the last kill to the clipboard losing
 what you copied initialy.  This is a nice solution to this problem:
 
 #+begin_src emacs-lisp
-  (setq save-interprogram-paste-before-kill t)
+  (customize-set-variable 'save-interprogram-paste-before-kill t)
 #+end_src
 
 Now the clipboard contents are stored in the kill ring and can be
@@ -1734,7 +1741,7 @@ where some change took place.
 saving a buffer of relevance like a diff file.
 
 #+begin_src emacs-lisp
-  (setq mode-require-final-newline 'visit-save)
+  (customize-set-variable 'mode-require-final-newline 'visit-save)
 #+end_src
 
 * Language settings for code and prose
@@ -1771,16 +1778,31 @@ provides most of the UI aspects of =lsp-mode=.
   (use-package lsp-mode
     :ensure t
     :commands (lsp lsp-deferred)
-    :hook (lsp-mode . lsp-enable-which-key-integration)
-    :init (setq lsp-keymap-prefix "C-c l"))
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    (defun jdp-lsp-mode-setup-completion ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(flex)))
+    :hook ((lsp-mode . lsp-enable-which-key-integration)
+           (lsp-completion-mode . jdp-lsp-mode-setup-completion))
+    :custom
+    (lsp-completion-provider :none))
 
   (use-package lsp-ui
     :ensure t
     :hook (lsp-mode . lsp-ui-mode)
-    :config
-    (setq lsp-ui-doc-position 'bottom
-          lsp-ui-doc-show-with-mouse nil
-          lsp-ui-doc-show-with-cursor nil))
+    :bind (([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+           ([remap xref-find-references] . lsp-ui-peek-find-references))
+    :custom
+    (lsp-ui-doc-enable nil))
+
+  (use-package consult-lsp
+    :ensure t
+    :after (consult lsp-mode)
+    :bind (:map lsp-command-map
+                ("!" . consult-lsp-diagnostics)
+                ("s s" . consult-lsp-symbols)
+                ("s f" . consult-lsp-file-symbols)))
 #+end_src
 
 ** Programming languages support
@@ -1830,9 +1852,9 @@ Configurations for writing in C/C++.  These include the following:
 #+begin_src emacs-lisp
   (use-package cc-mode
     :hook (c-mode-common . lsp-deferred)
-    :config
-    (setq-default c-default-style "k&r"
-                  c-basic-offset 4))
+    :custom
+    (c-default-style "k&r")
+    (c-basic-offset 4))
 #+end_src
 
 *** Elisp
@@ -1883,7 +1905,7 @@ Configurations for writing in Python.  These include the following:
 + Enabling =lsp-mode=.
 
 #+begin_src emacs-lisp
-  (setq python-shell-interpreter "python3")
+  (customize-set-variable 'python-shell-interpreter "python3")
 
   (use-package lsp-python-ms
     :init (setq lsp-python-ms-auto-install-server t)
@@ -1914,14 +1936,12 @@ are covered by the package =yasnippet= and by default can be expanded
 with the TAB key.
 
 #+begin_src emacs-lisp
-  (use-package yasnippet
+  (use-package tempel
     :ensure t
-    :config
-    (yas-global-mode))
-
-  (use-package yasnippet-snippets
-    :ensure t
-    :after yasnippet)
+    :init
+    (defun tempel-setup-capf ()
+      (add-hook 'completion-at-point-functions #'tempel-expand -1 'local))
+    :hook ((prog-mode text-mode) . tempel-setup-capf))
 #+end_src
 
 ** Configure 'electric' behaviour
@@ -1956,8 +1976,9 @@ on the screen, otherwise it shows nothing.
 
 #+begin_src emacs-lisp
   (use-package paren
+    :custom
+    (show-paren-style 'parenthesis)
     :config
-    (setq show-paren-style 'parenthesis)
     (show-paren-mode))
 #+end_src
 
@@ -1973,9 +1994,9 @@ first tries to indent the current line and then it tries to complete
 the thing at point.
 
 #+begin_src emacs-lisp
-  (setq-default tab-width 4
-                indent-tabs-mode nil
-                tab-always-indent 'complete)
+  (customize-set-variable 'tab-width 4)
+  (customize-set-variable 'indent-tabs-mode nil)
+  (customize-set-variable 'tab-always-indent 'complete)
 #+end_src
 
 ** Flycheck
@@ -1991,9 +2012,9 @@ and marks the line where the note, warning or error is.
   (use-package flycheck
     :ensure t
     :hook (prog-mode . global-flycheck-mode)
-    :config
-    (setq flycheck-display-errors-function
-          #'flycheck-display-error-messages-unless-error-list))
+    :custom
+    (flycheck-display-errors-function
+     #'flycheck-display-error-messages-unless-error-list))
 #+end_src
 
 ** Eldoc
@@ -2057,9 +2078,10 @@ Remember the position of the point in any given file.
 
 #+begin_src emacs-lisp
   (use-package saveplace
+    :custom
+    (save-place-file (locate-user-emacs-file "saveplace"))
+    (save-place-forget-unreadable-files t)
     :config
-    (setq save-place-file (locate-user-emacs-file "saveplace")
-          save-place-forget-unreadable-files t)
     (save-place-mode))
 #+end_src
 
@@ -2073,8 +2095,8 @@ every now and then you need them and in that scenario, they become
 extremely useful.
 
 #+begin_src emacs-lisp
-  (setq backup-directory-alist
-        `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
+  (customize-set-variable 'backup-directory-alist
+                          `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
 #+end_src
 
 * System-specific settings
@@ -2117,12 +2139,12 @@ behaves properly.
 #+begin_src emacs-lisp
   (when (and (eq system-type 'gnu/linux) (getenv "WSLENV"))
     (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
-	  (cmd-args '("/c" "start")))
+          (cmd-args '("/c" "start")))
       (when (file-exists-p cmd-exe)
-	(setq browse-url-generic-program cmd-exe
-	      browse-url-generic-args cmd-args
-	      browse-url-browser-function 'browse-url-generic
-	      search-web-default-browser 'browse-url-generic))))
+        (customize-set-variable 'browse-url-generic-program cmd-exe)
+        (customize-set-variable 'browse-url-generic-args cmd-args)
+        (customize-set-variable 'browse-url-browser-function 'browse-url-generic)
+        (setq search-web-default-browser 'browse-url-generic))))
 #+end_src
 
 * Other people's Emacs work
