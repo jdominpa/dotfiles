@@ -7,4 +7,4 @@ prog-mode
 
 c-mode
 
-(for "for (" (p "size_t") " " (p "i" iterator) " = " (p "0") "; " (s iterator) " < " (p "n") "; ++" (s iterator) ")" n> "{" n> p n> "}")
+(for "for (" (p "size_t") " " (p "i" iterator) " = " (p "0") "; " (iterator) " < " (p "n") "; ++" (iterator) ")" n "{" n p n "}")

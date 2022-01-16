@@ -313,9 +313,8 @@
          ("M-F" . consult-focus-lines)  ; same principle
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
-         ("M-s M-g" . consult-grep)
-         ("M-s M-h" . consult-history)
-         ("M-s M-m" . consult-mark)
+         ("M-g M-m" . consult-mark)
+         ("M-g M-e" . consult-flymake)
          :map consult-narrow-map
          ("?" . consult-narrow-help))
   :custom
@@ -324,12 +323,6 @@
   (consult-narrow-key ">")
   :config
   (setq register-preview-function #'consult-register-format))
-
-(use-package consult-flycheck
-  :ensure t
-  :after consult
-  :bind (:map flycheck-command-map
-              ("!" . consult-flycheck)))
 
 (use-package jdp-project
   :bind (("C-x p l" . jdp-project-commit-log)
@@ -365,13 +358,12 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;; TODO setup keybinds
 (use-package tempel
   :ensure t
-  :init
-  (defun tempel-setup-capf ()
-    (add-hook 'completion-at-point-functions #'tempel-expand -1 'local))
-  :hook ((prog-mode text-mode) . tempel-setup-capf))
+  :bind (("M-=" . tempel-complete)
+         :map tempel-map
+         ([remap scroll-up-command] . tempel-next)
+         ([remap scroll-down-command] . tempel-previous)))
 
 (use-package dabbrev
   :bind (("M-/" . dabbrev-completion)
@@ -559,35 +551,22 @@
 
 ;;; Settings for programming languages
 
-(use-package lsp-mode
+(use-package eglot
   :ensure t
-  :commands (lsp lsp-deferred)
-  :custom
-  (lsp-completion-provider :none)
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  (defun jdp-lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
-  :hook ((lsp-mode . lsp-enable-which-key-integration)
-         (lsp-completion-mode . jdp-lsp-mode-setup-completion)))
+  :bind (:map eglot-mode-map
+              ("C-c l r" . eglot-rename)
+              ("C-c l a" . eglot-code-actions)
+              ("C-c l f" . eglot-format)
+              ("C-c l h" . eldoc)
+              ("C-c l e" . eglot-stderr-buffer)
+              ("C-c l q" . eglot-shutdown)
+              ("C-c l Q" . eglot-shutdown-all)))
 
-(use-package lsp-ui
+(use-package consult-eglot
   :ensure t
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :bind (([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :custom
-  (lsp-ui-doc-enable nil))
-
-(use-package consult-lsp
-  :ensure t
-  :after (consult lsp-mode)
-  :bind (:map lsp-command-map
-              ("!" . consult-lsp-diagnostics)
-              ("s s" . consult-lsp-symbols)
-              ("s f" . consult-lsp-file-symbols)))
+  :after (consult eglot)
+  :bind (:map eglot-mode-map
+              ("C-c l s" . consult-eglot-symbols)))
 
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 
@@ -603,7 +582,7 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package cc-mode
-  :hook (c-mode-common . lsp-deferred)
+  :hook (c-mode-common . eglot-ensure)
   :bind (:map c-mode-base-map
          ("TAB" . indent-for-tab-command))
   :custom
@@ -633,10 +612,6 @@
 
 (customize-set-variable 'python-shell-interpreter "python3")
 
-(use-package lsp-python-ms
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . lsp-deferred))
-
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (use-package electric
@@ -650,17 +625,19 @@
   :config
   (show-paren-mode))
 
-
-;; (customize-set-variable 'tab-width 4)
+(customize-set-variable 'tab-width 4)
 (customize-set-variable 'indent-tabs-mode nil)
 (customize-set-variable 'tab-always-indent 'complete)
 
-(use-package flycheck
-  :ensure t
-  :hook (prog-mode . flycheck-mode)
+(use-package flymake
+  :hook (prog-mode . flymake-mode)
   :custom
-  (flycheck-display-errors-function
-   #'flycheck-display-error-messages-unless-error-list))
+  (flymake-fringe-indicator-position 'left-fringe)
+  (flymake-no-changes-timeout nil)
+  (flymake-proc-compilation-prevents-syntax-check t)
+  (flymake-start-on-flymake-mode t)
+  (flymake-start-on-save-buffer t)
+  (flymake-wrap-around nil))
 
 (use-package eldoc
   :config
