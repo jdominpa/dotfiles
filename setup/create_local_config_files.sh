@@ -8,7 +8,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 create_zsh_local() {
 
     declare -r DIR_PATH="$HOME/.zsh"
-    declare -r FILE_PATH="$HOME/.zsh/.zshrc.local"
+    declare -r FILE_PATH="$HOME/.zsh/.zshenv.local"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

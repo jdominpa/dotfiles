@@ -26,9 +26,3 @@ install_package "Zathura comic support" "zathura-cb"
 install_package "Zathura DjVu support" "zathura-djvu"
 install_package "Zathura Mupdf" "zathura-pdf-mupdf"
 install_package "Poppler" "poppler"
-
-# LaTeX packages
-install_package "LaTeX" "texlive-most"
-install_package "Languages" "texlive-lang"
-install_package "Biber" "biber"
-install_package "Pandoc" "pandoc"

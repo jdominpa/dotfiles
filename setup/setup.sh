@@ -171,20 +171,7 @@ verify_os() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Check if the OS is `Ubuntu` and
-    # it's above the required version.
-
-        ubuntu)
-            if is_supported_version "$os_version" "$MINIMUM_UBUNTU_VERSION"; then
-                return 0
-            else
-                printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_UBUNTU_VERSION"
-            fi
-            ;;
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Check if the OS is `Ubuntu` running in WSL.
+    # Check if the OS is `Arch Linux` running in WSL.
 
         arch-wsl)
             return 0

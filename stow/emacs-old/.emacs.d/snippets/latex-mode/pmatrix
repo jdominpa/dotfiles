@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: parens matrix
-# key: pmat
-# condition: (texmathp)
-# --
-\begin{pmatrix}
-$1
-\begin{pmatrix}
-$0

@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: align
-# key: ali
-# expand-env: ((yas-also-indent-empty-lines t))
-# --
-\begin{align${1:*}}
-$2
-\end{align$1}
-$0

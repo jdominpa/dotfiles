@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: left and right parens
-# key: ()
-# condition: (texmathp)
-# --
-\left( $1 \right)$0

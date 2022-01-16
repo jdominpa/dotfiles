@@ -18,7 +18,6 @@ stow_packages() {
     declare -a STOW_PKGS=(
 
         "emacs"
-        # "emacs-old"
         "git"
         "neovim"
         "shell"
