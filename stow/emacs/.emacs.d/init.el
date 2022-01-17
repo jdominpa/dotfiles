@@ -308,13 +308,12 @@
          ("C-x b" . consult-buffer)
          ("C-x M-m" . consult-minor-mode-menu)
          ("C-x M-k" . consult-kmacro)
-         ("M-y" . consult-yank-pop)
          ("M-K" . consult-keep-lines) ; M-S-k is similar to M-S-5 (M-%)
          ("M-F" . consult-focus-lines)  ; same principle
-         ("M-g g" . consult-goto-line)
-         ("M-g M-g" . consult-goto-line)
          ("M-g M-m" . consult-mark)
          ("M-g M-e" . consult-flymake)
+         ([remap yank-pop] . consult-yank-pop)
+         ([remap goto-line] . consult-goto-line)
          :map consult-narrow-map
          ("?" . consult-narrow-help))
   :custom
@@ -357,13 +356,6 @@
   :custom (kind-icon-default-face 'corfu-default)
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-(use-package tempel
-  :ensure t
-  :bind (("M-=" . tempel-complete)
-         :map tempel-map
-         ([remap scroll-up-command] . tempel-next)
-         ([remap scroll-down-command] . tempel-previous)))
 
 (use-package dabbrev
   :bind (("M-/" . dabbrev-completion)
@@ -551,22 +543,58 @@
 
 ;;; Settings for programming languages
 
-(use-package eglot
-  :ensure t
-  :bind (:map eglot-mode-map
-              ("C-c l r" . eglot-rename)
-              ("C-c l a" . eglot-code-actions)
-              ("C-c l f" . eglot-format)
-              ("C-c l h" . eldoc)
-              ("C-c l e" . eglot-stderr-buffer)
-              ("C-c l q" . eglot-shutdown)
-              ("C-c l Q" . eglot-shutdown-all)))
+;; (use-package eglot
+;;   :ensure t
+;;   :bind (:map eglot-mode-map
+;;               ("C-c l r" . eglot-rename)
+;;               ("C-c l a" . eglot-code-actions)
+;;               ("C-c l f" . eglot-format)
+;;               ("C-c l h" . eldoc)
+;;               ("C-c l e" . eglot-stderr-buffer)
+;;               ("C-c l q" . eglot-shutdown)
+;;               ("C-c l Q" . eglot-shutdown-all)))
 
-(use-package consult-eglot
+;; (use-package consult-eglot
+;;   :ensure t
+;;   :after (consult eglot)
+;;   :bind (:map eglot-mode-map
+;;               ("C-c l s" . consult-eglot-symbols)))
+
+(use-package lsp-mode
   :ensure t
-  :after (consult eglot)
-  :bind (:map eglot-mode-map
-              ("C-c l s" . consult-eglot-symbols)))
+  :commands (lsp lsp-deferred)
+  :custom
+  (lsp-completion-provider :none)
+  (lsp-headerline-breadcrumb-enable nil)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  (defun jdp-lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (lsp-completion-mode . jdp-lsp-mode-setup-completion)))
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :bind (([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+         ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :custom
+  (lsp-ui-doc-enable nil))
+
+(use-package consult-lsp
+  :ensure t
+  :after (consult lsp-mode)
+  :bind (:map lsp-command-map
+              ("s e" . consult-lsp-diagnostics)
+              ("s s" . consult-lsp-symbols)
+              ("s f" . consult-lsp-file-symbols)))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode))
 
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 
@@ -582,9 +610,9 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package cc-mode
-  :hook (c-mode-common . eglot-ensure)
+  :hook (c-mode-common . lsp-deferred)
   :bind (:map c-mode-base-map
-         ("TAB" . indent-for-tab-command))
+              ("TAB" . indent-for-tab-command))
   :custom
   (c-default-style "k&r")
   (c-basic-offset 4))
@@ -629,15 +657,26 @@
 (customize-set-variable 'indent-tabs-mode nil)
 (customize-set-variable 'tab-always-indent 'complete)
 
-(use-package flymake
-  :hook (prog-mode . flymake-mode)
+;; (use-package flymake
+;;   :custom
+;;   (flymake-fringe-indicator-position 'left-fringe)
+;;   (flymake-no-changes-timeout nil)
+;;   (flymake-proc-compilation-prevents-syntax-check t)
+;;   (flymake-start-on-flymake-mode t)
+;;   (flymake-start-on-save-buffer t)
+;;   (flymake-wrap-around nil))
+
+(use-package flycheck
+  :ensure t
   :custom
-  (flymake-fringe-indicator-position 'left-fringe)
-  (flymake-no-changes-timeout nil)
-  (flymake-proc-compilation-prevents-syntax-check t)
-  (flymake-start-on-flymake-mode t)
-  (flymake-start-on-save-buffer t)
-  (flymake-wrap-around nil))
+  (flycheck-display-errors-function
+   #'flycheck-display-error-messages-unless-error-list))
+
+(use-package consult-flycheck
+  :ensure t
+  :after (consult flycheck)
+  :bind (:map flycheck-command-map
+              ("!" . consult-flycheck)))
 
 (use-package eldoc
   :config
