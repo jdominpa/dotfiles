@@ -339,8 +339,6 @@
 (use-package corfu
   :ensure t
   :config
-  ;; TODO: Not working at the moment
-  ;; (package-install-file "corfu-doc")
   (corfu-global-mode))
 
 (use-package cape
@@ -356,6 +354,14 @@
   :custom (kind-icon-default-face 'corfu-default)
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package corfu-doc
+  :after corfu
+  :hook (corfu-mode . corfu-doc-mode)
+  :bind (:map corfu-map
+         ("M-d" . corfu-doc-toggle)
+         ("M-n" . corfu-doc-scroll-up)
+         ("M-p" . corfu-doc-scroll-down)))
 
 (use-package dabbrev
   :bind (("M-/" . dabbrev-completion)
@@ -478,7 +484,13 @@
   :custom
   (window-combination-resize t)
   (window-sides-vertical nil)
-  (switch-to-buffer-in-dedicated-window 'pop))
+  (switch-to-buffer-in-dedicated-window 'pop)
+  (display-buffer-alist
+   `(("\\*\\(Compile-Log\\)\\*"
+      (display-buffer-in-side-window)
+      (window-height . 0.33)
+      (side . top)
+      (slot . -1)))))
 
 (use-package ace-window
   :ensure t
@@ -566,6 +578,7 @@
   :custom
   (lsp-completion-provider :none)
   (lsp-headerline-breadcrumb-enable nil)
+  (lsp-enable-symbol-highlighting nil)
   :init
   (setq lsp-keymap-prefix "C-c l")
   (defun jdp-lsp-mode-setup-completion ()
@@ -578,8 +591,9 @@
   :ensure t
   :after lsp-mode
   :hook (lsp-mode . lsp-ui-mode)
-  :bind (([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references))
   :custom
   (lsp-ui-doc-enable nil))
 
@@ -593,6 +607,13 @@
 
 (use-package yasnippet
   :ensure t
+  :bind (:map yas-keymap
+              ("<tab>" . nil)
+              ("TAB" . nil)
+              ("S-<tab>" . nil)
+              ("<backtab>" . nil)
+              ([remap scroll-up-command] . yas-next-field)
+              ([remap scroll-down-command] . yas-prev-field))
   :config
   (yas-global-mode))
 
@@ -616,6 +637,11 @@
   :custom
   (c-default-style "k&r")
   (c-basic-offset 4))
+
+(use-package rustic
+  :ensure t
+  :config
+  (setq rustic-format-on-save t))
 
 (use-package macrostep
   :ensure t
