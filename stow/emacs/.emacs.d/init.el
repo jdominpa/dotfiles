@@ -308,8 +308,6 @@
          ("C-x b" . consult-buffer)
          ("C-x M-m" . consult-minor-mode-menu)
          ("C-x M-k" . consult-kmacro)
-         ("M-K" . consult-keep-lines) ; M-S-k is similar to M-S-5 (M-%)
-         ("M-F" . consult-focus-lines)  ; same principle
          ("M-g M-m" . consult-mark)
          ("M-g M-e" . consult-flymake)
          ([remap yank-pop] . consult-yank-pop)
