@@ -32,23 +32,18 @@
 
 ;;; General settings
 
-(use-package jdp-common)
-
-(use-package jdp-simple
+(use-package emacs
   :bind (("C-z" . nil)
          ("C-x C-z" . nil)
          ("M-`" . nil)
          ("C-h K" . describe-keymap)
          ;; Commands for lines
-         ("C-S-n" . jdp-simple-multi-line-next)
-         ("C-S-p" . jdp-simple-multi-line-prev)
          ("M-SPC" . cycle-spacing)
          ("M-o" . delete-blank-lines)
          ;; Commands for text manipulation
          ("M-c" . capitalize-dwim)
          ("M-l" . downcase-dwim)        ; "lower" case
-         ("M-u" . upcase-dwim)
-         ("C-^" . jdp-simple-reverse-delete-indentation)))
+         ("M-u" . upcase-dwim)))
 
 ;; Put custom configuration in a separate file
 (customize-set-variable 'custom-file
@@ -108,10 +103,8 @@
 
 (use-package multiple-cursors
   :ensure t
-  :bind (("C-." . mc/mark-next-like-this)
-         ("C-," . mc/mark-previous-like-this)
-         ("C->" . mc/skip-to-next-like-this)
-         ("C-<" . mc/skip-to-previous-like-this)
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
          ("C-c C->" . mc/mark-all-like-this)))
 
 (use-package expand-region
@@ -309,7 +302,6 @@
          ("C-x M-m" . consult-minor-mode-menu)
          ("C-x M-k" . consult-kmacro)
          ("M-g M-m" . consult-mark)
-         ("M-g M-e" . consult-flymake)
          ([remap yank-pop] . consult-yank-pop)
          ([remap goto-line] . consult-goto-line)
          :map consult-narrow-map
@@ -320,12 +312,6 @@
   (consult-narrow-key ">")
   :config
   (setq register-preview-function #'consult-register-format))
-
-(use-package jdp-project
-  :bind (("C-x p l" . jdp-project-commit-log)
-         ("C-x p t" . jdp-project-retrieve-tag))
-  :custom
-  (jdp-project-commit-log-limit 25))
 
 (use-package recentf
   :custom
@@ -386,8 +372,7 @@
         isearch-regexp-lax-whitespace nil))
 
 (use-package replace
-  :hook ((occur-mode . hl-line-mode)
-         (occur-mode . jdp-common-truncate-lines-silently))
+  :hook (occur-mode . hl-line-mode)
   :bind (("M-s M-o" . multi-occur)
          :map occur-mode-map
          ("t" . toggle-truncate-lines)))
@@ -395,17 +380,12 @@
 (use-package grep
   :commands (grep grep-find grep-find-toggle-abbreviation))
 
-(use-package jdp-search
-  :bind (:map isearch-mode-map
-         ("<backspace>" . jdp-search-isearch-abort-dwim)
-         ("<C-return>" . jdp-search-isearch-other-end)))
-
 (use-package wgrep
   :ensure t
   :bind (:map grep-mode-map
-              ("e" . #'wgrep-change-to-wgrep-mode)
-              ("C-x C-q" . #'wgrep-change-to-wgrep-mode)
-              ("C-c C-c" . #'wgrep-finish-edit)))
+              ("e" . wgrep-change-to-wgrep-mode)
+              ("C-x C-q" . wgrep-change-to-wgrep-mode)
+              ("C-c C-c" . wgrep-finish-edit)))
 
 ;;; Directory management
 
@@ -740,18 +720,6 @@
       (customize-set-variable 'browse-url-generic-args cmd-args)
       (customize-set-variable 'browse-url-browser-function 'browse-url-generic)
       (setq search-web-default-browser 'browse-url-generic))))
-
-; TODO: Implement bytecompilation
-;; (defun jdp-emacs-build-config-files ()
-;;   "Bytecompile all configuration files. Add this function to
-;; `kill-emacs-hook' to ensure that we always load the newest
-;; version of configuration files. The idea is to reduce startup
-;; time by moving this process to the end of a session."
-;;   (dolist (name '("init.el" "early-init.el"))
-;;     (let ((file (expand-file-name name user-emacs-directory)))
-;;       (byte-compile-file file))))
-
-;; (add-hook 'kill-emacs-hook #'jdp-emacs-build-config-files)
 
 (provide 'init)
 ;;; init.el ends here
