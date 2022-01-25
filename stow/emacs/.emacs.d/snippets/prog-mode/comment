@@ -2,4 +2,4 @@
 # name: comment
 # key: co
 # --
-`comment-start` ${1:comment} `comment-end`$0
+`comment-start`${1:comment}`comment-end`$0

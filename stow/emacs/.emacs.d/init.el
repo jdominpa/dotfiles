@@ -706,7 +706,7 @@
 (customize-set-variable 'backup-directory-alist
                         `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
 
-;;; System-specific settings
+;;; System settings
 
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'meta
