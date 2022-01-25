@@ -189,6 +189,10 @@
   (global-whitespace-cleanup-mode))
 
 (blink-cursor-mode -1)
+(cl-flet ((flash-mode-line ()
+                           (invert-face 'mode-line)
+                           (run-with-timer 0.1 nil #'invert-face 'mode-line)))
+  (customize-set-variable 'ring-bell-function #'flash-mode-line))
 
 (use-package mouse
   :custom
