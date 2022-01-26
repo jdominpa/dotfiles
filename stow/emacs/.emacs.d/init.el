@@ -57,7 +57,7 @@
   :custom
   (modus-themes-bold-constructs t)
   (modus-themes-slanted-constructs t)
-  (modus-themes-mode-line nil)
+  (modus-themes-mode-line '(borderless))
   :init
   ;; Load the theme files before enabling a theme
   (modus-themes-load-themes)
@@ -100,6 +100,10 @@
 (use-package so-long
   :config
   (global-so-long-mode))
+
+(use-package avy
+  :ensure t
+  :bind ("C-;" . avy-goto-char-timer))
 
 (use-package multiple-cursors
   :ensure t
@@ -174,7 +178,7 @@
 
 (use-package time
   :custom
-  (display-time-format "%H:%M %d-%m-%Y")
+  (display-time-format "%d-%m-%Y %H:%M")
   (display-time-interval 60)
   (display-time-default-load-average nil)
   :config
@@ -476,9 +480,7 @@
 
 (use-package ace-window
   :ensure t
-  :bind ("C-x o" . ace-window)
-  :custom
-  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  :bind ("C-x o" . ace-window))
 
 ;;; Applications and utilities
 
