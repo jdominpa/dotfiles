@@ -305,13 +305,21 @@
 
 (use-package consult
   :ensure t
-  :bind (("C-x M-:" . consult-complex-command)
+  :bind (;; C-x bindings
+         ("C-x M-:" . consult-complex-command)
          ("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
          ("C-x M-m" . consult-minor-mode-menu)
          ("C-x M-k" . consult-kmacro)
+         ;; M-g bindings
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
          ("M-g M-m" . consult-mark)
-         ([remap yank-pop] . consult-yank-pop)
-         ([remap goto-line] . consult-goto-line)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)
+         :map isearch-mode-map
+         ("M-h" . consult-isearch-history)
          :map consult-narrow-map
          ("?" . consult-narrow-help))
   :custom
@@ -365,7 +373,6 @@
   :bind (:map minibuffer-local-isearch-map
          ("M-/" . isearch-complete-edit)
          :map isearch-mode-map
-         ("C-g" . isearch-cancel)
          ("M-/" . isearch-complete))
   :custom
   (search-whitespace-regexp ".*?")
@@ -539,23 +546,6 @@
 
 ;;; Settings for programming languages
 
-;; (use-package eglot
-;;   :ensure t
-;;   :bind (:map eglot-mode-map
-;;               ("C-c l r" . eglot-rename)
-;;               ("C-c l a" . eglot-code-actions)
-;;               ("C-c l f" . eglot-format)
-;;               ("C-c l h" . eldoc)
-;;               ("C-c l e" . eglot-stderr-buffer)
-;;               ("C-c l q" . eglot-shutdown)
-;;               ("C-c l Q" . eglot-shutdown-all)))
-
-;; (use-package consult-eglot
-;;   :ensure t
-;;   :after (consult eglot)
-;;   :bind (:map eglot-mode-map
-;;               ("C-c l s" . consult-eglot-symbols)))
-
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
@@ -569,25 +559,19 @@
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(orderless)))
   :hook ((lsp-mode . lsp-enable-which-key-integration)
-         (lsp-completion-mode . jdp-lsp-mode-setup-completion)))
-
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :custom
-  (lsp-ui-doc-enable nil))
+         (lsp-completion-mode . jdp-lsp-mode-setup-completion))
+  :bind (:map lsp-mode-map
+              ([remap xref-find-definitions] . lsp-find-definition)
+              ([remap xref-find-references] . lsp-find-references)))
 
 (use-package consult-lsp
   :ensure t
   :after (consult lsp-mode)
-  :bind (:map lsp-command-map
-              ("s e" . consult-lsp-diagnostics)
-              ("s s" . consult-lsp-symbols)
-              ("s f" . consult-lsp-file-symbols)))
+  :bind (:map lsp-mode-map
+              ("M-g e" . consult-lsp-diagnostics)
+              ("M-g M-e" . consult-lsp-diagnostics)
+              ("M-g s" . consult-lsp-symbols)
+              ("M-g M-s" . consult-lsp-symbols)))
 
 (use-package yasnippet
   :ensure t
@@ -608,7 +592,7 @@
             (setq-local comment-auto-fill-only-comments t)))
 
 (use-package hl-todo
-  :hook (prog-mode . global-hl-todo-mode))
+  :hook (prog-mode . hl-todo-mode))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -624,8 +608,8 @@
 
 (use-package rustic
   :ensure t
-  :config
-  (setq rustic-format-on-save t))
+  :custom
+  (rustic-format-trigger 'on-save))
 
 (use-package macrostep
   :ensure t
@@ -667,14 +651,13 @@
 (customize-set-variable 'indent-tabs-mode nil)
 (customize-set-variable 'tab-always-indent 'complete)
 
-;; (use-package flymake
-;;   :custom
-;;   (flymake-fringe-indicator-position 'left-fringe)
-;;   (flymake-no-changes-timeout nil)
-;;   (flymake-proc-compilation-prevents-syntax-check t)
-;;   (flymake-start-on-flymake-mode t)
-;;   (flymake-start-on-save-buffer t)
-;;   (flymake-wrap-around nil))
+(use-package flymake
+  :custom
+  (flymake-no-changes-timeout nil)
+  (flymake-proc-compilation-prevents-syntax-check t)
+  (flymake-start-on-flymake-mode t)
+  (flymake-start-on-save-buffer t)
+  (flymake-wrap-around nil))
 
 (use-package flycheck
   :ensure t
