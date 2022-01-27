@@ -481,8 +481,8 @@
   (display-buffer-alist
    `(("\\*\\(Compile-Log\\)\\*"
       (display-buffer-in-side-window)
-      (window-height . 0.33)
-      (side . top)
+      (window-height . 0.35)
+      (side . bottom)
       (slot . -1)))))
 
 (use-package ace-window
