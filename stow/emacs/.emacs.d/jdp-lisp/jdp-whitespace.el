@@ -23,7 +23,6 @@
 
 ;;; Code:
 
-;;;###autoload
 (defun jdp-whitespace-space-toggle ()
   "Toggle the display of indentation and space characters."
   (interactive)

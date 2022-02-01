@@ -23,14 +23,12 @@
 
 ;;; Code:
 
-;;;###autoload
 (defun jdp-common-number-integer-p (n)
   "Test if N is an integer."
   (if (integerp n)
       n
     (error "%s is not an integer" n)))
 
-;;;###autoload
 (defun jdp-common-number-negative (n)
   "Make N negative."
   (if (and (numberp n) (> n 0))

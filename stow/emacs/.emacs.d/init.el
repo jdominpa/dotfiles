@@ -32,12 +32,14 @@
 
 ;;; General settings
 
-(use-package emacs
+(use-package jdp-simple
   :bind (("C-z" . nil)
          ("C-x C-z" . nil)
          ("M-`" . nil)
          ("C-h K" . describe-keymap)
          ;; Commands for lines
+         ("C-j" . jdp-simple-insert-newline-below)
+         ("C-S-j" . jdp-simple-insert-newline-above)
          ("M-SPC" . cycle-spacing)
          ("M-o" . delete-blank-lines)
          ;; Commands for text manipulation
@@ -619,10 +621,9 @@
 (use-package paredit
   :ensure t
   :hook ((lisp-mode emacs-lisp-mode) . paredit-mode)
-  :bind (:map lisp-mode-map
-         ("<return>" . paredit-newline)
-         :map emacs-lisp-mode-map
-         ("<return>" . paredit-newline)))
+  :bind (:map paredit-mode-map
+              ("C-j" . nil)
+              ("<return>" . paredit-newline)))
 
 (use-package tex
   :ensure auctex

@@ -153,7 +153,6 @@ to pass to the `bold' face's weight property."
      "Pick display size: "
      displays nil nil nil 'jdp-fonts-font-display-hist def)))
 
-;;;###autoload
 (defun jdp-fonts-set-fonts (&optional height font-mono font-var weight-mono weight-var)
   "Set default font size using presets.
 
@@ -189,7 +188,6 @@ is that of FONT-VAR."
         (add-to-history 'jdp-fonts-font-display-hist prompt))
     (error "Not running a graphical Emacs; cannot set fonts")))
 
-;;;###autoload
 (defun jdp-fonts-set-font-size-family ()
   "Set point size and main typeface.
 This command is mostly intended for testing typefaces defined in
@@ -213,7 +211,6 @@ This command is mostly intended for testing typefaces defined in
         (add-to-history 'jdp-fonts-font-height-hist size))
     (error "Not running a graphical Emacs; cannot set fonts")))
 
-;;;###autoload
 (defun jdp-fonts-set-fonts-dwim (&optional arg)
   "Set fonts interactively.
 With optional prefix ARG (\\[universal-argument]) call
@@ -282,7 +279,6 @@ keys from `jdp-fonts-laptop-desktop-keys-list'."
              spec))
     spec))
 
-;;;###autoload
 (defun jdp-fonts-fonts-per-monitor ()
   "Use font settings based on screen size."
   (when (display-graphic-p)
