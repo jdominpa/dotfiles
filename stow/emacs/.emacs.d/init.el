@@ -662,6 +662,7 @@
 
 (use-package flycheck
   :ensure t
+  :hook (prog-mode . flycheck-mode)
   :custom
   (flycheck-display-errors-function
    #'flycheck-display-error-messages-unless-error-list))
