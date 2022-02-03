@@ -23,12 +23,7 @@
   (add-to-list 'load-path (expand-file-name path user-emacs-directory)))
 
 (fset 'yes-or-no-p 'y-or-n-p)
-
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-(put 'overwrite-mode 'disabled t)
+(setq disabled-command-function nil)
 
 ;;; General settings
 
@@ -38,8 +33,7 @@
          ("M-`" . nil)
          ("C-h K" . describe-keymap)
          ;; Commands for lines
-         ("C-j" . jdp-simple-insert-newline-below)
-         ("C-S-j" . jdp-simple-insert-newline-above)
+         ("C-<return>" . jdp-simple-insert-newline-above-or-below)
          ("M-SPC" . cycle-spacing)
          ("M-o" . delete-blank-lines)
          ;; Commands for text manipulation
@@ -620,10 +614,7 @@
 
 (use-package paredit
   :ensure t
-  :hook ((lisp-mode emacs-lisp-mode) . paredit-mode)
-  :bind (:map paredit-mode-map
-              ("C-j" . nil)
-              ("<return>" . paredit-newline)))
+  :hook ((lisp-mode emacs-lisp-mode) . paredit-mode))
 
 (use-package tex
   :ensure auctex

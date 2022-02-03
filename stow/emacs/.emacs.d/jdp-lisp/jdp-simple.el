@@ -23,21 +23,31 @@
 
 ;;; Code:
 
-(defun jdp-simple-insert-newline-below (arg)
-  "Insert a newline below keeping the point in the current line.
-With prefix argument ARG, insert that many newlines below."
-  (interactive "*p")
-  (save-excursion
-    (move-end-of-line 1)
-    (newline arg)))
+(defun jdp-simple-insert-newline-above-or-below (arg)
+  "Insert newlines above or below the current one while keeping the point
+in the current one based on the prefix argument ARG as described below.
 
-(defun jdp-simple-insert-newline-above (arg)
-  "Insert newline above keeping the point in the current line.
-With prefix argument ARG, insert that many newlines above."
-  (interactive "*p")
-  (save-excursion
-    (move-beginning-of-line 1)
-    (newline arg)))
+By default, insert a newline below.  Prefixed with
+\\[universal-argument] or \\[negative-argument] insert the
+newline above. Prefixed with a numeric argument ARG, insert ARG
+lines below if ARG is positive (a numeric value of 0 is treated
+as 1) or insert ARG lines above if ARG is negative."
+  (interactive "*P")
+  (let ((arg (pcase arg
+               ((pred not)
+                1)
+               ((or (pred listp)
+                    (pred (equal #'-)))
+                -1)
+               ((pred (= 0))
+                1)
+               (_
+                arg))))
+    (save-excursion
+      (if (< arg 0)
+          (beginning-of-line)
+        (end-of-line))
+      (open-line (abs arg)))))
 
 (provide 'jdp-simple)
 ;;; jdp-simple.el ends here
