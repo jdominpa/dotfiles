@@ -33,13 +33,16 @@
          ("M-`" . nil)
          ("C-h K" . describe-keymap)
          ;; Commands for lines
-         ("C-<return>" . jdp-simple-insert-newline-above-or-below)
+         ("C-<return>" . jdp-simple-newlines-above-or-below)
          ("M-SPC" . cycle-spacing)
          ("M-o" . delete-blank-lines)
          ;; Commands for text manipulation
          ("M-c" . capitalize-dwim)
          ("M-l" . downcase-dwim)        ; "lower" case
-         ("M-u" . upcase-dwim)))
+         ("M-u" . upcase-dwim)
+         ;; Commands for marking objects
+         ("M-@" . jdp-simple-mark-word)
+         ("C-M-SPC" . jdp-simple-mark-construct-dwim)))
 
 ;; Put custom configuration in a separate file
 (customize-set-variable 'custom-file

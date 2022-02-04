@@ -2,8 +2,6 @@
 
 ;; Author: Joan Domingo Pasarin
 ;; Maintainer: Joan Domingo Pasarin
-;; Version: 1.0
-;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
 
