@@ -430,7 +430,7 @@
   :ensure t
   :bind (:map dired-mode-map
               ("<tab>" . dired-subtree-toggle)
-              ("<C-tab>" . dired-subtree-cycle)))
+              ("C-<tab>" . dired-subtree-cycle)))
 
 ;; Part of the `async' package.
 (use-package dired-async
@@ -508,10 +508,6 @@
   :bind ("C-c g" . magit-status)
   :custom
   (magit-diff-refine-hunk t))
-
-(use-package magit-todos
-  :ensure t
-  :hook (magit-status-mode . magit-todos-mode))
 
 (use-package eshell
   :custom
@@ -600,7 +596,7 @@
 (use-package cc-mode
   :hook (c-mode-common . lsp-deferred)
   :bind (:map c-mode-base-map
-              ("TAB" . indent-for-tab-command))
+              ("TAB" . nil))
   :custom
   (c-default-style "k&r")
   (c-basic-offset 4))
