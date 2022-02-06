@@ -93,6 +93,12 @@
   ;; connected to an external monitor or not.
   (jdp-fonts-fonts-per-monitor))
 
+(use-package repeat
+  :custom
+  (repeat-on-final-keystroke t)
+  :config
+  (repeat-mode))
+
 (customize-set-variable 'bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
 
@@ -344,7 +350,7 @@
   :ensure t
   :after corfu
   :init
-  (dolist (backend '(cape-keyword cape-file cape-dabbrev))
+  (dolist (backend '(cape-symbol cape-keyword cape-file cape-dabbrev))
     (add-to-list 'completion-at-point-functions backend)))
 
 (use-package kind-icon
