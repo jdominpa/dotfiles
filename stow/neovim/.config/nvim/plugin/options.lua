@@ -12,6 +12,7 @@ opt.wildoptions = "pum"
 
 opt.showmode = false
 opt.showcmd = true
+opt.laststatus = 3         -- Global status line
 opt.cmdheight = 1          -- Height of the command bar
 opt.incsearch = true       -- Highlight search matchings as we type
 opt.showmatch = true       -- Show matching brackets when text indicator is over them
