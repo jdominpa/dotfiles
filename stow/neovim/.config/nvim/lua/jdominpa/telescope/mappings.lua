@@ -1,17 +1,30 @@
-local map_tele_builtin = function(mode, key, f)
-  local opts = { noremap = true, silent = true }
-  local rhs = string.format("<cmd>lua require('telescope.builtin').%s()<CR>", f)
-  vim.api.nvim_set_keymap(mode, key, rhs, opts)
+TelescopeMapArgs = TelescopeMapArgs or {}
+
+local map_tele = function(key, f, options, buffer)
+  local map_key = vim.api.nvim_replace_termcodes(key .. f, true, true, true)
+
+  TelescopeMapArgs[map_key] = options or {}
+
+  local mode = "n"
+  local rhs = string.format("<cmd>lua require('telescope.builtin').%s(TelescopeMapArgs['%s'])<CR>", f, map_key)
+
+  if not buffer then
+    local map_options = { noremap = true, silent = true }
+  else
+    local map_options = { noremap = true, silent = true, buffer = 0 }
+  end
+
+  vim.keymap.set(mode, key, rhs, map_options)
 end
 
-map_tele_builtin("n", "<space>ff", "find_files")
-map_tele_builtin("n", "<space>fo", "oldfiles")
-map_tele_builtin("n", "<space>fb", "buffers")
-map_tele_builtin("n", "<space>ft", "treesitter")
+map_tele("<space>ff", "find_files")
+map_tele("<space>fo", "oldfiles")
+map_tele("<space>b", "buffers")
+map_tele("<space>ft", "treesitter")
 
-map_tele_builtin("n", "<space>xo", "vim_options")
-map_tele_builtin("n", "<space>xk", "keymaps")
-map_tele_builtin("n", "<space>xb", "builtin")
+map_tele("<space>xo", "vim_options")
+map_tele("<space>xk", "keymaps")
+map_tele("<space>xb", "builtin")
 
-map_tele_builtin("n", "<space>gs", "git_status")
-map_tele_builtin("n", "<space>gc", "git_commits")
+map_tele("<space>gs", "git_status")
+map_tele("<space>gc", "git_commits")

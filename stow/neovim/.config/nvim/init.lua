@@ -7,6 +7,9 @@ end
 -- Leader key -> ","
 vim.g.mapleader = ","
 
+-- Snippets plugin
+vim.g.snippets = "luasnip"
+
 -- Plugins
 require "jdominpa.plugins"
 
