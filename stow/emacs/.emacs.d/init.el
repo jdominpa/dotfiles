@@ -344,7 +344,7 @@
 (use-package corfu
   :ensure t
   :config
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package cape
   :ensure t
@@ -606,11 +606,6 @@
   :custom
   (c-default-style "k&r")
   (c-basic-offset 4))
-
-(use-package rustic
-  :ensure t
-  :custom
-  (rustic-format-trigger 'on-save))
 
 (use-package macrostep
   :ensure t
