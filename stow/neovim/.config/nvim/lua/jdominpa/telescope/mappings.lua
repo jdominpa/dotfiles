@@ -26,5 +26,5 @@ map_tele("<space>xb", "buffers")
 map_tele("<space>ho", "vim_options")
 map_tele("<space>hk", "keymaps")
 
-map_tele("<space>cgs", "git_status")
-map_tele("<space>cgc", "git_commits")
+map_tele("<space>gs", "git_status")
+map_tele("<space>gc", "git_commits")
