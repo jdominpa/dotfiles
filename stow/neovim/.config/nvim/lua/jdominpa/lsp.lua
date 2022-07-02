@@ -18,7 +18,7 @@ end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { "clangd", "ltex", "texlab" }
+local servers = { "clangd", "pyright", "ltex" }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
@@ -26,3 +26,7 @@ for _, lsp in pairs(servers) do
   }
 end
 
+-- LSP auto-install servers
+require("nvim-lsp-installer").setup({
+  automatic_installation = true,
+})

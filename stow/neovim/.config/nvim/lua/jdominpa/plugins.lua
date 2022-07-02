@@ -18,7 +18,7 @@ return require("packer").startup(function()
   -- Telescope
   use {
     "nvim-telescope/telescope.nvim",
-    requires = { {"nvim-lua/plenary.nvim"} }
+    requires = {"nvim-lua/plenary.nvim"}
   }
 
   -- Treesitter
@@ -32,6 +32,10 @@ return require("packer").startup(function()
 
   -- LSP
   use "neovim/nvim-lspconfig"
+  use {
+    "williamboman/nvim-lsp-installer",
+    requires = {"neovim/nvim-lspconfig"}
+  }
   use "onsails/lspkind-nvim"
 
   -- Completion

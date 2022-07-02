@@ -17,14 +17,14 @@ local map_tele = function(key, f, options, buffer)
   vim.keymap.set(mode, key, rhs, map_options)
 end
 
-map_tele("<space>ff", "find_files")
-map_tele("<space>fo", "oldfiles")
-map_tele("<space>b", "buffers")
-map_tele("<space>ft", "treesitter")
+map_tele("<space>xt", "builtin")
+map_tele("<space>xf", "find_files")
+map_tele("<space>xr", "oldfiles")
+map_tele("<space>xb", "buffers")
+-- map_tele("<space>ft", "treesitter")
 
-map_tele("<space>xo", "vim_options")
-map_tele("<space>xk", "keymaps")
-map_tele("<space>xb", "builtin")
+map_tele("<space>ho", "vim_options")
+map_tele("<space>hk", "keymaps")
 
-map_tele("<space>gs", "git_status")
-map_tele("<space>gc", "git_commits")
+map_tele("<space>cgs", "git_status")
+map_tele("<space>cgc", "git_commits")
