@@ -32,10 +32,6 @@ return require("packer").startup(function()
 
   -- LSP
   use "neovim/nvim-lspconfig"
-  use {
-    "williamboman/nvim-lsp-installer",
-    requires = {"neovim/nvim-lspconfig"}
-  }
   use "onsails/lspkind-nvim"
 
   -- Completion
@@ -48,4 +44,9 @@ return require("packer").startup(function()
 
   -- Snippets
   use "L3MON4D3/LuaSnip"
+  use {
+    "rafamadriz/friendly-snippets",
+    requires = {"L3MON4D3/LuaSnip"}
+  }
+
 end)

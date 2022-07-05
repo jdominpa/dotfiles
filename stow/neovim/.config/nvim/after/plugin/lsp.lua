@@ -25,8 +25,3 @@ for _, lsp in pairs(servers) do
     capabilities = capabilities,
   }
 end
-
--- LSP auto-install servers
-require("nvim-lsp-installer").setup({
-  automatic_installation = true,
-})

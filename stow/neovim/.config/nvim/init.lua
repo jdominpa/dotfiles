@@ -11,10 +11,10 @@ vim.g.mapleader = ","
 vim.g.snippets = "luasnip"
 
 -- Plugins
-require "jdominpa.plugins"
+require "jdominpa.packer"
 
 -- Neovim builtin LSP configuration
-require "jdominpa.lsp"
+-- require "jdominpa.lsp"
 
 -- Telescope
 require "jdominpa.telescope.setup"
