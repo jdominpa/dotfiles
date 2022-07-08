@@ -13,9 +13,6 @@ vim.g.snippets = "luasnip"
 -- Plugins
 require "jdominpa.packer"
 
--- Neovim builtin LSP configuration
--- require "jdominpa.lsp"
-
 -- Telescope
 require "jdominpa.telescope.setup"
 require "jdominpa.telescope.mappings"
