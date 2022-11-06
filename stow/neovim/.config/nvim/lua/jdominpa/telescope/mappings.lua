@@ -20,7 +20,6 @@ end
 map_tele("<leader>.", "find_files")
 map_tele("<leader>r", "oldfiles")
 map_tele("<leader>b", "buffers")
--- map_tele("<leader>ft", "treesitter")
 
 map_tele("<leader>ho", "vim_options")
 map_tele("<leader>hk", "keymaps")
