@@ -49,8 +49,8 @@ zstyle ':completion:*' menu select
 # Prompt
 #
 
-autoload -U colors
-colors
+# autoload -U colors
+# colors
 
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html
 autoload -Uz vcs_info

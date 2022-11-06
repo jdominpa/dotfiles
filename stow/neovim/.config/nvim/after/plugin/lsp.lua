@@ -18,7 +18,7 @@ end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { "clangd", "pyright", "ltex" }
+local servers = { "sumneko_lua", "clangd", "pyright", "ltex" }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,

@@ -2,7 +2,7 @@ if vim.g.snippets ~= "luasnip" or not pcall(require, "luasnip") then
   return
 end
 
-require("luasnip.loaders.from_lua").load({ paths = "$HOME/.config/nvim/snippets/" })
+require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets" })
 
 local ls = require("luasnip")
 ls.config.set_config {
@@ -17,16 +17,6 @@ ls.config.set_config {
     },
   },
 }
-
-local s = ls.snippet
-local t = ls.text_node
-local i = ls.insert_node
-local c = ls.choice_node
-local f = ls.function_node
-local d = ls.dynamic_node
-local sn = ls.snippet_node
-local rep = require("luasnip.extras").rep
-local fmt = require("luasnip.extras.fmt").fmt
 
 -- Keybindings
 vim.keymap.set({ "i", "s" }, "<C-j>", function()
@@ -47,4 +37,5 @@ vim.keymap.set("i", "<C-l>", function()
   end
 end)
 
+vim.cmd([[command! LuaSnipEdit :lua require("luasnip.loaders.from_lua").edit_snippet_files()]])
 vim.keymap.set("n", "<leader>s", "<cmd>LuaSnipEdit<CR>", { silent = true, noremap = true })
