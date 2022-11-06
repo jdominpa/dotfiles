@@ -10,13 +10,13 @@ local on_attach = function(client, bufnr)
   keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   keymap("n", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  keymap("n", "<space>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  keymap("n", "<space>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  keymap("n", "<localleader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  keymap("n", "<localleader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
   keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
 end
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local servers = { "clangd", "pyright", "ltex" }
 for _, lsp in pairs(servers) do

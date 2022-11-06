@@ -5,7 +5,8 @@ if require "jdominpa.first_load"() then
 end
 
 -- Leader key -> ","
-vim.g.mapleader = ","
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- Snippets plugin
 vim.g.snippets = "luasnip"

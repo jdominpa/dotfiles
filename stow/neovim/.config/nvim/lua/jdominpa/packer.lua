@@ -2,7 +2,7 @@ return require("packer").startup(function()
   use "wbthomason/packer.nvim"
 
   -- Colorscheme
-  use "ishan9299/modus-theme-vim"
+  use "morhetz/gruvbox"
 
   -- Status line
   use {
@@ -40,13 +40,9 @@ return require("packer").startup(function()
   use "hrsh7th/cmp-path"
   use "hrsh7th/cmp-nvim-lsp"
   use "hrsh7th/cmp-nvim-lua"
-  use "saadparwaiz1/cmp_luasnip"
 
   -- Snippets
   use "L3MON4D3/LuaSnip"
-  use {
-    "rafamadriz/friendly-snippets",
-    requires = {"L3MON4D3/LuaSnip"}
-  }
+  use "saadparwaiz1/cmp_luasnip"
 
 end)

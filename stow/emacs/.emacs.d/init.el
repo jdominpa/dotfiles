@@ -547,32 +547,15 @@
 
 ;;; Settings for programming languages
 
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :custom
-  (lsp-completion-provider :none)
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-enable-symbol-highlighting nil)
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  (defun jdp-lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
-  :hook ((lsp-mode . lsp-enable-which-key-integration)
-         (lsp-completion-mode . jdp-lsp-mode-setup-completion))
-  :bind (:map lsp-mode-map
-              ([remap xref-find-definitions] . lsp-find-definition)
-              ([remap xref-find-references] . lsp-find-references)))
+(use-package eglot
+  :ensure t)
 
-(use-package consult-lsp
+(use-package consult-eglot
   :ensure t
-  :after (consult lsp-mode)
-  :bind (:map lsp-mode-map
-              ("M-g e" . consult-lsp-diagnostics)
-              ("M-g M-e" . consult-lsp-diagnostics)
-              ("M-g s" . consult-lsp-symbols)
-              ("M-g M-s" . consult-lsp-symbols)))
+  :after (consult eglot)
+  :bind (:map eglot-mode-map
+              ("M-g s" . consult-eglot-symbols)
+              ("M-g M-s" . consult-eglot-symbols)))
 
 (use-package yasnippet
   :ensure t
@@ -593,6 +576,7 @@
             (setq-local comment-auto-fill-only-comments t)))
 
 (use-package hl-todo
+  :ensure t
   :hook (prog-mode . hl-todo-mode))
 
 (use-package rainbow-delimiters
@@ -600,12 +584,15 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package cc-mode
-  :hook (c-mode-common . lsp-deferred)
+  :hook (c-mode-common . eglot-ensure)
   :bind (:map c-mode-base-map
               ("TAB" . nil))
   :custom
   (c-default-style "k&r")
   (c-basic-offset 4))
+
+(use-package python-mode
+  :hook (python-mode . eglot-ensure))
 
 (use-package macrostep
   :ensure t
@@ -650,19 +637,6 @@
   (flymake-start-on-flymake-mode t)
   (flymake-start-on-save-buffer t)
   (flymake-wrap-around nil))
-
-(use-package flycheck
-  :ensure t
-  :hook (prog-mode . flycheck-mode)
-  :custom
-  (flycheck-display-errors-function
-   #'flycheck-display-error-messages-unless-error-list))
-
-(use-package consult-flycheck
-  :ensure t
-  :after (consult flycheck)
-  :bind (:map flycheck-command-map
-              ("!" . consult-flycheck)))
 
 (use-package eldoc
   :config

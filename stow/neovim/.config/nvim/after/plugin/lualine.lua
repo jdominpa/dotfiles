@@ -1,7 +1,7 @@
 require("lualine").setup {
   options = {
     icons_enabled = true,
-    theme = "modus-vivendi",
+    theme = "gruvbox",
   },
   tabline = {
     lualine_a = {"buffers"},

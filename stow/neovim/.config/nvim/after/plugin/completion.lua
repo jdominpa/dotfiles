@@ -9,9 +9,10 @@ cmp.setup({
   mapping = {
     ["<C-n"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
     ["<C-p"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-    ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-d>"] = cmp.mapping.scroll_docs(4),
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = cmp.mapping.abort(),
+    ["<C-space>"] = cmp.mapping.complete(),
     ["<C-y>"] = cmp.mapping(
       cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Insert,
@@ -19,19 +20,6 @@ cmp.setup({
       },
       { "i", "c" }
     ),
-    ["<C-Space>"] = cmp.mapping {
-      i = cmp.mapping.complete(),
-      c = function( _ --[[fallback]] )
-        if cmp.visible() then
-          if not cmp.confirm { select = true } then
-            return
-          end
-        else
-          cmp.complete()
-        end
-      end,
-    },
-    ["<tab>"] = cmp.config.disable,
   },
 
   sources = {
@@ -59,10 +47,5 @@ cmp.setup({
         luasnip = "[snip]",
       },
     },
-  },
-
-  experimental = {
-    native_menu = false,
-    ghost_text = true,
   },
 })
