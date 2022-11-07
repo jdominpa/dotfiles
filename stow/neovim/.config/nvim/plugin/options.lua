@@ -33,7 +33,6 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 
-opt.wrap = true
 opt.breakindent = true
 opt.showbreak = string.rep(" ", 3)  -- Wrap long lines smartly
 opt.linebreak = true

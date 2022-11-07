@@ -15,5 +15,7 @@ nnoremap("N", "Nzzzv")
 nnoremap("J", "mzJ`z")
 
 -- Move lines
-vnoremap("J", ":m '>+1<CR>gv=gv")
-vnoremap("K", ":m '<-2<CR>gv=gv")
+inoremap("M-j", "<Esc>:m .+1<CR>==gi")
+inoremap("M-k", "<Esc>:m .-2<CR>==gi")
+vnoremap("M-j", ":m '>+1<CR>gv=gv")
+vnoremap("M-k", ":m '<-2<CR>gv=gv")

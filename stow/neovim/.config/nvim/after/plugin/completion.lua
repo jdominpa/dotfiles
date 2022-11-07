@@ -3,6 +3,9 @@ if not ok then
   return
 end
 
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.shortmess:append "c"
+
 local cmp = require('cmp')
 
 cmp.setup({
@@ -12,7 +15,6 @@ cmp.setup({
     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = cmp.mapping.abort(),
-    ["<C-space>"] = cmp.mapping.complete(),
     ["<C-y>"] = cmp.mapping(
       cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Insert,
@@ -20,6 +22,18 @@ cmp.setup({
       },
       { "i", "c" }
     ),
+    ["<C-space>"] = cmp.mapping {
+      i = cmp.mapping.complete(),
+      c = function(_)
+        if cmp.visible() then
+          if not cmp.confirm { select = true } then
+            return
+          end
+        else
+          cmp.complete()
+        end
+      end,
+    },
   },
 
   sources = {
@@ -47,5 +61,10 @@ cmp.setup({
         luasnip = "[snip]",
       },
     },
+  },
+
+  experimental = {
+    native_menu = false,
+    ghost_text = true,
   },
 })

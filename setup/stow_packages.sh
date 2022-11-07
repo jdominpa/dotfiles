@@ -21,7 +21,7 @@ stow_packages() {
         "git"
         "neovim"
         "shell"
-        # "tmux"
+        "tmux"
 
     )
 

@@ -23,11 +23,6 @@ else
   export EDITOR=$VISUAL
 fi
 
-# if which emacsclient &> /dev/null; then
-#   export VISUAL=$(which emacsclient)
-#   export EDITOR=$VISUAL
-# fi
-
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
 export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
