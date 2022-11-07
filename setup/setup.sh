@@ -149,7 +149,7 @@ extract() {
 verify_os() {
 
     declare -r MINIMUM_MACOS_VERSION="10.10"
-    declare -r MINIMUM_UBUNTU_VERSION="18.04"
+    declare -r MINIMUM_UBUNTU_VERSION="20.04"
 
     local os_name="$(get_os)"
     local os_version="$(get_os_version)"
@@ -166,6 +166,18 @@ verify_os() {
                 return 0
             else
                 printf "Sorry, this script is intended only for macOS %s+" "$MINIMUM_MACOS_VERSION"
+            fi
+            ;;
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Check if the OS is `Ubuntu` running in WSL.
+
+        ubuntu-wsl)
+            if is_supported_version "$(get_os_version)" "$MINIMUM_UBUNTU_VERSION"; then
+                return 0
+            else
+                printf "Sorry, this script is intended only for Ubuntu %s+" "$MINIMUM_MACOS_VERSION"
             fi
             ;;
 
@@ -188,7 +200,7 @@ verify_os() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         *)
-            printf "Sorry, this script is intended only for macOS, Arch Linux and...! (%s)" "$os_name"
+            printf "Sorry, this script is intended only for macOS, Ubuntu-WSL and Arch Linux! (%s)" "$os_name"
             return 1
             ;;
     esac
