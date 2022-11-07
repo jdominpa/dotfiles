@@ -3,6 +3,7 @@ require("lualine").setup {
     icons_enabled = true,
     theme = "gruvbox",
   },
+
   tabline = {
     lualine_a = {"buffers"},
     lualine_b = {},

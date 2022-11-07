@@ -34,8 +34,16 @@ opt.softtabstop = 4
 opt.expandtab = true
 
 opt.breakindent = true
-opt.showbreak = string.rep(" ", 3)  -- Wrap long lines smartly
+opt.showbreak = string.rep("↳ ", 3) -- Wrap long lines smartly
 opt.linebreak = true
+opt.list = true                     -- show whitespace
+opt.listchars = {
+  nbsp = '⦸',                       -- CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+  extends = '>',
+  precedes = '<',
+  tab = '» ',                       -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  trail = '•',                      -- BULLET (U+2022, UTF-8: E2 80 A2)
+}
 
 opt.foldmethod = "marker"
 opt.foldlevel = 0

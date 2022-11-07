@@ -344,10 +344,6 @@ zstyle ':completion:*:*:cdr:*:*' menu selection
 # fall through to cd if cdr is passed a non-recent dir as an argument
 zstyle ':chpwd:*' recent-dirs-default true
 
-# Local and host-specific overrides.
-LOCAL_RC=$ZDOTDIR/.zshrc.local
-test -f $LOCAL_RC && source $LOCAL_RC
-
 #
 # Plug-ins
 #
