@@ -5,6 +5,8 @@ local download_packer = function()
 
   local directory = string.format("%s/site/pack/packer/start/", vim.fn.stdpath "data")
 
+  vim.fn.mkdir(directory, "p")
+
   local out = vim.fn.system(
     string.format("git clone --depth 1 %s %s", "https://github.com/wbthomason/packer.nvim", directory .. "packer.nvim")
   )
@@ -12,6 +14,7 @@ local download_packer = function()
   print(out)
   print "Downloading packer.nvim..."
   print "( You'll need to restart now )"
+  vim.cmd("qa")
 end
 
 return function()

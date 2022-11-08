@@ -18,11 +18,14 @@ local map_tele = function(key, f, options, buffer)
 end
 
 map_tele("<leader>.", "find_files")
-map_tele("<leader>r", "oldfiles")
-map_tele("<leader>b", "buffers")
+map_tele("<leader>ff", "find_files")
+map_tele("<leader>fr", "oldfiles")
+map_tele("<leader>bb", "buffers")
 
-map_tele("<leader>ho", "vim_options")
+map_tele("<leader>hv", "vim_options")
+map_tele("<leader>hp", "help_tags")
 map_tele("<leader>hk", "keymaps")
+map_tele("<leader>ht", "builtin")
 
 map_tele("<leader>gs", "git_status")
 map_tele("<leader>gc", "git_commits")

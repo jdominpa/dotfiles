@@ -1,15 +1,10 @@
 require("lualine").setup {
   options = {
+    component_separators = '',
+    section_separators = '',
+    always_divide_middle = true,
     icons_enabled = true,
-    theme = "gruvbox",
-  },
-
-  tabline = {
-    lualine_a = {"buffers"},
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {"tabs"},
+    globalstatus = true,
+    theme = "auto",
   },
 }

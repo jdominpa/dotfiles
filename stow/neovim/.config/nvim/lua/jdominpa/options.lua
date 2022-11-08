@@ -39,9 +39,9 @@ opt.linebreak = true
 opt.list = true                     -- show whitespace
 opt.listchars = {
   nbsp = '⦸',                       -- CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-  extends = '>',
-  precedes = '<',
-  tab = '» ',                       -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  extends = '»',                    -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  precedes = '«',                   -- LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+  tab = '> ',
   trail = '•',                      -- BULLET (U+2022, UTF-8: E2 80 A2)
 }
 
