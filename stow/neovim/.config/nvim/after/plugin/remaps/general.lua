@@ -39,7 +39,7 @@ nnoremap("<leader>d", "\"_d")
 vnoremap("<leader>d", "\"_d")
 nnoremap("<leader>D", "\"_D")
 
--- TODO: Jump to next or previous error in quickfix list
+-- Jump to next or previous error in quickfix list
 nnoremap("<C-k>", "<cmd>cnext<CR>zz")
 nnoremap("<C-j>", "<cmd>cprev<CR>zz")
 nnoremap("<leader>k", "<cmd>lnext<CR>zz")
