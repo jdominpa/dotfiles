@@ -4,7 +4,6 @@ local nnoremap = keymap.nnoremap
 -- LSP keymappings
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
-
   nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
   nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
   nnoremap("gT", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
@@ -18,12 +17,28 @@ local on_attach = function(client, bufnr)
   nnoremap("]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
 end
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-local servers = { "sumneko_lua", "clangd", "pyright", "ltex" }
+local servers = { "clangd", "pyright", "ltex" }
 for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
+  require("lspconfig")[lsp].setup({
     on_attach = on_attach,
-    capabilities = capabilities,
-  }
+  })
 end
+
+require("lspconfig").sumneko_lua.setup({
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global variable
+        globals = { "vim" },
+      },
+      workspace = {
+        -- Make the server aware of neovim runtime files
+        library = {
+          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+        },
+      },
+    },
+  },
+})

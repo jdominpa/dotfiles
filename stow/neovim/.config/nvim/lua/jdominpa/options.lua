@@ -1,6 +1,9 @@
-vim.g.loaded_matchparen = 1
-
 local opt = vim.opt
+
+-- Netrw options
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
 
 -- Ignore compiled files
 opt.wildignore = "__pycache__"
