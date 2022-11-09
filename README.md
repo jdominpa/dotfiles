@@ -14,7 +14,6 @@ Table of Contents
     * [Local Settings](#local-settings)
         * [`~/.zsh.local`](#zshlocal)
         * [`~/.gitconfig.local`](#gitconfiglocal)
-        * [ `~/.config/nvim/init.vim.local`](#initvimlocal)
     * [Forks](#forks)
 * [License](#license)
 
@@ -23,7 +22,7 @@ Setup
 
 To set up the `dotfiles` just run the appropriate snippet in the terminal:
 
-(**DO NOT** run the `setup` snippet if you do not fully understand [what it does](https://github.com/jdominpa/dotfiles/src/os/setup.sh))
+(**DO NOT** run the `setup` snippet if you do not fully understand [what it does](https://github.com/jdominpa/dotfiles/tree/master/setup/setup.sh))
 
 ```
   # macOS
@@ -39,9 +38,18 @@ Because of that, `setup` won't execute the `update_content` script which you wil
 The setup process will:
 
 1. Download the dotfiles on your computer (by default it will suggest `~/Projects/dotfiles`).
-2. [Symlink](https://github.com/jdominpa/src/os/create_symbolic_links.sh) the [git](https://github.com/jdominpa/src/git), [shell](https://github.com/jdominpa/src/shell), [zsh](https://github.com/jdominpa/src/zsh), [emacs](https://github.com/jdominpa/dotfiles/tree/master/src/emacs/emacs.d) and [neovim](https://github.com/jdominpa/dotfiles/tree/master/src/neovim/config/nvim) files.
-3. Install applications/command-line tools for [macOS](https://github.com/jdominpa/dotfiles/tree/master/src/os/install/macos) / [Arch](https://github.com/jdominpa/dotfiles/tree/master/src/os/install/arch) / [Ubuntu](https://github.com/jdominpa/dotfiles/tree/master/src/os/install/ubuntu) / [Ubuntu WSL](https://github.com/jdominpa/dotfiles/tree/master/src/os/install/ubuntu-wsl).
-4. Set custom [macOS](https://github.com/jdominpa/dotfiles/tree/master/src/os/preferences/macos) / [Arch](https://github.com/jdominpa/dotfiles/tree/master/src/os/preferences/arch) / [Ubuntu](https://github.com/jdominpa/dotfiles/tree/master/src/os/preferences/ubuntu) preferences.
+2. [Symlink](https://github.com/jdominpa/dotfiles/tree/master/setup/create_symbolic_links.sh)
+    the [git](https://github.com/jdominpa/dotfiles/tree/master/stow/git),
+    [shell](https://github.com/jdominpa/dotfiles/tree/master/stow/shell),
+    [emacs](https://github.com/jdominpa/dotfiles/tree/master/stow/emacs/emacs.d)
+    and [neovim](https://github.com/jdominpa/dotfiles/tree/master/stow/neovim/.config/nvim) files.
+3. Install applications/command-line tools for [macOS](https://github.com/jdominpa/dotfiles/tree/master/setup/install/macos)
+    / [Arch](https://github.com/jdominpa/dotfiles/tree/master/setup/install/arch)
+    / [Ubuntu](https://github.com/jdominpa/dotfiles/tree/master/setup/install/ubuntu)
+    / [Ubuntu WSL](https://github.com/jdominpa/dotfiles/tree/master/setup/install/ubuntu-wsl).
+4. Set custom [macOS](https://github.com/jdominpa/dotfiles/tree/master/setup/preferences/macos)
+    / [Arch](https://github.com/jdominpa/dotfiles/tree/master/setup/preferences/arch)
+    / [Ubuntu](https://github.com/jdominpa/dotfiles/tree/master/setup/preferences/ubuntu) preferences.
 
 ### Running linux GUI programs with WSL2
 
@@ -68,7 +76,7 @@ The `dotfiles` can be easily extended to suit additional local requirements by u
 
 #### `~/.zsh.local`
 
-The `~/.zsh.local` file will be automatically sourced after all the other [zsh related files](https://github.com/jdominpa/dotfiles/tree/master/src/zsh_shell),
+The `~/.zsh.local` file will be automatically sourced after all the other [zsh related files](https://github.com/jdominpa/dotfiles/tree/master/stow/shell),
 thus, allowing its content to add to or overwrite the existing aliases, settings, PATH, etc.
 
 Here is a very simple example of a `~/.zsh.local` file:
@@ -114,17 +122,12 @@ _Note_: Use `~/.gitconfig.local` to store sensitive information such as the git 
       signingkey = XXXXXXXX
 ```
 
-#### `~/.config/nvim/init.vim.local`
-
-The `~/.config/nvim/init.vim.local` file will be automatically sourced after `~/.config/nvim/init.vim`,
-thus, allowing its content to add or overwrite the settings from `~/.config/nvim/init.vim`.
-
 ### Forks
 
 If you decide to fork this project, do not forget to substitute my username with your own in the [setup snippets](#Setup)
-and in the [setup script](https://github.com/jdominpa/dotfiles/blob/master/src/os/setup.sh).
+and in the [setup script](https://github.com/jdominpa/dotfiles/tree/master/setup/setup.sh).
 
 License
 -------
 
-The code is available under the [GNU General Public License v3.0](https://github.com/jdominpa/dotfiles/blob/master/LICENSE).
+The code is available under the [GNU General Public License v3.0](https://github.com/jdominpa/dotfiles/tree/master/LICENSE).
