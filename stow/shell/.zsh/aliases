@@ -5,17 +5,18 @@
 #
 
 if [ "$(uname -s)" == "Darwin" ]; then
-	alias ls='gls -h --color=auto --group-directories-first'
+	alias ls="gls -h --color=auto --group-directories-first"
 else
-	alias ls='ls -h --color=auto --group-directories-first'
+	alias ls="ls -h --color=auto --group-directories-first"
 fi
 
-alias ll='ls -l'
-alias la='ls -lA'
+alias ll="ls -l"
+alias la="ls -lA"
 alias grep="grep --color=auto"
 alias diff="diff --color=auto"
-alias ....='cd ../..'
-alias cd..='cd ..'
+alias ....="cd ../.."
+alias cd..="cd .."
+alias tmux="tmux -2"
 
 if command -v nvim &> /dev/null; then
   alias vim=nvim # Use `\vim` or `command vim` to get the real vim.
