@@ -17,7 +17,7 @@ local on_attach = function(client, bufnr)
   nnoremap("]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
 end
 
-local servers = { "clangd", "pyright", "ltex" }
+local servers = { "clangd", "ltex" }
 for _, lsp in pairs(servers) do
   require("lspconfig")[lsp].setup({
     on_attach = on_attach,
