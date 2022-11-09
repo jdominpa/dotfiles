@@ -22,7 +22,7 @@ Setup
 
 To set up the `dotfiles` just run the appropriate snippet in the terminal:
 
-(**DO NOT** run the `setup` snippet if you do not fully understand [what it does](https://github.com/jdominpa/dotfiles/tree/master/setup/setup.sh))
+(**DO NOT** run the `setup` snippet if you do not fully understand [what it does](https://github.com/jdominpa/dotfiles/blob/master/setup/setup.sh))
 
 ```
   # macOS
@@ -38,7 +38,7 @@ Because of that, `setup` won't execute the `update_content` script which you wil
 The setup process will:
 
 1. Download the dotfiles on your computer (by default it will suggest `~/Projects/dotfiles`).
-2. [Symlink](https://github.com/jdominpa/dotfiles/tree/master/setup/create_symbolic_links.sh)
+2. [Symlink](https://github.com/jdominpa/dotfiles/blob/master/setup/create_symbolic_links.sh)
     the [git](https://github.com/jdominpa/dotfiles/tree/master/stow/git),
     [shell](https://github.com/jdominpa/dotfiles/tree/master/stow/shell),
     [emacs](https://github.com/jdominpa/dotfiles/tree/master/stow/emacs/emacs.d)
@@ -125,9 +125,9 @@ _Note_: Use `~/.gitconfig.local` to store sensitive information such as the git 
 ### Forks
 
 If you decide to fork this project, do not forget to substitute my username with your own in the [setup snippets](#Setup)
-and in the [setup script](https://github.com/jdominpa/dotfiles/tree/master/setup/setup.sh).
+and in the [setup script](https://github.com/jdominpa/dotfiles/blob/master/setup/setup.sh).
 
 License
 -------
 
-The code is available under the [GNU General Public License v3.0](https://github.com/jdominpa/dotfiles/tree/master/LICENSE).
+The code is available under the [GNU General Public License v3.0](https://github.com/jdominpa/dotfiles/blob/master/LICENSE).

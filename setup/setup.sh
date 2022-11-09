@@ -183,14 +183,6 @@ verify_os() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Check if the OS is `Arch Linux` running in WSL.
-
-        arch-wsl)
-            return 0
-            ;;
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     # Check if the OS is `Arch Linux`.
 
         arch)
