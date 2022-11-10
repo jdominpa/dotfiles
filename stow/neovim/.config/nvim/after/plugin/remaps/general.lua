@@ -40,7 +40,7 @@ vnoremap("<leader>d", "\"_d")
 nnoremap("<leader>D", "\"_D")
 
 -- Jump to next or previous error in quickfix list
-nnoremap("<C-k>", "<cmd>cnext<CR>zz")
-nnoremap("<C-j>", "<cmd>cprev<CR>zz")
-nnoremap("<leader>k", "<cmd>lnext<CR>zz")
-nnoremap("<leader>j", "<cmd>lprev<CR>zz")
+nnoremap("<C-j>", "<cmd>cnext<CR>zz")
+nnoremap("<C-k>", "<cmd>cprev<CR>zz")
+nnoremap("<leader>j", "<cmd>lnext<CR>zz")
+nnoremap("<leader>k", "<cmd>lprev<CR>zz")

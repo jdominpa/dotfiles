@@ -2,8 +2,6 @@ if vim.g.snippets ~= "luasnip" or not pcall(require, "luasnip") then
   return
 end
 
-require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets" })
-
 local ls = require("luasnip")
 ls.config.set_config {
   history = true,
@@ -39,3 +37,5 @@ end)
 
 vim.cmd([[command! LuaSnipEdit :lua require("luasnip.loaders.from_lua").edit_snippet_files()]])
 vim.keymap.set("n", "<leader>s", "<cmd>LuaSnipEdit<CR>", { silent = true, noremap = true })
+
+require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets" })
