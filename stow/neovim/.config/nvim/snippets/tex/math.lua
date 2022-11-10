@@ -9,67 +9,37 @@ local sn = ls.snippet_node
 
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
-local n = require("luasnip.extras").noempty
 
 -- Expand conditions
+local make_condition = require("luasnip.extras.conditions").make_condition
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
-local in_mathzone = function()
+
+local in_text = make_condition(function()
+  return vim.fn['vimtex#syntax#in_mathzone']() == 0
+end)
+
+local in_mathzone = make_condition(function()
   return vim.fn['vimtex#syntax#in_mathzone']() == 1
-end
+end)
 
 -- Snippets
 local snippets, autosnippets = {}, {}
 
--- local package = s(
---   {
---     trig = "pkg",
---     dscr = "Add packge with optional parameters",
---   },
---   -- FIXME: for some reason this doesn't work
---   -- fmta("\usepackage{}", {
---   --   -- c(1, { sn(nil, { t("["), i(1), t("]") }), t("") }),
---   --   -- i(2),
---   -- }),
---   { condition = line_begin }
--- )
--- table.insert(snippets, package)
-
-local env = s(
-  {
-    trig = "env",
-    dscr = "New environment",
-  },
-  fmta([[
-  \begin{<>}
-      <>
-  \end{<>}
-  ]], {
-    i(1),
-    i(2),
-    rep(1),
-  }),
-  { condition = line_begin }
-)
-table.insert(snippets, env)
-
 local inline_math = s(
   {
-    trig = "([^%a])mm",
-    dscr = "Inline math",
-    regTrig = true,
+    trig = "mm",
+    dscr = "Inline math environment",
     hidden = true,
   },
-  fmta("<>$<>$", {
-    f(function(_, snip) return snip.captures[1] end),
-    i(1),
-  })
+  fmta("\\(<>\\)", i(1)),
+  { condition = in_text }
 )
 table.insert(autosnippets, inline_math)
 
 local display_math = s(
   {
     trig = "dm",
-    dscr = "Display math",
+    dscr = "Display math environment",
     hidden = true,
   },
   fmta([[
@@ -78,7 +48,7 @@ local display_math = s(
   \]
   ]],
   i(1),
-  { condition = line_begin })
+  { condition = line_begin * in_text })
 )
 table.insert(autosnippets, display_math)
 
@@ -93,18 +63,17 @@ local eq_env = s(
   \end{equation}
   ]],
   i(1)),
-  { condition = line_begin }
+  { condition = line_begin * in_text }
 )
 table.insert(snippets, eq_env)
 
--- TODO: the snippet doesn't expand
 local fraction = s(
   {
     trig = "ff",
     dscr = "Fraction",
     hidden = true,
   },
-  fmta("\frac{<>}{<>}", {
+  fmta("\\frac{<>}{<>}", {
     i(1),
     i(2),
   }),
