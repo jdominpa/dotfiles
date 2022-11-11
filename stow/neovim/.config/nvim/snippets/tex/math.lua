@@ -46,26 +46,10 @@ local display_math = s(
   \[
       <>
   \]
-  ]],
-  i(1),
-  { condition = line_begin * in_text })
-)
-table.insert(autosnippets, display_math)
-
-local eq_env = s(
-  {
-    trig = "eq",
-    dscr = "Equation environment",
-  },
-  fmta([[
-  \begin{equation}
-      <>
-  \end{equation}
-  ]],
-  i(1)),
+  ]], i(1)),
   { condition = line_begin * in_text }
 )
-table.insert(snippets, eq_env)
+table.insert(autosnippets, display_math)
 
 local fraction = s(
   {
@@ -73,10 +57,7 @@ local fraction = s(
     dscr = "Fraction",
     hidden = true,
   },
-  fmta("\\frac{<>}{<>}", {
-    i(1),
-    i(2),
-  }),
+  fmta("\\frac{<>}{<>}", { i(1), i(2) }),
   { condition = in_mathzone }
 )
 table.insert(autosnippets, fraction)

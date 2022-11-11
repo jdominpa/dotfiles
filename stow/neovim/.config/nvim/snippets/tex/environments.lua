@@ -10,16 +10,10 @@ local sn = ls.snippet_node
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 
--- Expand conditions
-local line_begin = require("luasnip.extras.expand_conditions").line_begin
-local in_text = function()
-  return vim.fn['vimtex#syntax#in_mathzone']() == 0
-end
-
 -- Snippets
 local snippets, autosnippets = {}, {}
 
-local env = s(
+local environment = s(
   {
     trig = "env",
     dscr = "New environment",
@@ -28,14 +22,9 @@ local env = s(
   \begin{<>}
       <>
   \end{<>}
-  ]], {
-    i(1),
-    i(2),
-    rep(1),
-  }),
-  { condition = line_begin }
+  ]], { i(1), i(2), rep(1) })
 )
-table.insert(snippets, env)
+table.insert(snippets, environment)
 
 local enumerate = s(
   {
@@ -44,14 +33,26 @@ local enumerate = s(
   },
   fmta([[
   \begin{enumerate}<>
-      <>
+      \item <>
   \end{enumerate}
   ]], {
     c(1, { t(""), t("[(i)]"), t("[(a)]") }),
     i(2),
-  }),
-  { condition = line_begin }
+  })
 )
 table.insert(snippets, enumerate)
+
+local equation = s(
+  {
+    trig = "eq",
+    dscr = "Equation environment",
+  },
+  fmta([[
+  \begin{equation}
+      <>
+  \end{equation}
+  ]], i(1))
+)
+table.insert(snippets, equation)
 
 return snippets, autosnippets
