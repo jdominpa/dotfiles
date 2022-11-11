@@ -62,4 +62,39 @@ local fraction = s(
 )
 table.insert(autosnippets, fraction)
 
+local subindex = s(
+  {
+    trig = "sd",
+    dscr = "Subindex",
+    wordTrig = false,
+    hidden = true,
+  },
+  fmta("_<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  { condition = in_mathzone }
+)
+table.insert(autosnippets, subindex)
+
+local superindex = s(
+  {
+    trig = "sp",
+    dscr = "Superindex",
+    wordTrig = false,
+    hidden = true,
+  },
+  fmta("^<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  { condition = in_mathzone }
+)
+table.insert(autosnippets, superindex)
+
+local partial_derivative = s(
+  {
+    trig = "pd",
+    dscr = "Partial derivative",
+    hidden = true,
+  },
+  t("\\partial"),
+  { condition = in_mathzone }
+)
+table.insert(autosnippets, partial_derivative)
+
 return snippets, autosnippets
