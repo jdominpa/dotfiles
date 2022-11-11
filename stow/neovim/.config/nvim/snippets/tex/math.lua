@@ -51,6 +51,30 @@ local display_math = s(
 )
 table.insert(autosnippets, display_math)
 
+local subindex = s(
+  {
+    trig = "sj", -- Mnemonic: j is down in vim
+    dscr = "Subscript",
+    wordTrig = false,
+    hidden = true,
+  },
+  fmta("_<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  { condition = in_mathzone }
+)
+table.insert(autosnippets, subindex)
+
+local superindex = s(
+  {
+    trig = "sk", -- Mnemonic: k is up in vim
+    dscr = "Superscript",
+    wordTrig = false,
+    hidden = true,
+  },
+  fmta("^<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  { condition = in_mathzone }
+)
+table.insert(autosnippets, superindex)
+
 local fraction = s(
   {
     trig = "ff",
@@ -62,34 +86,34 @@ local fraction = s(
 )
 table.insert(autosnippets, fraction)
 
-local subindex = s(
+local iff = s(
   {
-    trig = "sd",
-    dscr = "Subindex",
-    wordTrig = false,
+    trig = "iff",
+    dscr = "If and only if",
     hidden = true,
   },
-  fmta("_<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  t("\\iff"),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, subindex)
+table.insert(autosnippets, iff)
 
-local superindex = s(
+local ldots = s(
   {
-    trig = "sp",
-    dscr = "Superindex",
+    trig = "...",
+    dscr = "Math mode ellipsis",
     wordTrig = false,
     hidden = true,
   },
-  fmta("^<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  t("\\ldots"),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, superindex)
+table.insert(autosnippets, ldots)
 
 local partial_derivative = s(
   {
     trig = "pd",
     dscr = "Partial derivative",
+    wordTrig = false,
     hidden = true,
   },
   t("\\partial"),
