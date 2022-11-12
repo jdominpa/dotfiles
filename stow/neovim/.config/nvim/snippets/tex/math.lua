@@ -14,10 +14,6 @@ local rep = require("luasnip.extras").rep
 local make_condition = require("luasnip.extras.conditions").make_condition
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
-local in_text = make_condition(function()
-  return vim.fn['vimtex#syntax#in_mathzone']() == 0
-end)
-
 local in_mathzone = make_condition(function()
   return vim.fn['vimtex#syntax#in_mathzone']() == 1
 end)
@@ -32,7 +28,7 @@ local inline_math = s(
     hidden = true,
   },
   fmta("\\(<>\\)", i(1)),
-  { condition = in_text }
+  { condition = -in_mathzone }
 )
 table.insert(autosnippets, inline_math)
 
@@ -47,7 +43,7 @@ local display_math = s(
       <>
   \]
   ]], i(1)),
-  { condition = line_begin * in_text }
+  { condition = line_begin * -in_mathzone }
 )
 table.insert(autosnippets, display_math)
 
@@ -86,39 +82,37 @@ local fraction = s(
 )
 table.insert(autosnippets, fraction)
 
-local iff = s(
+local sum = s(
   {
-    trig = "iff",
-    dscr = "If and only if",
-    hidden = true,
-  },
-  t("\\iff"),
-  { condition = in_mathzone }
-)
-table.insert(autosnippets, iff)
-
-local ldots = s(
-  {
-    trig = "...",
-    dscr = "Math mode ellipsis",
+    trig = "sum",
+    dscr = "Sum with sigma notation",
     wordTrig = false,
     hidden = true,
   },
-  t("\\ldots"),
+  fmta("\\sum_{<>}^{<>} <>", {
+    i(1, "n = 0"),
+    i(2, "\\infty"),
+    i(3),
+  }),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, ldots)
+table.insert(autosnippets, sum)
 
-local partial_derivative = s(
+local integral = s(
   {
-    trig = "pd",
-    dscr = "Partial derivative",
+    trig = "int",
+    dscr = "Integral",
     wordTrig = false,
     hidden = true,
   },
-  t("\\partial"),
+  fmta("\\int_{<>}^{<>} <>\\,d<>", {
+    i(1, "-\\infty"),
+    i(2, "\\infty"),
+    i(3),
+    i(4, "x"),
+  }),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, partial_derivative)
+table.insert(autosnippets, integral)
 
 return snippets, autosnippets
