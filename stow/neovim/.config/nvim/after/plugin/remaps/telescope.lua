@@ -1,3 +1,7 @@
+if not pcall(require, "telescope") then
+  return
+end
+
 TelescopeMapArgs = TelescopeMapArgs or {}
 
 local map_tele = function(key, f, options, buffer)

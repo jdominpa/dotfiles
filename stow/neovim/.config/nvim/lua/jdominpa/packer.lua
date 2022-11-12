@@ -11,9 +11,9 @@ return require("packer").startup(function()
   }
 
   -- Utilities
-  use "tpope/vim-commentary"
+  use "numToStr/Comment.nvim"
   use "tpope/vim-surround"
-  use {"folke/zen-mode.nvim", cmd = {"ZenMode"}}
+  use "folke/zen-mode.nvim"
 
   -- Telescope
   use {
