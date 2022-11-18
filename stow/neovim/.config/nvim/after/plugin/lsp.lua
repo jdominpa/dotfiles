@@ -17,8 +17,8 @@ local on_attach = function(client, bufnr)
   nnoremap("<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   nnoremap("<localleader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   nnoremap("<localleader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  nnoremap("[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-  nnoremap("]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+  nnoremap("[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+  nnoremap("]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 end
 
 local servers = { "clangd" }
