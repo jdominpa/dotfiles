@@ -68,33 +68,33 @@ local do_while_loop = s(
   }))
 table.insert(snippets, do_while_loop)
 
--- local if = s(
---   {
---     trig = "if",
---     dscr = "If statement",
---   },
---   fmt([[
---   if ({}) {{
---       {}
---   }}
---   ]],
---   {
---     i(1, "condition"),
---     i(2, "/* TODO */"),
---   }))
--- table.insert(snippets, if)
+local if_statement = s(
+  {
+    trig = "if",
+    dscr = "If statement",
+  },
+  fmt([[
+  if ({}) {{
+    {}
+  }}
+  ]],
+  {
+    i(1, "condition"),
+    i(2, "/* TODO*/"),
+  }))
+table.insert(snippets, if_statement)
 
--- local else = s(
---   {
---     trig = "else",
---     dscr = "Else condition",
---   },
---   fmt([[
---   else {{
---       {}
---   }}
---   ]], i(1, "/* TODO */")))
--- table.insert(snippets, else)
+local else_statement = s(
+  {
+    trig = "else",
+    dscr = "Else condition",
+  },
+  fmt([[
+  else {{
+      {}
+  }}
+  ]], i(1, "/* TODO */")))
+table.insert(snippets, else_statement)
 
 local else_if = s(
   {
