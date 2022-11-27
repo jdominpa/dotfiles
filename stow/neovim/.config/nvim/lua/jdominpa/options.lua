@@ -15,19 +15,19 @@ opt.wildoptions = "pum"
 
 opt.showmode = false
 opt.showcmd = true
-opt.laststatus = 3         -- Global status line
-opt.cmdheight = 1          -- Height of the command bar
-opt.incsearch = true       -- Highlight search matchings as we type
-opt.showmatch = true       -- Show matching brackets when text indicator is over them
-opt.relativenumber = true  -- Line numbers
-opt.number = true          -- Show the line we are on
-opt.ignorecase = true      -- Ignore case when searching ...
-opt.smartcase = true       -- ... unless there's a capital letter in the query
-opt.hidden = true          -- Buffers stay around
-opt.equalalways = false    -- Don't change window size everytime we open or close one
-opt.splitright = true      -- Split windows to the right
-opt.splitbelow = true      -- Split windows below
-opt.hlsearch = true        -- Highlight searched term
+opt.laststatus = 3          -- Global status line
+opt.cmdheight = 1           -- Height of the command bar
+opt.incsearch = true        -- Highlight search matchings as we type
+opt.showmatch = true        -- Show matching brackets when text indicator is over them
+opt.relativenumber = true   -- Line numbers
+opt.number = true           -- Show the line we are on
+opt.ignorecase = true       -- Ignore case when searching ...
+opt.smartcase = true        -- ... unless there's a capital letter in the query
+opt.hidden = true           -- Buffers stay around
+opt.equalalways = false     -- Don't change window size everytime we open or close one
+opt.splitright = true       -- Split windows to the right
+opt.splitbelow = true       -- Split windows below
+opt.hlsearch = false        -- Highlight searched term
 
 -- Tabs
 opt.autoindent = true

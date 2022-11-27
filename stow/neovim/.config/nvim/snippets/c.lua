@@ -171,7 +171,7 @@ local malloc = s(
     dscr = "Memory allocation using malloc",
   },
   fmt([[
-  {} *{} = malloc({}, sizeof({}));
+  {} *{} = ({} *) malloc({} * sizeof({}));
   if ({} == NULL) {{
       fprintf(stderr, "Memory allocation failed\n");
       {}
@@ -180,6 +180,7 @@ local malloc = s(
   {
     i(1, "double"),
     i(2, "vec"),
+    rep(1),
     i(3, "n"),
     rep(1),
     rep(2),
@@ -193,7 +194,7 @@ local calloc = s(
       dscr = "Memory allocation using calloc (same as malloc but sets allocated memory to 0)",
   },
   fmt([[
-  {} *{} = calloc({}, sizeof({}));
+  {} *{} = ({} *) calloc({}, sizeof({}));
   if ({} == NULL) {{
       fprintf(stderr, "Memory allocation failed\n");
       {}
@@ -202,6 +203,7 @@ local calloc = s(
   {
     i(1, "double"),
     i(2, "vec"),
+    rep(1),
     i(3, "n"),
     rep(1),
     rep(2),
