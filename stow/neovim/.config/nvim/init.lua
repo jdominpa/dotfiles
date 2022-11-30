@@ -6,7 +6,7 @@ end
 
 -- Leader key -> <Space>
 vim.g.mapleader = " "
-vim.g.maplocalleader = ","
+vim.g.maplocalleader = "\\"
 
 -- Snippets plugin
 vim.g.snippets = "luasnip"
