@@ -31,5 +31,5 @@ map_tele("<leader>hp", "help_tags")
 map_tele("<leader>hk", "keymaps")
 map_tele("<leader>ht", "builtin")
 
-map_tele("<leader>xgs", "git_status")
-map_tele("<leader>xgc", "git_commits")
+map_tele("<leader>cgs", "git_status")
+map_tele("<leader>cgc", "git_commits")
