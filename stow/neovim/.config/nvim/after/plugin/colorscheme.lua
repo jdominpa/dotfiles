@@ -1,3 +1,5 @@
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
-vim.cmd("colorscheme gruvbox")
+if not pcall(vim.cmd, "colorscheme gruvbox") then
+  return
+end

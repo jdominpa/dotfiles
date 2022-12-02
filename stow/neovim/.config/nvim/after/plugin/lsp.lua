@@ -28,7 +28,12 @@ for _, lsp in pairs(servers) do
   })
 end
 
+-- Lua lsp
+local user = vim.fn.expand("$USER")
+local sumneko_root_path = "/home/" .. user .. "/.local/bin/lua-language-server"
+local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
 require("lspconfig").sumneko_lua.setup({
+  cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
   on_attach = on_attach,
   settings = {
     Lua = {

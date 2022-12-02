@@ -6,6 +6,9 @@ export ZDOTDIR=$HOME/.zsh
 LOCAL_RC=$HOME/.zshenv.local
 test -f $LOCAL_RC && source $LOCAL_RC
 
+# Add $HOME/.local/bin/ to path for personal scripts
+export PATH="$HOME/.local/bin:$PATH"
+
 # Stop (eg.) `git push github` from triggering:
 # zsh: correct 'github' to '.github' [yes, no, edit, abort]?
 export CORRECT_IGNORE_FILE='.*'
