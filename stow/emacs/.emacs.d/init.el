@@ -93,12 +93,6 @@
   ;; connected to an external monitor or not.
   (jdp-fonts-fonts-per-monitor))
 
-(use-package repeat
-  :custom
-  (repeat-on-final-keystroke t)
-  :config
-  (repeat-mode))
-
 (customize-set-variable 'bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
 
@@ -226,13 +220,6 @@
   (auto-revert-mode))
 
 (customize-set-variable 'save-interprogram-paste-before-kill t)
-
-(use-package goggles
-  :ensure t
-  :hook ((prog-mode text-mode) . goggles-mode)
-  :config
-  (setq-default goggles-pules t))
-
 (customize-set-variable 'mode-require-final-newline 'visit-save)
 
 ;;; Completion framework and extras
@@ -360,18 +347,6 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package corfu-doc
-  :after corfu
-  :hook (corfu-mode . corfu-doc-mode)
-  :bind (:map corfu-map
-         ("M-d" . corfu-doc-toggle)
-         ("M-n" . corfu-doc-scroll-up)
-         ("M-p" . corfu-doc-scroll-down)))
-
-(use-package dabbrev
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand)))
-
 ;;; Built-in search commands
 
 (use-package isearch
@@ -390,22 +365,6 @@
   :config
   (setq isearch-lax-whitespace t
         isearch-regexp-lax-whitespace nil))
-
-(use-package replace
-  :hook (occur-mode . hl-line-mode)
-  :bind (("M-s M-o" . multi-occur)
-         :map occur-mode-map
-         ("t" . toggle-truncate-lines)))
-
-(use-package grep
-  :commands (grep grep-find grep-find-toggle-abbreviation))
-
-(use-package wgrep
-  :ensure t
-  :bind (:map grep-mode-map
-              ("e" . wgrep-change-to-wgrep-mode)
-              ("C-x C-q" . wgrep-change-to-wgrep-mode)
-              ("C-c C-c" . wgrep-finish-edit)))
 
 ;;; Directory management
 
@@ -466,7 +425,6 @@
 ;;; Window management
 
 (use-package window
-  :demand t
   :bind (("C-x _" . balance-windows)
          ("C-x -" . fit-window-to-buffer)
          ("C-x +" . balance-windows-area)
@@ -591,9 +549,6 @@
   (c-default-style "k&r")
   (c-basic-offset 4))
 
-(use-package python-mode
-  :hook (python-mode . eglot-ensure))
-
 (use-package macrostep
   :ensure t
   :bind (:map emacs-lisp-mode-map
@@ -610,8 +565,6 @@
   (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer))
-
-(customize-set-variable 'python-shell-interpreter "python3")
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
