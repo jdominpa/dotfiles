@@ -132,6 +132,11 @@
   :ensure t
   :bind ("C-z" . goto-last-change))
 
+(use-package display-line-numbers
+  :custom (display-line-numbers-type 'relative)
+  :config
+  (global-display-line-numbers-mode))
+
 (customize-set-variable 'line-number-mode t)
 (customize-set-variable 'column-number-mode t)
 (customize-set-variable 'size-indication-mode t)
