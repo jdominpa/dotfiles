@@ -27,23 +27,6 @@
 
 ;;; General settings
 
-(use-package jdp-simple
-  :bind (("C-z" . nil)
-         ("C-x C-z" . nil)
-         ("M-`" . nil)
-         ("C-h K" . describe-keymap)
-         ;; Commands for lines
-         ("C-<return>" . jdp-simple-newlines-above-or-below)
-         ("M-SPC" . cycle-spacing)
-         ("M-o" . delete-blank-lines)
-         ;; Commands for text manipulation
-         ("M-c" . capitalize-dwim)
-         ("M-l" . downcase-dwim)        ; "lower" case
-         ("M-u" . upcase-dwim)
-         ;; Commands for marking objects
-         ("M-@" . jdp-simple-mark-word)
-         ("C-M-SPC" . jdp-simple-mark-construct-dwim)))
-
 ;; Put custom configuration in a separate file
 (customize-set-variable 'custom-file
                         (expand-file-name "custom.el" user-emacs-directory))
@@ -103,17 +86,17 @@
 
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char-timer))
+  :bind ("C-:" . avy-goto-char-timer))
 
 (use-package multiple-cursors
   :ensure t
-  :bind (("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C->" . mc/mark-all-like-this)))
+  :bind (("C-." . mc/mark-next-like-this)
+         ("C-," . mc/mark-previous-like-this)
+         ("C->" . mc/mark-all-like-this)))
 
 (use-package expand-region
   :ensure t
-  :bind ("C-=" . er/expand-region))
+  :bind ("C-;" . er/expand-region))
 
 (use-package which-key
   :ensure t
@@ -123,12 +106,9 @@
   :config
   (which-key-mode))
 
-(use-package async
-  :ensure t
-  :defer t)
-
 ;;; Interface settings
 
+;; TODO: revisit this keybind
 (use-package goto-last-change
   :ensure t
   :bind ("C-z" . goto-last-change))
@@ -336,8 +316,7 @@
 
 (use-package corfu
   :ensure t
-  :config
-  (global-corfu-mode))
+  :custom (global-corfu-mode t))
 
 (use-package cape
   :ensure t
@@ -366,7 +345,7 @@
   (isearch-lazy-highlight t)
   (isearch-lazy-count t)
   (lazy-count-prefix-format nil)
-  (lazy-count-suffix-format " (%s/%s)")
+  (lazy-count-suffix-format " [%s/%s]")
   (isearch-yank-on-move 'shift)
   :config
   (setq isearch-lax-whitespace t
@@ -375,8 +354,7 @@
 ;;; Directory management
 
 (use-package dired
-  :hook ((dired-mode . dired-hide-details-mode)
-         (dired-mode . hl-line-mode))
+  :hook (dired-mode . hl-line-mode)
   :custom
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
@@ -396,16 +374,6 @@
   :custom
   (dired-clean-up-buffers-too t)
   (dired-clean-confirm-killing-deleted-buffers t))
-
-(use-package dired-subtree
-  :ensure t
-  :bind (:map dired-mode-map
-              ("<tab>" . dired-subtree-toggle)
-              ("C-<tab>" . dired-subtree-cycle)))
-
-;; Part of the `async' package.
-(use-package dired-async
-  :hook (dired-mode . dired-async-mode))
 
 ;;; Buffer management
 
@@ -512,7 +480,15 @@
 ;;; Settings for programming languages
 
 (use-package eglot
-  :ensure t)
+  :ensure t
+  :bind (:map eglot-mode-map
+              ("C-c l R" . eglot-reconnect)
+              ("C-c l s" . eglot-shutdown)
+              ("C-c l S" . eglot-shutdown-all)
+              ("C-c l r" . eglot-rename)
+              ("C-c l f" . eglot-format)
+              ("C-c l a" . eglot-code-actions)
+              ("C-c l d" . flymake-show-buffer-diagnostics)))
 
 (use-package consult-eglot
   :ensure t
@@ -552,7 +528,7 @@
   :bind (:map c-mode-base-map
               ("TAB" . nil))
   :custom
-  (c-default-style "k&r")
+  (c-default-style "linux")
   (c-basic-offset 4))
 
 (use-package macrostep
