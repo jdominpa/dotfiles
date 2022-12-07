@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: calloc
+# key: cal
+# --
+${1:vec} = (${2:double} *) calloc(${3:n}, sizeof($2));
+if ($1 == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    ${4:exit(1);}
+}$0
