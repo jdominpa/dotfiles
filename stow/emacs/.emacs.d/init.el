@@ -81,8 +81,7 @@
 (setq bidi-inhibit-bpa t)
 
 (use-package so-long
-  :config
-  (global-so-long-mode))
+  :custom (global-so-long-mode t))
 
 (use-package avy
   :ensure t
@@ -102,9 +101,7 @@
   :ensure t
   :custom
   (which-key-show-early-on-C-h nil)
-  (which-key-idle-delay 1.25)
-  :config
-  (which-key-mode))
+  :custom (which-key-mode t))
 
 ;;; Interface settings
 
@@ -114,9 +111,9 @@
   :bind ("C-z" . goto-last-change))
 
 (use-package display-line-numbers
-  :custom (display-line-numbers-type 'relative)
-  :config
-  (global-display-line-numbers-mode))
+  :custom
+  (display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode t))
 
 (customize-set-variable 'line-number-mode t)
 (customize-set-variable 'column-number-mode t)
@@ -150,32 +147,28 @@
   (minions-mode-line-lighter ";")
   (minions-direct (list 'defining-kbd-macro
                         'flymake-mode))
-  :config
-  (minions-mode))
+  (minions-mode t))
 
 (use-package battery
   :custom
   (battery-mode-line-format "[%b%p%%] ")
   (battery-load-low 20)
   (battery-load-critical 10)
-  :config
-  (display-battery-mode))
+  (display-battery-mode t))
 
 (use-package time
   :custom
   (display-time-format "%d-%m-%Y %H:%M")
   (display-time-interval 60)
   (display-time-default-load-average nil)
-  :config
-  (display-time-mode))
+  (display-time-mode t))
 
 (use-package jdp-whitespace
   :bind ([f6] . jdp-whitespace-space-toggle))
 
 (use-package whitespace-cleanup-mode
   :ensure t
-  :config
-  (global-whitespace-cleanup-mode))
+  :custom (global-whitespace-cleanup-mode t))
 
 (blink-cursor-mode -1)
 (cl-flet ((flash-mode-line ()
@@ -198,12 +191,10 @@
 (customize-set-variable 'scroll-preserve-screen-position 'always)
 
 (use-package delsel
-  :config
-  (delete-selection-mode))
+  :custom (delete-selection-mode t))
 
 (use-package autorevert
-  :config
-  (auto-revert-mode))
+  :config (auto-revert-mode))
 
 (customize-set-variable 'save-interprogram-paste-before-kill t)
 (customize-set-variable 'mode-require-final-newline 'visit-save)
@@ -254,23 +245,22 @@
   (read-answer-short t)
   (resize-mini-windows t)
   (minibuffer-eldef-shorten-default t)
+  (file-name-shadow-mode t)
+  (minibuffer-depth-indicate-mode t)
+  (minibuffer-electric-default-mode t)
   :config
   (setq completion-category-defaults nil
-        completion-ignore-case t)
-  (file-name-shadow-mode)
-  (minibuffer-depth-indicate-mode)
-  (minibuffer-electric-default-mode))
+        completion-ignore-case t))
 
 (use-package vertico
   :ensure t
-  :config
-  (vertico-mode)
-  (vertico-reverse-mode))
+  :custom
+  (vertico-mode t)
+  (vertico-reverse-mode t))
 
 (use-package marginalia
   :ensure t
-  :config
-  (marginalia-mode))
+  :custom (marginalia-mode t))
 
 (use-package savehist
   :custom
@@ -278,8 +268,7 @@
   (history-length 1000)
   (history-delete-duplicates t)
   (savehist-save-minibuffer-history t)
-  :config
-  (savehist-mode))
+  (savehist-mode t))
 
 (use-package consult
   :ensure t
@@ -311,8 +300,7 @@
   :custom
   (recentf-save-file (expand-file-name "recentf" user-emacs-directory))
   (recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip"))
-  :config
-  (recentf-mode))
+  (recentf-mode t))
 
 (use-package corfu
   :ensure t
@@ -437,8 +425,7 @@
   :ensure t
   :custom
   (diff-hl-draw-borders nil)
-  :config
-  (global-diff-hl-mode))
+  (global-diff-hl-mode t))
 
 (use-package magit
   :ensure t
@@ -487,8 +474,10 @@
               ("C-c l S" . eglot-shutdown-all)
               ("C-c l r" . eglot-rename)
               ("C-c l f" . eglot-format)
+              ("C-c l i" . imenu)
               ("C-c l a" . eglot-code-actions)
-              ("C-c l d" . flymake-show-buffer-diagnostics)))
+              ("C-c l d" . flymake-show-buffer-diagnostics)
+              ("C-c l D" . flymake-show-project-diagnostics)))
 
 (use-package consult-eglot
   :ensure t
@@ -499,15 +488,16 @@
 
 (use-package yasnippet
   :ensure t
-  :bind (:map yas-keymap
+  :bind (:map yas-minor-mode-map
               ("<tab>" . nil)
               ("TAB" . nil)
               ("S-<tab>" . nil)
               ("<backtab>" . nil)
+              ("C-'" . yas-expand)
+         :map yas-keymap
               ([remap scroll-up-command] . yas-next-field)
               ([remap scroll-down-command] . yas-prev-field))
-  :config
-  (yas-global-mode))
+  :custom (yas-global-mode t))
 
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 
@@ -551,15 +541,14 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (use-package electric
-  :config
-  (electric-pair-mode)
-  (electric-indent-mode))
+  :custom
+  (electric-pair-mode t)
+  (electric-indent-mode t))
 
 (use-package paren
   :custom
   (show-paren-style 'parenthesis)
-  :config
-  (show-paren-mode))
+  (show-paren-mode t))
 
 (customize-set-variable 'tab-width 4)
 (customize-set-variable 'indent-tabs-mode nil)
@@ -574,8 +563,7 @@
   (flymake-wrap-around nil))
 
 (use-package eldoc
-  :config
-  (global-eldoc-mode))
+  :custom (global-eldoc-mode t))
 
 ;;; Emacs server and history
 
@@ -591,8 +579,7 @@
   :custom
   (save-place-file (locate-user-emacs-file "saveplace"))
   (save-place-forget-unreadable-files t)
-  :config
-  (save-place-mode))
+  (save-place-mode t))
 
 (customize-set-variable 'backup-directory-alist
                         `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
