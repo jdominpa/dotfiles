@@ -56,7 +56,8 @@
   :custom
   (modus-themes-bold-constructs t)
   (modus-themes-slanted-constructs t)
-  (modus-themes-mode-line '(borderless))
+  (modus-themes-mode-line '(borderless accented))
+  (modus-themes-region '(bg-only))
   :init
   ;; Load the theme files before enabling a theme
   (modus-themes-load-themes)
@@ -68,7 +69,7 @@
   :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
   :custom
   (jdp-fonts-typeface-sets-alist
-   '((desktop 140 "Iosevka" normal "Inter" normal)
+   '((desktop 125 "Iosevka" normal "Inter" normal)
      (reader 170 "Iosevka" light "FiraGO" normal)
      (presentation 180 "Fira Code" light "FiraGO" normal)))
   (jdp-fonts-monospaced-list
