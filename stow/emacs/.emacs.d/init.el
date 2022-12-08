@@ -10,8 +10,12 @@
             (garbage-collect)))
 
 (require 'package)
+(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("elpa-devel" . "https://elpa.gnu.org/devel/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+(customize-set-variable 'package-archive-priority '(("elpa" . 2)
+                                                    ("nongnu" . 1)))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -26,99 +30,6 @@
 (setq disabled-command-function nil)
 
 ;;; General settings
-
-(use-package meow
-  :ensure t
-  :disabled t
-  :custom (meow-global-mode t)
-  :init
-  (defun meow-setup ()
-    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-    (meow-motion-overwrite-define-key
-     '("j" . meow-next)
-     '("k" . meow-prev)
-     '("<escape>" . ignore))
-    (meow-leader-define-key
-     ;; SPC j/k will run the original command in MOTION state.
-     '("j" . "H-j")
-     '("k" . "H-k")
-     ;; Use SPC (0-9) for digit arguments.
-     '("1" . meow-digit-argument)
-     '("2" . meow-digit-argument)
-     '("3" . meow-digit-argument)
-     '("4" . meow-digit-argument)
-     '("5" . meow-digit-argument)
-     '("6" . meow-digit-argument)
-     '("7" . meow-digit-argument)
-     '("8" . meow-digit-argument)
-     '("9" . meow-digit-argument)
-     '("0" . meow-digit-argument)
-     '("/" . meow-keypad-describe-key)
-     '("?" . meow-cheatsheet))
-    (meow-normal-define-key
-     '("0" . meow-expand-0)
-     '("9" . meow-expand-9)
-     '("8" . meow-expand-8)
-     '("7" . meow-expand-7)
-     '("6" . meow-expand-6)
-     '("5" . meow-expand-5)
-     '("4" . meow-expand-4)
-     '("3" . meow-expand-3)
-     '("2" . meow-expand-2)
-     '("1" . meow-expand-1)
-     '("-" . negative-argument)
-     '(";" . meow-reverse)
-     '("," . meow-inner-of-thing)
-     '("." . meow-bounds-of-thing)
-     '("[" . meow-beginning-of-thing)
-     '("]" . meow-end-of-thing)
-     '("a" . meow-append)
-     '("A" . meow-open-below)
-     '("b" . meow-back-word)
-     '("B" . meow-back-symbol)
-     '("c" . meow-change)
-     '("d" . meow-delete)
-     '("D" . meow-backward-delete)
-     '("e" . meow-next-word)
-     '("E" . meow-next-symbol)
-     '("f" . meow-find)
-     '("g" . meow-cancel-selection)
-     '("G" . meow-grab)
-     '("h" . meow-left)
-     '("H" . meow-left-expand)
-     '("i" . meow-insert)
-     '("I" . meow-open-above)
-     '("j" . meow-next)
-     '("J" . meow-next-expand)
-     '("k" . meow-prev)
-     '("K" . meow-prev-expand)
-     '("l" . meow-right)
-     '("L" . meow-right-expand)
-     '("m" . meow-join)
-     '("n" . meow-search)
-     '("o" . meow-block)
-     '("O" . meow-to-block)
-     '("p" . meow-yank)
-     '("q" . meow-quit)
-     '("Q" . meow-goto-line)
-     '("r" . meow-replace)
-     '("R" . meow-swap-grab)
-     '("s" . meow-kill)
-     '("t" . meow-till)
-     '("u" . meow-undo)
-     '("U" . meow-undo-in-selection)
-     '("v" . meow-visit)
-     '("w" . meow-mark-word)
-     '("W" . meow-mark-symbol)
-     '("x" . meow-line)
-     '("X" . meow-goto-line)
-     '("y" . meow-save)
-     '("Y" . meow-sync-grab)
-     '("z" . meow-pop-selection)
-     '("'" . repeat)
-     '("<escape>" . ignore)))
-  :config
-  (meow-setup))
 
 ;; Put custom configuration in a separate file
 (customize-set-variable 'custom-file
@@ -140,35 +51,33 @@
   :config
   (modus-themes-load-vivendi))
 
-(use-package jdp-fonts
+(use-package fontaine
+  :ensure t
   :demand t
-  :bind ("C-c f" . jdp-fonts-set-fonts-dwim)
+  :bind (("C-c f" . fontaine-set-preset)
+         ("C-c F" . fontaine-set-face-font))
   :custom
-  (jdp-fonts-typeface-sets-alist
-   '((desktop 125 "Iosevka" normal "Inter" normal)
-     (reader 170 "Iosevka" light "FiraGO" normal)
-     (presentation 180 "Fira Code" light "FiraGO" normal)))
-  (jdp-fonts-monospaced-list
-   '("Hack" "DejaVu Sans Mono" "Iosevka" "Source Code Pro"
-     "Ubuntu Mono" "Fantasque Sans Mono" "Fira Code" "Monoid"))
-  (jdp-fonts-heights-list (number-sequence 100 200 5))
-  (jdp-fonts-line-spacing-alist '(("Ubuntu Mono" . 2)))
-  (jdp-fonts-laptop-desktop-keys-list '(laptop desktop))
-  (jdp-fonts-max-small-resolution-width 1440)
-  (jdp-fonts-bold-weight-alist '(("Iosevka" . semibold)
-                                 ("Fira Code" . semibold)
-                                 ("Source Code Pro" . semibold)))
-  ;; This is defined in Emacs' C code, though I feel this is a good
-  ;; place to put it.
   (x-underline-at-descent-line t)
-  :hook ((jdp-fonts-set-typeface . jdp-fonts-line-spacing)
-         (jdp-fonts-set-typeface . jdp-fonts-bold-face)
-         ;; See theme section for the following hook
-         (modus-themes-after-load-theme . jdp-fonts-bold-face))
+  (fontaine-presets '((regular
+                       :default-height 120)
+                      (large
+                       :default-weight semilight
+                       :default-height 160
+                       :bold-weight extrabold)
+                      (t
+                       :default-family "Iosevka"
+                       :default-weight regular
+                       :default-height 120
+                       :fixed-pitch-height 1.0
+                       :fixed-pitch-serif-height 1.0
+                       :variable-pitch-family "Iosevka Comfy Motion Duo"
+                       :variable-pitch-height 1.0
+                       :bold-weight bold
+                       :italic-slant italic)))
+  :hook ((modus-themes-after-load-theme . fontaine-apply-current-preset)
+         (kill-emacs . fontaine-store-latest-preset))
   :config
-  ;; And this just sets the right font depending on whether my laptop is
-  ;; connected to an external monitor or not.
-  (jdp-fonts-fonts-per-monitor))
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 
 (customize-set-variable 'bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
@@ -178,7 +87,7 @@
 
 (use-package avy
   :ensure t
-  :bind ("C-:" . avy-goto-char-timer))
+  :bind ("C-'" . avy-goto-char-timer))
 
 (use-package multiple-cursors
   :ensure t
@@ -582,15 +491,9 @@
 
 (use-package yasnippet
   :ensure t
-  :bind (:map yas-minor-mode-map
-              ("<tab>" . nil)
-              ("TAB" . nil)
-              ("S-<tab>" . nil)
-              ("<backtab>" . nil)
-              ("C-'" . yas-expand)
-         :map yas-keymap
-              ([remap scroll-up-command] . yas-next-field)
-              ([remap scroll-down-command] . yas-prev-field))
+  :bind (:map yas-keymap
+              ("C-v" . yas-next-field)
+              ("M-v" . yas-prev-field))
   :custom (yas-global-mode t))
 
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
@@ -657,7 +560,9 @@
   (flymake-wrap-around nil))
 
 (use-package eldoc
-  :custom (global-eldoc-mode t))
+  :custom
+  (eldoc-echo-area-use-multiline-p nil)
+  (global-eldoc-mode t))
 
 ;;; Emacs server and history
 
