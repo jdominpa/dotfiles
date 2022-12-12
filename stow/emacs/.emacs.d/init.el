@@ -29,13 +29,70 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq disabled-command-function nil)
 
-;;; General settings
-
 ;; Put custom configuration in a separate file
-(customize-set-variable 'custom-file
-                        (expand-file-name "custom.el" user-emacs-directory))
+(customize-set-variable 'custom-file (locate-user-emacs-file "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+
+;;; General settings
+
+(use-package emacs
+  :bind (("C-x C-z" . nil)
+         ("C-h K" . describe-keymap)
+         ("M-SPC" . cycle-spacing)
+         ("M-c" . capitalize-dwim)
+         ("M-l" . downcase-dwim)
+         ("M-u" . upcase-dwim)
+         ("M-o" . other-window)))
+
+(use-package mouse
+  :custom
+  (mouse-wheel-scroll-amount
+   '(1
+     ((shift) . 5)
+     ((meta) . 0.5)
+     ((control) . text-scale)))
+  (mouse-wheel-progressive-speed nil)
+  (mouse-wheel-follow-mouse t)
+  (mouse-wheel-mode t))
+
+(customize-set-variable 'scroll-margin 0)
+(customize-set-variable 'scroll-conservatively 1)
+(customize-set-variable 'scroll-preserve-screen-position 'always)
+
+(use-package delsel
+  :custom (delete-selection-mode t))
+
+(use-package autorevert
+  :config (auto-revert-mode))
+
+(use-package so-long
+  :custom (global-so-long-mode t))
+
+(customize-set-variable 'save-interprogram-paste-before-kill t)
+(customize-set-variable 'mode-require-final-newline 'visit-save)
+
+(use-package avy
+  :ensure t
+  :bind ("C-z" . avy-goto-char-timer))
+
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C-." . mc/mark-next-like-this)
+         ("C-," . mc/mark-previous-like-this)
+         ("C->" . mc/mark-all-like-this)))
+
+(use-package expand-region
+  :ensure t
+  :bind ("C-;" . er/expand-region))
+
+(use-package which-key
+  :ensure t
+  :custom (which-key-show-early-on-C-h nil)
+  :custom (which-key-mode t))
+
+;;; Visual settings
 
 (use-package modus-themes
   :ensure t
@@ -43,8 +100,11 @@
   :custom
   (modus-themes-bold-constructs t)
   (modus-themes-slanted-constructs t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-mixed-fonts t)
   (modus-themes-mode-line '(borderless accented))
   (modus-themes-region '(bg-only))
+  (modus-themes-paren-match '(bold))
   :init
   ;; Load the theme files before enabling a theme
   (modus-themes-load-themes)
@@ -79,48 +139,6 @@
   :config
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 
-(customize-set-variable 'bidi-paragraph-direction 'left-to-right)
-(setq bidi-inhibit-bpa t)
-
-(use-package so-long
-  :custom (global-so-long-mode t))
-
-(use-package avy
-  :ensure t
-  :bind ("C-'" . avy-goto-char-timer))
-
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C-." . mc/mark-next-like-this)
-         ("C-," . mc/mark-previous-like-this)
-         ("C->" . mc/mark-all-like-this)))
-
-(use-package expand-region
-  :ensure t
-  :bind ("C-;" . er/expand-region))
-
-(use-package which-key
-  :ensure t
-  :custom
-  (which-key-show-early-on-C-h nil)
-  :custom (which-key-mode t))
-
-;;; Interface settings
-
-;; TODO: revisit this keybind
-(use-package goto-last-change
-  :ensure t
-  :bind ("C-z" . goto-last-change))
-
-(use-package display-line-numbers
-  :custom
-  (display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode t))
-
-(customize-set-variable 'line-number-mode t)
-(customize-set-variable 'column-number-mode t)
-(customize-set-variable 'size-indication-mode t)
-
 (setq mode-line-defining-kbd-macro
       (propertize " Macro" 'face 'mode-line-emphasis))
 
@@ -143,6 +161,10 @@
                           mode-line-misc-info
                           mode-line-end-spaces))
 
+(customize-set-variable 'line-number-mode t)
+(customize-set-variable 'column-number-mode t)
+(customize-set-variable 'size-indication-mode t)
+
 (use-package minions
   :ensure t
   :custom
@@ -151,6 +173,13 @@
                         'flymake-mode))
   (minions-mode t))
 
+(use-package time
+  :custom
+  (display-time-format "%d-%m-%Y, %H:%M")
+  (display-time-interval 60)
+  (display-time-default-load-average nil)
+  (display-time-mode t))
+
 (use-package battery
   :custom
   (battery-mode-line-format "[%b%p%%] ")
@@ -158,19 +187,10 @@
   (battery-load-critical 10)
   (display-battery-mode t))
 
-(use-package time
+(use-package display-line-numbers
   :custom
-  (display-time-format "%d-%m-%Y %H:%M")
-  (display-time-interval 60)
-  (display-time-default-load-average nil)
-  (display-time-mode t))
-
-(use-package jdp-whitespace
-  :bind ([f6] . jdp-whitespace-space-toggle))
-
-(use-package whitespace-cleanup-mode
-  :ensure t
-  :custom (global-whitespace-cleanup-mode t))
+  (display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode t))
 
 (blink-cursor-mode -1)
 (cl-flet ((flash-mode-line ()
@@ -178,69 +198,14 @@
                            (run-with-timer 0.1 nil #'invert-face 'mode-line)))
   (customize-set-variable 'ring-bell-function #'flash-mode-line))
 
-(use-package mouse
-  :custom
-  (mouse-wheel-scroll-amount
-   '(1
-     ((shift) . 5)
-     ((meta) . 0.5)
-     ((control) . text-scale)))
-  (mouse-wheel-progressive-speed nil)
-  (mouse-wheel-follow-mouse t))
-
-(customize-set-variable 'scroll-margin 0)
-(customize-set-variable 'scroll-conservatively 1000)
-(customize-set-variable 'scroll-preserve-screen-position 'always)
-
-(use-package delsel
-  :custom (delete-selection-mode t))
-
-(use-package autorevert
-  :config (auto-revert-mode))
-
-(customize-set-variable 'save-interprogram-paste-before-kill t)
-(customize-set-variable 'mode-require-final-newline 'visit-save)
-
-;;; Completion framework and extras
-
-(use-package orderless
-  :ensure t
-  :demand t
-  :bind (:map minibuffer-local-completion-map
-              ("?" . nil)
-              ("SPC" . nil))
-  :config
-  (defmacro dispatch: (regexp style)
-    (cl-flet ((symcat (a b) (intern (concat a (symbol-name b)))))
-      `(defun ,(symcat "dispatch:" style) (pattern _index _total)
-         (when (string-match ,regexp pattern)
-           (cons ',(symcat "orderless-" style) (match-string 1 pattern))))))
-  (cl-flet ((pre/post (str) (format "^%s\\(.*\\)$\\|^\\(?1:.*\\)%s$" str str)))
-    (dispatch: (pre/post "=") literal)
-    (dispatch: (pre/post "`") regexp)
-    (dispatch: (pre/post (if (or minibuffer-completing-file-name
-                                 (derived-mode-p 'eshell-mode))
-                             "%"
-                           "[%.]"))
-               initialism))
-  (dispatch: "^{\\(.*\\)}$" flex)
-  (dispatch: "^\\([^][^\\+*]*[./-][^][\\+*$]*\\)$" prefixes)
-  (dispatch: "^!\\(.+\\)$" without-literal)
-  :custom
-  (orderless-matching-styles 'orderless-regexp)
-  (orderless-style-dispatchers '(dispatch:literal
-                                 dispatch:regexp
-                                 dispatch:initialism
-                                 dispatch:flex
-                                 dispatch:prefixes
-                                 dispatch:without-literal)))
+;;; Completion
 
 (use-package minibuffer
   :custom
-  (completion-styles '(orderless))
-  (completion-cycle-threshold nil)
-  (completion-show-help nil)
-  (completion-auto-help t)
+  (completion-styles '(basic orderless))
+  (completion-category-overrides '((file (styles . (basic partial-completion orderless)))
+                                   (project-file (styles . (basic substring partial-completion orderless)))
+                                   (kill-ring (styles . (basic substring orderless)))))
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (enable-recursive-minibuffers t)
@@ -254,16 +219,6 @@
   (setq completion-category-defaults nil
         completion-ignore-case t))
 
-(use-package vertico
-  :ensure t
-  :custom
-  (vertico-mode t)
-  (vertico-reverse-mode t))
-
-(use-package marginalia
-  :ensure t
-  :custom (marginalia-mode t))
-
 (use-package savehist
   :custom
   (savehist-file (locate-user-emacs-file "savehist"))
@@ -272,35 +227,69 @@
   (savehist-save-minibuffer-history t)
   (savehist-mode t))
 
+(use-package orderless
+  :ensure t
+  :demand t
+  :bind (:map minibuffer-local-completion-map
+              ("?" . nil)
+              ("SPC" . nil))
+  :custom
+  (orderless-matching-styles '(orderless-prefixes
+                               orderless-flex
+                               orderless-regexp))
+  (orderless-style-dispatchers '(orderless-literal-dispatcher
+                                 orderless-flex-dispatcher
+                                 orderless-regexp-dispatcher))
+  :config
+  (defun orderless-literal-dispatcher (pattern _index _total)
+    (when (string-suffix-p "=" pattern)
+      `(orderless-literal . ,(substring pattern 0 -1))))
+  (defun orderless-flex-dispatcher (pattern _index _total)
+    (when (string-suffix-p "~" pattern)
+      `(orderless-flex . ,(substring pattern 0 -1))))
+  (defun orderless-regexp-dispatcher (pattern _index _total)
+    (when (string-suffix-p "," pattern)
+      `(orderless-regexp . ,(substring pattern 0 -1)))))
+
+(use-package marginalia
+  :ensure t
+  :custom (marginalia-mode t))
+
+(use-package vertico
+  :ensure t
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :custom
+  (vertico-mode t)
+  (vertico-reverse-mode t))
+
 (use-package consult
   :ensure t
-  :bind (;; C-x bindings
-         ("C-x M-:" . consult-complex-command)
-         ("C-x b" . consult-buffer)
-         ("C-x 4 b" . consult-buffer-other-window)
-         ("C-x 5 b" . consult-buffer-other-frame)
-         ("C-x M-m" . consult-minor-mode-menu)
-         ("C-x M-k" . consult-kmacro)
-         ;; M-g bindings
-         ("M-g g" . consult-goto-line)
-         ("M-g M-g" . consult-goto-line)
-         ("M-g M-m" . consult-mark)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)
-         :map isearch-mode-map
-         ("M-h" . consult-isearch-history)
-         :map consult-narrow-map
-         ("?" . consult-narrow-help))
+  :bind ;; C-x bindings
+  ("C-x b" . consult-buffer)
+  ("C-x M-:" . consult-complex-command)
+  ("C-x M-m" . consult-minor-mode-menu)
+  ("C-x M-k" . consult-kmacro)
+  ;; M-g bindings
+  ([remap goto-line] . consult-goto-line)
+  ("M-s M-f" . consult-find)
+  ("M-s M-g" . consult-grep)
+  ("M-s M-i" . consult-imenu)
+  ("M-s M-l" . consult-line)
+  ("M-s M-m" . consult-mark)
+  ("M-s M-s" . consult-outline)
+  ("M-s M-y" . consult-yank-pop)
+  :map consult-narrow-map
+  ("?" . consult-narrow-help)
   :custom
   (register-preview-delay 0.8)
-  (consult-preview-key nil) ; disable previews
+  (consult-preview-key nil)
   (consult-narrow-key ">")
   :config
   (setq register-preview-function #'consult-register-format))
 
 (use-package recentf
   :custom
-  (recentf-save-file (expand-file-name "recentf" user-emacs-directory))
+  (recentf-save-file (locate-user-emacs-file "recentf"))
   (recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip"))
   (recentf-mode t))
 
@@ -322,7 +311,7 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;;; Built-in search commands
+;;; Search commands
 
 (use-package isearch
   :bind (:map minibuffer-local-isearch-map
@@ -340,6 +329,15 @@
   :config
   (setq isearch-lax-whitespace t
         isearch-regexp-lax-whitespace nil))
+
+;;; Interface settings
+
+(use-package jdp-whitespace
+  :bind ([f6] . jdp-whitespace-space-toggle))
+
+(use-package whitespace-cleanup-mode
+  :ensure t
+  :custom (global-whitespace-cleanup-mode t))
 
 ;;; Directory management
 
