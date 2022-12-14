@@ -39,6 +39,7 @@
 
 (use-package emacs
   :bind (("C-x C-z" . nil)
+         ("C-z" . zap-up-to-char)
          ("C-h K" . describe-keymap)
          ("M-SPC" . cycle-spacing)
          ("M-c" . capitalize-dwim)
@@ -75,7 +76,7 @@
 
 (use-package avy
   :ensure t
-  :bind ("C-z" . avy-goto-char-timer))
+  :bind ("C-'" . avy-goto-char-timer))
 
 (use-package multiple-cursors
   :ensure t
