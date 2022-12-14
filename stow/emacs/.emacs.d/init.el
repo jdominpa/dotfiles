@@ -264,22 +264,22 @@
 
 (use-package consult
   :ensure t
-  :bind ;; C-x bindings
-  ("C-x b" . consult-buffer)
-  ("C-x M-:" . consult-complex-command)
-  ("C-x M-m" . consult-minor-mode-menu)
-  ("C-x M-k" . consult-kmacro)
-  ;; M-g bindings
-  ([remap goto-line] . consult-goto-line)
-  ("M-s M-f" . consult-find)
-  ("M-s M-g" . consult-grep)
-  ("M-s M-i" . consult-imenu)
-  ("M-s M-l" . consult-line)
-  ("M-s M-m" . consult-mark)
-  ("M-s M-s" . consult-outline)
-  ("M-s M-y" . consult-yank-pop)
-  :map consult-narrow-map
-  ("?" . consult-narrow-help)
+  :bind (;; C-x bindings
+         ("C-x b" . consult-buffer)
+         ("C-x M-:" . consult-complex-command)
+         ("C-x M-m" . consult-minor-mode-menu)
+         ("C-x M-k" . consult-kmacro)
+         ;; M-g bindings
+         ([remap goto-line] . consult-goto-line)
+         ("M-s M-f" . consult-find)
+         ("M-s M-g" . consult-grep)
+         ("M-s M-i" . consult-imenu)
+         ("M-s M-l" . consult-line)
+         ("M-s M-m" . consult-mark)
+         ("M-s M-s" . consult-outline)
+         ("M-s M-y" . consult-yank-pop)
+         :map consult-narrow-map
+         ("?" . consult-narrow-help))
   :custom
   (register-preview-delay 0.8)
   (consult-preview-key nil)
