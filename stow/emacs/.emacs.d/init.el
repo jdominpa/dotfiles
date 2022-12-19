@@ -9,6 +9,19 @@
                   gc-cons-percentage 0.1)
             (garbage-collect)))
 
+;; Some basic settings
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq disabled-command-function nil)
+(customize-set-variable 'blink-cursor-mode nil)
+
+;; Put custom configuration in a separate file
+(customize-set-variable 'custom-file (locate-user-emacs-file "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+
+;;; Packages and modules
+
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("elpa-devel" . "https://elpa.gnu.org/devel/") t)
@@ -17,187 +30,27 @@
 (customize-set-variable 'package-archive-priority '(("elpa" . 2)
                                                     ("nongnu" . 1)))
 
+;; Install use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; "jdp-core" is for all my emacs configuration modules
 ;; "jdp-lisp" is used for all my custom elisp files
-;; "contrib-lisp" is for third-party code manually handled.
-(dolist (path '("jdp-lisp" "contrib-lisp"))
+(dolist (path '("jdp-core" "jdp-lisp"))
   (add-to-list 'load-path (expand-file-name path user-emacs-directory)))
 
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq disabled-command-function nil)
+(require 'jdp-core-emacs)
+(require 'jdp-core-theme)
+(require 'jdp-core-font)
+(require 'jdp-core-modeline)
 
-;; Put custom configuration in a separate file
-(customize-set-variable 'custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-
-;;; General settings
-
-(use-package emacs
-  :bind (("C-x C-z" . nil)
-         ("C-z" . zap-up-to-char)
-         ("C-h K" . describe-keymap)
-         ("M-SPC" . cycle-spacing)
-         ("M-c" . capitalize-dwim)
-         ("M-l" . downcase-dwim)
-         ("M-u" . upcase-dwim)
-         ("M-o" . other-window)))
-
-(use-package mouse
-  :custom
-  (mouse-wheel-scroll-amount
-   '(1
-     ((shift) . 5)
-     ((meta) . 0.5)
-     ((control) . text-scale)))
-  (mouse-wheel-progressive-speed nil)
-  (mouse-wheel-follow-mouse t)
-  (mouse-wheel-mode t))
-
-(customize-set-variable 'scroll-margin 0)
-(customize-set-variable 'scroll-conservatively 1)
-(customize-set-variable 'scroll-preserve-screen-position 'always)
-
-(use-package delsel
-  :custom (delete-selection-mode t))
-
-(use-package autorevert
-  :config (auto-revert-mode))
-
+;;; TODO: move this section somewhere else
 (use-package so-long
   :custom (global-so-long-mode t))
 
 (customize-set-variable 'save-interprogram-paste-before-kill t)
 (customize-set-variable 'mode-require-final-newline 'visit-save)
-
-(use-package avy
-  :ensure t
-  :bind ("C-'" . avy-goto-char-timer))
-
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C-." . mc/mark-next-like-this)
-         ("C-," . mc/mark-previous-like-this)
-         ("C->" . mc/mark-all-like-this)))
-
-(use-package expand-region
-  :ensure t
-  :bind ("C-;" . er/expand-region))
-
-(use-package which-key
-  :ensure t
-  :custom (which-key-show-early-on-C-h nil)
-  :custom (which-key-mode t))
-
-;;; Visual settings
-
-(use-package modus-themes
-  :ensure t
-  :bind ([f5] . modus-themes-toggle)
-  :custom
-  (modus-themes-bold-constructs t)
-  (modus-themes-slanted-constructs t)
-  (modus-themes-italic-constructs t)
-  (modus-themes-mixed-fonts t)
-  (modus-themes-mode-line '(borderless accented))
-  (modus-themes-region '(bg-only))
-  (modus-themes-paren-match '(bold))
-  :init
-  ;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-  (modus-themes-load-vivendi))
-
-(use-package fontaine
-  :ensure t
-  :demand t
-  :bind (("C-c f" . fontaine-set-preset)
-         ("C-c F" . fontaine-set-face-font))
-  :custom
-  (x-underline-at-descent-line t)
-  (fontaine-presets '((regular
-                       :default-height 120)
-                      (large
-                       :default-weight semilight
-                       :default-height 160
-                       :bold-weight extrabold)
-                      (t
-                       :default-family "Iosevka"
-                       :default-weight regular
-                       :default-height 120
-                       :fixed-pitch-height 1.0
-                       :fixed-pitch-serif-height 1.0
-                       :variable-pitch-family "Iosevka Comfy Motion Duo"
-                       :variable-pitch-height 1.0
-                       :bold-weight bold
-                       :italic-slant italic)))
-  :hook ((modus-themes-after-load-theme . fontaine-apply-current-preset)
-         (kill-emacs . fontaine-store-latest-preset))
-  :config
-  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
-
-(setq mode-line-defining-kbd-macro
-      (propertize " Macro" 'face 'mode-line-emphasis))
-
-(customize-set-variable 'mode-line-format
-                        '("%e"
-                          mode-line-front-space
-                          mode-line-mule-info
-                          mode-line-client
-                          mode-line-modified
-                          mode-line-remote
-                          mode-line-frame-identification
-                          mode-line-buffer-identification
-                          "  "
-                          mode-line-position
-                          " "
-                          mode-line-modes
-                          "  "
-                          (vc-mode vc-mode)
-                          "  "
-                          mode-line-misc-info
-                          mode-line-end-spaces))
-
-(customize-set-variable 'line-number-mode t)
-(customize-set-variable 'column-number-mode t)
-(customize-set-variable 'size-indication-mode t)
-
-(use-package minions
-  :ensure t
-  :custom
-  (minions-mode-line-lighter ";")
-  (minions-direct (list 'defining-kbd-macro
-                        'flymake-mode))
-  (minions-mode t))
-
-(use-package time
-  :custom
-  (display-time-format "%d-%m-%Y, %H:%M")
-  (display-time-interval 60)
-  (display-time-default-load-average nil)
-  (display-time-mode t))
-
-(use-package battery
-  :custom
-  (battery-mode-line-format "[%b%p%%] ")
-  (battery-load-low 20)
-  (battery-load-critical 10)
-  (display-battery-mode t))
-
-(use-package display-line-numbers
-  :custom
-  (display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode t))
-
-(blink-cursor-mode -1)
-(cl-flet ((flash-mode-line ()
-                           (invert-face 'mode-line)
-                           (run-with-timer 0.1 nil #'invert-face 'mode-line)))
-  (customize-set-variable 'ring-bell-function #'flash-mode-line))
 
 ;;; Completion
 
