@@ -1,4 +1,5 @@
 ;;; Modeline
+(customize-set-variable 'mode-line-position-column-line-format '(" %l,%c"))
 (setq mode-line-defining-kbd-macro
       (propertize " Macro" 'face 'mode-line-emphasis))
 

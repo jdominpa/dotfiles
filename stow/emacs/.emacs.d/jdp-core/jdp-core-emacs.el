@@ -5,10 +5,14 @@
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
          ("C-c s" . jdp-simple-scratch-buffer)
+         ;; Commands for lines
+         ("M-o" . delete-blank-lines)   ; alias for C-x C-o
          ("M-SPC" . cycle-spacing)
+         ;; Commands for text manipulation
          ("M-c" . capitalize-dwim)
          ("M-l" . downcase-dwim)
          ("M-u" . upcase-dwim)
+         ;; Commands for marking objects
          ("M-@" . jdp-simple-mark-word)
          ("C-M-SPC" . jdp-simple-mark-construct-dwim)))
 

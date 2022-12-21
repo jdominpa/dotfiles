@@ -17,5 +17,8 @@
 (customize-set-variable 'use-file-dialog nil)
 (customize-set-variable 'inhibit-startup-screen t)
 
+;; Don't automatically show native compilation warning messages
+(setq native-comp-async-report-warnings-errors 'silent)
+
 (provide 'early-init)
 ;;; early-init.el ends here

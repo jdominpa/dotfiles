@@ -10,8 +10,9 @@
             (garbage-collect)))
 
 ;; Some basic settings
-(fset 'yes-or-no-p 'y-or-n-p)
 (setq disabled-command-function nil)
+(customize-set-variable 'use-short-answers t)
+(customize-set-variable 'initial-buffer-choice t)          ; always start with *scratch* buffer
 (customize-set-variable 'blink-cursor-mode nil)
 
 ;; Put custom configuration in a separate file
@@ -30,11 +31,6 @@
 (customize-set-variable 'package-archive-priority '(("elpa" . 2)
                                                     ("nongnu" . 1)))
 
-;; Install use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 ;; "jdp-core" is for all my emacs configuration modules
 ;; "jdp-lisp" is used for all my custom elisp files
 (dolist (path '("jdp-core" "jdp-lisp"))
@@ -46,6 +42,7 @@
 (require 'jdp-core-modeline)
 (require 'jdp-core-completion)
 (require 'jdp-core-search)
+(require 'jdp-core-dired)
 
 ;;; TODO: move this section somewhere else
 (use-package so-long
@@ -63,50 +60,11 @@
   :ensure t
   :custom (global-whitespace-cleanup-mode t))
 
-;;; Directory management
-
-(use-package dired
-  :hook (dired-mode . hl-line-mode)
-  :custom
-  (dired-recursive-copies 'always)
-  (dired-recursive-deletes 'always)
-  (delete-by-moving-to-trash t)
-  (dired-listing-switches
-   "-AXhlv --group-directories-first")
-  (dired-dwim-target t))
-
-(use-package dired-aux
-  :custom
-  (dired-isearch-filenames 'dwim)
-  (dired-create-destination-dirs 'ask))
-
-(use-package dired-x
-  :bind (("C-x C-j" . dired-jump)
-         ("C-x 4 C-j" . dired-jump-other-window))
-  :custom
-  (dired-clean-up-buffers-too t)
-  (dired-clean-confirm-killing-deleted-buffers t))
-
 ;;; Buffer management
 
 (customize-set-variable 'uniquify-buffer-name-style 'forward)
 (customize-set-variable 'uniquify-strip-common-suffix t)
 (customize-set-variable 'uniquify-after-kill-buffer-p t)
-
-(use-package ibuffer
-  :hook ((ibuffer . ibuffer-set-up-preferred-filters)
-         (ibuffer . hl-line-mode))
-  :bind ("C-x C-b" . ibuffer)
-  :custom
-  (ibuffer-expert t)
-  (ibuffer-display-summary nil)
-  (ibuffer-use-other-window nil)
-  (ibuffer-show-empty-filter-groups nil)
-  (ibuffer-movement-cycle nil)
-  (ibuffer-use-header-line t)
-  (ibuffer-default-shrink-to-minimum-size nil)
-  (ibuffer-saved-filter-groups nil)
-  (ibuffer-old-time 48))
 
 ;;; Window management
 
@@ -191,7 +149,6 @@
 ;;; Settings for programming languages
 
 (use-package eglot
-  :ensure t
   :bind (:map eglot-mode-map
               ("C-c l R" . eglot-reconnect)
               ("C-c l s" . eglot-shutdown)
