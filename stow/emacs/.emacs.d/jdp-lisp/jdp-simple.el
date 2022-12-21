@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 ;;
-;; Common commands for my Emacs: <https://protesilaos.com/emacs/dotemacs/>.
+;; Common commands for my Emacs.
 
 ;;; Code:
 

@@ -1,12 +1,5 @@
 ;;; early-init.el --- Early Init File -*- lexical-binding: t -*-
 
-;; Install into separate package dirs for each Emacs version to
-;; prevent bytecode incompatibility.
-(customize-set-variable 'package-user-dir
-                        (expand-file-name
-                         (format "elpa-%s.%s" emacs-major-version emacs-minor-version)
-                         user-emacs-directory))
-
 ;; Initialise installed packages
 (customize-set-variable 'package-enable-at-startup t)
 
