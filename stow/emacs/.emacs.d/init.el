@@ -34,7 +34,7 @@
 ;; "jdp-core" is for all my emacs configuration modules
 ;; "jdp-lisp" is used for all my custom elisp files
 (dolist (path '("jdp-core" "jdp-lisp"))
-  (add-to-list 'load-path (expand-file-name path user-emacs-directory)))
+  (add-to-list 'load-path (locate-user-emacs-file path)))
 
 (require 'jdp-core-emacs)
 (require 'jdp-core-theme)
@@ -43,6 +43,8 @@
 (require 'jdp-core-completion)
 (require 'jdp-core-search)
 (require 'jdp-core-dired)
+(require 'jdp-core-window)
+(require 'jdp-core-git)
 
 ;;; TODO: move this section somewhere else
 (use-package so-long
@@ -51,70 +53,7 @@
 (customize-set-variable 'save-interprogram-paste-before-kill t)
 (customize-set-variable 'mode-require-final-newline 'visit-save)
 
-;;; Interface settings
-
-(use-package jdp-whitespace
-  :bind ([f6] . jdp-whitespace-space-toggle))
-
-(use-package whitespace-cleanup-mode
-  :ensure t
-  :custom (global-whitespace-cleanup-mode t))
-
-;;; Buffer management
-
-(customize-set-variable 'uniquify-buffer-name-style 'forward)
-(customize-set-variable 'uniquify-strip-common-suffix t)
-(customize-set-variable 'uniquify-after-kill-buffer-p t)
-
-;;; Window management
-
-(use-package window
-  :bind (("C-x _" . balance-windows)
-         ("C-x -" . fit-window-to-buffer)
-         ("C-x +" . balance-windows-area)
-         ("C-x }" . enlarge-window)
-         ("C-x {" . shrink-window)
-         ("C-x >" . enlarge-window-horizontally) ; override `scroll-right'
-         ("C-x <" . shrink-window-horizontally)  ; override `scroll-left'
-         :map resize-window-repeat-map
-         ("}" . enlarge-window)
-         ("{" . shrink-window)
-         (">" . enlarge-window-horizontally)
-         ("<" . shrink-window-horizontally))
-  :custom
-  (window-combination-resize t)
-  (window-sides-vertical nil)
-  (switch-to-buffer-in-dedicated-window 'pop)
-  (display-buffer-alist
-   `(("\\*\\(Compile-Log\\)\\*"
-      (display-buffer-in-side-window)
-      (window-height . 0.35)
-      (side . bottom)
-      (slot . -1)))))
-
-(use-package ace-window
-  :ensure t
-  :bind ("C-x o" . ace-window))
-
 ;;; Applications and utilities
-
-(use-package vc
-  :custom
-  ;; Always follow symlinks
-  (vc-follow-symlinks t))
-
-(use-package diff-hl
-  :ensure t
-  :custom
-  (diff-hl-draw-borders nil)
-  (global-diff-hl-mode t))
-
-(use-package magit
-  :ensure t
-  :hook (git-commit-mode . goto-address-mode)
-  :bind ("C-c g" . magit-status)
-  :custom
-  (magit-diff-refine-hunk t))
 
 (use-package eshell
   :custom
@@ -122,10 +61,8 @@
   (eshell-hist-ignoredups t)
   (eshell-save-history-on-exit t)
   (eshell-scroll-to-bottom-on-input t)
-  (eshell-directory-name
-   (expand-file-name "eshell" user-emacs-directory))
-  (eshell-aliases-file
-   (expand-file-name "eshell/alias" user-emacs-directory))
+  (eshell-directory-name (locate-user-emacs-file "eshell"))
+  (eshell-aliases-file (locate-user-emacs-file "eshell/alias"))
   (password-cache t)
   (password-cache-expiry 600))
 
@@ -183,7 +120,6 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package cc-mode
-  :hook (c-mode-common . eglot-ensure)
   :bind (:map c-mode-base-map
               ("TAB" . nil))
   :custom
@@ -253,7 +189,7 @@
   (save-place-mode t))
 
 (customize-set-variable 'backup-directory-alist
-                        `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
+                        `(("." . ,(locate-user-emacs-file "backup/"))))
 
 ;;; System settings
 

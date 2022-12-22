@@ -7,7 +7,7 @@
   (delete-by-moving-to-trash t)
   (dired-listing-switches "-alFhv --group-directories-first")
   (dired-dwim-target t)
-  (dired-auto-revert-buffer 'dired-directory-changed-p))
+  (dired-auto-revert-buffer #'dired-directory-changed-p))
 
 (use-package dired-aux
   :custom
