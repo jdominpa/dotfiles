@@ -131,54 +131,38 @@ This is a slightly modified version of the built-in `mark-word'."
  jdp-simple-mark-word
  "word"
  "Mark the whole word at point.
-This function is a slightly modified version of the built-in
-`mark-word', that I intend to use only in special circumstances,
-such as when recording a keyboard macro where precision is
-required.  For a general purpose utility, use `jdp-simple-mark-symbol'
-instead.")
+With optional ARG, mark the current word and any remaining ARGth
+words away from point.  A negative argument moves
+backward. Repeated invocations of this command mark the next word
+in the direction originally specified.")
 
 (jdp-simple-mark
- jdp-simple-mark-symbol
- "symbol"
- "Mark the whole symbol at point.
-With optional ARG, mark the current symbol and any remaining
-ARGth symbols away from point.  A negative argument moves
-backward. Repeated invocations of this command mark the next
-symbol in the direction originally specified.
+ jdp-simple-mark-line
+ "line"
+ "Mark the whole line at point.
+With optional ARG, mark the current line and any remaining ARGth
+lines away from point.  A negative argument moves
+backward. Repeated invocations of this command mark the next line
+in the direction originally specified.")
 
-In the absence of a symbol and if a word is present at point,
-this command will operate on it as described above.")
+(defun jdp-simple-mark-sexp-content ()
+  "Mark the contents inside the current sexp where point is at."
+  (interactive)
+  (let (beg end)
+    (backward-up-list 1 t t)
+    (setq beg (1+ (point)))
+    (forward-sexp)
+    (setq end (1- (point)))
+    (goto-char beg)
+    (push-mark)
+    (goto-char end))
+  (activate-mark))
 
-(defun jdp-simple-mark-construct-dwim (&optional arg)
-  "Mark symbol or balanced expression at point.
-A do-what-I-mean wrapper for `jdp-simple-mark-sexp-backward',
-`mark-sexp', and `jdp-simple-mark-symbol'.
-
-When point is over a symbol, mark the entirety of it.  Regular
-words are interpreted as symbols when an actual symbol is not
-present.
-
-For balanced expressions, a backward match will happen when point
-is to the right of the closing delimiter.  A forward match is the
-fallback condition and should work when point is before a
-balanced expression, with or without whitespace in between it an
-the opening delimiter.
-
-Optional ARG will mark a total of ARGth objects while counting
-the current one (so 3 would be 1+2 more).  A negative count moves
-the mark backward (though that would invert the backward-moving
-sexp matching of `jdp-simple-mark-sexp-backward', so be mindful of
-where the point is).  Repeated invocations of this command
-incrementally mark objects in the direction originally
-specified."
-  (interactive "P")
-  (cond
-   ((symbol-at-point)
-    (jdp-simple-mark-symbol arg t))
-   ((eq (point) (cdr (bounds-of-thing-at-point 'sexp)))
-    (jdp-simple-mark-sexp-backward arg))
-   (t
-    (mark-sexp arg t))))
+(defun jdp-simple-kill-sexp-content ()
+  "Kill the contents inside the current sexp where point is at."
+  (interactive)
+  (jdp-simple-mark-sexp-content)
+  (kill-region (mark) (point)))
 
 (provide 'jdp-simple)
 ;;; jdp-simple.el ends here

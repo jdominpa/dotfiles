@@ -14,7 +14,9 @@
          ("M-u" . upcase-dwim)
          ;; Commands for marking objects
          ("M-@" . jdp-simple-mark-word)
-         ("C-M-SPC" . jdp-simple-mark-construct-dwim)))
+         ("M-L" . jdp-simple-mark-line)
+         ("C-M-=" . jdp-simple-mark-sexp-content)
+         ("C-M--" . jdp-simple-kill-sexp-content)))
 
 ;;; Mouse configuration
 (use-package mouse
@@ -44,7 +46,7 @@
 ;;; Avy for navigation within the screen contents
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char-timer))
+  :bind ("C-'" . avy-goto-char-timer))
 
 ;;; NOTE 19-12-2022: currently trying custom selection commands
 ;; (use-package expand-region
