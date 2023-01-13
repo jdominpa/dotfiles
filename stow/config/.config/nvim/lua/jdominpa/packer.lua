@@ -2,7 +2,7 @@ return require("packer").startup(function()
   use "wbthomason/packer.nvim"
 
   -- Colorscheme
-  use "morhetz/gruvbox"
+  use "catppuccin/vim"
 
   -- Status line
   use {
