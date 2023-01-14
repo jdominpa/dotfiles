@@ -1,5 +1,12 @@
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
-if not pcall(vim.cmd, "colorscheme catppuccin_mocha") then
+
+local has_theme, theme = pcall(require, "catppuccin")
+if not has_theme then
   return
 end
+theme.setup({
+  flavour = "mocha",
+  no_italic = true,
+})
+vim.cmd [[colorscheme catppuccin]]

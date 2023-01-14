@@ -2,7 +2,7 @@ return require("packer").startup(function()
   use "wbthomason/packer.nvim"
 
   -- Colorscheme
-  use "catppuccin/vim"
+  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- Status line
   use {
@@ -28,22 +28,29 @@ return require("packer").startup(function()
   }
 
   -- Language plugins
-  use {"lervag/vimtex", ft = {"tex", "bib"}}
+  use { "lervag/vimtex", ft = {"tex", "bib"} }
 
   -- LSP
-  use "neovim/nvim-lspconfig"
-  use "onsails/lspkind-nvim"
+  use {
+    "neovim/nvim-lspconfig",
+    requires = {
+      "j-hui/fidget.nvim",
+      "onsails/lspkind-nvim",
+    },
+  }
 
   -- Completion
-  use "hrsh7th/nvim-cmp"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-nvim-lua"
-
-  -- Snippets
-  use "L3MON4D3/LuaSnip"
-  use "saadparwaiz1/cmp_luasnip"
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+    },
+  }
 
   -- Vim-be-good
   use "ThePrimeagen/vim-be-good"

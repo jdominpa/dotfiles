@@ -1,6 +1,6 @@
 local M = {}
 
-function keymap(mode, outer_opts)
+local function keymap(mode, outer_opts)
   outer_opts = outer_opts or { noremap = true, silent = true }
   return function(lhs, rhs, opts)
     opts = vim.tbl_extend("force", outer_opts, opts or {})
