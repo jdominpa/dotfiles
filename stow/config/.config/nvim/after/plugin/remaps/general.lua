@@ -6,10 +6,18 @@ local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
 
 -- Open netrw
-nnoremap("<leader>xd", ":Ex<CR>")
+nnoremap("<leader>F", ":Ex<CR>")
 
 -- Make Y behave like the rest of capital actions
 nnoremap("Y", "yg$")
+
+-- Some helix imported mappings
+nnoremap("ge", "G")
+nnoremap("gh", "0")
+nnoremap("gl", "$")
+nnoremap("gs", "^")
+nnoremap("gn", ":bn<CR>")
+nnoremap("gp", ":bp<CR>")
 
 -- Center search results when jumping between them
 nnoremap("n", "nzzzv")
