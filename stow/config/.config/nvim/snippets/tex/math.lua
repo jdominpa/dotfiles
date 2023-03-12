@@ -49,24 +49,22 @@ table.insert(autosnippets, display_math)
 
 local subindex = s(
   {
-    trig = "sj", -- Mnemonic: j is down in vim
-    dscr = "Subscript",
-    wordTrig = false,
+    trig = "__",
+    dscr = "Subscript with {}",
     hidden = true,
   },
-  fmta("_<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  fmta("_{<>}", i(1)),
   { condition = in_mathzone }
 )
 table.insert(autosnippets, subindex)
 
 local superindex = s(
   {
-    trig = "sk", -- Mnemonic: k is up in vim
+    trig = "^^",
     dscr = "Superscript",
-    wordTrig = false,
     hidden = true,
   },
-  fmta("^<>", c(1, { i(nil), sn(nil, fmta("{<>}", i(1))) })),
+  fmta("^{<>}", i(1)),
   { condition = in_mathzone }
 )
 table.insert(autosnippets, superindex)

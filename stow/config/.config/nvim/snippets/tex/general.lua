@@ -16,13 +16,19 @@ local snippets, autosnippets = {}, {}
 local package = s(
   {
     trig = "pkg",
-    dscr = "Add package with optional parameters",
+    dscr = "Add package",
   },
-  fmta("\\usepackage<>{<>}", {
-    c(1, { sn(nil, fmta("[<>]", i(1))), t("") }),
-    i(2),
-  })
+  fmta("\\usepackage{<>}", i(1))
 )
 table.insert(snippets, package)
+
+local package_opt = s(
+  {
+    trig = "pkg",
+    dscr = "Add package with optional parameters",
+  },
+  fmta("\\usepackage[<>]{<>}", { i(1), i(2) })
+)
+table.insert(snippets, package_opt)
 
 return snippets, autosnippets
