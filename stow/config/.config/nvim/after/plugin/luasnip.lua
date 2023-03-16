@@ -10,7 +10,7 @@ ls.config.set_config {
   ext_opts = {
     [require("luasnip.util.types").choiceNode] = {
       active = {
-        virt_text = { { " <- Choice Node ", "GruvboxGray" } },
+        virt_text = { { " <- ", "" } },
       },
     },
   },

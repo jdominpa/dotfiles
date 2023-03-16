@@ -24,7 +24,7 @@ table.insert(snippets, package)
 
 local package_opt = s(
   {
-    trig = "pkg",
+    trig = "pkgo",
     dscr = "Add package with optional parameters",
   },
   fmta("\\usepackage[<>]{<>}", { i(1), i(2) })

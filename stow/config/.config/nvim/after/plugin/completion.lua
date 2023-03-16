@@ -5,7 +5,7 @@ if not has_cmp or not has_lspkind then
 end
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
-vim.opt.shortmess:append "c"
+vim.opt.shortmess:append("c")
 
 cmp.setup({
   mapping = {
