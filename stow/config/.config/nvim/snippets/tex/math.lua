@@ -51,6 +51,7 @@ local subindex = s(
   {
     trig = "__",
     dscr = "Subscript with {}",
+    wordTrig = false,
     hidden = true,
   },
   fmta("_{<>}", i(1)),
@@ -62,6 +63,7 @@ local superindex = s(
   {
     trig = "^^",
     dscr = "Superscript",
+    wordTrig = false,
     hidden = true,
   },
   fmta("^{<>}", i(1)),
