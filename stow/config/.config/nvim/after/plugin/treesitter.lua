@@ -3,9 +3,8 @@ if not pcall(require, "nvim-treesitter") then
 end
 
 require("nvim-treesitter.configs").setup {
-  ensure_installed = "all",
+  ensure_installed = { "vim", "lua", "help", "query", "c" },
   sync_install = false,
-  ignore_install = { "latex" },
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
