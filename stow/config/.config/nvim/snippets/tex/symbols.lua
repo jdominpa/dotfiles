@@ -87,28 +87,4 @@ local ldots = s(
 )
 table.insert(autosnippets, ldots)
 
-local infty = s(
-  {
-    trig = "oo",
-    dscr = "Infinity symbol",
-    wordTrig = false,
-    hidden = true,
-  },
-  t("\\infty"),
-  { condition = in_mathzone }
-)
-table.insert(autosnippets, infty)
-
-local partial_derivative = s(
-  {
-    trig = "pd",
-    dscr = "Partial derivative",
-    wordTrig = false,
-    hidden = true,
-  },
-  t("\\partial"),
-  { condition = in_mathzone }
-)
-table.insert(autosnippets, partial_derivative)
-
 return snippets, autosnippets

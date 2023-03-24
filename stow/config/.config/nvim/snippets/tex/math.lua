@@ -40,7 +40,7 @@ local display_math = s(
   },
   fmta([[
   \[
-      <>
+    <>
   \]
   ]], i(1)),
   { condition = line_begin * -in_mathzone }

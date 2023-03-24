@@ -20,7 +20,7 @@ local environment = s(
   },
   fmta([[
   \begin{<>}
-      <>
+    <>
   \end{<>}
   ]], { i(1), i(2), rep(1) })
 )
@@ -33,7 +33,7 @@ local enumerate = s(
   },
   fmta([[
   \begin{enumerate}<>
-      \item <>
+    \item <>
   \end{enumerate}
   ]], {
     c(1, { t(""), t("[(i)]"), t("[(a)]") }),
@@ -49,7 +49,7 @@ local equation = s(
   },
   fmta([[
   \begin{equation}
-      <>
+    <>
   \end{equation}
   ]], i(1))
 )

@@ -12,10 +12,12 @@ nnoremap("<leader>F", ":Ex<CR>")
 nnoremap("Y", "yg$")
 
 -- Some helix imported mappings
-nnoremap("ge", "G")
 nnoremap("gh", "0")
+vnoremap("gh", "0")
 nnoremap("gl", "$")
+vnoremap("gl", "$")
 nnoremap("gs", "^")
+vnoremap("gs", "^")
 nnoremap("gn", ":bn<CR>")
 nnoremap("gp", ":bp<CR>")
 

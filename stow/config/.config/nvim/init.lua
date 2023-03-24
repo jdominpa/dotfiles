@@ -8,9 +8,6 @@ end
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Snippets plugin
-vim.g.snippets = "luasnip"
-
 -- Options
 require "jdominpa.options"
 
