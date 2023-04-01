@@ -44,11 +44,6 @@ nnoremap("<leader>y", "\"+y")
 vnoremap("<leader>y", "\"+y")
 nmap("<leader>Y", "\"+Y")
 
--- Delete without yanking text
-nnoremap("<leader>d", "\"_d")
-vnoremap("<leader>d", "\"_d")
-nnoremap("<leader>D", "\"_D")
-
 -- Jump to next or previous error in quickfix list
 nnoremap("<C-j>", "<cmd>cnext<CR>zz")
 nnoremap("<C-k>", "<cmd>cprev<CR>zz")

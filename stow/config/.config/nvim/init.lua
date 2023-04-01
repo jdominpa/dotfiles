@@ -7,8 +7,8 @@ vim.g.maplocalleader = "\\"
 -- Options
 require "jdominpa.options"
 
+-- Remappings
+require "jdominpa.remappings"
+
 -- Plugins
 require "jdominpa.lazy"
-
--- Telescope
-require "jdominpa.telescope"

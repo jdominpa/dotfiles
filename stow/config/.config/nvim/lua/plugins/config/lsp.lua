@@ -1,7 +1,3 @@
-if not pcall(require, "lspconfig") then
-  return
-end
-
 local keymap = require("jdominpa.keymap")
 local nnoremap = keymap.nnoremap
 

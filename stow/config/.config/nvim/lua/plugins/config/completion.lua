@@ -1,12 +1,8 @@
-local has_cmp, cmp = pcall(require, "cmp")
-local has_lspkind, lspkind = pcall(require, "lspkind")
-if not has_cmp or not has_lspkind then
-  return
-end
-
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append("c")
 
+local cmp = require("cmp")
+local lspkind = require("lspkind")
 cmp.setup({
   mapping = {
     ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
