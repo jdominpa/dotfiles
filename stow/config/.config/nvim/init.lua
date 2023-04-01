@@ -1,9 +1,5 @@
 pcall(require, "require not loaded")
 
-if require "jdominpa.first_load"() then
-  return
-end
-
 -- Leader key -> <Space>
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -12,7 +8,7 @@ vim.g.maplocalleader = "\\"
 require "jdominpa.options"
 
 -- Plugins
-require "jdominpa.packer"
+require "jdominpa.lazy"
 
 -- Telescope
 require "jdominpa.telescope"
