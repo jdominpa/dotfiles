@@ -87,7 +87,6 @@ local sum = s(
     trig = "sum",
     dscr = "Sum with sigma notation",
     wordTrig = false,
-    hidden = true,
   },
   fmta("\\sum_{<>}^{<>} <>", {
     i(1, "n = 0"),
@@ -96,14 +95,13 @@ local sum = s(
   }),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, sum)
+table.insert(snippets, sum)
 
 local integral = s(
   {
     trig = "int",
     dscr = "Integral",
     wordTrig = false,
-    hidden = true,
   },
   fmta("\\int_{<>}^{<>} <>\\,d<>", {
     i(1, "-\\infty"),
@@ -113,6 +111,6 @@ local integral = s(
   }),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, integral)
+table.insert(snippets, integral)
 
 return snippets, autosnippets
