@@ -82,7 +82,7 @@ local ldots = s(
     wordTrig = false,
     hidden = true,
   },
-  t("\\ldots"),
+  t("\\dotsc"),
   { condition = in_mathzone }
 )
 table.insert(autosnippets, ldots)
