@@ -47,5 +47,3 @@ nmap("<leader>Y", "\"+Y")
 -- Jump to next or previous error in quickfix list
 nnoremap("<C-j>", "<cmd>cnext<CR>zz")
 nnoremap("<C-k>", "<cmd>cprev<CR>zz")
-nnoremap("<leader>j", "<cmd>lnext<CR>zz")
-nnoremap("<leader>k", "<cmd>lprev<CR>zz")

@@ -6,7 +6,7 @@ local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
   nnoremap("K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  nnoremap("<leader>k", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   nnoremap("[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
