@@ -24,25 +24,25 @@ cmp.setup({
 
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      require("luasnip").lsp_expand(args.body)
     end,
   },
 
   formatting = {
     format = lspkind.cmp_format {
-      with_text = true,
+      mode = "symbol_text",
       menu = {
         buffer = "[buf]",
         nvim_lsp = "[LSP]",
         nvim_lua = "[api]",
         path = "[path]",
         luasnip = "[snip]",
+        latex_symbols = "[latex]",
       },
     },
   },
 
-  experimental = {
-    native_menu = false,
-    ghost_text = true,
+  view = {
+    entries = { name = "custom", selection_order = "near_cursor" },
   },
 })

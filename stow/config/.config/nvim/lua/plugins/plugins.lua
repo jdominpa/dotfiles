@@ -2,6 +2,7 @@ return {
   -- Colorscheme
   {
     "catppuccin/nvim",
+    name = "catppuccin",
     config = function()
       require("plugins.config.catppuccin")
     end,
@@ -10,17 +11,22 @@ return {
   -- Status line
   {
     "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
     config = function()
       require("plugins.config.lualine")
     end,
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "kyazdani42/nvim-web-devicons", lazy = true },
   },
 
   -- Utilities
   {
-    "tpope/vim-surround",
+    "kylechui/nvim-surround",
     event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup()
+    end,
   },
+
   {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
@@ -28,6 +34,7 @@ return {
       require("plugins.config.comments")
     end,
   },
+
   {
     "folke/zen-mode.nvim",
     cmd = "ZenMode",
@@ -55,34 +62,21 @@ return {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("plugins.config.treesitter")
     end,
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   },
 
-  -- Latex
-  {
-    "lervag/vimtex",
-    ft = { "tex", "bib" },
-    config = function()
-      require("plugins.config.vimtex")
-    end,
-  },
-
   -- LSP
   {
     "neovim/nvim-lspconfig",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("plugins.config.lsp")
     end,
-    dependencies = {
-      "j-hui/fidget.nvim",
-      "onsails/lspkind-nvim",
-    },
   },
 
   -- Completion
@@ -97,6 +91,7 @@ return {
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
+      "onsails/lspkind-nvim",
     },
   },
 
@@ -108,5 +103,14 @@ return {
       require("plugins.config.luasnip")
     end,
     dependencies = { "saadparwaiz1/cmp_luasnip" },
+  },
+
+  -- Latex
+  {
+    "lervag/vimtex",
+    ft = { "tex", "bib" },
+    config = function()
+      require("plugins.config.vimtex")
+    end,
   },
 }

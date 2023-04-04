@@ -53,6 +53,3 @@ require("lspconfig").lua_ls.setup({
     },
   },
 })
-
--- LSP status information
-require("fidget").setup()
