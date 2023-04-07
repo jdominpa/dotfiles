@@ -1,27 +1,25 @@
-local keymap = require("jdominpa.keymap")
-local nnoremap = keymap.nnoremap
+local map = vim.keymap.set
 
 -- LSP keymappings
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
-  nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  nnoremap("K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  nnoremap("<leader>k", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  nnoremap("[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  nnoremap("]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+  map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  map("n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  map("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+  map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
   local has_telescope, telescope = pcall(require, "telescope.builtin")
   if has_telescope then
-    nnoremap("gd", telescope.lsp_definitions, opts)
-    nnoremap("gy", telescope.lsp_type_definitions, opts)
-    nnoremap("gi", telescope.lsp_implementations, opts)
-    nnoremap("gr", telescope.lsp_references, opts)
-    nnoremap("<leader>s", telescope.lsp_document_symbols, opts)
-    nnoremap("<leader>S", telescope.lsp_workspace_symbols, opts)
-    nnoremap("<leader>d", telescope.diagnostics, opts)
-    nnoremap("<leader>D", telescope.diagnostics, { buffer = nil })
+    map("n", "gd", telescope.lsp_definitions, opts)
+    map("n", "gy", telescope.lsp_type_definitions, opts)
+    map("n", "gi", telescope.lsp_implementations, opts)
+    map("n", "gr", telescope.lsp_references, opts)
+    map("n", "<leader>ls", telescope.lsp_document_symbols, opts)
+    map("n", "<leader>lS", telescope.lsp_workspace_symbols, opts)
+    map("n", "<leader>ld", telescope.diagnostics, opts)
   end
 end
 
