@@ -13,6 +13,7 @@ opt.pumblend = 17
 opt.wildmode = "longest:full"
 opt.wildoptions = "pum"
 
+opt.shortmess = opt.shortmess + "I"
 opt.showmode = false
 opt.showcmd = true
 opt.laststatus = 3          -- Global status line
