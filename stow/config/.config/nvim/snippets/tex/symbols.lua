@@ -42,17 +42,6 @@ local leq = s(
 )
 table.insert(autosnippets, leq)
 
-local iff = s(
-  {
-    trig = "iff",
-    dscr = "If and only if",
-    hidden = true,
-  },
-  t("\\iff"),
-  { condition = in_mathzone }
-)
-table.insert(autosnippets, iff)
-
 local forall = s(
   {
     trig = "AA",

@@ -75,6 +75,7 @@ local fraction = s(
   {
     trig = "ff",
     dscr = "Fraction",
+    wordTrig = false,
     hidden = true,
   },
   fmta("\\frac{<>}{<>}", { i(1), i(2) }),
