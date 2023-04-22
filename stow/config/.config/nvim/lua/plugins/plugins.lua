@@ -43,6 +43,11 @@ return {
     end,
   },
 
+  {
+    "mbbill/undotree",
+    keys = { { "<leader>u", "<CMD>UndotreeToggle<CR>", desc = "Toggle undotree window" } },
+  },
+
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
