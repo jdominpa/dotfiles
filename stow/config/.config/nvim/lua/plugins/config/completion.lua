@@ -29,7 +29,7 @@ cmp.setup({
   },
 
   formatting = {
-    format = lspkind.cmp_format {
+    format = lspkind.cmp_format({
       mode = "symbol_text",
       menu = {
         buffer = "[buf]",
@@ -39,7 +39,7 @@ cmp.setup({
         luasnip = "[snip]",
         latex_symbols = "[latex]",
       },
-    },
+    }),
   },
 
   view = {
