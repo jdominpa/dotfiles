@@ -62,7 +62,6 @@ opt.swapfile = false
 
 opt.mouse = "ni"
 
--- TODO: this option doesn't save correctly
 opt.formatoptions = opt.formatoptions
   - "a" -- Don't auto format
   - "t" -- Don't auto format code
