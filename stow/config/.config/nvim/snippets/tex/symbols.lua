@@ -42,29 +42,18 @@ local leq = s(
 )
 table.insert(autosnippets, leq)
 
-local forall = s(
+local iff = s(
   {
-    trig = "AA",
-    dscr = "For all",
+    trig = "<>",
+    dscr = "If and only if",
     hidden = true,
   },
-  t("\\forall"),
+  t("\\iff"),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, forall)
+table.insert(autosnippets, iff)
 
-local exists = s(
-  {
-    trig = "EE",
-    dscr = "Exists",
-    hidden = true,
-  },
-  t("\\exists"),
-  { condition = in_mathzone }
-)
-table.insert(autosnippets, exists)
-
-local ldots = s(
+local dots = s(
   {
     trig = "...",
     dscr = "Math mode ellipsis",
@@ -74,6 +63,6 @@ local ldots = s(
   t("\\dotsc"),
   { condition = in_mathzone }
 )
-table.insert(autosnippets, ldots)
+table.insert(autosnippets, dots)
 
 return snippets, autosnippets
