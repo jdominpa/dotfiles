@@ -90,7 +90,7 @@ local sum = s(
     wordTrig = false,
   },
   fmta("\\sum_{<>}^{<>} <>", {
-    i(1, "n = 0"),
+    i(1, "n=0"),
     i(2, "\\infty"),
     i(3),
   }),
