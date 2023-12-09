@@ -37,7 +37,7 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 
-opt.breakindent = true
+opt.breakindent = true              -- Visually indent wrapped lines
 opt.showbreak = string.rep("↳ ", 3) -- Wrap long lines smartly
 opt.linebreak = true
 opt.list = true                     -- show whitespace
@@ -49,16 +49,14 @@ opt.listchars = {
   trail = '•',                      -- BULLET (U+2022, UTF-8: E2 80 A2)
 }
 
-opt.foldmethod = "marker"
-opt.foldlevel = 0
-opt.modelines = 1
+opt.foldmethod = "marker"           -- Fold using markers
 
-opt.belloff = "all"
+opt.belloff = "all"                 -- Disable all bell effects
 
-opt.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus"       -- Use system clipboard
 
-opt.inccommand = "split"
-opt.swapfile = false
+opt.inccommand = "split"            -- Preview :s command results
+opt.swapfile = false                -- Don't create swapfiles
 
 opt.mouse = "ni"
 
@@ -72,7 +70,3 @@ opt.formatoptions = opt.formatoptions
   + "n" -- Format lists correctly
   + "j" -- Auto-remove comments if possible
   - "2" -- Don't indent the first line of a paragraph
-
-opt.joinspaces = false
-
-opt.fillchars = { eob = "~" }

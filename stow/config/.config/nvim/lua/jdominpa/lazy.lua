@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(path)
 
 require("lazy").setup("plugins", {
   ui = {
+    border = "rounded",
     icons = {
       cmd = "⌘",
       config = "🛠",
