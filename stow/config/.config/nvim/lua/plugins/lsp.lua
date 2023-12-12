@@ -10,7 +10,7 @@ return {
         local opts = { buffer = bufnr }
         map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
         map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-        map("n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+        map("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
         map("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
         map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
         map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
