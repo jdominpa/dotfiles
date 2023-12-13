@@ -9,7 +9,6 @@ stow_packages() {
 
     declare -a DIRECTORIES_TO_CREATE=(
 
-        ".config/helix"
         ".config/nvim"
         ".emacs.d"
         ".zsh"
@@ -20,7 +19,7 @@ stow_packages() {
 
         "emacs"
         "git"
-        "config"
+        "xdg_config"
         "shell"
         "tmux"
 
