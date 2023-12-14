@@ -13,17 +13,11 @@ export PATH="$HOME/.local/bin:$PATH"
 # zsh: correct 'github' to '.github' [yes, no, edit, abort]?
 export CORRECT_IGNORE_FILE='.*'
 
-export PAGER=less
-
-if which nvim &> /dev/null; then
-  export VISUAL=$(which nvim)
-  export EDITOR=$VISUAL
-elif which vim &> /dev/null; then
-  export VISUAL=$(which vim)
-  export EDITOR=$VISUAL
+if hash nvim &> /dev/null; then
+  export EDITOR=nvim
+  export MANPAGER="nvim +Man!"
 else
-  export VISUAL=$(which vi)
-  export EDITOR=$VISUAL
+  export EDITOR=vim
 fi
 
 # filename (if known), line number if known, falling back to percent if known,

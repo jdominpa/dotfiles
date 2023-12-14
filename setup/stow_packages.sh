@@ -18,7 +18,7 @@ stow_packages() {
     declare -a STOW_PKGS=(
 
         "emacs"
-        "git"
+        # "git"
         "xdg_config"
         "shell"
         "tmux"

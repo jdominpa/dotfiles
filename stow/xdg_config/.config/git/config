@@ -1,0 +1,26 @@
+[core]
+    editor = nvim
+    pager = delta
+
+[delta]
+    navigate = true
+
+[init]
+    defaultBranch = main
+
+[push]
+    autoSetupRemote = true
+
+[alias]
+    a   = add
+    c   = commit --verbose
+    p   = push
+    s   = status
+    co  = checkout
+    f   = fetch
+    b   = branch
+    m   = merge
+    l   = log
+
+[include]
+    path = ~/.gitconfig.local
