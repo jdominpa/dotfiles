@@ -1,13 +1,23 @@
 #!/usr/bin/env zsh
-# Set zsh directory
+
+# Set some environment variables
 export ZDOTDIR=$HOME/.zsh
+export XDG_CONFIG_HOME=$HOME/.config
 
 # Local and host-specific overrides
-LOCAL_RC=$HOME/.zshenv.local
-test -f $LOCAL_RC && source $LOCAL_RC
+if [[ -f "$ZDOTDIR/.zshenv.local" ]]; then
+    source $ZDOTDIR/.zshenv.local
+fi
 
-# Add $HOME/.local/bin/ to path for personal scripts
-export PATH="$HOME/.local/bin:$PATH"
+# Add $XDG_CONFIG_HOME/bin/ to path for personal scripts
+if [[ -d "$XDG_CONFIG_HOME/bin" ]]; then
+    export PATH="$XDG_CONFIG_HOME/bin:$PATH"
+fi
+
+# Add $HOME/.local/bin/ to path for local binaries
+if [[ -d "$HOME/.local/bin" ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 # Stop (eg.) `git push github` from triggering:
 # zsh: correct 'github' to '.github' [yes, no, edit, abort]?

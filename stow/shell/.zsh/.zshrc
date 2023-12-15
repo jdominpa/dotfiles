@@ -3,6 +3,9 @@
 # Global
 #
 
+# source $XDG_CONFIG_HOME/antigen/antigen.zsh
+# antigen bundle zsh-users/zsh-syntax-highlighting
+
 # Create a hash table for globally stashing variables without polluting main
 # scope with a bunch of identifiers.
 typeset -A __JOAN

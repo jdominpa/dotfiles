@@ -37,7 +37,7 @@ return {
         end
       end)
 
-      vim.cmd([[command! LuaSnipEdit :lua require("luasnip.loaders.from_lua").edit_snippet_files()]])
+      vim.cmd([[command! LuaSnipEdit :lua require("luasnip.loaders").edit_snippet_files()]])
       vim.keymap.set("n", "<leader>cs", "<cmd>LuaSnipEdit<CR>", { silent = true, noremap = true })
 
       require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets" })

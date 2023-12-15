@@ -5,10 +5,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Options
-require "jdominpa.options"
+require("jdominpa.options")
 
 -- Remappings
-require "jdominpa.remappings"
+require("jdominpa.remappings")
 
 -- Plugins
-require "jdominpa.lazy"
+require("jdominpa.lazy")

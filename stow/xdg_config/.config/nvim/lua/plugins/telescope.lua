@@ -2,7 +2,10 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+    },
     keys = {
       { "<leader>f", "<CMD>Telescope find_files<CR>", desc = "Find files" },
       { "<leader>b", "<CMD>Telescope buffers<CR>", desc = "Switch buffer" },
@@ -13,9 +16,8 @@ return {
       { "<leader>gc", "<CMD>Telescope git_commits<CR>", desc = "Git commits" },
     },
     config = function()
-      local actions = require("telescope.actions")
-
-      require("telescope").setup({
+      local telescope = require("telescope")
+      telescope.setup({
         defaults = {
           prompt_prefix = "> ",
           selection_caret = "> ",
@@ -27,16 +29,15 @@ return {
           },
           scroll_strategy = "cycle",
           color_devicons = true,
-          mappings = {
-            i = {
-              ["<C-h>"] = "which_key"
-            },
-            n = {
-              ["q"] = actions.close
-            },
-          },
         },
+        extensions = {
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown()
+          },
+        }
       })
+
+      telescope.load_extension("ui-select")
     end,
   },
 }
