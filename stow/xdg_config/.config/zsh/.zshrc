@@ -351,5 +351,5 @@ zstyle ':chpwd:*' recent-dirs-default true
 # Plug-ins
 #
 
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'

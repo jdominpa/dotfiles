@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
 # Set some environment variables
-export ZDOTDIR=$HOME/.zsh
 export XDG_CONFIG_HOME=$HOME/.config
+export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
 # Local and host-specific overrides
 if [[ -f "$ZDOTDIR/.zshenv.local" ]]; then
@@ -25,10 +25,10 @@ export CORRECT_IGNORE_FILE='.*'
 
 if hash nvim &> /dev/null; then
   export EDITOR=nvim
-  export MANPAGER="nvim +Man!"
 else
   export EDITOR=vim
 fi
+export MANPAGER=less
 
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash

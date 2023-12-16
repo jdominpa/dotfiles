@@ -10,8 +10,8 @@ stow_packages() {
     declare -a DIRECTORIES_TO_CREATE=(
 
         ".config/nvim"
+        ".config/zsh"
         ".emacs.d"
-        ".zsh"
 
     )
 
@@ -19,7 +19,7 @@ stow_packages() {
 
         "emacs"
         "xdg_config"
-        "shell"
+        "zshenv"
         "tmux"
 
     )
