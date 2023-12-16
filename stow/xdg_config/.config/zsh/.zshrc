@@ -1,10 +1,7 @@
 #!/usr/bin/env zsh
 #
-# Global
+# Completion
 #
-
-# source $XDG_CONFIG_HOME/antigen/antigen.zsh
-# antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Create a hash table for globally stashing variables without polluting main
 # scope with a bunch of identifiers.
@@ -12,10 +9,6 @@ typeset -A __JOAN
 
 __JOAN[ITALIC_ON]=$'\e[3m'
 __JOAN[ITALIC_OFF]=$'\e[23m'
-
-#
-# Completion
-#
 
 fpath=($ZDOTDIR/completions $fpath)
 
@@ -136,7 +129,7 @@ export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%
 # History
 #
 
-export HISTSIZE=100000
+export HISTSIZE=10000
 export HISTFILE="$ZDOTDIR/history"
 export SAVEHIST=$HISTSIZE
 
@@ -211,10 +204,21 @@ zle -N fg-bg
 bindkey '^Z' fg-bg
 
 #
-# Other
+# Aliases
 #
 
 source $ZDOTDIR/aliases
+
+#
+# Plugins
+#
+
+if [[ -f "$ZDOTDIR/catppuccin_mocha-zsh-syntax-highlighting.zsh" ]]; then
+    source $ZDOTDIR/catppuccin_mocha-zsh-syntax-highlighting.zsh
+fi
+source $ZDOTDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
 
 #
 # Hooks
@@ -346,10 +350,3 @@ zstyle ':completion:*:*:cdr:*:*' menu selection
 
 # fall through to cd if cdr is passed a non-recent dir as an argument
 zstyle ':chpwd:*' recent-dirs-default true
-
-#
-# Plug-ins
-#
-
-source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'

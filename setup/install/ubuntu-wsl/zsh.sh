@@ -24,10 +24,13 @@ main() {
     install_package "Zsh" "zsh" \
         && change_default_zsh
 
-    execute "mkdir -p $HOME/.zsh" \
-        "Creating .zsh directory"
+    execute "mkdir -p $HOME/.config/zsh" \
+        "Creating zsh config directory"
 
-    execute "git clone git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions" \
+    execute "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.config/zsh/zsh-syntax-highlighting" \
+        "Cloning zsh-autosuggestions repository"
+
+    execute "git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.config/zsh/zsh-autosuggestions" \
         "Cloning zsh-autosuggestions repository"
 
 }
