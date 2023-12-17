@@ -12,8 +12,8 @@ upgrade
 ./stow.sh
 
 ./git.sh
-./zsh.sh
 ./cmd_ln_tools.sh
+./zsh.sh
 ./editors.sh
 ./fonts.sh
 

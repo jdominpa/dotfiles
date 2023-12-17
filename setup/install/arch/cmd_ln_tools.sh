@@ -10,6 +10,7 @@ print_in_purple "\n   Command Line Tools\n\n"
 
 install_package "cURL" "curl"
 install_package "ripgrep" "ripgrep"
+install_package "fzf" "fzf"
 install_package "SSH" "openssh"
 install_package "Stow" "stow"
 install_package "unrar" "unrar"

@@ -11,9 +11,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./stow.sh
 
 ./git.sh
+./cmd_ln_tools.sh
 ./gpg.sh
 ./zsh.sh
 ./casks.sh
-./cmd_ln_tools.sh
 ./editors.sh
 ./font_tools.sh

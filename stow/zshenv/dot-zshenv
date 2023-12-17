@@ -23,7 +23,7 @@ fi
 # zsh: correct 'github' to '.github' [yes, no, edit, abort]?
 export CORRECT_IGNORE_FILE='.*'
 
-if hash nvim &> /dev/null; then
+if command -v nvim &> /dev/null; then
   export EDITOR=nvim
 else
   export EDITOR=vim

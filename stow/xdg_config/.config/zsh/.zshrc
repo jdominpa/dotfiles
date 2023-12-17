@@ -38,7 +38,11 @@ zstyle ':completion:*' menu select
 # Prompt
 #
 
-eval "$(starship init zsh)"
+if ! command -v starship &> /dev/null; then
+    curl -sS https://starship.rs/install.sh | sh && eval "$(starship init zsh)"
+else
+    eval "$(starship init zsh)"
+fi
 
 #
 # History
@@ -84,7 +88,7 @@ bindkey -e
 
 # Use "cbt" capability ("back_tab", as per `man terminfo`), if we have it:
 if tput cbt &> /dev/null; then
-  bindkey "$(tput cbt)" reverse-menu-complete # make Shift-tab go to previous completion
+    bindkey "$(tput cbt)" reverse-menu-complete # make Shift-tab go to previous completion
 fi
 
 autoload history-search-end
@@ -109,11 +113,11 @@ bindkey "^s" history-incremental-pattern-search-forward
 
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
+if [[ $#BUFFER -eq 0 ]]; then
     fg
-  else
+else
     zle push-input
-  fi
+fi
 }
 zle -N fg-bg
 bindkey '^Z' fg-bg
@@ -128,10 +132,6 @@ source $ZDOTDIR/aliases
 # Plugins
 #
 
-if [[ -f "$ZDOTDIR/catppuccin_mocha-zsh-syntax-highlighting.zsh" ]]; then
-    source $ZDOTDIR/catppuccin_mocha-zsh-syntax-highlighting.zsh
-fi
-source $ZDOTDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
 
