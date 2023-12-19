@@ -1,7 +1,7 @@
 local map = vim.keymap.set
 
 -- Open netrw
-map("n", "<leader>F", ":Ex<CR>")
+map("n", "<leader>pf", vim.cmd.Ex)
 
 -- Make Y behave like the rest of capital actions
 map("n", "Y", "yg$")
@@ -21,10 +21,6 @@ map("n", "J", "mzJ`z")
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
--- Remain in visual mode when indenting
-map("v", ">", ">gv")
-map("v", "<", "<gv")
-
 -- Replace highlighted text without losing yanked text
 map("x", "<leader>p", "\"_dP")
 
@@ -35,8 +31,8 @@ map({"n", "v"}, "<leader>d", "\"_d")
 map({"n", "v"}, "<leader>y", "\"+y")
 map("n", "<leader>Y", "\"+Y")
 
--- Jump to next or previous error in quickfix list
-map("n", "]q", "<cmd>cnext<CR>zzzv")
-map("n", "[q", "<cmd>cprev<CR>zzzv")
-map("n", "]l", "<cmd>lnext<CR>zzzv")
-map("n", "[l", "<cmd>lprev<CR>zzzv")
+-- Jump to next or previous item in quickfix list
+map("n", "<C-j>", "<cmd>cnext<CR>zzzv")
+map("n", "<C-k>", "<cmd>cprev<CR>zzzv")
+map("n", "<leader>j", "<cmd>lnext<CR>zzzv")
+map("n", "<leader>k", "<cmd>lprev<CR>zzzv")
