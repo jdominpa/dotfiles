@@ -9,10 +9,12 @@ vim.g.netrw_winsize = 25
 opt.wildignore = "__pycache__"
 opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "pycache" }
 
-opt.pumblend = 17
+-- Completion options
+opt.pumblend = 15
 opt.wildmode = "longest:full"
 opt.wildoptions = "pum"
 
+-- General configuration
 opt.shortmess = opt.shortmess + "I"
 opt.showmode = false
 opt.laststatus = 3          -- Global status line
@@ -34,10 +36,24 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 
+-- Wrapping and list mode characters
 opt.breakindent = true              -- Visually indent wrapped lines
 opt.showbreak = string.rep("↳ ", 3) -- Wrap long lines smartly
 opt.linebreak = true
 opt.list = true                     -- Show tabs and trailing whitespace
+opt.listchars = {
+  nbsp = "#",
+  extends = "»",                    -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  precedes = "«",                   -- LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+  tab = "> ",
+}
+
+-- Remove trailing whitespace on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("UserGeneralConfig", {}),
+  pattern = "*",
+  command = [[%s/\s\+$//e]],
+})
 
 opt.inccommand = "split"            -- Preview :s command results
 opt.swapfile = false                -- Don't create swapfiles
