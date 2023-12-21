@@ -1,7 +1,22 @@
 return {
   {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    build = ":MasonUpdate",
+    config = function()
+      require("mason").setup({
+        ui = { border = "rounded" },
+      })
+    end
+  },
+
+  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
     config = function()
       -- Keymappings
       local map = vim.keymap.set
@@ -41,28 +56,36 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-      -- General lsp configuration
       local lspconfig = require("lspconfig")
 
-      local servers = { "clangd", "texlab" }
-      for _, lsp in pairs(servers) do
-        lspconfig[lsp].setup({
+      -- Rounded window borders
+      require("lspconfig.ui.windows").default_options.border = "rounded"
+
+      -- Install lsp servers
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "clangd",
+          "pyright",
+          "ltex",
+        },
+      })
+
+      -- Setup lsp servers
+      local servers = { "clangd", "pyright", "ltex" }
+      for _, server in pairs(servers) do
+        lspconfig[server].setup({
           capabilities = capabilities,
         })
       end
 
-      -- Lua lsp
-      local user = vim.fn.expand("$USER")
-      local lua_ls_root_path = "/home/" .. user .. "/.local/bin/lua-language-server"
-      local lua_ls_binary = lua_ls_root_path .. "/bin/lua-language-server"
       lspconfig.lua_ls.setup({
-        cmd = { lua_ls_binary, "-E", lua_ls_root_path .. "/main.lua" },
         capabilities = capabilities,
         settings = {
           Lua = {
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global variable
-              globals = { "vim" },
+            workspace = {
+              checkThirdParty = false,
+              library = { vim.env.VIMRUNTIME },
             },
           },
         },

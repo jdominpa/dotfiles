@@ -55,6 +55,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   command = [[%s/\s\+$//e]],
 })
 
+-- Highlight text temporarily after yanking it
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("HighlightYank", {}),
+  callback = function()
+    vim.highlight.on_yank({ timeout = 100 })
+  end,
+})
+
 opt.inccommand = "split"            -- Preview :s command results
 opt.swapfile = false                -- Don't create swapfiles
 
