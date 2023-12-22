@@ -32,7 +32,7 @@ return {
           local opts = { buffer = ev.buf }
           map("n", "gD", vim.lsp.buf.declaration, opts)
           map("n", "K", vim.lsp.buf.hover, opts)
-          map("i", "<C-s>", vim.lsp.buf.signature_help, opts)
+          map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
           map("n", "<leader>lr", vim.lsp.buf.rename, opts)
           map("n", "<leader>la", vim.lsp.buf.code_action, opts)
           map("n", "<leader>lf", function()
@@ -67,12 +67,12 @@ return {
           "lua_ls",
           "clangd",
           "pyright",
-          "ltex",
+          "texlab",
         },
       })
 
       -- Setup lsp servers
-      local servers = { "clangd", "pyright", "ltex" }
+      local servers = { "clangd", "pyright", "texlab" }
       for _, server in pairs(servers) do
         lspconfig[server].setup({
           capabilities = capabilities,
