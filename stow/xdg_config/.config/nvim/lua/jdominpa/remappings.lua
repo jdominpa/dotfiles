@@ -32,7 +32,7 @@ map({"n", "v"}, "<leader>y", "\"+y")
 map("n", "<leader>Y", "\"+Y")
 
 -- Jump to next or previous item in quickfix list
-map("n", "<C-j>", "<cmd>cnext<CR>zzzv")
-map("n", "<C-k>", "<cmd>cprev<CR>zzzv")
-map("n", "<leader>j", "<cmd>lnext<CR>zzzv")
-map("n", "<leader>k", "<cmd>lprev<CR>zzzv")
+map("n", "]q", "<cmd>cnext<CR>zzzv")
+map("n", "[q", "<cmd>cprev<CR>zzzv")
+map("n", "]l", "<cmd>lnext<CR>zzzv")
+map("n", "[l", "<cmd>lprev<CR>zzzv")
