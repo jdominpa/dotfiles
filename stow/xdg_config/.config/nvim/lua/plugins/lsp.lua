@@ -53,9 +53,6 @@ return {
 
       -- Rounded window borders
       require("lspconfig.ui.windows").default_options.border = "rounded"
-      vim.diagnostic.config({
-        float = { border = "rounded" },
-      })
 
       local servers = {
         -- C/C++

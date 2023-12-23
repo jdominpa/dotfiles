@@ -6,7 +6,15 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "vim", "vimdoc", "query", "lua", "c", "python" },
+        ensure_installed = {
+          "vim",
+          "vimdoc",
+          "query",
+          "lua",
+          "c",
+          "python",
+          "markdown"
+        },
         sync_install = false,
         ignore_install = { "latex" },
         highlight = {
