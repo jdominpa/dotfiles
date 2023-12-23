@@ -19,76 +19,84 @@ return {
     },
     config = function()
       -- Keymappings
-      local map = vim.keymap.set
+      local on_attach = function(_, bufnr)
+        local map = vim.keymap.set
+        local opts = { buffer = bufnr }
 
-      map("n", "[d", vim.diagnostic.goto_prev)
-      map("n", "]d", vim.diagnostic.goto_next)
+        vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+        map("n", "gD", vim.lsp.buf.declaration, opts)
+        map("n", "K", vim.lsp.buf.hover, opts)
+        map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+        map("n", "<leader>lr", vim.lsp.buf.rename, opts)
+        map("n", "<leader>la", vim.lsp.buf.code_action, opts)
+        map("n", "<leader>lf", function()
+          vim.lsp.buf.format({ async = true })
+        end, opts)
+        map("n", "[d", vim.diagnostic.goto_prev, opts)
+        map("n", "]d", vim.diagnostic.goto_next, opts)
 
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(ev)
-          vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-          local opts = { buffer = ev.buf }
-          map("n", "gD", vim.lsp.buf.declaration, opts)
-          map("n", "K", vim.lsp.buf.hover, opts)
-          map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
-          map("n", "<leader>lr", vim.lsp.buf.rename, opts)
-          map("n", "<leader>la", vim.lsp.buf.code_action, opts)
-          map("n", "<leader>lf", function()
-            vim.lsp.buf.format({ async = true })
-          end, opts)
-
-          local has_telescope, telescope = pcall(require, "telescope.builtin")
-          if has_telescope then
-            map("n", "gd", telescope.lsp_definitions, opts)
-            map("n", "gy", telescope.lsp_type_definitions, opts)
-            map("n", "gi", telescope.lsp_implementations, opts)
-            map("n", "gr", telescope.lsp_references, opts)
-            map("n", "<leader>ls", telescope.lsp_document_symbols, opts)
-            map("n", "<leader>lS", telescope.lsp_workspace_symbols, opts)
-            map("n", "<leader>ld", telescope.diagnostics, opts)
-          end
+        local has_telescope, telescope = pcall(require, "telescope.builtin")
+        if has_telescope then
+          map("n", "gd", telescope.lsp_definitions, opts)
+          map("n", "gy", telescope.lsp_type_definitions, opts)
+          map("n", "gi", telescope.lsp_implementations, opts)
+          map("n", "gr", telescope.lsp_references, opts)
+          map("n", "<leader>ls", telescope.lsp_document_symbols, opts)
+          map("n", "<leader>lS", telescope.lsp_workspace_symbols, opts)
+          map("n", "<leader>ld", telescope.diagnostics, opts)
         end
-      })
+      end
 
       -- Inform of cmp extra capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-      local lspconfig = require("lspconfig")
-
       -- Rounded window borders
       require("lspconfig.ui.windows").default_options.border = "rounded"
-
-      -- Install lsp servers
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "clangd",
-          "pyright",
-          "texlab",
-        },
+      vim.diagnostic.config({
+        float = { border = "rounded" },
       })
 
-      -- Setup lsp servers
-      local servers = { "clangd", "pyright", "texlab" }
-      for _, server in pairs(servers) do
-        lspconfig[server].setup({
-          capabilities = capabilities,
-        })
-      end
+      local servers = {
+        -- C/C++
+        clangd = {},
 
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        settings = {
+        -- Python
+        pyright = {},
+
+        -- Latex
+        texlab = {},
+
+        -- Lua
+        lua_ls = {
           Lua = {
+            runtime = { version = "LuaJIT" },
             workspace = {
               checkThirdParty = false,
               library = { vim.env.VIMRUNTIME },
             },
+            -- telemetry = { enable = false },
           },
         },
+      }
+
+      local mason_lspconfig = require("mason-lspconfig")
+
+      -- Install lsp servers
+      mason_lspconfig.setup({
+        ensure_installed = vim.tbl_keys(servers),
+      })
+
+      -- Setup lsp server configurations
+      mason_lspconfig.setup_handlers({
+        function(server_name)
+          require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = servers[server_name],
+            filetypes = (servers[server_name] or {}).filetypes,
+          })
+        end,
       })
     end,
   },

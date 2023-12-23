@@ -1,5 +1,3 @@
-pcall(require, "require not loaded")
-
 -- Leader key -> <Space>
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"

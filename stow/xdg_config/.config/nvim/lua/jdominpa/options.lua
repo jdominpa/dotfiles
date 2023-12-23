@@ -50,7 +50,7 @@ opt.listchars = {
 
 -- Remove trailing whitespace on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("UserGeneralConfig", {}),
+  group = vim.api.nvim_create_augroup("RemoveTrailingWhitespace", {}),
   pattern = "*",
   command = [[%s/\s\+$//e]],
 })
