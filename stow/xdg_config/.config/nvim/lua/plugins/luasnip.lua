@@ -2,7 +2,6 @@ return {
   {
     "L3MON4D3/LuaSnip",
     event = "InsertEnter",
-    dependencies = { "saadparwaiz1/cmp_luasnip" },
     config = function()
       local ls = require("luasnip")
       ls.config.set_config({
@@ -12,7 +11,7 @@ return {
         ext_opts = {
           [require("luasnip.util.types").choiceNode] = {
             active = {
-              virt_text = { { " <- ", "" } },
+              virt_text = { { " « ", "" } },
             },
           },
         },

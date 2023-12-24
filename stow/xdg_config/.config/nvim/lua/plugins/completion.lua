@@ -8,9 +8,10 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
       "onsails/lspkind-nvim",
+      { "saadparwaiz1/cmp_luasnip", dependencies = "L3MON4D3/LuaSnip" },
     },
     config = function()
-      vim.opt.completeopt = "menuone,noselect"
+      vim.opt.completeopt = { "menuone", "noselect" }
       vim.opt.shortmess:append("c")
 
       local cmp = require("cmp")
