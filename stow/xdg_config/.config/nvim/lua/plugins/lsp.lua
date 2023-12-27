@@ -26,7 +26,7 @@ return {
         vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
         map("n", "gD", vim.lsp.buf.declaration, opts)
         map("n", "K", vim.lsp.buf.hover, opts)
-        map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+        map("i", "<C-s>", vim.lsp.buf.signature_help, opts)
         map("n", "<leader>lr", vim.lsp.buf.rename, opts)
         map("n", "<leader>la", vim.lsp.buf.code_action, opts)
         map("n", "<leader>lf", function()
