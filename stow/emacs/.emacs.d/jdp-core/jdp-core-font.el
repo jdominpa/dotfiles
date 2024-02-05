@@ -12,17 +12,15 @@
                        :default-height 160
                        :bold-weight extrabold)
                       (t
-                       :default-family "Iosevka"
+                       :default-family "Fira Code"
                        :default-weight regular
-                       :default-height 120
+                       :default-height 135
                        :fixed-pitch-height 1.0
                        :fixed-pitch-serif-height 1.0
-                       :variable-pitch-family "Iosevka Comfy Motion Duo"
-                       :variable-pitch-height 1.0
                        :bold-weight bold
                        :italic-slant italic)))
-  :hook ((modus-themes-after-load-theme . fontaine-apply-current-preset)
-         (kill-emacs . fontaine-store-latest-preset))
+  :hook ((kill-emacs . fontaine-store-latest-preset)
+         (enable-theme-functions . fontaine-apply-current-preset))
   :config
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 

@@ -1,34 +1,27 @@
 ;;; init.el --- Personal init file -*- lexical-binding: t -*-
 
-;; Speed up startup
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
-(add-hook 'after-init-hook
-          (lambda ()
-            (setq gc-cons-threshold 800000
-                  gc-cons-percentage 0.1)
-            (garbage-collect)))
-
 ;; Some basic settings
 (setq disabled-command-function nil)
-(customize-set-variable 'use-short-answers t)
 (customize-set-variable 'initial-buffer-choice t)          ; always start with *scratch* buffer
 (customize-set-variable 'blink-cursor-mode nil)
 
 ;; Put custom configuration in a separate file
-(customize-set-variable 'custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(customize-set-variable 'custom-file (make-temp-file "emacs-custom-"))
 
 
 ;;; Packages and modules
 
+;; Don't automatically show native compilation warning messages
+(customize-set-variable 'native-comp-async-report-warnings-errors 'silent)
+
 (require 'package)
-(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("elpa-devel" . "https://elpa.gnu.org/devel/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(customize-set-variable 'package-archive-priority '(("elpa" . 2)
+(customize-set-variable 'package-archives
+                        '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+                          ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
+                          ("melpa" . "https://melpa.org/packages/")
+                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(customize-set-variable 'package-archive-priority '(("gnu-elpa" . 3)
+                                                    ("melpa" . 2)
                                                     ("nongnu" . 1)))
 
 ;; "jdp-core" is for all my emacs configuration modules

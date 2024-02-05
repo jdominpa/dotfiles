@@ -1,5 +1,4 @@
 ;;; Modus theme
-;; NOTE 19-12-2022: modus themes will be refactored in a couple days
 (use-package modus-themes
   :ensure t
   :bind ([f5] . modus-themes-toggle)
@@ -8,6 +7,7 @@
   (modus-themes-slanted-constructs t)
   (modus-themes-italic-constructs t)
   (modus-themes-mixed-fonts t)
+  (modus-themes-variable-pitch-ui t)
   (modus-themes-region '(bg-only))
   (modus-themes-paren-match '(bold))
   :init

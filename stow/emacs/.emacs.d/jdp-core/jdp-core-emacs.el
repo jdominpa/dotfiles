@@ -4,7 +4,6 @@
          ("C-z" . zap-up-to-char)
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
-         ("C-c s" . jdp-simple-scratch-buffer)
          ;; Commands for lines
          ("M-o" . delete-blank-lines)   ; alias for C-x C-o
          ("M-SPC" . cycle-spacing)
@@ -15,8 +14,10 @@
          ;; Commands for marking objects
          ("M-@" . jdp-simple-mark-word)
          ("M-L" . jdp-simple-mark-line)
-         ("C-M-=" . jdp-simple-mark-sexp-content)
-         ("C-M--" . jdp-simple-kill-sexp-content)))
+         ("C-M-=" . jdp-simple-mark-inside-sexp)
+         ("C-M--" . jdp-simple-kill-inside-sexp)
+         ("M-U" . jdp-simple-unwrap-sexp)
+         ("M-S" . jdp-simple-unwrap-mark-sexp)))
 
 ;;; Mouse configuration
 (use-package mouse
@@ -31,9 +32,12 @@
   (mouse-wheel-mode t))
 
 ;;; Scrolling behaviour
-(customize-set-variable 'scroll-margin 0)
-(customize-set-variable 'scroll-conservatively 1)
-(customize-set-variable 'scroll-preserve-screen-position 'always)
+(custom-set-variables '(scroll-margin 0)
+                      '(scroll-conservatively 1)
+                      '(scroll-preserve-screen-position 'always))
+
+;;; Always focus help window
+(customize-set-variable 'help-window-select t)
 
 ;;; Delete selection
 (use-package delsel
