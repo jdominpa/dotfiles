@@ -1,4 +1,5 @@
 ;;; Orderless completion style
+(use-package jdp-orderless)
 (use-package orderless
   :ensure t
   :demand t
@@ -7,13 +8,10 @@
               ("SPC" . nil))
   :custom
   (orderless-matching-styles '(orderless-prefixes
-                               orderless-flex
                                orderless-regexp))
-  (orderless-style-dispatchers '(jdp-orderless-literal-dispatcher
-                                 jdp-orderless-flex-dispatcher
-                                 jdp-orderless-regexp-dispatcher)))
-
-(use-package jdp-orderless)
+  (orderless-style-dispatchers '(jdp-orderless-literal
+                                 jdp-orderless-flex
+                                 jdp-orderless-regexp)))
 
 ;;; Completion annotations
 (use-package marginalia
@@ -23,10 +21,11 @@
 ;;; Minibuffer configurations and Vertico
 (use-package minibuffer
   :custom
-  (completion-styles '(basic orderless))
+  (completion-styles '(basic substring initials flex orderless))
   (completion-category-overrides '((file (styles . (basic partial-completion orderless)))
                                    (project-file (styles . (basic substring partial-completion orderless)))
-                                   (kill-ring (styles . (basic substring orderless)))))
+                                   (kill-ring (styles . (emacs22 orderless)))
+                                   (eglot . (styles . (emacs22 substring orderless)))))
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (enable-recursive-minibuffers t)
@@ -43,7 +42,7 @@
 (use-package savehist
   :custom
   (savehist-file (locate-user-emacs-file "savehist"))
-  (history-length 1000)
+  (history-length 100)
   (history-delete-duplicates t)
   (savehist-save-minibuffer-history t)
   (savehist-mode t))
@@ -64,6 +63,7 @@
          ("C-x M-k" . consult-kmacro)
          ;; M-g bindings
          ([remap goto-line] . consult-goto-line)
+         ;; M-s bindings
          ("M-s M-b" . consult-buffer)
          ("M-s M-f" . consult-find)
          ("M-s M-g" . consult-grep)
@@ -76,7 +76,7 @@
          ("?" . consult-narrow-help))
   :custom
   (register-preview-delay 0.8)
-  (consult-preview-key nil)
+  (consult-preview-key 'any)
   (consult-narrow-key ">")
   :config
   (setq register-preview-function #'consult-register-format))
@@ -98,14 +98,17 @@
 ;;; In-buffer completion
 (use-package corfu
   :ensure t
-  :custom (global-corfu-mode t))
+  :custom
+  (global-corfu-mode t)
+  (corfu-popupinfo-mode t)
+  (tab-always-indent 'complete))
 
 ;;; Completion backends
 (use-package cape
   :ensure t
   :after corfu
   :init
-  (dolist (backend '(cape-symbol cape-keyword cape-file cape-dabbrev))
+  (dolist (backend '(cape-elisp-symbol cape-keyword cape-file cape-dabbrev))
     (add-to-list 'completion-at-point-functions backend)))
 
 ;;; Completion popup icons

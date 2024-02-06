@@ -67,7 +67,6 @@
 ;;; Tabs and indentation
 (customize-set-variable 'tab-width 4)
 (customize-set-variable 'indent-tabs-mode nil)
-(customize-set-variable 'tab-always-indent 'complete)
 
 ;;; Flymake
 (use-package flymake

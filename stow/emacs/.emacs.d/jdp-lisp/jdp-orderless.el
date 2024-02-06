@@ -6,15 +6,15 @@
 
 ;;; Style dispatchers
 
-(defun jdp-orderless-literal-dispatcher (pattern _index _total)
+(defun jdp-orderless-literal (pattern _index _total)
   (when (string-suffix-p "=" pattern)
     `(orderless-literal . ,(substring pattern 0 -1))))
 
-(defun jdp-orderless-flex-dispatcher (pattern _index _total)
+(defun jdp-orderless-flex (pattern _index _total)
   (when (string-suffix-p "~" pattern)
     `(orderless-flex . ,(substring pattern 0 -1))))
 
-(defun jdp-orderless-regexp-dispatcher (pattern _index _total)
+(defun jdp-orderless-regexp (pattern _index _total)
   (when (string-suffix-p "," pattern)
     `(orderless-regexp . ,(substring pattern 0 -1))))
 

@@ -1,13 +1,17 @@
 ;;; Custom commands
 (use-package jdp-simple
   :bind (("C-x C-z" . nil)
-         ("C-z" . zap-up-to-char)
+         ("C-z" . nil)
+         ("C-x k" . kill-current-buffer)
+         ("C-x K" . kill-buffer)
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
          ;; Commands for lines
          ("M-o" . delete-blank-lines)   ; alias for C-x C-o
          ("M-SPC" . cycle-spacing)
          ;; Commands for text manipulation
+         ("M-z" . zap-up-to-char)
+         ("M-Z" . zap-to-char)
          ("M-c" . capitalize-dwim)
          ("M-l" . downcase-dwim)
          ("M-u" . upcase-dwim)
@@ -51,10 +55,5 @@
 (use-package avy
   :ensure t
   :bind ("C-'" . avy-goto-char-timer))
-
-;;; NOTE 19-12-2022: currently trying custom selection commands
-;; (use-package expand-region
-;;   :ensure t
-;;   :bind ("C-;" . er/expand-region))
 
 (provide 'jdp-core-emacs)
