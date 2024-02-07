@@ -1,7 +1,12 @@
 ;;; Unique buffer names
-(customize-set-variable 'uniquify-buffer-name-style 'forward)
-(customize-set-variable 'uniquify-strip-common-suffix t)
-(customize-set-variable 'uniquify-after-kill-buffer-p t)
+(custom-set-variables '(uniquify-buffer-name-style 'forward)
+                      '(uniquify-strip-common-suffix t)
+                      '(uniquify-after-kill-buffer-p t))
+
+;;; Whitespace and line numbers modes
+(bind-keys ([f6] . whitespace-mode)
+           ([f7] . display-line-numbers-mode)
+           ("C-c z" . delete-trailing-whitespace))
 
 ;;; Window rules and other tweaks
 (use-package window
@@ -31,9 +36,5 @@
 (use-package ace-window
   :ensure t
   :bind ("C-x o" . ace-window))
-
-(use-package jdp-whitespace
-  :bind (([f6] . jdp-whitespace-space-toggle)
-         ("C-c z" . delete-trailing-whitespace)))
 
 (provide 'jdp-core-window)

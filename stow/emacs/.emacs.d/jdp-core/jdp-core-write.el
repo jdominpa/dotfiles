@@ -11,9 +11,13 @@
 ;;; Improved PDF viewing
 (use-package pdf-tools
   :ensure t
+  :defer 3
+  :bind (:map pdf-view-mode-map
+              ("d" . pdf-view-midnight-minor-mode))
   :custom
   (pdf-view-display-size 'fit-width)
   (pdf-view-continuous t)
+  (pdf-view-midnight-colors '("#ffffff" . "#000000"))
   :config
   (pdf-loader-install))
 
@@ -22,7 +26,8 @@
   :ensure auctex
   :hook (LaTeX-mode . turn-on-auto-fill)
   :config
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (setcdr (assq 'output-pdf TeX-view-program-selection)
+          '("PDF Tools"))
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer))
 

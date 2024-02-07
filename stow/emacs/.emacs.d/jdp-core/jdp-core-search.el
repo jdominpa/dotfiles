@@ -5,19 +5,18 @@
          :map isearch-mode-map
          ("M-/" . isearch-complete))
   :custom
-  (search-highlight t)
   (search-whitespace-regexp ".*?")
+  (isearch-lax-whitespace t)
+  (search-highlight t)
   (isearch-lazy-highlight t)
   (isearch-lazy-count t)
-  (lazy-count-prefix-format nil)
-  (lazy-count-suffix-format " [%s/%s]")
+  (lazy-count-prefix-format "(%s/%s) ")
+  (lazy-count-suffix-format nil)
   (isearch-yank-on-move 'shift)
   (isearch-allow-scroll 'unlimited)
   (isearch-repeat-on-direction-change t)
-  (isearch-wrap-pause 'no)
   :config
-  (setq isearch-lax-whitespace t
-        isearch-regexp-lax-whitespace nil))
+  (setq isearch-regexp-lax-whitespace nil))
 
 (use-package replace
   :hook (occur-mode . hl-line-mode))

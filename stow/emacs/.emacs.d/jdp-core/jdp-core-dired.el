@@ -5,14 +5,16 @@
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
   (delete-by-moving-to-trash t)
-  (dired-listing-switches "-alFhv --group-directories-first")
+  (dired-listing-switches "-aGFhlv --group-directories-first --time-style=long-iso")
   (dired-dwim-target t)
-  (dired-auto-revert-buffer #'dired-directory-changed-p))
+  (dired-auto-revert-buffer #'dired-directory-changed-p)
+  (dired-mouse-drag-files t))
 
 (use-package dired-aux
   :custom
   (dired-isearch-filenames 'dwim)
   (dired-create-destination-dirs 'ask)
+  (dired-create-destination-dirs-on-trailing-dirsep t)
   (dired-vc-rename-file t)
   (dired-do-revert-buffer t))
 
@@ -22,6 +24,10 @@
   :custom
   (dired-clean-up-buffers-too t)
   (dired-clean-confirm-killing-deleted-buffers t))
+
+(use-package wdired
+  :custom
+  (wdired-allow-to-change-permissions t))
 
 ;;; Ibuffer (dired-like buffer list manager)
 (use-package ibuffer

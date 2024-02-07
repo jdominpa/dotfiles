@@ -1,7 +1,6 @@
 ;;; Version control framework
 (use-package vc
   :custom
-  ;; Always follow symlinks
   (vc-follow-symlinks t))
 
 ;;; Highlight changes on the sidebar
