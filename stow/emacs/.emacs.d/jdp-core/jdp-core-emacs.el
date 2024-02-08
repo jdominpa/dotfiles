@@ -43,17 +43,33 @@
 ;;; Always focus help window
 (customize-set-variable 'help-window-select t)
 
-;;; Delete selection
-(use-package delsel
-  :custom (delete-selection-mode t))
-
 ;;; Auto revert mode
 (use-package autorevert
   :config (auto-revert-mode))
+
+;;; Delete selection
+(use-package delsel
+  :custom (delete-selection-mode t))
 
 ;;; Avy for navigation within the screen contents
 (use-package avy
   :ensure t
   :bind ("C-'" . avy-goto-char-timer))
+
+;;; Emacs server
+(use-package server
+  :config
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (require 'server)
+              (unless (server-running-p)
+                (server-start)))))
+
+;;; Save cursor position
+(use-package saveplace
+  :custom
+  (save-place-file (locate-user-emacs-file "saveplace"))
+  (save-place-forget-unreadable-files t)
+  (save-place-mode t))
 
 (provide 'jdp-core-emacs)

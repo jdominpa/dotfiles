@@ -24,11 +24,26 @@
 ;;; LaTeX tools
 (use-package tex
   :ensure auctex
-  :hook (LaTeX-mode . turn-on-auto-fill)
+  :hook ((LaTeX-mode . turn-on-auto-fill)
+         (LaTeX-mode . prettify-symbols-mode))
   :config
   (setcdr (assq 'output-pdf TeX-view-program-selection)
           '("PDF Tools"))
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer))
+
+(use-package cdlatex
+  :ensure t
+  :hook (LaTeX-mode . turn-on-cdlatex))
+
+;;; Spellchecking
+(use-package jinx
+  :ensure t
+  :hook ((text-mode . jinx-mode)
+         (LaTeX-mode . jinx-mode))
+  :bind (:map jinx-mode-map
+              ("M-$" . jinx-correct)
+              ("C-M-$" . jinx-languages))
+  :custom (jinx-languages "en es"))
 
 (provide 'jdp-core-write)

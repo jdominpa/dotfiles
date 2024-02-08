@@ -98,11 +98,12 @@
 ;;; In-buffer completion
 (use-package corfu
   :ensure t
+  :bind (:map corfu-map
+              ("TAB" . corfu-complete))
   :custom
   (global-corfu-mode t)
   (corfu-popupinfo-delay '(1.25 . 0.5))
-  (corfu-popupinfo-mode t)
-  (tab-always-indent 'complete))
+  (corfu-popupinfo-mode t))
 
 ;;; Completion backends
 (use-package cape

@@ -1,12 +1,16 @@
 ;;; init.el --- Personal init file -*- lexical-binding: t -*-
 
+;; Put custom configuration in a separate file
+(customize-set-variable 'custom-file (make-temp-file "emacs-custom-"))
+
 ;; Some basic settings
 (setq disabled-command-function nil)
 (customize-set-variable 'initial-buffer-choice t)          ; always start with *scratch* buffer
 (customize-set-variable 'blink-cursor-mode nil)
 
-;; Put custom configuration in a separate file
-(customize-set-variable 'custom-file (make-temp-file "emacs-custom-"))
+;; Backups
+(custom-set-variables '(make-backup-files nil)
+                      '(create-lockfiles nil))
 
 
 ;;; Packages and modules
@@ -40,8 +44,7 @@
 (require 'jdp-core-git)
 (require 'jdp-core-shell)
 (require 'jdp-core-write)
-(require 'jdp-core-langs)
-(require 'jdp-core-history)
+(require 'jdp-core-proglangs)
 
 
 ;;; System settings

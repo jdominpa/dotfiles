@@ -1,6 +1,7 @@
 ;;; Modus theme
 (use-package modus-themes
   :ensure t
+  :demand t
   :bind ([f5] . modus-themes-toggle)
   :custom
   (modus-themes-bold-constructs t)
@@ -8,12 +9,7 @@
   (modus-themes-italic-constructs t)
   (modus-themes-mixed-fonts t)
   (modus-themes-variable-pitch-ui t)
-  (modus-themes-region '(bg-only))
-  (modus-themes-paren-match '(bold))
-  :init
-  ;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
   :config
-  (modus-themes-load-vivendi))
+  (load-theme 'modus-vivendi t))
 
 (provide 'jdp-core-theme)
