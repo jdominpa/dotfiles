@@ -93,6 +93,7 @@
 
 ;; C/C++ (cc-mode)
 (use-package cc-mode
+  :hook (c-mode . eglot-ensure)
   :bind (:map c-mode-base-map
               ("TAB" . nil))
   :custom
