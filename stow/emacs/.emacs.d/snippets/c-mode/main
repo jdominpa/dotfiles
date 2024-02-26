@@ -2,7 +2,7 @@
 # name: main function
 # key: main
 # --
-int main(int argc, char *argv[])
+int main(${1:$$(yas-choose-value '("void" "int argc, char *argv[]"))})
 {
     $0
 
