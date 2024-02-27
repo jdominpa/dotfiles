@@ -10,7 +10,7 @@ end
 config.audible_bell = "Disabled"
 config.color_scheme = "Catppuccin Mocha"
 config.font_size = 13.0
-config.font = wezterm.font("FiraCode Nerd Font Mono")
+config.font = wezterm.font("Iosevka Comfy")
 config.window_padding = {
   left = 0,
   right = 0,

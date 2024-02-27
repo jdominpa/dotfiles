@@ -5,15 +5,14 @@
   :bind ("C-c f" . fontaine-set-preset)
   :custom
   (fontaine-presets '((regular
-                       :default-height 120)
+                       :default-height 130)
                       (large
                        :default-weight semilight
-                       :default-height 160
+                       :default-height 150
                        :bold-weight extrabold)
                       (t
-                       :default-family "Fira Code"
-                       :mode-line-active-family "Fira Code"
-                       :mode-line-inactive-family "Fira Code")))
+                       :default-family "Iosevka Comfy"
+                       :variable-pitch-family "Iosevka Comfy Motion Duo")))
   :custom
   (fontaine-mode t)
   :config
