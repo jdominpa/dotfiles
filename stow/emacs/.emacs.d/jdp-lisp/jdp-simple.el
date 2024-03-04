@@ -9,6 +9,22 @@
 (eval-when-compile
   (require 'cl-lib))
 
+;;;; Commands for buffer navigation
+
+(defun jdp-simple-scroll-up-command ()
+  "Move half a screen up."
+  (interactive)
+  (scroll-up-command (/ (window-height) 2))
+  (recenter)
+  (setq this-command 'scroll-up-command))
+
+(defun jdp-simple-scroll-down-command ()
+  "Move half a screen down."
+  (interactive)
+  (scroll-down-command (/ (window-height) 2))
+  (recenter)
+  (setq this-command 'scroll-down-command))
+
 ;;;; Commands for marking syntactic constructs
 
 (defmacro jdp-simple-mark (name object &optional docstring)

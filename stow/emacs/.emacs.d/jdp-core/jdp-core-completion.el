@@ -124,9 +124,6 @@
 ;;; Snippets
 (use-package yasnippet
   :ensure t
-  :bind (:map yas-keymap
-              ("C-v" . yas-next-field)
-              ("M-v" . yas-prev-field))
   :custom (yas-global-mode t))
 
 (provide 'jdp-core-completion)

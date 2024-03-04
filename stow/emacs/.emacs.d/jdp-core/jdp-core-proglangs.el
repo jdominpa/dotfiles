@@ -29,7 +29,8 @@
 ;; Eldoc
 (use-package eldoc
   :custom
-  (global-eldoc-mode t))
+  (global-eldoc-mode t)
+  (eldoc-echo-area-use-multiline-p nil))
 
 ;; Handle performance for long lines
 (use-package so-long

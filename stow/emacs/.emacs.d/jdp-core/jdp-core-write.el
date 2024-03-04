@@ -1,3 +1,7 @@
+;;; General settings for writing prose
+
+(customize-set-variable 'fill-column 80)
+
 ;;; Org mode
 (use-package org
   :hook ((org-mode . org-indent-mode)
@@ -11,7 +15,7 @@
 ;;; Improved PDF viewing
 (use-package pdf-tools
   :ensure t
-  :defer 3
+  :defer 2
   :bind (:map pdf-view-mode-map
               ("d" . pdf-view-midnight-minor-mode))
   :custom
@@ -22,10 +26,17 @@
   (pdf-loader-install))
 
 ;;; LaTeX tools
+(use-package math-delimiters
+  :commands
+  math-delimiters-no-dollars
+  math-delimiters-insert)
+
 (use-package tex
   :ensure auctex
   :hook ((LaTeX-mode . turn-on-auto-fill)
          (LaTeX-mode . prettify-symbols-mode))
+  :bind (:map TeX-mode-map
+              ("$" . math-delimiters-insert))
   :config
   (setcdr (assq 'output-pdf TeX-view-program-selection)
           '("PDF Tools"))
@@ -34,7 +45,19 @@
 
 (use-package cdlatex
   :ensure t
-  :hook (LaTeX-mode . turn-on-cdlatex))
+  :hook ((LaTeX-mode . turn-on-cdlatex)
+         (cdlatex-tab . yas-expand)
+         (cdlatex-tab . jdp-cdlatex-indent-line))
+  :custom
+  (cdlatex-takeover-dollar nil)
+  (cdlatex-sub-super-scripts-outside-math-mode nil)
+  :config
+  (defun jdp-cdlatex-indent-line ()
+    "Indent current line if point is before the first non-whitespace
+character of the line."
+    (when (or (bolp) (looking-back "^[ \t]+"))
+      (LaTeX-indent-line)
+      t)))
 
 ;;; Spellchecking
 (use-package jinx

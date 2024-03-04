@@ -2,8 +2,12 @@
 (use-package jdp-simple
   :bind (("C-x C-z" . nil)
          ("C-z" . nil)
+         ;; Commands for buffers
          ("C-x k" . kill-current-buffer)
          ("C-x K" . kill-buffer)
+         ("C-v" . jdp-simple-scroll-up-command)
+         ("M-v" . jdp-simple-scroll-down-command)
+         ;; Help commands
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
          ;; Commands for lines
