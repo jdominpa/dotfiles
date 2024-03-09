@@ -58,7 +58,7 @@
 ;;; Avy for navigation within the screen contents
 (use-package avy
   :ensure t
-  :bind ("C-'" . avy-goto-char-timer))
+  :bind ("C-j" . avy-goto-char-timer))
 
 ;;; Emacs server
 (use-package server
