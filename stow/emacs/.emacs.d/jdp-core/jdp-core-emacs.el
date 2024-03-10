@@ -58,7 +58,9 @@
 ;;; Avy for navigation within the screen contents
 (use-package avy
   :ensure t
-  :bind ("C-j" . avy-goto-char-timer))
+  :bind (("M-j" . avy-goto-char-timer)
+         :map isearch-mode-map
+         ("M-j" . avy-isearch)))
 
 ;;; Emacs server
 (use-package server
