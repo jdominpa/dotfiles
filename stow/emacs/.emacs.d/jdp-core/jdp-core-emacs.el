@@ -1,24 +1,31 @@
-;;; Custom commands
-(use-package jdp-simple
+;;; General settings
+(use-package emacs
+  :demand t
   :bind (("C-x C-z" . nil)
          ("C-z" . nil)
          ;; Commands for buffers
          ("C-x k" . kill-current-buffer)
          ("C-x K" . kill-buffer)
-         ("C-v" . jdp-simple-scroll-up-command)
-         ("M-v" . jdp-simple-scroll-down-command)
          ;; Help commands
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
          ;; Commands for lines
-         ("M-o" . delete-blank-lines)   ; alias for C-x C-o
          ("M-SPC" . cycle-spacing)
          ;; Commands for text manipulation
          ("M-z" . zap-up-to-char)
          ("M-Z" . zap-to-char)
          ("M-c" . capitalize-dwim)
          ("M-l" . downcase-dwim)
-         ("M-u" . upcase-dwim)
+         ("M-u" . upcase-dwim))
+  :custom
+  (help-window-select t)
+  (next-error-recenter '(nil)))
+
+;;; Custom commands
+(use-package jdp-simple
+  :bind (;; Scroll commands
+         ("C-v" . jdp-simple-scroll-up-command)
+         ("M-v" . jdp-simple-scroll-down-command)
          ;; Commands for marking objects
          ("M-@" . jdp-simple-mark-word)
          ("M-L" . jdp-simple-mark-line)
@@ -43,9 +50,6 @@
 (custom-set-variables '(scroll-margin 0)
                       '(scroll-conservatively 1)
                       '(scroll-preserve-screen-position 'always))
-
-;;; Always focus help window
-(customize-set-variable 'help-window-select t)
 
 ;;; Auto revert mode
 (use-package autorevert
