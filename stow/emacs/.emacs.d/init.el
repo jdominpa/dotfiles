@@ -16,8 +16,7 @@
 ;;; Packages and modules
 
 ;; Don't automatically show native compilation warning messages
-(when (native-compile-available-p)
-  (customize-set-variable 'native-comp-async-report-warnings-errors 'silent))
+(customize-set-variable 'native-comp-async-report-warnings-errors 'silent)
 
 (require 'package)
 (customize-set-variable 'package-archives
