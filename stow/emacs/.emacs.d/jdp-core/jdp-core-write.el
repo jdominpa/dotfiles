@@ -33,10 +33,13 @@
 
 (use-package tex
   :ensure auctex
-  :hook ((LaTeX-mode . turn-on-auto-fill)
+  :hook ((LaTeX-mode . turn-on-reftex)
+         (LaTeX-mode . turn-on-auto-fill)
          (LaTeX-mode . prettify-symbols-mode))
   :bind (:map TeX-mode-map
               ("$" . math-delimiters-insert))
+  :custom
+  (reftex-plug-into-AUCTeX t)
   :config
   (setcdr (assq 'output-pdf TeX-view-program-selection)
           '("PDF Tools"))
