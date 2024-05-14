@@ -3,39 +3,40 @@
 (setq mode-line-defining-kbd-macro
       (propertize " KMacro" 'face 'mode-line-emphasis))
 
-(customize-set-variable 'mode-line-format
-                        '("%e"
-                          mode-line-front-space
-                          mode-line-mule-info
-                          mode-line-client
-                          mode-line-modified
-                          mode-line-remote
-                          mode-line-frame-identification
-                          mode-line-buffer-identification
-                          "  "
-                          mode-line-position
-                          " "
-                          mode-line-modes
-                          "  "
-                          (vc-mode vc-mode)
-                          "  "
-                          mode-line-misc-info
-                          mode-line-end-spaces))
-
-(customize-set-variable 'line-number-mode t)
-(customize-set-variable 'column-number-mode t)
-(customize-set-variable 'size-indication-mode t)
-
-;;; Hide modeline minor modes
-(use-package minions
-  :ensure t
+(use-package jdp-modeline
   :custom
-  (minions-mode-line-lighter ";")
-  ;; NOTE: This list is expanded whenever I find modes that should not
-  ;; be hidden
-  (minions-direct (list 'defining-kbd-macro
-                        'flymake-mode))
-  (minions-mode t))
+  (mode-line-position-column-line-format '(" %l,%c"))
+  (mode-line-defining-kbd-macro
+   (propertize " KMacro" 'face 'mode-line-emphasis))
+  (mode-line-format '(;; Left hand side
+                      "%e"
+                      jdp-mode-line-kbd-macro
+                      jdp-mode-line-narrow
+                      jdp-mode-line-remote-status
+                      jdp-mode-line-input-method
+                      "  "
+                      jdp-mode-line-buffer-identification
+                      "  "
+                      jdp-mode-line-major-mode
+                      jdp-mode-line-process
+                      "  "
+                      (vc-mode vc-mode)
+                      jdp-mode-line-eglot
+                      ;; Right hand side
+                      mode-line-format-right-align
+                      jdp-mode-line-misc-info))
+  :config
+  (with-eval-after-load 'spacious-padding
+    (defun jdp-mode-line-spacious-indicators ()
+      "Set box attribute to `'jdp-mode-line-indicator-button' if spacious-padding is enabled."
+      (if (bound-and-true-p spacious-padding-mode)
+          (set-face-attribute 'jdp-mode-line-indicator-button nil :box t)
+        (set-face-attribute 'jdp-mode-line-indicator-button nil :box 'unspecified)))
+
+    ;; Run the function at startup and then afterwards whenever
+    ;; `spacious-padding-mode' is toggled on/off.
+    (jdp-mode-line-spacious-indicators)
+    (add-hook 'spacious-padding-mode-hook #'jdp-mode-line-spacious-indicators)))
 
 ;;; Display current time
 (use-package time

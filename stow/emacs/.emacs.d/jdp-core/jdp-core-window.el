@@ -35,6 +35,6 @@
 
 (use-package ace-window
   :ensure t
-  :bind ("C-x o" . ace-window))
+  :bind ("M-o" . ace-window))
 
 (provide 'jdp-core-window)

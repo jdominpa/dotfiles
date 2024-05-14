@@ -40,6 +40,13 @@
               ("$" . math-delimiters-insert))
   :custom
   (reftex-plug-into-AUCTeX t)
+  (reftex-label-alist
+   '(("theorem"     ?T "thm:"  "~\\ref{%s}" t ("theorem")     -3)
+     ("lemma"       ?L "lem:"  "~\\ref{%s}" t ("lemma")       -3)
+     ("proposition" ?P "prop:" "~\\ref{%s}" t ("proposition") -3)
+     ("corollary"   ?C "cor:"  "~\\ref{%s}" t ("corollary")   -3)
+     ("remark"      ?R "rem:"  "~\\ref{%s}" t ("remark")      -3)
+     ("definition"  ?D "defn:" "~\\ref{%s}" t ("definition")  -3)))
   :config
   (setcdr (assq 'output-pdf TeX-view-program-selection)
           '("PDF Tools"))

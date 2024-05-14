@@ -4,13 +4,26 @@
   :demand t
   :bind ([f5] . modus-themes-toggle)
   :custom
-  (modus-themes-bold-constructs t)
-  (modus-themes-slanted-constructs t)
-  (modus-themes-italic-constructs t)
   (modus-themes-mixed-fonts t)
   (modus-themes-variable-pitch-ui t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-slanted-constructs t)
+  (modus-themes-completions '((t . (extrabold))))
+  (modus-themes-prompts '(extrabold))
   :config
   (load-theme 'modus-vivendi t))
+
+;;; Spacious padding
+(use-package spacious-padding
+  :ensure t
+  :if (display-graphic-p)
+  :bind ([f8] . spacious-padding-mode)
+  :custom
+  (spacious-padding-widths
+   '(:mode-line-width 3
+     :right-divider-width 15))
+  (spacious-padding-mode t))
 
 ;;; Font configuration
 (use-package fontaine

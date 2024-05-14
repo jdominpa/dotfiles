@@ -88,13 +88,6 @@
   :custom
   (consult-dir-shadow-filenames nil))
 
-;;; Completion for recent files and directories
-(use-package recentf
-  :custom
-  (recentf-save-file (locate-user-emacs-file "recentf"))
-  (recentf-exclude '("/tmp/" "/ssh:" ".gz" ".xz" ".zip"))
-  (recentf-mode t))
-
 ;;; In-buffer completion
 (use-package corfu
   :ensure t
