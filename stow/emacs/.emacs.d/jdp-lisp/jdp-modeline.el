@@ -14,7 +14,7 @@
   "Faces for my custom mode line."
   :group 'jdp-mode-line)
 
-(defcustom jdp-mode-line-string-truncate-length 16
+(defcustom jdp-mode-line-string-truncate-length 12
   "String length after which truncation should be done in small windows."
   :type 'natnum)
 
@@ -76,6 +76,16 @@ package).")
   "Face for mode line indicators with a background."
   :group 'jdp-mode-line-faces)
 
+(defface jdp-mode-line-indicator-gray-bg
+  '((default :inherit (bold jdp-mode-line-indicator-button))
+    (((class color) (min-colors 88) (background light))
+     :background "#808080" :foreground "white")
+    (((class color) (min-colors 88) (background dark))
+     :background "#a0a0a0" :foreground "black")
+    (t :inverse-video t))
+  "Face for modeline indicatovrs with a background."
+  :group 'jdp-mode-line-faces)
+
 ;;;; Common helper functions
 
 (defun jdp-mode-line--window-narrow-p ()
@@ -91,6 +101,14 @@ Check if the `window-width' is less than `split-width-threshold'."
     (and (jdp-mode-line--window-narrow-p)
          (> (length str) jdp-mode-line-string-truncate-length)
          (not (one-window-p :no-minibuffer)))))
+
+(defun jdp-mode-line-string-cut-end (str)
+  "Return truncated STR, if appropriate, else return STR.
+Cut off the end of STR by counting from its start up to
+`jdp-mode-line-string-truncate-length'."
+  (if (jdp-mode-line--string-truncate-p str)
+      (concat (substring str 0 jdp-mode-line-string-truncate-length) "...")
+    str))
 
 (defun jdp-mode-line-string-cut-middle (str)
   "Return truncated STR, if appropriate, else return STR.
@@ -156,15 +174,25 @@ only on the current window's mode line.")
                     'mouse-face 'mode-line-highlight)))
   "Mode line construct to report the multilingual environment.")
 
-;;;; Buffer status
+;;;; Remote file
 
-(defvar-local jdp-mode-line-remote-status
+(defvar-local jdp-mode-line-remote-file
     '(:eval
       (when (file-remote-p default-directory)
         (propertize " @ "
                     'face 'jdp-mode-line-indicator-red-bg
                     'mouse-face 'mode-line-highlight)))
   "Mode line construct for showing remote file name.")
+
+;;;; Dedicated window
+
+(defvar-local jdp-mode-line-window-dedicated-status
+    '(:eval
+      (when (window-dedicated-p)
+        (propertize " = "
+                    'face 'jdp-mode-line-indicator-gray-bg
+                    'mouse-face 'mode-line-highlight)))
+  "Mode line construct for dedicated window indicator.")
 
 ;;;; Buffer name and modified status
 
@@ -255,6 +283,79 @@ face.  Let other buffers have no face.")
     (list '("" mode-line-process))
   "Mode line construct for the running process indicator.")
 
+;;;; Git branch and diffstat
+
+(declare-function vc-git--symbolic-ref "vc-git" (file))
+
+(defun jdp-mode-line--vc-branch-name (file backend)
+  "Return capitalized VC branch name for FILE with BACKEND."
+  (when-let ((rev (vc-working-revision file backend))
+             (branch (or (vc-git--symbolic-ref file)
+                         (substring rev 0 7))))
+    (capitalize branch)))
+
+(declare-function vc-git-working-revision "vc-git" (file))
+
+(defvar jdp-mode-line-vc-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line down-mouse-1] 'vc-diff)
+    (define-key map [mode-line down-mouse-3] 'vc-root-diff)
+    map)
+  "Keymap to display on VC indicator.")
+
+(defun jdp-mode-line--vc-help-echo (file)
+  "Return `help-echo' message for FILE tracked by VC."
+  (format "Revision: %s\nmouse-1: `vc-diff'\nmouse-3: `vc-root-diff'"
+          (vc-working-revision file)))
+
+(defun jdp-mode-line--vc-text (file branch &optional face)
+  "Prepare text for Git controlled FILE, given BRANCH.
+With optional FACE, use it to propertize the BRANCH."
+  (concat
+   (propertize (char-to-string #xE0A0) 'face 'shadow)
+   " "
+   (propertize branch
+               'face face
+               'mouse-face 'mode-line-highlight
+               'help-echo (jdp-mode-line--vc-help-echo file)
+               'local-map jdp-mode-line-vc-map)))
+
+(defun jdp-mode-line--vc-details (file branch &optional face)
+  "Return Git BRANCH details for FILE, truncating it if necessary.
+The string is truncated if the width of the window is smaller
+than `split-width-threshold'."
+  (jdp-mode-line-string-cut-end
+   (jdp-mode-line--vc-text file branch face)))
+
+(defvar jdp-mode-line--vc-faces
+  '((added . vc-locally-added-state)
+    (edited . vc-edited-state)
+    (removed . vc-removed-state)
+    (missing . vc-missing-state)
+    (conflict . vc-conflict-state)
+    (locked . vc-locked-state)
+    (up-to-date . vc-up-to-date-state))
+  "VC state faces.")
+
+(defun jdp-mode-line--vc-get-face (key)
+  "Get face from KEY in `jdp-mode-line--vc-faces'."
+   (alist-get key jdp-mode-line--vc-faces 'up-to-date))
+
+(defun jdp-mode-line--vc-face (file backend)
+  "Return VC state face for FILE with BACKEND."
+  (jdp-mode-line--vc-get-face (vc-state file backend)))
+
+(defvar-local jdp-mode-line-vc-branch
+    '(:eval
+      (when-let* (((mode-line-window-selected-p))
+                  (file (buffer-file-name))
+                  (backend (vc-backend file))
+                  (branch (jdp-mode-line--vc-branch-name file backend))
+                  (face (jdp-mode-line--vc-face file backend)))
+        (jdp-mode-line--vc-details file branch face)))
+  "Mode line construct to return propertized VC branch.  Displayed only on
+the current window's mode line.")
+
 ;;;; Eglot
 
 (with-eval-after-load 'eglot
@@ -281,10 +382,12 @@ the current window's mode line.")
 (dolist (construct '(jdp-mode-line-kbd-macro
                      jdp-mode-line-narrow
                      jdp-mode-line-input-method
-                     jdp-mode-line-remote-status
+                     jdp-mode-line-remote-file
+                     jdp-mode-line-window-dedicated-status
                      jdp-mode-line-buffer-identification
                      jdp-mode-line-major-mode
                      jdp-mode-line-process
+                     jdp-mode-line-vc-branch
                      jdp-mode-line-eglot
                      jdp-mode-line-misc-info))
   (put construct 'risky-local-variable t))

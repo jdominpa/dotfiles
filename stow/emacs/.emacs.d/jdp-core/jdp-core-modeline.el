@@ -12,7 +12,8 @@
                       "%e"
                       jdp-mode-line-kbd-macro
                       jdp-mode-line-narrow
-                      jdp-mode-line-remote-status
+                      jdp-mode-line-remote-file
+                      jdp-mode-line-window-dedicated-status
                       jdp-mode-line-input-method
                       "  "
                       jdp-mode-line-buffer-identification
@@ -20,7 +21,8 @@
                       jdp-mode-line-major-mode
                       jdp-mode-line-process
                       "  "
-                      (vc-mode vc-mode)
+                      jdp-mode-line-vc-branch
+                      "  "
                       jdp-mode-line-eglot
                       ;; Right hand side
                       mode-line-format-right-align

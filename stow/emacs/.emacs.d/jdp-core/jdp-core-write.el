@@ -1,6 +1,8 @@
 ;;; General settings for writing prose
 
 (customize-set-variable 'fill-column 80)
+(custom-set-variables '(default-input-method "catalan-prefix")
+                      '(default-transient-input-method "catalan-prefix"))
 
 ;;; Org mode
 (use-package org
