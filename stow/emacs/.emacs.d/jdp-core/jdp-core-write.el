@@ -28,50 +28,37 @@
   (pdf-loader-install))
 
 ;;; LaTeX tools
-(use-package math-delimiters
-  :commands
-  math-delimiters-no-dollars
-  math-delimiters-insert)
-
 (use-package tex
   :ensure auctex
-  :hook ((LaTeX-mode . turn-on-reftex)
-         (LaTeX-mode . turn-on-auto-fill)
+  :hook ((LaTeX-mode . turn-on-auto-fill)
          (LaTeX-mode . prettify-symbols-mode))
-  :bind (:map TeX-mode-map
-              ("$" . math-delimiters-insert))
-  :custom
-  (reftex-plug-into-AUCTeX t)
-  (reftex-label-alist
-   '(("theorem"     ?T "thm:"  "~\\ref{%s}" t ("theorem")     -3)
-     ("lemma"       ?L "lem:"  "~\\ref{%s}" t ("lemma")       -3)
-     ("proposition" ?P "prop:" "~\\ref{%s}" t ("proposition") -3)
-     ("corollary"   ?C "cor:"  "~\\ref{%s}" t ("corollary")   -3)
-     ("remark"      ?R "rem:"  "~\\ref{%s}" t ("remark")      -3)
-     ("definition"  ?D "defn:" "~\\ref{%s}" t ("definition")  -3)))
   :config
   (setcdr (assq 'output-pdf TeX-view-program-selection)
           '("PDF Tools"))
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer))
 
+(use-package reftex
+  :hook (LaTeX-mode . turn-on-reftex)
+  :custom
+  (reftex-label-alist
+   '(("theorem"     ?T "thm:"  "~\\ref{%s}" t ("theorem")     -3)
+     ("proposition" ?P "prop:" "~\\ref{%s}" t ("proposition") -3)
+     ("lemma"       ?L "lem:"  "~\\ref{%s}" t ("lemma")       -3)
+     ("corollary"   ?C "cor:"  "~\\ref{%s}" t ("corollary")   -3)
+     ("remark"      ?R "rem:"  "~\\ref{%s}" t ("remark")      -3)
+     ("definition"  ?D "defn:" "~\\ref{%s}" t ("definition")  -3)
+     AMSTeX))
+  (reftex-plug-into-AUCTeX t))
+
 (use-package cdlatex
   :ensure t
   :hook ((LaTeX-mode . turn-on-cdlatex)
-         (cdlatex-tab . jdp-cdlatex-indent-line)
          (cdlatex-tab . yas-expand)
          (cdlatex-tab . jdp-cdlatex-in-yas-field))
   :custom
-  (cdlatex-takeover-dollar nil)
   (cdlatex-sub-super-scripts-outside-math-mode nil)
   :config
-  (defun jdp-cdlatex-indent-line ()
-    "Indent current line if point is before the first non-whitespace
-character of the line."
-    (when (or (bolp) (looking-back "^[ \t]+"))
-      (LaTeX-indent-line)
-      t))
-
   (with-eval-after-load 'yasnippet
     (defun jdp-cdlatex-in-yas-field ()
       ;; Check if we're at the end of the Yas field

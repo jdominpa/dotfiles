@@ -23,12 +23,10 @@
 
 ;;; Custom commands
 (use-package jdp-simple
-  :bind (;; Scroll commands
-         ("C-v" . jdp-simple-scroll-up-command)
-         ("M-v" . jdp-simple-scroll-down-command)
-         ;; Commands for marking objects
+  :bind (;; Commands for marking objects
          ("M-@" . jdp-simple-mark-word)
          ("M-L" . jdp-simple-mark-line)
+         ("C-M-SPC" . jdp-simple-mark-sexp)
          ("C-M-=" . jdp-simple-mark-inside-sexp)
          ("C-M--" . jdp-simple-kill-inside-sexp)
          ("M-U" . jdp-simple-unwrap-sexp)

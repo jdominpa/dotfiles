@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
 # name: display math
-# key: dm
+# key: fk
 # condition: (not (texmathp))
 # --
 \[
-  $1
-\]$0
+  $0
+\]
