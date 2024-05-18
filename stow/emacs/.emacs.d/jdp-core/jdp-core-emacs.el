@@ -10,7 +10,7 @@
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
          ;; Commands for lines
-         ("M-SPC" . cycle-spacing)
+         ("M-\\" . cycle-spacing)
          ;; Commands for text manipulation
          ("M-z" . zap-up-to-char)
          ("M-Z" . zap-to-char)

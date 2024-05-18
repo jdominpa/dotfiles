@@ -24,6 +24,8 @@
                       jdp-mode-line-vc-branch
                       "  "
                       jdp-mode-line-eglot
+                      "  "
+                      jdp-mode-line-flymake
                       ;; Right hand side
                       mode-line-format-right-align
                       jdp-mode-line-misc-info))

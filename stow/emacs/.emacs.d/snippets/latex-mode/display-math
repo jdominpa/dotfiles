@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: display math
-# key: fk
+# key: kj
 # condition: (not (texmathp))
 # --
 \[

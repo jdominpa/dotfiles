@@ -33,7 +33,7 @@ package).")
     (((class color) (min-colors 88) (background dark))
      :foreground "#ff9f9f")
     (t :foreground "red"))
-  "Face for modeline indicators."
+  "Face for mode line indicators."
   :group 'jdp-mode-line-faces)
 
 (defface jdp-mode-line-indicator-red-bg
@@ -43,7 +43,7 @@ package).")
     (((class color) (min-colors 88) (background dark))
      :background "#ff9090" :foreground "black")
     (t :background "red" :foreground "black"))
-  "Face for modeline indicators with a background."
+  "Face for mode line indicators with a background."
   :group 'jdp-mode-line-faces)
 
 (defface jdp-mode-line-indicator-green-bg
@@ -53,7 +53,7 @@ package).")
     (((class color) (min-colors 88) (background dark))
      :background "#77d077" :foreground "black")
     (t :background "green" :foreground "black"))
-  "Face for modeline indicators with a background."
+  "Face for mode line indicators with a background."
   :group 'jdp-mode-line-faces)
 
 (defface jdp-mode-line-indicator-blue-bg
@@ -83,7 +83,7 @@ package).")
     (((class color) (min-colors 88) (background dark))
      :background "#a0a0a0" :foreground "black")
     (t :inverse-video t))
-  "Face for modeline indicatovrs with a background."
+  "Face for mode line indicatovrs with a background."
   :group 'jdp-mode-line-faces)
 
 ;;;; Common helper functions
@@ -127,7 +127,7 @@ Cut off the middle of STR by counting half of
   "Abbreviate STR individual hyphen or underscore separated words.
 Also see `jdp-mode-line-string-abbreviate-but-last'."
   (if (jdp-mode-line--string-truncate-p str)
-      (mapconcat #'jdp-modeline--first-char (split-string str "[_-]") "-")
+      (mapconcat #'jdp-mode-line--first-char (split-string str "[_-]") "-")
     str))
 
 (defun jdp-mode-line-string-abbreviate-but-last (str nthlast)
@@ -356,6 +356,62 @@ than `split-width-threshold'."
   "Mode line construct to return propertized VC branch.  Displayed only on
 the current window's mode line.")
 
+;;;; Flymake errors, warnings, notes
+
+(declare-function flymake--severity "flymake" (type))
+(declare-function flymake-diagnostic-type "flymake" (diag))
+
+;; Based on `flymake--mode-line-counter'.
+(defun jdp-mode-line-flymake-counter (type)
+  "Compute number of diagnostics in buffer with TYPE's severity.
+TYPE is usually keyword `:error', `:warning' or `:note'."
+  (let ((count 0))
+    (dolist (d (flymake-diagnostics))
+      (when (= (flymake--severity type)
+               (flymake--severity (flymake-diagnostic-type d)))
+        (cl-incf count)))
+    (when (cl-plusp count)
+      (number-to-string count))))
+
+(defvar jdp-mode-line-flymake-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line down-mouse-1] 'flymake-show-buffer-diagnostics)
+    (define-key map [mode-line down-mouse-3] 'flymake-show-project-diagnostics)
+    map)
+  "Keymap to display on Flymake indicator.")
+
+(defmacro jdp-mode-line-flymake-type (type indicator &optional face)
+  "Return function that handles Flymake TYPE with stylistic INDICATOR and FACE."
+  `(defun ,(intern (format "jdp-mode-line-flymake-%s" type)) ()
+     (when-let ((count (jdp-mode-line-flymake-counter
+                        ,(intern (format ":%s" type)))))
+       (concat
+        (propertize ,indicator 'face 'shadow)
+        (propertize count
+                    'face ',(or face type)
+                     'mouse-face 'mode-line-highlight
+                     ;; FIXME 2023-07-03: Clicking on the text with
+                     ;; this buffer and a single warning present, the
+                     ;; diagnostics take up the entire frame.  Why?
+                     'local-map jdp-mode-line-flymake-map
+                     'help-echo "mouse-1: buffer diagnostics\nmouse-3: project diagnostics")))))
+
+(jdp-mode-line-flymake-type error "!!")
+(jdp-mode-line-flymake-type warning "!")
+(jdp-mode-line-flymake-type note "·" success)
+
+(defvar-local jdp-mode-line-flymake
+    `(:eval
+      (when (and (bound-and-true-p flymake-mode)
+                 (mode-line-window-selected-p))
+        (list
+         ;; See the calls to the macro `jdp-mode-line-flymake-type'
+         '(:eval (jdp-mode-line-flymake-error))
+         '(:eval (jdp-mode-line-flymake-warning))
+         '(:eval (jdp-mode-line-flymake-note)))))
+  "Mode line construct displaying `flymake-mode-line-format'.
+Displayed only on the current window's mode line.")
+
 ;;;; Eglot
 
 (with-eval-after-load 'eglot
@@ -388,6 +444,7 @@ the current window's mode line.")
                      jdp-mode-line-major-mode
                      jdp-mode-line-process
                      jdp-mode-line-vc-branch
+                     jdp-mode-line-flymake
                      jdp-mode-line-eglot
                      jdp-mode-line-misc-info))
   (put construct 'risky-local-variable t))
