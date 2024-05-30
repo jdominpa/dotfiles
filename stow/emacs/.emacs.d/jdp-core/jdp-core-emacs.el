@@ -21,17 +21,6 @@
   (help-window-select t)
   (next-error-recenter '(nil)))
 
-;;; Custom commands
-(use-package jdp-simple
-  :bind (;; Commands for marking objects
-         ("M-@" . jdp-simple-mark-word)
-         ("M-L" . jdp-simple-mark-line)
-         ("C-M-SPC" . jdp-simple-mark-sexp)
-         ("C-M-=" . jdp-simple-mark-inside-sexp)
-         ("C-M--" . jdp-simple-kill-inside-sexp)
-         ("M-U" . jdp-simple-unwrap-sexp)
-         ("M-S" . jdp-simple-unwrap-mark-sexp)))
-
 ;;; Track recently visited files and directories
 (use-package recentf
   :custom
@@ -74,7 +63,7 @@
 ;;; Avy for navigation within the screen contents
 (use-package avy
   :ensure t
-  :bind (("M-j" . avy-goto-char-timer)
+  :bind (("C-c j" . avy-goto-char-timer)
          :map isearch-mode-map
          ("M-j" . avy-isearch)))
 

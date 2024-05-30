@@ -33,6 +33,7 @@
 (dolist (path '("jdp-core" "jdp-lisp"))
   (add-to-list 'load-path (locate-user-emacs-file path)))
 
+(require 'jdp-core-meow)
 (require 'jdp-core-emacs)
 (require 'jdp-core-theme)
 (require 'jdp-core-modeline)

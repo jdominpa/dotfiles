@@ -98,7 +98,7 @@
   :bind (:map c-mode-base-map
               ("TAB" . nil))
   :custom
-  (c-default-style "linux")
+  (c-default-style "k&r")
   (c-basic-offset 4))
 
 (provide 'jdp-core-proglangs)

@@ -10,6 +10,7 @@
    (propertize " KMacro" 'face 'mode-line-emphasis))
   (mode-line-format '(;; Left hand side
                       "%e"
+                      (:eval (meow-indicator))
                       jdp-mode-line-kbd-macro
                       jdp-mode-line-narrow
                       jdp-mode-line-remote-file
