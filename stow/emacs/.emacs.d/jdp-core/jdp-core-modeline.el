@@ -1,9 +1,32 @@
+;;; Which-key
+(use-package which-key
+  :ensure t
+  :custom
+  (which-key-show-prefix 'bottom)
+  (which-key-popup-type 'minibuffer)
+  (which-key-idle-delay 0.6)
+  (which-key-idle-secondary-delay 0.2)
+  (which-key-mode t))
+
 ;;; Modeline
-(customize-set-variable 'mode-line-position-column-line-format '(" %l,%c"))
+(use-package mini-echo
+  :ensure t
+  :custom
+  (mini-echo-default-segments
+   '(:long ("time" "meow" "major-mode" "shrink-path" "vcs" "envrc"
+            "eglot" "flymake" "mise" "process" "selection-info"
+            "narrow" "macro" "profiler")
+           :short ("time" "meow" "buffer-name"
+                   "flymake" "process" "selection-info"
+                   "narrow" "macro" "profiler")))
+  (mini-echo-separator " | ")
+  (mini-echo-mode t))
+
 (setq mode-line-defining-kbd-macro
       (propertize " KMacro" 'face 'mode-line-emphasis))
 
 (use-package jdp-modeline
+  :disabled t
   :custom
   (mode-line-position-column-line-format '(" %l,%c"))
   (mode-line-defining-kbd-macro

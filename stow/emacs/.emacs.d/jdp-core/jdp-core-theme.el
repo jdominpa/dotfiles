@@ -21,8 +21,7 @@
   :bind ([f8] . spacious-padding-mode)
   :custom
   (spacious-padding-widths
-   '(:mode-line-width 3
-     :right-divider-width 15))
+   '(:right-divider-width 1))
   (spacious-padding-mode t))
 
 ;;; Font configuration

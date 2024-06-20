@@ -12,8 +12,6 @@
          ;; Commands for lines
          ("M-\\" . cycle-spacing)
          ;; Commands for text manipulation
-         ("M-z" . zap-up-to-char)
-         ("M-Z" . zap-to-char)
          ("M-c" . capitalize-dwim)
          ("M-l" . downcase-dwim)
          ("M-u" . upcase-dwim))
@@ -59,13 +57,6 @@
 ;;; Delete selection
 (use-package delsel
   :custom (delete-selection-mode t))
-
-;;; Avy for navigation within the screen contents
-(use-package avy
-  :ensure t
-  :bind (("C-c j" . avy-goto-char-timer)
-         :map isearch-mode-map
-         ("M-j" . avy-isearch)))
 
 ;;; Emacs server
 (use-package server

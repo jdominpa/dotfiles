@@ -1,6 +1,13 @@
 ;;; Meow setup
 (use-package meow
   :ensure t
+  :custom
+  (meow-replace-state-name-list
+   '((normal . "<N>")
+     (motion . "<M>")
+     (keypad . "<K>")
+     (insert . "<I>")
+     (beacon . "<B>")))
   :config
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -38,54 +45,76 @@
      '("2" . meow-expand-2)
      '("1" . meow-expand-1)
      '("-" . negative-argument)
+
+     ;; Movement
+     '("j" . meow-left)
+     '("k" . meow-next)
+     '("l" . meow-prev)
      '(";" . meow-right)
+     '("b" . meow-back-word)
+     '("e" . meow-next-word)
+     '("B" . meow-back-symbol)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("t" . meow-till)
+     '("X" . meow-goto-line)
+
+     ;; Edit
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     
+     ;; kill-region
+     '("s" . meow-kill)
+     ;; kill-ring-save
+     '("y" . meow-save)
+     ;; yank
+     '("p" . meow-yank)
+     '("P" . meow-yank-pop)
+     ;; replace
+     '("r" . meow-replace)
+     '("%" . meow-query-replace)
+     '("&" . meow-query-replace-regexp)
+     
+     ;; Selection
+     '("h" . meow-reverse)
+     '("J" . meow-left-expand)
+     '("K" . meow-next-expand)
+     '("L" . meow-prev-expand)
      '(":" . meow-right-expand)
+     '("x" . meow-line)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("m" . meow-join)
+     '("g" . meow-cancel-selection)
+     '("z" . meow-pop-selection)
+
+     ;; Grab
+     '("G" . meow-grab)
+     '("Y" . meow-sync-grab)
+     '("R" . meow-swap-grab)
+     
+     ;; Search
+     '("n" . meow-search)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+
+     ;; Thing
      '("," . meow-inner-of-thing)
      '("." . meow-bounds-of-thing)
      '("[" . meow-beginning-of-thing)
      '("]" . meow-end-of-thing)
-     '("a" . meow-append)
-     '("A" . meow-open-below)
-     '("b" . meow-back-word)
-     '("B" . meow-back-symbol)
-     '("c" . meow-change)
-     '("d" . meow-delete)
-     '("D" . meow-backward-delete)
-     '("e" . meow-next-word)
-     '("E" . meow-next-symbol)
-     '("f" . meow-find)
-     '("g" . meow-cancel-selection)
-     '("G" . meow-grab)
-     '("h" . meow-reverse)
-     '("i" . meow-insert)
-     '("I" . meow-open-above)
-     '("j" . meow-left)
-     '("J" . meow-left-expand)
-     '("k" . meow-next)
-     '("K" . meow-next-expand)
-     '("l" . meow-prev)
-     '("L" . meow-prev-expand)
-     '("m" . meow-join)
-     '("n" . meow-search)
-     '("o" . meow-block)
-     '("O" . meow-to-block)
-     '("p" . meow-yank)
+
+     ;; Actions
      '("q" . meow-quit)
      '("Q" . meow-goto-line)
-     '("r" . meow-replace)
-     '("R" . meow-swap-grab)
-     '("s" . meow-kill)
-     '("t" . meow-till)
-     '("u" . meow-undo)
-     '("U" . meow-undo-in-selection)
-     '("v" . meow-visit)
-     '("w" . meow-mark-word)
-     '("W" . meow-mark-symbol)
-     '("x" . meow-line)
-     '("X" . meow-goto-line)
-     '("y" . meow-save)
-     '("Y" . meow-sync-grab)
-     '("z" . meow-pop-selection)
      '("'" . repeat)
      '("<escape>" . ignore)))
   (meow-setup)

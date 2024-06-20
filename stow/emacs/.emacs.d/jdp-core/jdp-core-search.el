@@ -21,4 +21,11 @@
 (use-package replace
   :hook (occur-mode . hl-line-mode))
 
+;;; Avy for navigation within the screen contents
+(use-package avy
+  :ensure t
+  :bind (("C-c j" . avy-goto-char-timer)
+         :map isearch-mode-map
+         ("M-j" . avy-isearch)))
+
 (provide 'jdp-core-search)
