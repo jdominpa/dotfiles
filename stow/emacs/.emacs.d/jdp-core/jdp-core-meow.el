@@ -1,13 +1,6 @@
 ;;; Meow setup
 (use-package meow
   :ensure t
-  :custom
-  (meow-replace-state-name-list
-   '((normal . "<N>")
-     (motion . "<M>")
-     (keypad . "<K>")
-     (insert . "<I>")
-     (beacon . "<B>")))
   :config
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -69,7 +62,7 @@
      '("D" . meow-backward-delete)
      '("u" . meow-undo)
      '("U" . meow-undo-in-selection)
-     
+
      ;; kill-region
      '("s" . meow-kill)
      ;; kill-ring-save
@@ -81,7 +74,7 @@
      '("r" . meow-replace)
      '("%" . meow-query-replace)
      '("&" . meow-query-replace-regexp)
-     
+
      ;; Selection
      '("h" . meow-reverse)
      '("J" . meow-left-expand)
@@ -99,7 +92,7 @@
      '("G" . meow-grab)
      '("Y" . meow-sync-grab)
      '("R" . meow-swap-grab)
-     
+
      ;; Search
      '("n" . meow-search)
      '("v" . meow-visit)
@@ -117,6 +110,21 @@
      '("Q" . meow-goto-line)
      '("'" . repeat)
      '("<escape>" . ignore)))
+
+  ;; Modeline state indicators
+  (customize-set-variable 'meow-replace-state-name-list
+                          '((normal . "<N>")
+                            (motion . "<M>")
+                            (keypad . "<K>")
+                            (insert . "<I>")
+                            (beacon . "<B>")))
+
+  ;; Inline math thing (LaTeX)
+  (meow-thing-register 'inline-math
+                       '(pair ("\\(") ("\\)"))
+                       '(pair ("\\(") ("\\)")))
+  (add-to-list 'meow-char-thing-table '(?m . inline-math))
+
   (meow-setup)
   (meow-global-mode t))
 
