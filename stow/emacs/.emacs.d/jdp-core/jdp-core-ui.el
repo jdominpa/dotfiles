@@ -59,16 +59,34 @@
 (use-package mini-echo
   :ensure t
   :custom
-  (mini-echo-default-segments
-   '(:long ("time" "meow" "major-mode" "shrink-path" "vcs" "envrc"
-            "eglot" "flymake" "mise" "process" "selection-info"
-            "narrow" "macro" "profiler")
-           :short ("time" "meow" "buffer-name"
-                   "flymake" "process" "selection-info"
-                   "narrow" "macro" "profiler")))
+  (mini-echo-persistent-rule
+   '(:long ("time" "battery" "meow" "major-mode" "shrink-path"
+            "vcs" "eglot" "flymake" "mise" "envrc")
+     :short ("meow" "buffer-name" "flymake")))
+  (mini-echo-persistent-function #'jdp-mini-echo-persistent-detect)
   (mini-echo-separator " | ")
-  (mini-echo-mode t))
+  (mini-echo-mode t)
+  :config
+  (defun jdp-mini-echo-persistent-detect ()
+    (with-current-buffer (current-buffer)
+      (pcase major-mode
+        ((guard (bound-and-true-p atomic-chrome-edit-mode))
+         '(:both ("meow" "atomic-chrome" "buffer-name" "flymake")))
+        ((guard (or (memq major-mode '(git-commit-elisp-text-mode git-rebase-mode))
+                    (string-match-p "\\`magit-.*-mode\\'" (symbol-name major-mode))))
+         '(:both ("meow" "major-mode" "project")))
+        ((guard (and (fboundp 'popper-display-control-p)
+                     (popper-display-control-p (current-buffer))))
+         '(:both ("meow" "popper")))
+        ('diff-mode '(:both ("meow" "major-mode")))
+        ('ibuffer-mode '(:both ("meow" "major-mode")))
+        ('dired-mode '(:both ("meow" "major-mode" "dired")))
+        ('helpful-mode '(:both ("meow" "major-mode" "helpful")))
+        ('xwidget-webkit-mode '(:long ("meow" "shrink-path")
+                                :short ("meow" "buffer-name")))
+        (_ nil)))))
 (customize-set-variable 'ring-bell-function 'ignore)
+(customize-set-variable 'mode-line-format nil)
 
 ;;; Display current time
 (use-package time
