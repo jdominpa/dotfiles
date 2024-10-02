@@ -101,7 +101,7 @@
   :bind ("C-c p" . cape-prefix-map)
   :init
   (dolist (backend '(cape-dabbrev cape-dict cape-elisp-symbol cape-file cape-keyword))
-    (add-hook 'completion-at-point-functions #'backend)))
+    (add-hook 'completion-at-point-functions backend)))
 
 ;;; Completion popup icons
 (use-package kind-icon
