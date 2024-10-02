@@ -1,23 +1,3 @@
-;;; Orderless completion style
-(use-package jdp-orderless)
-(use-package orderless
-  :ensure t
-  :demand t
-  :bind (:map minibuffer-local-completion-map
-              ("?" . nil)
-              ("SPC" . nil))
-  :custom
-  (orderless-matching-styles '(orderless-prefixes
-                               orderless-regexp))
-  (orderless-style-dispatchers '(jdp-orderless-literal
-                                 jdp-orderless-flex
-                                 jdp-orderless-regexp)))
-
-;;; Completion annotations
-(use-package marginalia
-  :ensure t
-  :custom (marginalia-mode t))
-
 ;;; Minibuffer configurations and Vertico
 (use-package minibuffer
   :custom
@@ -38,6 +18,22 @@
   :config
   (setq completion-category-defaults nil
         completion-ignore-case t))
+
+;;; Completion annotations
+(use-package marginalia
+  :ensure t
+  :custom (marginalia-mode t))
+
+;;; Orderless completion style
+(use-package orderless
+  :ensure t
+  :demand t
+  :bind (:map minibuffer-local-completion-map
+              ("?" . nil)
+              ("SPC" . nil))
+  :custom
+  (orderless-matching-styles '(orderless-prefixes
+                               orderless-regexp)))
 
 (use-package savehist
   :custom
@@ -91,10 +87,10 @@
 ;;; In-buffer completion
 (use-package corfu
   :ensure t
-  :bind (:map corfu-map
-              ("TAB" . corfu-complete))
   :custom
   (global-corfu-mode t)
+  (corfu-auto t)
+  (corfu-auto-prefix 3)
   (corfu-popupinfo-delay '(1.25 . 0.5))
   (corfu-popupinfo-mode t))
 
@@ -102,15 +98,15 @@
 (use-package cape
   :ensure t
   :after corfu
+  :bind ("C-c p" . cape-prefix-map)
   :init
-  (dolist (backend '(cape-elisp-symbol cape-keyword cape-file cape-dabbrev))
-    (add-to-list 'completion-at-point-functions backend)))
+  (dolist (backend '(cape-dabbrev cape-dict cape-elisp-symbol cape-file cape-keyword))
+    (add-hook 'completion-at-point-functions #'backend)))
 
 ;;; Completion popup icons
 (use-package kind-icon
   :ensure t
   :after corfu
-  :custom (kind-icon-default-face 'corfu-default)
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
