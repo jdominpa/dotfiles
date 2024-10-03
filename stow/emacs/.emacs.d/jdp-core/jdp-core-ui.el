@@ -59,10 +59,13 @@
 (use-package mini-echo
   :ensure t
   :custom
+  (mode-line-format nil)
+  (ring-bell-function 'ignore)
+  (mode-line-position-column-line-format '("%l:%c,%p"))
   (mini-echo-persistent-rule
-   '(:long ("time" "battery" "meow" "major-mode" "shrink-path"
+   '(:long ("meow" "major-mode" "shrink-path" "buffer-position"
             "vcs" "eglot" "flymake" "mise" "envrc")
-     :short ("meow" "buffer-name" "flymake")))
+           :short ("meow" "buffer-name" "buffer-position" "flymake")))
   (mini-echo-persistent-function #'jdp-mini-echo-persistent-detect)
   (mini-echo-separator " | ")
   (mini-echo-mode t)
@@ -71,7 +74,7 @@
     (with-current-buffer (current-buffer)
       (pcase major-mode
         ((guard (bound-and-true-p atomic-chrome-edit-mode))
-         '(:both ("meow" "atomic-chrome" "buffer-name" "flymake")))
+         '(:both ("meow" "atomic-chrome" "buffer-name" "buffer-position" "flymake")))
         ((guard (or (memq major-mode '(git-commit-elisp-text-mode git-rebase-mode))
                     (string-match-p "\\`magit-.*-mode\\'" (symbol-name major-mode))))
          '(:both ("meow" "major-mode" "project")))
@@ -83,25 +86,7 @@
         ('dired-mode '(:both ("meow" "major-mode" "dired")))
         ('helpful-mode '(:both ("meow" "major-mode" "helpful")))
         ('xwidget-webkit-mode '(:long ("meow" "shrink-path")
-                                :short ("meow" "buffer-name")))
+                                      :short ("meow" "buffer-name")))
         (_ nil)))))
-(customize-set-variable 'ring-bell-function 'ignore)
-(customize-set-variable 'mode-line-format nil)
-
-;;; Display current time
-(use-package time
-  :custom
-  (display-time-format "%d-%m-%Y, %H:%M")
-  (display-time-interval 60)
-  (display-time-default-load-average nil)
-  (display-time-mode t))
-
-;;; Display battery on laptops
-(use-package battery
-  :custom
-  (battery-mode-line-format "[%b%p%%] ")
-  (battery-load-low 20)
-  (battery-load-critical 10)
-  (display-battery-mode t))
 
 (provide 'jdp-core-ui)

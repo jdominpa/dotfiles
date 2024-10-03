@@ -54,10 +54,6 @@
 (use-package autorevert
   :config (auto-revert-mode))
 
-;;; Delete selection
-(use-package delsel
-  :custom (delete-selection-mode t))
-
 ;;; Emacs server
 (use-package server
   :config

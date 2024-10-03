@@ -19,6 +19,21 @@
   (setq completion-category-defaults nil
         completion-ignore-case t))
 
+(use-package savehist
+  :custom
+  (savehist-file (locate-user-emacs-file "savehist"))
+  (history-length 100)
+  (history-delete-duplicates t)
+  (savehist-save-minibuffer-history t)
+  (savehist-mode t))
+
+(use-package vertico
+  :ensure t
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :custom
+  (vertico-mode t)
+  (vertico-reverse-mode t))
+
 ;;; Completion annotations
 (use-package marginalia
   :ensure t
@@ -35,21 +50,6 @@
   (orderless-matching-styles '(orderless-prefixes
                                orderless-regexp)))
 
-(use-package savehist
-  :custom
-  (savehist-file (locate-user-emacs-file "savehist"))
-  (history-length 100)
-  (history-delete-duplicates t)
-  (savehist-save-minibuffer-history t)
-  (savehist-mode t))
-
-(use-package vertico
-  :ensure t
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  :custom
-  (vertico-mode t)
-  (vertico-reverse-mode t))
-
 ;;; Enhanced minibuffer commands
 (use-package consult
   :ensure t
@@ -57,10 +57,10 @@
          ("C-x M-:" . consult-complex-command)
          ("C-x M-m" . consult-minor-mode-menu)
          ("C-x M-k" . consult-kmacro)
+         ([remap switch-to-buffer] . consult-buffer)
          ;; M-g bindings
          ([remap goto-line] . consult-goto-line)
          ;; M-s bindings
-         ("M-s M-b" . consult-buffer)
          ("M-s M-f" . consult-find)
          ("M-s M-g" . consult-grep)
          ("M-s M-i" . consult-imenu)
@@ -100,7 +100,7 @@
   :after corfu
   :bind ("C-c p" . cape-prefix-map)
   :init
-  (dolist (backend '(cape-dabbrev cape-dict cape-elisp-symbol cape-file cape-keyword))
+  (dolist (backend '(cape-dabbrev cape-elisp-symbol cape-file))
     (add-hook 'completion-at-point-functions backend)))
 
 ;;; Completion popup icons

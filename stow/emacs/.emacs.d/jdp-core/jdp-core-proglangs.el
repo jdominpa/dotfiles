@@ -1,9 +1,11 @@
 ;;; General programming settings
 
 ;; Tabs and indentation
-(custom-set-variables '(tab-always-indent 'complete)
-                      '(tab-width 4)
-                      '(indent-tabs-mode nil))
+(use-package emacs
+  :custom
+  (tab-always-indent 'complete)
+  (tab-width 4)
+  (indent-tabs-mode nil))
 
 ;; Configure 'electric' behaviour
 (use-package electric
@@ -21,10 +23,10 @@
   (show-paren-mode t))
 
 ;; Auto fill comments
-(add-hook 'prog-mode-hook 'goto-address-prog-mode)
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (setq-local comment-auto-fill-only-comments t)))
+(use-package emacs
+  :hook ((prog-mode . goto-address-prog-mode)
+         (prog-mode . (lambda ()
+                        (setq-local comment-auto-fill-only-comments t)))))
 
 ;; Eldoc
 (use-package eldoc

@@ -1,18 +1,9 @@
 ;;; General settings for writing prose
-
-(customize-set-variable 'fill-column 80)
-(custom-set-variables '(default-input-method "catalan-prefix")
-                      '(default-transient-input-method "catalan-prefix"))
-
-;;; Org mode
-(use-package org
-  :hook ((org-mode . org-indent-mode)
-         (org-mode . auto-fill-mode))
+(use-package emacs
   :custom
-  (org-adapt-indentation nil)
-  (org-catch-invisible-edits 'show)
-  :config
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+  (fill-column 80)
+  (default-input-method "catalan-prefix")
+  (default-transient-input-method "catalan-prefix"))
 
 ;;; Improved PDF viewing
 (use-package pdf-tools

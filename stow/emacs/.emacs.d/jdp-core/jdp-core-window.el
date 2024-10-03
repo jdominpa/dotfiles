@@ -10,10 +10,7 @@
 
 ;;; Window rules and other tweaks
 (use-package window
-  :bind (("C-x _" . balance-windows)
-         ("C-x -" . fit-window-to-buffer)
-         ("C-x +" . balance-windows-area)
-         ("C-x }" . enlarge-window)
+  :bind (("C-x }" . enlarge-window)
          ("C-x {" . shrink-window)
          ("C-x >" . enlarge-window-horizontally) ; override `scroll-right'
          ("C-x <" . shrink-window-horizontally)  ; override `scroll-left'
@@ -25,13 +22,7 @@
   :custom
   (window-combination-resize t)
   (window-sides-vertical nil)
-  (switch-to-buffer-in-dedicated-window 'pop)
-  (display-buffer-alist
-   `(("\\*\\(Compile-Log\\)\\*"
-      (display-buffer-in-side-window)
-      (window-height . 0.35)
-      (side . bottom)
-      (slot . -1)))))
+  (switch-to-buffer-in-dedicated-window 'pop))
 
 (use-package ace-window
   :ensure t
