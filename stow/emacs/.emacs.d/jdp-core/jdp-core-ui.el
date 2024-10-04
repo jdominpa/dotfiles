@@ -28,6 +28,7 @@
                        :bold-weight extrabold)
                       (t
                        :default-family "Iosevka Comfy"
+                       :fixed-pitch-family "Iosevka Comfy"
                        :variable-pitch-family "Iosevka Comfy Motion Duo")))
   :custom
   (fontaine-mode t)

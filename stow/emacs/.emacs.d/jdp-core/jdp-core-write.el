@@ -5,6 +5,13 @@
   (default-input-method "catalan-prefix")
   (default-transient-input-method "catalan-prefix"))
 
+;;; Org mode
+(use-package org
+  :hook ((org-mode . org-indent-mode)
+         (org-mode . auto-fill-mode))
+  :config
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+
 ;;; Improved PDF viewing
 (use-package pdf-tools
   :ensure t

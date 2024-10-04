@@ -11,14 +11,6 @@
 *NOTE*: in an arch linux system the setup script can be run in a tty.
 Because of that, ~setup~ won't execute the ~update_content~ script which you will have to run after restarting the system.
 
-** Running linux GUI programs with WSL and VcXsrv
-
-Install [[https://sourceforge.net/projects/vcxsrv/][VcXsrv]] and put this in ~.zshenv~:
-
-#+BEGIN_SRC shell
-  export DISPLAY=$(ip route | awk '{print $3; exit}'):0
-#+END_SRC
-
 * License
 
 The code is available under the [[https://github.com/jdominpa/dotfiles/blob/master/LICENSE][GNU General Public License v3.0]].
