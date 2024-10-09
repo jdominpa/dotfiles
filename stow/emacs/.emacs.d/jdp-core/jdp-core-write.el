@@ -19,8 +19,7 @@
   :bind (:map pdf-view-mode-map
               ("d" . pdf-view-midnight-minor-mode))
   :custom
-  (pdf-view-display-size 'fit-width)
-  (pdf-view-continuous t)
+  (pdf-view-display-size 'fit-page)
   (pdf-view-midnight-colors '("#ffffff" . "#000000"))
   :config
   (pdf-loader-install))

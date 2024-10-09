@@ -60,7 +60,6 @@
 (use-package mini-echo
   :ensure t
   :custom
-  (mode-line-format nil)
   (ring-bell-function 'ignore)
   (mode-line-position-column-line-format '("%l:%c,%p"))
   (mini-echo-persistent-rule
