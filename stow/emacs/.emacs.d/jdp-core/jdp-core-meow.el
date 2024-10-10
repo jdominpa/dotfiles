@@ -44,36 +44,35 @@
      '("k" . meow-next)
      '("l" . meow-prev)
      '(";" . meow-right)
-     '("b" . meow-back-word)
-     '("e" . meow-next-word)
-     '("B" . meow-back-symbol)
-     '("E" . meow-next-symbol)
-     '("f" . meow-find)
-     '("t" . meow-till)
-     '("X" . meow-goto-line)
+     '("i" . meow-back-word)
+     '("o" . meow-next-word)
+     '("I" . meow-back-symbol)
+     '("O" . meow-next-symbol)
+     '("z" . meow-find)
+     '("x" . meow-till)
+     '("S" . meow-goto-line)
 
      ;; Edit
-     '("a" . meow-append)
-     '("A" . meow-open-below)
-     '("i" . meow-insert)
-     '("I" . meow-open-above)
-     '("c" . meow-change)
-     '("d" . meow-delete)
-     '("D" . meow-backward-delete)
+     '("e" . meow-insert)
+     '("E" . meow-open-above)
+     '("r" . meow-append)
+     '("R" . meow-open-below)
+     '("f" . meow-change)
+     '("t" . meow-delete)
+     '("T" . meow-backward-delete)
      '("u" . meow-undo)
      '("U" . meow-undo-in-selection)
 
      ;; kill-region
-     '("s" . meow-kill)
+     '("d" . meow-kill)
      ;; kill-ring-save
-     '("y" . meow-save)
+     '("c" . meow-save)
      ;; yank
-     '("p" . meow-yank)
-     '("P" . meow-yank-pop)
+     '("v" . meow-yank)
+     '("V" . meow-yank-pop)
      ;; replace
-     '("r" . meow-replace)
-     '("%" . meow-query-replace)
-     '("&" . meow-query-replace-regexp)
+     '("b" . meow-replace)
+     '("?" . meow-query-replace-regexp)
 
      ;; Selection
      '("h" . meow-reverse)
@@ -81,33 +80,33 @@
      '("K" . meow-next-expand)
      '("L" . meow-prev-expand)
      '(":" . meow-right-expand)
-     '("x" . meow-line)
-     '("o" . meow-block)
-     '("O" . meow-to-block)
+     '("s" . meow-line)
+     '("w" . meow-block)
+     '("W" . meow-to-block)
      '("m" . meow-join)
      '("g" . meow-cancel-selection)
-     '("z" . meow-pop-selection)
+     '("p" . meow-pop-selection)
 
      ;; Grab
      '("G" . meow-grab)
+     '("P" . meow-pop-grab)
+     '("y" . meow-swap-grab)
      '("Y" . meow-sync-grab)
-     '("R" . meow-swap-grab)
 
      ;; Search
      '("n" . meow-search)
-     '("v" . meow-visit)
-     '("w" . meow-mark-word)
-     '("W" . meow-mark-symbol)
+     '("/" . meow-visit)
+     '("a" . meow-mark-word)
+     '("A" . meow-mark-symbol)
 
      ;; Thing
-     '("," . meow-inner-of-thing)
-     '("." . meow-bounds-of-thing)
-     '("[" . meow-beginning-of-thing)
-     '("]" . meow-end-of-thing)
-
+     '("," . meow-beginning-of-thing)
+     '("." . meow-end-of-thing)
+     '("<" . meow-inner-of-thing)
+     '(">" . meow-bounds-of-thing)
+     
      ;; Actions
      '("q" . meow-quit)
-     '("Q" . meow-goto-line)
      '("'" . repeat)
      '("<escape>" . ignore)))
 
@@ -119,11 +118,28 @@
                             (insert . "<I>")
                             (beacon . "<B>")))
 
-  ;; Inline math thing (LaTeX)
+  ;; Meow extra `thing' definitions
+  (meow-thing-register 'angle
+                       '(pair ("<") (">"))
+                       '(pair ("<") (">")))
   (meow-thing-register 'inline-math
                        '(pair ("\\(") ("\\)"))
                        '(pair ("\\(") ("\\)")))
-  (add-to-list 'meow-char-thing-table '(?m . inline-math))
+  (customize-set-variable 'meow-char-thing-table
+                          '((?f . round)
+                            (?d . square)
+                            (?s . curly)
+                            (?a . angle)
+                            (?v . paragraph)
+                            (?c . line)
+                            (?x . buffer)
+                            (?z . visual-line)
+                            (?r . string)
+                            (?e . symbol)
+                            (?w . defun)
+                            (?q . window)
+                            (?g . sentence)
+                            (?m . inline-math)))
 
   (meow-setup)
   (meow-global-mode t))
