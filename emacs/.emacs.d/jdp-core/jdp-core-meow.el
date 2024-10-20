@@ -24,7 +24,18 @@
      '("9" . meow-digit-argument)
      '("0" . meow-digit-argument)
      '("/" . meow-keypad-describe-key)
-     '("?" . meow-cheatsheet))
+     '("?" . meow-cheatsheet)
+     ;; Window management
+     '("o" . other-window)
+     '("s" . split-window-right)
+     '("w" . split-window-below)
+     '("q" . delete-window)
+     '("a" . delete-other-windows)
+     ;; Buffer management
+     '("b" . switch-to-buffer)
+     '("k" . kill-current-buffer)
+     '("d" . dired)
+     '("p" . project-find-file))
     (meow-normal-define-key
      ;; Numeric arguments
      '("0" . meow-expand-0)
@@ -38,7 +49,6 @@
      '("2" . meow-expand-2)
      '("1" . meow-expand-1)
      '("-" . negative-argument)
-
      ;; Movement
      '("j" . meow-left)
      '("k" . meow-next)
@@ -51,7 +61,6 @@
      '("z" . meow-find)
      '("x" . meow-till)
      '("S" . meow-goto-line)
-
      ;; Edit
      '("e" . meow-insert)
      '("E" . meow-open-above)
@@ -62,18 +71,16 @@
      '("T" . meow-backward-delete)
      '("u" . meow-undo)
      '("U" . meow-undo-in-selection)
-
-     ;; kill-region
+     ;; Kill region
      '("d" . meow-kill)
-     ;; kill-ring-save
+     ;; Save region
      '("c" . meow-save)
-     ;; yank
+     ;; Yank
      '("v" . meow-yank)
      '("V" . meow-yank-pop)
-     ;; replace
+     ;; Replace
      '("b" . meow-replace)
      '("?" . meow-query-replace-regexp)
-
      ;; Selection
      '("h" . meow-reverse)
      '("J" . meow-left-expand)
@@ -86,25 +93,21 @@
      '("m" . meow-join)
      '("g" . meow-cancel-selection)
      '("p" . meow-pop-selection)
-
      ;; Grab
      '("G" . meow-grab)
      '("P" . meow-pop-grab)
      '("y" . meow-swap-grab)
      '("Y" . meow-sync-grab)
-
      ;; Search
      '("n" . meow-search)
      '("/" . meow-visit)
      '("a" . meow-mark-word)
      '("A" . meow-mark-symbol)
-
      ;; Thing
      '("," . meow-beginning-of-thing)
      '("." . meow-end-of-thing)
      '("<" . meow-inner-of-thing)
      '(">" . meow-bounds-of-thing)
-     
      ;; Actions
      '("q" . meow-quit)
      '("'" . repeat)

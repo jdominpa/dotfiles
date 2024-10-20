@@ -26,6 +26,6 @@
 
 (use-package ace-window
   :ensure t
-  :bind ("C-c o" . ace-window))
+  :bind ([remap other-window] . ace-window))
 
 (provide 'jdp-core-window)

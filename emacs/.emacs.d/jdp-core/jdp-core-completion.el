@@ -98,7 +98,7 @@
 (use-package cape
   :ensure t
   :after corfu
-  :bind ("C-c p" . cape-prefix-map)
+  :bind ("C-c c" . cape-prefix-map)
   :init
   (dolist (backend '(cape-dabbrev cape-elisp-symbol cape-file))
     (add-hook 'completion-at-point-functions backend)))

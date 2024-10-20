@@ -3,9 +3,6 @@
   :demand t
   :bind (("C-x C-z" . nil)
          ("C-z" . nil)
-         ;; Commands for buffers
-         ("C-x k" . kill-current-buffer)
-         ("C-x K" . kill-buffer)
          ;; Help commands
          ("C-h K" . describe-keymap)
          ("C-h c" . describe-char)
