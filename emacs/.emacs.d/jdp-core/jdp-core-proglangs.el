@@ -104,7 +104,7 @@
   (c-basic-offset 4))
 
 ;; Nix (nix-ts-mode)
-(use-package nix-ts-mode
+(use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
 
