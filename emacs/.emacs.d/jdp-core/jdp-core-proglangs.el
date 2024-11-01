@@ -106,6 +106,6 @@
 ;; Nix (nix-ts-mode)
 (use-package nix-ts-mode
   :ensure t
-  :mode "\\.nix\\")
+  :mode "\\.nix\\'")
 
 (provide 'jdp-core-proglangs)
