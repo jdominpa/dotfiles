@@ -33,8 +33,7 @@
      '("a" . delete-other-windows)
      ;; Buffer management
      '("b" . switch-to-buffer)
-     '("k" . kill-current-buffer)
-     '("d" . dired)
+     '("d" . kill-current-buffer)
      '("p" . project-find-file))
     (meow-normal-define-key
      ;; Numeric arguments

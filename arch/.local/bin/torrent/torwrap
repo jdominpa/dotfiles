@@ -1,4 +1,0 @@
-#!/bin/sh
-
-! pgrep -x transmission-da > /dev/null && transmission-daemon && dunstify -r 4 -a "Torrent client" "Status report" "Starting torrent daemon" && sleep 3
-$TERMINAL -e tremc

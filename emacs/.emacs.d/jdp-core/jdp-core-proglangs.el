@@ -103,4 +103,9 @@
   (c-default-style "k&r")
   (c-basic-offset 4))
 
+;; Nix (nix-ts-mode)
+(use-package nix-ts-mode
+  :ensure t
+  :mode "\\.nix\\")
+
 (provide 'jdp-core-proglangs)
