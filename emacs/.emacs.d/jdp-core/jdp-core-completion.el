@@ -89,8 +89,6 @@
   :ensure t
   :custom
   (global-corfu-mode t)
-  (corfu-auto t)
-  (corfu-auto-prefix 3)
   (corfu-popupinfo-delay '(1.25 . 0.5))
   (corfu-popupinfo-mode t))
 
