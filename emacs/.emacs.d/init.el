@@ -1,6 +1,6 @@
 ;;; init.el --- Personal init file -*- lexical-binding: t -*-
 
-;; Put custom configuration in a separate file
+;; Send custom.el file to oblivion
 (customize-set-variable 'custom-file (make-temp-file "emacs-custom-"))
 
 ;; Some basic settings
@@ -15,8 +15,16 @@
 
 ;;; Packages and modules
 
+;; "jdp-core" is for all my emacs configuration modules
+;; "jdp-lisp" is used for all my custom elisp files
+(mapc
+ (lambda (string)
+   (add-to-list 'load-path (locate-user-emacs-file string)))
+ '("jdp-core" "jdp-lisp"))
+
 ;; Don't automatically show native compilation warning messages
-(customize-set-variable 'native-comp-async-report-warnings-errors 'silent)
+(when (native-comp-available-p)
+  (customize-set-variable 'native-comp-async-report-warnings-errors 'silent))
 
 (require 'package)
 (customize-set-variable 'package-archives
@@ -27,11 +35,6 @@
 (customize-set-variable 'package-archive-priority '(("gnu-elpa" . 3)
                                                     ("melpa" . 2)
                                                     ("nongnu" . 1)))
-
-;; "jdp-core" is for all my emacs configuration modules
-;; "jdp-lisp" is used for all my custom elisp files
-(dolist (path '("jdp-core" "jdp-lisp"))
-  (add-to-list 'load-path (locate-user-emacs-file path)))
 
 (require 'jdp-core-meow)
 (require 'jdp-core-emacs)

@@ -90,7 +90,10 @@
   :custom
   (global-corfu-mode t)
   (corfu-popupinfo-delay '(1.25 . 0.5))
-  (corfu-popupinfo-mode t))
+  (corfu-popupinfo-mode t)
+  :config
+  (with-eval-after-load 'meow
+    (add-hook 'meow-insert-exit-hook 'corfu-quit)))
 
 ;;; Completion backends
 (use-package cape
