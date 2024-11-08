@@ -33,7 +33,6 @@
      '("a" . delete-other-windows)
      ;; Buffer management
      '("b" . switch-to-buffer)
-     '("d" . kill-current-buffer)
      '("p" . project-find-file))
     (meow-normal-define-key
      ;; Numeric arguments
@@ -79,7 +78,7 @@
      '("V" . meow-yank-pop)
      ;; Replace
      '("b" . meow-replace)
-     '("?" . meow-query-replace-regexp)
+     '("B" . meow-query-replace-regexp)
      ;; Selection
      '("h" . meow-reverse)
      '("J" . meow-left-expand)
@@ -109,6 +108,7 @@
      '(">" . meow-bounds-of-thing)
      ;; Actions
      '("q" . meow-quit)
+     '("Q" . kill-current-buffer)
      '("'" . repeat)
      '("<escape>" . ignore)))
 
