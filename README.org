@@ -1,3 +1,6 @@
+*NOTE*: I no longer use this repo since I have moved to using [[https://nixos.org][nix]] to manage my
+systems.  If you want you can take a look at my [[https://github.com/jdominpa/nix-config][NixOS/macOS configuration]].
+
 * Setup
 
 #+BEGIN_SRC shell
